@@ -1,0 +1,252 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+namespace Engine {
+
+    class Engine {
+        - EventCallBackRegister _eventRegister
+    }
+    note left : Engine API
+   Event.EventCallBackRegister "1" -- "1" Engine
+
+    entity Entity
+    note left : size_t
+
+    entity Signature
+    note left : bitset<MAX_COMPONENT>
+
+    enum EntityName {
+        DEFAULT: 0
+        EXAMPLE_ENTITY: 1
+    }
+    enum ClusterName {
+        DEFAULT: 0
+        SCENE: 1
+    }
+    /'
+        COMPONENTS
+    '/
+    class Component<ComponentType> {
+        + {static} size_t type
+    }
+
+    class AbstractSyncComponent<Model> {
+        - bool modified
+
+        + void notifyUpdate()
+        + bool isUpdated()
+        + Model serialise()
+        + void override(Model &data)
+    }
+    Component <|-- AbstractSyncComponent
+
+    /'
+        ENTITY MANAGER
+    '/
+    class EntityManager {
+        - EntityRegister _public
+        - EntityRegister _private
+
+        + EntityRegister()
+        + Entity createPrivate(EntityName *name = null, ClusterName *name = null)
+        + void setPublic(Entity privateEntity)
+        + Entity createPublic(EntityName *name = null, ClusterName *name = null)
+        + void remove(Entity entity)
+        + void remove(EntityName name)
+        + void remove(ClusterName name)
+        + bool exist(Entity entity)
+        + bool exist(EntityCluster *cluster = null, EntityName *entity = null)
+        + bool hasComponent<T>(Entity entity)
+        + bool hasComponents<T...>(Entity entity)
+        + Entity getId(EntityName name)
+        + size_t getClusterSize(ClusterName name)
+
+        - void allocate(size_t size)
+        - vector<Signature> getSignatureList()
+        - const Signature getSignature(Entity entity)
+    }
+    class EntityRegister {
+        - vector<Signature> _entitySignatures
+        - vector<Entity> _freeEntities
+
+        + EntityRegister(size_t endInterval, size_t startInterval = 0)
+        + void allocate(size_t size)
+        + vector<Signature> getEntitySignatures()
+        + Signature getSignature(Entity entity)
+        + Entity create()
+        + void reserve(Entity entity)
+        + void remove(Entity entity)
+        + bool isset(Entity entity)
+    }
+    EntityRegister "1" -- "2" EntityManager
+
+    /'
+        COMPONENT MANAGER
+    '/
+    class ComponentManager {
+        - array<IComponentTypeRegister> components
+
+        + void register<ComponentType>()
+        + ComponentType &get<ComponentType>(Entity entity)
+        + tuple<ComponentTypeList...&> getList<ComponentTypeList...>(Entity entity)
+        + void add<ComponentType, Args...>(Entity entity, Args...)
+        + void remove<ComponentType>(Entity entity)
+        + void remove<ComponentType>(EntityName name)
+        + Entity getOwner<ComponentType>(ComponentType const& component)
+        + tuple<ComponentTypeList...> zipper<ComponentTypeList...>()
+
+        - ComponentTypeRegister<ComponentType> getRegister<ComponentType>()
+        - checkType<ComponentType>()
+        - checkTypeList<ComponentTypeList...>()
+    }
+    IComponentTypeRegister "0...*" -- "1" ComponentManager
+
+    interface IComponentTypeRegister {
+        void allocate(size_t size)
+        void remove(Entity entity)
+    }
+
+    class ComponentTypeRegister<ComponentType> {
+        - vector<ComponentType> _list
+        - vector<Entity> _componentOwners
+        - map<Entity, size_t> _entityToComponent
+        - vector<Signature> &_entitySignatures
+
+        + ComponentTypeRegister<ComponentType>(vector<Signature> &signatures)
+        + void allocate(size_t)
+        + ComponentType &get(Entity entity)
+        + void add<Args...>(Entity entity, Args...)
+        + void remove(Entity entity)
+        + Entity getOwner(ComponentType &component)
+        + vector<ComponentType> getComponents()
+    }
+    IComponentTypeRegister <|-- ComponentTypeRegister
+
+    /'
+        SYSTEM MODULE
+    '/
+    class SystemManager {
+        - vector<AbstractSystem> _list
+
+        + SystemType &register<SystemType, Args...>(Args...)
+        + void unRegister<SystemType>()
+        + void onEntityUpdated(Entity entity, Signature signature)
+        + void onEntityRemoved(Entity entity)
+        + SystemType &getSystem<SystemType>()
+
+        - void checkType<SystemType>()
+    }
+    AbstractSystem "0...*" -- "1" SystemManager
+
+    class AbstractSystem {
+        - size_t _type
+        - Signature _requiredComponents
+        - vector<Entity> _managedEntities
+        - map<Entity, size_t> _entityToIndex
+
+        + size_t getType()
+        + void onEntityUpdated(Entity entity, Signature signature)
+        + void setRequirements<ComponentTypeList...>()
+        + void onManagedEntityRemoved(Entity entity)
+        + void onManagedEntityAdded(Entity entity)
+        + void onEntityRemoved(Entity entity)
+        + void attachEntity(Entity entity)
+        + void detachEntity(Entity entity)
+        # vector<Entity> getManagedEntities()
+    }
+
+    /'
+        SCENE MODULE
+    '/
+    class SceneManager {
+        - vector<IScene> _list
+        - IScene &_currentScene
+        - shared<IScene> _nextScene
+        - stack<reference<IScene>> _previousScenes
+
+        + void run()
+        + void create<SceneType, Args...>(Args...)
+        + void remove<SceneType>()
+        + void select<SceneType>(bool close = true)
+        + void selectPrevious()
+        + IScene &getSelected()
+        + void flushSelection()
+        + IScene &get<SceneType>()
+    }
+
+    interface IScene {
+        + void close()
+        + void open()
+        + void run()
+
+        + size_t getType()
+        + ClusterName getCluster()
+        + bool isClosed()
+    }
+
+    class AbstractScene {
+        # ClusterName _cluster
+        # bool _closed
+        # size_t _type
+
+        + constructor(ClusterName name)
+        + destructor()
+        + void close()
+
+        + ClusterName getCluster()
+        + bool isClosed()
+        + size_t getType()
+    }
+    IScene <|-- AbstractScene
+
+    /'
+        EVENT MODULE
+    '/
+    namespace Event {
+
+        class EventCallBack<ClassTYpe, EventType> {
+            - ClassType &_parent
+            - void (ClassType::*EventCallBack<ClassType, EventType>::CallBack)(const EventType *) _callback
+        }
+        IEventCallBack <|-- EventCallBack
+
+        interface IEventCallBack {
+            + void call(IEvent)
+            + bool operator==(const IEventDelegate *other)
+        }
+        note left of IEventCallBack
+            Représente une action
+            en cas d'événement
+        end note
+
+        class EventCallBackRegister {
+            - map<IEvent, IEventCallBack> _callbackList
+
+            + void register(CallbackType callback)
+            + void dispatch<EventType, Args...>(Args...)
+        }
+        EventCallBackRegister "1" -- "0..*" IEventCallBack
+
+        class IEvent {
+            - TypeId _id
+            - Time _created
+        }
+        note left : Représente un événement
+        class Event<T> {
+        }
+        IEvent <|-- Event
+    }
+}
+
+namespace Game {
+    class GameHandler {
+        - void onStartGame(const StartGameEvent &e)
+    }
+
+    namespace GameEvent {
+        class StartGameEvent {}
+        Event.Event <|-- StartGameEvent
+    }
+}
+
+@enduml
