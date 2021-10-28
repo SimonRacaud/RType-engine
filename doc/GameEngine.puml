@@ -9,29 +9,36 @@ namespace Engine {
         - _componentManager: ComponentManager
         - _sceneManager: SceneManager
     }
-    note left : Engine API
+    note top : Engine API
    Event.EventCallBackRegister "1" -- "1" Engine
 
     entity Entity
-    note left : size_t
+    note top : size_t
 
     entity Signature
-    note left : bitset<MAX_COMPONENT>
+    note top : bitset<MAX_COMPONENT>
 
     enum EntityName {
         DEFAULT: 0
         EXAMPLE_ENTITY: 1
     }
     enum ClusterName {
-        DEFAULT: 0
-        SCENE: 1
+        GLOBAL: 0
+        GAME: 1
+        HOME: 2
+        SETTINGS: 3
+        ROOM_LIST: 4
+        ROOM_CREATE: 5
     }
     /'
         COMPONENTS
     '/
     namespace Component {
         class Component<ComponentType> {
-            + {static} size_t type
+            - {static} size_t type
+
+            + constructor()
+            + getType(): size_t
         }
 
         class AbstractSyncComponent<Model> {
@@ -49,20 +56,20 @@ namespace Engine {
     '/
     namespace Entity {
         class EntityManager {
-            - EntityRegister _public
-            - EntityRegister _private
+            - _public: EntityRegister
+            - _private: EntityRegister
 
-            + EntityRegister()
-            + Entity createPrivate(EntityName *name = null, ClusterName *name = null)
-            + void setPublic(Entity privateEntity)
-            + Entity createPublic(EntityName *name = null, ClusterName *name = null)
+            + constructor()
+            + Entity createPrivate(ClusterName name = ClusterName::GLOBAL, EntityName name = EntityName::NO_NAME)
+            + Entity createPublic(ClusterName name = ClusterName::GLOBAL, EntityName name = EntityName::NO_NAME)
+            + void setAsPublic(Entity privateEntity, Entity publicId)
             + void remove(Entity entity)
             + void remove(EntityName name)
             + void remove(ClusterName name)
             + bool exist(Entity entity)
-            + bool exist(EntityCluster *cluster = null, EntityName *entity = null)
-            + bool hasComponent<T>(Entity entity)
-            + bool hasComponents<T...>(Entity entity)
+            + bool exist(EntityCluster cluster = ClusterName::GLOBAL, EntityName entity = EntityName::NO_NAME)
+            + bool hasComponent<ComponentType>(Entity entity)
+            + bool hasComponents<ComponentTypeList...>(Entity entity)
             + Entity getId(EntityName name)
             + size_t getClusterSize(ClusterName name)
 
@@ -71,19 +78,36 @@ namespace Engine {
             - const Signature getSignature(Entity entity)
         }
         class EntityRegister {
-            - vector<Signature> _entitySignatures
+            - vector<Signature> _signatures
+            - vector<EntityBlock> _bookedEntities
             - vector<Entity> _freeEntities
+            - _startInterval: size_t
+            - _endInterval: size_t
 
-            + EntityRegister(size_t endInterval, size_t startInterval = 0)
+            + constructor(size_t endInterval, size_t startInterval = 0)
             + void allocate(size_t size)
             + vector<Signature> getEntitySignatures()
             + Signature getSignature(Entity entity)
             + Entity create()
+            + void forceCreate(Entity entity)
             + void reserve(Entity entity)
             + void remove(Entity entity)
+            + void remove(EntityName name)
+            + void remove(ClusterName name)
             + bool isset(Entity entity)
+            + Entity getId(EntityName name)
+            + size_t getClusterSize(ClusterName name)
+            + bool exist(EntityCluster cluster = ClusterName::GLOBAL, EntityName entity = EntityName::NO_NAME)
+            + bool hasComponent<ComponentType>(Entity entity)
+            + bool hasComponents<ComponentTypeList...>(Entity entity)
         }
-        EntityRegister "1" -- "2" EntityManager
+        EntityRegister "2" -- "1" EntityManager
+        class EntityBlock {
+            + _entity: Entity
+            + _name: EntityName
+            + _cluster: EntityCluster
+        }
+        EntityBlock "0...*" -- "1" EntityRegister
     }
     /'
         COMPONENT MANAGER
