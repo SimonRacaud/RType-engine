@@ -204,36 +204,41 @@ namespace Engine {
     '/
     namespace Event {
 
-        class EventCallBack<ClassTYpe, EventType> {
-            - ClassType &_parent
-            - void (ClassType::*EventCallBack<ClassType, EventType>::CallBack)(const EventType *) _callback
+        class EventCallBack<EventType> {
+            - _event: const &IEvent
+            - _callback: & std::function<void(Args...)>
+
+            + constructor(event: const &IEvent)
+            + call<Args...>(args: Args...): void
+            + operator==(event: const& IEvent): bool
         }
+        note bottom : Représente une action en cas d'événement
         IEventCallBack <|-- EventCallBack
 
         interface IEventCallBack {
-            + void call(IEvent)
-            + bool operator==(const IEventDelegate *other)
+            + call<Args...>(args: Args...): void
+            + operator==(event: const& IEvent): bool
         }
-        note left of IEventCallBack
-            Représente une action
-            en cas d'événement
-        end note
 
         class EventCallBackRegister {
-            - map<IEvent, IEventCallBack> _callbackList
+            - _callbackList: unordered_map<IEvent, IEventCallBack>
 
-            + void register(CallbackType callback)
-            + void dispatch<EventType, Args...>(Args...)
+            + register<EventType>(callback: CallbackType): void
+            + dispatch<EventType>(Args...): void
+            + dispatch(IEvent: event, Args...): void
+            - checkType<EventType>(): void
         }
         EventCallBackRegister "1" -- "0..*" IEventCallBack
+        EventCallBackRegister "1" -- "0..*" IEvent
 
-        class IEvent {
-            - TypeId _id
-            - Time _created
+        interface IEvent {
+            + getType(): type_index
         }
-        note left : Représente un événement
-        class Event<T> {
+        class Event<EventType> {
+            - {static} type: type_index
+            + getType(): type_index
         }
+        note right : Représente un événement
         IEvent <|-- Event
     }
 }
