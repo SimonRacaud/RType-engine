@@ -39,19 +39,19 @@ namespace Engine {
     '/
     namespace Component {
         class Component<ComponentType> {
-            - {static} size_t type
+            - {static} type: type_index
 
             + constructor()
-            + getType(): size_t
+            + getType(): type_index
         }
 
         class AbstractSyncComponent<Model> {
-            - bool modified
+            - _modified: bool
 
-            + void notifyUpdate()
-            + bool isUpdated()
-            + Model serialise()
-            + void override(Model &data)
+            + notifyUpdate(): void
+            + isUpdated(): bool
+            + serialise(): Model
+            + override(Model &data): void
         }
         Component <|-- AbstractSyncComponent
     }
@@ -64,46 +64,46 @@ namespace Engine {
             - _private: EntityRegister
 
             + constructor()
-            + Entity createPrivate(ClusterName name = ClusterName::GLOBAL, EntityName name = EntityName::NO_NAME)
-            + Entity createPublic(ClusterName name = ClusterName::GLOBAL, EntityName name = EntityName::NO_NAME)
-            + void setAsPublic(Entity privateEntity, Entity publicId)
-            + void remove(Entity entity)
-            + void remove(EntityName name)
-            + void remove(ClusterName name)
-            + bool exist(Entity entity)
-            + bool exist(EntityCluster cluster = ClusterName::GLOBAL, EntityName entity = EntityName::NO_NAME)
-            + bool hasComponent<ComponentType>(Entity entity)
-            + bool hasComponents<ComponentTypeList...>(Entity entity)
-            + Entity getId(EntityName name)
-            + size_t getClusterSize(ClusterName name)
+            + createPrivate(name = ClusterName::GLOBAL: ClusterName, name = EntityName::NO_NAME: EntityName): Entity
+            + createPublic(name = ClusterName::GLOBAL: ClusterName, name = EntityName::NO_NAME: EntityName): Entity
+            + setAsPublic(privateEntity: Entity, publicId: Entity): void
+            + remove(entity: Entity): void
+            + remove(name: EntityName): void
+            + remove(name: ClusterName): void
+            + exist(entity: Entity): bool
+            + exist(cluster = ClusterName::GLOBAL: EntityCluster, entity = EntityName::NO_NAME: EntityName): bool
+            + hasComponent<ComponentType>(entity: Entity): bool
+            + hasComponents<ComponentTypeList...>(entity: Entity): bool
+            + getId(name: EntityName): Entity
+            + getClusterSize(name: ClusterName): size_t
 
-            - void allocate(size_t size)
-            - vector<Signature> getSignatureList()
-            - const Signature getSignature(Entity entity)
+            - allocate(size: size_t): void
+            - getSignatureList(): vector<Signature>
+            - getSignature(entity: Entity): const Signature
         }
         class EntityRegister {
-            - vector<Signature> _signatures
-            - vector<EntityBlock> _bookedEntities
-            - vector<Entity> _freeEntities
+            - _signatures: vector<Signature>
+            - _bookedEntities: vector<EntityBlock>
+            - _freeEntities: vector<Entity>
             - _startInterval: size_t
             - _endInterval: size_t
 
-            + constructor(size_t endInterval, size_t startInterval = 0)
-            + void allocate(size_t size)
-            + vector<Signature> getEntitySignatures()
-            + Signature getSignature(Entity entity)
-            + Entity create()
-            + void forceCreate(Entity entity)
-            + void reserve(Entity entity)
-            + void remove(Entity entity)
-            + void remove(EntityName name)
-            + void remove(ClusterName name)
-            + bool isset(Entity entity)
-            + Entity getId(EntityName name)
-            + size_t getClusterSize(ClusterName name)
-            + bool exist(EntityCluster cluster = ClusterName::GLOBAL, EntityName entity = EntityName::NO_NAME)
-            + bool hasComponent<ComponentType>(Entity entity)
-            + bool hasComponents<ComponentTypeList...>(Entity entity)
+            + constructor(endInterval: size_t, startInterval = 0: size_t)
+            + allocate(size: size_t): void
+            + getEntitySignatures(): vector<Signature>
+            + getSignature(entity: Entity): Signature
+            + create(): Entity
+            + forceCreate(entity: Entity): void
+            + reserve(entity: Entity): void
+            + remove(entity: Entity): void
+            + remove(name: EntityName): void
+            + remove(name: ClusterName): void
+            + isset(entity: Entity): bool
+            + getId(name: EntityName): Entity
+            + getClusterSize(name: ClusterName): size_t
+            + exist(cluster = ClusterName::GLOBAL: EntityCluster, entity = EntityName::NO_NAME: EntityName): bool
+            + hasComponent<ComponentType>(entity: Entity): bool
+            + hasComponents<ComponentTypeList...>(entity: Entity): bool
         }
         EntityRegister "2" -- "1" EntityManager
         class EntityBlock {
@@ -118,41 +118,41 @@ namespace Engine {
     '/
     namespace Component {
         class ComponentManager {
-            - array<IComponentTypeRegister> components
+            - _components: array<IComponentTypeRegister>
 
-            + void register<ComponentType>()
-            + ComponentType &get<ComponentType>(Entity entity)
-            + tuple<ComponentTypeList...&> getList<ComponentTypeList...>(Entity entity)
-            + void add<ComponentType, Args...>(Entity entity, Args...)
-            + void remove<ComponentType>(Entity entity)
-            + void remove<ComponentType>(EntityName name)
-            + Entity getOwner<ComponentType>(ComponentType const& component)
-            + tuple<ComponentTypeList...> zipper<ComponentTypeList...>()
+            + register<ComponentType>(): void
+            + get<ComponentType>(entity: Entity): ComponentType &
+            + getList<ComponentTypeList...>(entity: Entity): tuple<ComponentTypeList...&>
+            + add<ComponentType, Args...>(entity: Entity, Args...): void
+            + remove<ComponentType>(entity: Entity): void
+            + remove<ComponentType>(name: EntityName): void
+            + getOwner<ComponentType>(component: ComponentType const&): Entity
+            + zipper<ComponentTypeList...>(): tuple<ComponentTypeList...>
 
-            - ComponentTypeRegister<ComponentType> getRegister<ComponentType>()
-            - checkType<ComponentType>()
-            - checkTypeList<ComponentTypeList...>()
+            - getRegister<ComponentType>(): ComponentTypeRegister<ComponentType>
+            - checkType<ComponentType>(): void
+            - checkTypeList<ComponentTypeList...>(): void
         }
         IComponentTypeRegister "0...*" -- "1" ComponentManager
 
         interface IComponentTypeRegister {
-            void allocate(size_t size)
-            void remove(Entity entity)
+            allocate(size: size_t): void
+            remove(entity: Entity): void
         }
 
         class ComponentTypeRegister<ComponentType> {
-            - vector<ComponentType> _list
-            - vector<Entity> _componentOwners
-            - map<Entity, size_t> _entityToComponent
-            - vector<Signature> &_entitySignatures
+            - _list: vector<ComponentType>
+            - _componentOwners: vector<Entity>
+            - _entityToComponent: map<Entity, size_t>
+            - _entitySignatures: vector<Signature>&
 
-            + ComponentTypeRegister<ComponentType>(vector<Signature> &signatures)
-            + void allocate(size_t)
-            + ComponentType &get(Entity entity)
-            + void add<Args...>(Entity entity, Args...)
-            + void remove(Entity entity)
-            + Entity getOwner(ComponentType &component)
-            + vector<ComponentType> getComponents()
+            + constructor<ComponentType>(signatures: vector<Signature>&)
+            + allocate(size: size_t): void
+            + get(entity: Entity): ComponentType &
+            + add<Args...>(entity: Entity, Args...): void
+            + remove(entity: Entity): void
+            + getOwner(component: ComponentType &): Entity
+            + getComponents(): vector<ComponentType> &
         }
         IComponentTypeRegister <|-- ComponentTypeRegister
     }
@@ -220,13 +220,13 @@ namespace Engine {
         IScene "0...*" -- "1" SceneManager
 
         interface IScene {
-            + void close()
-            + void open()
-            + void run()
+            + close(): void
+            + open(): void
+            + run(): void
 
-            + size_t getType()
-            + ClusterName getCluster()
-            + bool isClosed()
+            + getType(): type_index
+            + getCluster(): ClusterName
+            + isClosed(): bool
         }
 
         class AbstractScene {
@@ -292,7 +292,7 @@ namespace Engine {
 
 namespace Game {
     class GameHandler {
-        - void onStartGame(const StartGameEvent &e)
+        - onStartGame(e: const StartGameEvent&): void
     }
 
     namespace GameEvent {
