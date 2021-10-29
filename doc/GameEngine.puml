@@ -12,6 +12,8 @@ namespace Engine {
         - _systemManager: SystemManager
         - _componentManager: ComponentManager
         - _sceneManager: SceneManager
+
+        + exec(): void
     }
     note top : Engine API
    Event.EventCallBackRegister "1" -- "1" Engine
@@ -182,7 +184,9 @@ namespace Engine {
             - _requiredComponents: Signature
             - _managedEntities: vector<Entity>
             - _entityToIndex: map<Entity, size_t>
+            - _runningFrequency: chrono::time_point<chrono::steady_clock>
 
+            + constructor(runningFrequency: chrono::time_point<chrono::steady_clock> = DEFAULT_FREQ)
             + getType(): type_index
             + {abstract} run(): void
             + setRequirements<ComponentTypeList...>(): void
@@ -236,7 +240,6 @@ namespace Engine {
 
             + constructor(type: type_index, name: ClusterName)
             + destructor()
-            + {abstract} run(): void
             + {abstract} open(): void
             + close(): void
 
@@ -269,10 +272,11 @@ namespace Engine {
 
         class EventCallBackRegister {
             - _callbackList: unordered_map<IEvent, IEventCallBack>
+            - _queue: queue<IEvent>
 
             + register<EventType>(callback: CallbackType): void
             + dispatch<EventType>(Args...): void
-            + dispatch(IEvent: event, Args...): void
+            + execQueue(): void
             - checkType<EventType>(): void
         }
         EventCallBackRegister "1" -- "0..*" IEventCallBack
@@ -281,12 +285,12 @@ namespace Engine {
         interface IEvent {
             + getType(): type_index
         }
-        class Event<EventType> {
+        class AbstractEvent {
             - {static} type: type_index
             + getType(): type_index
         }
         note right : Représente un événement
-        IEvent <|-- Event
+        IEvent <|-- AbstractEvent
     }
     namespace Exception {
         class Basic {
@@ -317,8 +321,10 @@ namespace Game {
     }
 
     namespace GameEvent {
-        class StartGameEvent {}
-        Event.Event <|-- StartGameEvent
+        class StartGameEvent {
+            constructor(example: Int)
+        }
+        Event.AbstractEvent <|-- StartGameEvent
     }
 }
 
