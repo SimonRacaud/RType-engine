@@ -1,11 +1,15 @@
 @startuml
 'https://plantuml.com/class-diagram
+' DEFINE THEME:
+!define LIGHTBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
 
 namespace Engine {
 
     class Engine {
         - _eventRegister: EventCallBackRegister
         - _entityManager: EntityManager
+        - _systemManager: SystemManager
         - _componentManager: ComponentManager
         - _sceneManager: SceneManager
     }
@@ -158,33 +162,37 @@ namespace Engine {
     '/
     namespace System {
         class SystemManager {
-            - vector<AbstractSystem> _list
+            - _list: vector<AbstractSystem>
+            - _selected: vector<reference<AbstractSystem>>
 
-            + SystemType &register<SystemType, Args...>(Args...)
-            + void unRegister<SystemType>()
-            + void onEntityUpdated(Entity entity, Signature signature)
-            + void onEntityRemoved(Entity entity)
-            + SystemType &getSystem<SystemType>()
+            + register<SystemType, Args...>(Args...): SystemType &
+            + unRegister<SystemType>(): void
+            + select<SystemTypeList...>()
+            + execCycle()
+            + onEntityUpdated(entity: Entity, signature: Signature): void
+            + onEntityRemoved(entity: Entity): void
+            + getSystem<SystemType>(): SystemType &
 
-            - void checkType<SystemType>()
+            - checkType<SystemType>(): void
         }
         AbstractSystem "0...*" -- "1" SystemManager
 
         class AbstractSystem {
-            - size_t _type
-            - Signature _requiredComponents
-            - vector<Entity> _managedEntities
-            - map<Entity, size_t> _entityToIndex
+            - _type: type_index
+            - _requiredComponents: Signature
+            - _managedEntities: vector<Entity>
+            - _entityToIndex: map<Entity, size_t>
 
-            + size_t getType()
-            + void onEntityUpdated(Entity entity, Signature signature)
-            + void setRequirements<ComponentTypeList...>()
-            + void onManagedEntityRemoved(Entity entity)
-            + void onManagedEntityAdded(Entity entity)
-            + void onEntityRemoved(Entity entity)
-            + void attachEntity(Entity entity)
-            + void detachEntity(Entity entity)
-            # vector<Entity> getManagedEntities()
+            + getType(): type_index
+            + {abstract} run(): void
+            + setRequirements<ComponentTypeList...>(): void
+            + onEntityUpdated(Entity entity, Signature signature): void
+            + onManagedEntityRemoved(Entity entity): void
+            + onManagedEntityAdded(Entity entity): void
+            + onEntityRemoved(Entity entity): void
+            + attachEntity(Entity entity): void
+            + detachEntity(Entity entity): void
+            # getManagedEntities(): vector<Entity>&
         }
     }
     /'
@@ -192,20 +200,24 @@ namespace Engine {
     '/
     namespace Scene {
         class SceneManager {
-            - vector<IScene> _list
-            - IScene &_currentScene
-            - shared<IScene> _nextScene
-            - stack<reference<IScene>> _previousScenes
+            - _list: vector<IScene>
+            - _currentScene: IScene &
+            - _nextScene: shared<IScene>
+            - _previousScenes: stack<reference<IScene>>
 
-            + void run()
-            + void create<SceneType, Args...>(Args...)
-            + void remove<SceneType>()
-            + void select<SceneType>(bool close = true)
-            + void selectPrevious()
-            + IScene &getSelected()
-            + void flushSelection()
-            + IScene &get<SceneType>()
+            + run(): void
+            + register<SceneType, Args...>(Args...): void
+            + unregister<SceneType>(): void
+            + select<SceneType>(closePrevious = true: bool): void
+            + selectPrevious(): void
+            + havePrevious(): bool
+            + getSelected(): IScene &
+            + flushSelection(): void
+            + get<SceneType>(): IScene &
+
+            # launchSystemCycle(): void
         }
+        IScene "0...*" -- "1" SceneManager
 
         interface IScene {
             + void close()
@@ -218,17 +230,19 @@ namespace Engine {
         }
 
         class AbstractScene {
-            # ClusterName _cluster
-            # bool _closed
-            # size_t _type
+            - _closed: bool
+            - _cluster: ClusterName
+            - _type: type_index
 
-            + constructor(ClusterName name)
+            + constructor(type: type_index, name: ClusterName)
             + destructor()
-            + void close()
+            + {abstract} run(): void
+            + {abstract} open(): void
+            + close(): void
 
-            + ClusterName getCluster()
-            + bool isClosed()
-            + size_t getType()
+            + getCluster(): ClusterName
+            + isClosed(): bool
+            + getType(): type_index
         }
         IScene <|-- AbstractScene
     }
