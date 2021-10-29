@@ -1,0 +1,54 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+scale 350 width
+[*] --> Game
+
+state Game {
+    Game --> RegisterComponents
+    Game --> RegisterSystems
+    Game --> RegisterScenes
+    RegisterScenes -> SelectScene
+    Game --> RegisterEvents
+}
+
+Game --> GameEngine
+
+state GameEngine {
+    state GameEngineExec {
+        GameEngineExec : exec()
+        [*] --> RunSceneManager
+        state RunSceneManager {
+            [*] --> FlushSelection
+            RunSceneManager : run()
+            state FlushSelection {
+                [*] --> OpenSelectedScene
+                state OpenSelectedScene {
+                    [*] --> ReadEnvVariables
+                    ReadEnvVariables --> CreateEntities
+                    CreateEntities --> EmitEvents
+                    EmitEvents : start music for example
+                }
+            }
+            FlushSelection --> ExecuteSystemCycle
+            ExecuteSystemCycle : SystemManager::executeCycle()
+            ExecuteSystemCycle --> ExecuteEventQueue
+            ExecuteEventQueue : EventCallBackRegister::execQueue()
+        }
+    }
+    GameEngineExec --> GameEngineDestroy
+    state GameEngineDestroy {
+        GameEngineDestroy : ~GameEngine()
+        state SceneManagerDestroy {
+        SceneManagerDestroy : ~SceneManager()
+            [*] --> CloseScenes
+            state CloseScenes {
+                [*] --> DestroyEntityCluster
+            }
+            CloseScenes --> DestroyGlobalEntityCluster
+        }
+    }
+}
+GameEngine --> GameEngine
+
+@enduml
