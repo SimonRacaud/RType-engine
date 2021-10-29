@@ -288,6 +288,27 @@ namespace Engine {
         note right : Représente un événement
         IEvent <|-- Event
     }
+    namespace Exception {
+        class Basic {
+            - _message: string
+
+            + constructor(message: string const&)
+            + what(): const char *
+        }
+        std::exception <|-- Basic
+
+        class InvalidType
+        class NotFound
+        class InvalidParameter
+        class FatalError
+        class RuntimeError
+
+        Basic <|-- RuntimeError
+        Basic <|-- FatalError
+        Basic <|-- InvalidParameter
+        Basic <|-- InvalidType
+        Basic <|-- NotFound
+    }
 }
 
 namespace Game {
