@@ -5,6 +5,13 @@
 !includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
 
 namespace Engine {
+    class EngineFactory {
+        - {static} _singleton: unique<Engine> = null
+
+        + {static} getInstance(): Engine&
+    }
+    note top: Singleton
+    EngineFactory "1" -- "1" Engine
 
     class Engine {
         - _eventRegister: EventCallBackRegister
@@ -269,6 +276,7 @@ namespace Engine {
             + call<Args...>(args: Args...): void
             + operator==(event: const& IEvent): bool
         }
+
 
         class EventCallBackRegister {
             - _callbackList: unordered_map<IEvent, IEventCallBack>
