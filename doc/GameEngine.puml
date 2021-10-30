@@ -19,8 +19,10 @@ namespace Engine {
         - _systemManager: SystemManager
         - _componentManager: ComponentManager
         - _sceneManager: SceneManager
+        - _loop: bool
 
         + exec(): void
+        + quit(): void
     }
     note top : Engine API
 
@@ -58,7 +60,7 @@ namespace Engine {
 
             + notifyUpdate(): void
             + isUpdated(): bool
-            + serialise(): Model
+            + {abstract} serialise(): Model
             + override(Model &data): void
         }
         Component <|-- AbstractSyncComponent
@@ -191,8 +193,10 @@ namespace Engine {
             - _managedEntities: vector<Entity>
             - _entityToIndex: map<Entity, size_t>
             - _runningFrequency: chrono::time_point<chrono::steady_clock>
+            - _priority: Priority
 
-            + constructor(runningFrequency: chrono::time_point<chrono::steady_clock> = DEFAULT_FREQ)
+            + constructor(runningFrequency: chrono::time_point<chrono::steady_clock> = DEFAULT_FREQ, priority: Priority = MEDIUM)
+            + getPriority(): Priority
             + getType(): type_index
             + {abstract} run(): void
             + setRequirements<ComponentTypeList...>(): void
@@ -232,7 +236,6 @@ namespace Engine {
         interface IScene {
             + close(): void
             + open(): void
-            + run(): void
 
             + getType(): type_index
             + getCluster(): ClusterName
@@ -259,19 +262,19 @@ namespace Engine {
         EVENT MODULE
     '/
     namespace Engine.Event {
-        class EventCallBack<EventType> {
+        class EventCallBack<Args> {
             - _event: const &IEvent
             - _callback: & std::function<void(Args...)>
 
-            + constructor(event: const &IEvent)
-            + call<Args...>(args: Args...): void
+            + constructor(event: const &IEvent, callback: std::function<void(Args)> &)
+            + call(args: Args...): void
             + operator==(event: const& IEvent): bool
         }
         note bottom : Représente une action en cas d'événement
         IEventCallBack <|-- EventCallBack
 
-        interface IEventCallBack {
-            + call<Args...>(args: Args...): void
+        interface IEventCallBack<Args> {
+            + call(args: Args...): void
             + operator==(event: const& IEvent): bool
         }
 
