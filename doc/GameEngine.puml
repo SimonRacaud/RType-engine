@@ -23,7 +23,6 @@ namespace Engine {
         + exec(): void
     }
     note top : Engine API
-   Event.EventCallBackRegister "1" -- "1" Engine
 
     entity Entity
     note top : size_t
@@ -102,8 +101,8 @@ namespace Engine {
             + getEntitySignatures(): vector<Signature>
             + getSignature(entity: Entity): Signature
             + create(): Entity
-            + forceCreate(entity: Entity): void
-            + reserve(entity: Entity): void
+            ' Reserve public id
+            + createForce(entity: Entity): void
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
@@ -259,8 +258,7 @@ namespace Engine {
     /'
         EVENT MODULE
     '/
-    namespace Event {
-
+    namespace Engine.Event {
         class EventCallBack<EventType> {
             - _event: const &IEvent
             - _callback: & std::function<void(Args...)>
@@ -322,7 +320,6 @@ namespace Engine {
         Basic <|-- NotFound
     }
 }
-
 namespace Game {
     class GameHandler {
         - onStartGame(e: const StartGameEvent&): void
@@ -332,7 +329,7 @@ namespace Game {
         class StartGameEvent {
             constructor(example: Int)
         }
-        Event.AbstractEvent <|-- StartGameEvent
+        Engine.Event.AbstractEvent <|-- StartGameEvent
     }
 }
 
