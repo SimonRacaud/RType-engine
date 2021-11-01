@@ -73,7 +73,7 @@ set_target_properties(${NAME_SERVER}
 ##link_libraries(gameEngine)
 
 ## CONFIG_FILE (client & server)
-set(ConfigFileDir ${PROJECT_SOURCE_DIR}/both/ConfigFile)
+set(ConfigFileDir ${PROJECT_SOURCE_DIR}/lib/ConfigFile)
 add_subdirectory(${ConfigFileDir})
 include_directories(${ConfigFileDir}/include)
 include_directories(${ConfigFileDir}/src/ConfigFileTools)
