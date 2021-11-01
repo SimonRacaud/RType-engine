@@ -193,13 +193,13 @@ namespace Engine {
     '/
     namespace System {
         class SystemManager {
-            - _list: vector<AbstractSystem>
-            - _selected: vector<reference<AbstractSystem>>
+            - _list: vector<shared<AbstractSystem>>
+            - _selected: vector<shared<AbstractSystem>>
 
-            + register<SystemType, Args...>(Args...): SystemType &
+            + register<SystemType, Args...>(TODO, Args...): SystemType &
             + unRegister<SystemType>(): void
-            + select<SystemTypeList...>()
-            + execCycle()
+            + select<SystemTypeList...>(): void
+            + executeCycle(): void
             + onEntityUpdated(entity: Entity, signature: Signature): void
             + onEntityRemoved(entity: Entity): void
             + getSystem<SystemType>(): SystemType &
@@ -208,26 +208,35 @@ namespace Engine {
         }
         AbstractSystem "0...*" -- "1" SystemManager
 
-        abstract AbstractSystem {
-            - _type: type_index
+        abstract AbstractSystem<SystemType> {
+            - {static} _type: const type_index
+            - _lastExecTime: TimePoint
             - _requiredComponents: Signature
             - _managedEntities: vector<Entity>
             - _entityToIndex: map<Entity, size_t>
-            - _runningFrequency: chrono::time_point<chrono::steady_clock>
-            - _priority: Priority
+            - _runningFrequency: Time
+            - _priority: SystemPriority
 
-            + constructor(runningFrequency: chrono::time_point<chrono::steady_clock> = DEFAULT_FREQ, priority: Priority = MEDIUM)
+            + constructor(runningFrequency: Time = DEFAULT_FREQ, priority: SystemPriority = MEDIUM)
             + getPriority(): Priority
-            + getType(): type_index
+            + getType(): const &type_index
+            + refresh(): bool
             + {abstract} run(): void
             + setRequirements<ComponentTypeList...>(): void
             + onEntityUpdated(Entity entity, Signature signature): void
             + onManagedEntityRemoved(Entity entity): void
             + onManagedEntityAdded(Entity entity): void
             + onEntityRemoved(Entity entity): void
-            + attachEntity(Entity entity): void
-            + detachEntity(Entity entity): void
+            - attachEntity(Entity entity): void
+            - detachEntity(Entity entity): void
             # getManagedEntities(): vector<Entity>&
+        }
+        AbstractSystem "1" -- "1" SystemPriority
+
+        enum SystemPriority {
+            LOW,
+            MEDIUM,
+            HIGH
         }
     }
     /'
