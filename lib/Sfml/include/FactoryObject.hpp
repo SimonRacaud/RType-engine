@@ -13,20 +13,40 @@
 #include <functional>
 #include <unordered_map>
 
-template<typename tokenType>
+template<typename tokenType, typename... constructorParams>
 class FactoryObject
 {
     public:
-        template <typename... constructorParams> GenericObject<tokenType> builderFactory(const defaultType &key, constructorParams &&... params)
+        FactoryObject()
+        {
+        }
+
+        ~FactoryObject()
+        {
+            this->_getterName.clear();
+            this->_builder.clear();
+        }
+
+        void addToList(const defaultType &key, std::function<tokenType ()> func)
+        {
+            this->_getterName[key] = func;
+        }
+
+        void addToList(const defaultType &key, std::function<GenericObject<tokenType> (const tokenType &, constructorParams &&...)> func)
+        {
+            this->_getterName[key] = func;
+        }
+
+        /*template <typename... constructorParams>*/ GenericObject<tokenType> builderFactory(const defaultType &key, constructorParams &&... params)
         {
             tokenType token = this->_getterName.at(key)();
 
-            return this->_builder(token, std::forward<constructorParams>(params)...);
+            return this->_builder(token, params...);
         }
 
     private:
         std::unordered_map<defaultType, std::function<tokenType ()>> _getterName;
-        std::unordered_map<defaultType, std::function<GenericObject<tokenType> (const tokenType &, ...)>> _builder;
+        std::unordered_map<defaultType, std::function<GenericObject<tokenType> (const tokenType &, constructorParams &&...)>> _builder;
 };
 
 #endif

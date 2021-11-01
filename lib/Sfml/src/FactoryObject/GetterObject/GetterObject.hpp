@@ -8,7 +8,7 @@
 #ifndef GETTEROBJECT_HPP
 #define GETTEROBJECT_HPP
 
-#include "GenericObject.hpp"
+#include "GenericObject/GenericObject.hpp"
 #include <string>
 
 class GetterObject
