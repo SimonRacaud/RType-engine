@@ -21,6 +21,7 @@ SfmlModule::SfmlModule()
     this->_factory.addToList(defaultType::KeyEvent_e, GetterObject::getObjectKeyEvent);
     this->_factory.addToList(defaultType::Animation_e, GetterObject::getObjectAnimation);
 
+    // TODO USE CONFIGURATION FILE
     this->_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1920, 1080), "yolo");
     this->_window->setFramerateLimit(30);
 }
@@ -44,8 +45,24 @@ void SfmlModule::removeObject(const std::string &token)
             this->_objectList.erase(this->_objectList.begin() + i);
 }
 
+bool SfmlModule::isOpen() const
+{
+    return this->_window->isOpen();
+}
+
 void SfmlModule::play()
 {
+    //TODO MOVE THAT
+    sf::Event event;
+    while (this->_window->pollEvent(event))
+    {
+        if (event.type == sf::Event::Closed)
+            this->_window->close();
+    }
+    //END
+
+    this->_window->clear();
     for (size_t i = 0; i < this->_objectList.size(); i++)
         this->_objectList[i].run();
+    this->_window->display();
 }

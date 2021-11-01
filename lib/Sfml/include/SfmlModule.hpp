@@ -23,6 +23,7 @@ class SfmlModule: public IGraphicalModule<std::string>
         ~SfmlModule();
         void addObject(GenericObject<std::string> &&);
         void removeObject(const std::string &);
+        bool isOpen() const;
         void play();
 
     private:

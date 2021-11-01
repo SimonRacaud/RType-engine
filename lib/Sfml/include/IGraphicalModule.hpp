@@ -15,6 +15,7 @@ class IGraphicalModule
         ~IGraphicalModule() = default;
         virtual void addObject(GenericObject<tokenType> &&);
         virtual void removeObject(const tokenType &);
+        virtual bool isOpen() const;
         virtual void play();
 };
 
