@@ -9,6 +9,7 @@
 #define FACTORYOBJECT_HPP
 
 #include "enum.hpp"
+#include "GenericObject/GenericObject.hpp"
 #include <functional>
 #include <unordered_map>
 
@@ -20,7 +21,7 @@ class FactoryObject
         {
             tokenType token = this->_getterName.at(key)();
 
-            return this->_builder(token, std::forward<constructorParams>(params)...)
+            return this->_builder(token, std::forward<constructorParams>(params)...);
         }
 
     private:

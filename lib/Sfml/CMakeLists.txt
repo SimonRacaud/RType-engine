@@ -19,6 +19,7 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 ## INCLUDES
 include_directories(
         ./include
+        ./src
 )
 
 ## SOURCES

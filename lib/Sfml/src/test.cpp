@@ -1,1 +1,1 @@
-#include "GenericObject/GenericObject.hpp"
+#include "FactoryObject.hpp"
