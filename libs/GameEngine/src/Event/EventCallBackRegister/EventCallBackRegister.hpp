@@ -20,32 +20,35 @@ namespace Engine {
 		class EventCallBackRegister {
 			public:
 				EventCallBackRegister() = default;
-				~EventCallBackRegister() = default;
+				~EventCallBackRegister() {
+
+				}
 
 				void execQueue()
 				{
-					IEvent *e;
+					std::shared_ptr<IEvent> e;
 
 					while (_queue.size() > 0) {
 						e = _queue.front();
 						if (_registeredCallbacks.find(std::type_index(typeid(*e))) != _registeredCallbacks.end()) {
-							_registeredCallbacks[std::type_index(typeid(*e))]->call(e);
-						} else
+							_registeredCallbacks[std::type_index(typeid(*e))]->call(e.get());
+						} else {
 							std::cout << "Event with no registered callbacks, skipping" << std::endl;
+						}
 						_queue.pop();
 					}
 				}
 
 				template<class EventType>
 				void registerCallback(std::function<void(const EventType*)> callback) {
-					IEventCallback *func = new EventCallBack<EventType>(callback);
+					std::shared_ptr<IEventCallback> func = std::make_shared<EventCallBack<EventType>>(callback);
 					
 					_registeredCallbacks[std::type_index(typeid(EventType))] = func;
 				}
 
 				template<class EventType, class... Args>
 				void dispatch(Args&&... eventArgs) {
-					EventType *e = new EventType(std::forward<Args>(eventArgs)...);
+					std::shared_ptr<EventType> e = std::make_shared<EventType>(std::forward<Args>(eventArgs)...);
 					
 					_queue.push(e);
 				}
@@ -55,8 +58,8 @@ namespace Engine {
 				void checkType() {
 					std::cout << std::type_index(typeid(EventType)).hash_code() << std::endl;
 				}
-				std::unordered_map<std::type_index, IEventCallback *> _registeredCallbacks;
-				std::queue<IEvent *> _queue;
+				std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>> _registeredCallbacks;
+				std::queue<std::shared_ptr<IEvent>> _queue;
 		};
 
 	}
