@@ -13,7 +13,7 @@
 namespace Engine
 {
     enum class EntityName : std::size_t {
-        DEFAULT = 0,
+        EMPTY = 0,
 
         #ifdef CUSTOM_ENTITY_NAME
                 CUSTOM_ENTITY_NAME
