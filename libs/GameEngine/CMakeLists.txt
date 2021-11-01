@@ -19,12 +19,15 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 include_directories(
         ./include
         ./src/
+        ./src/BaseComponent/
 )
 
 ## SOURCES
 set(SRCS
         # Exception
         src/Exception/BasicException.cpp
+        src/ComponentManager/ComponentManager.cpp
+        src/EntityManager/EntityManager.cpp
         )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
