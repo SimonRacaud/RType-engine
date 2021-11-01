@@ -51,8 +51,7 @@ namespace Engine
     }
 
     template <typename ComponentType>
-    const std::type_index BaseComponent<ComponentType>::type = std::type_index(
-        typeid(BaseComponent<ComponentType>));
+    const TypeIdx BaseComponent<ComponentType>::type = GET_TYPE_IDX(BaseComponent<ComponentType>);
 
     template <typename ComponentType>
     Index BaseComponent<ComponentType>::idx = InvalidIndex;
