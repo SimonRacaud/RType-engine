@@ -19,7 +19,9 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 include_directories(
         ./include
         ./src/
-        ./src/BaseComponent/
+        ./src/BaseComponent
+        ./src/ComponentManager
+        ./src/EntityManager
 )
 
 ## SOURCES
@@ -27,8 +29,11 @@ set(SRCS
         # Exception
         src/Exception/BasicException.cpp
         src/ComponentManager/ComponentManager.cpp
+        src/ComponentTypeRegister/ComponentTypeRegister.hpp
         src/EntityManager/EntityManager.cpp
-        )
+        src/EntityRegister/EntityRegister.cpp
+        src/EntityRegister/EntityBlock.cpp
+        src/NetworkIdRegister/NetworkIdRegister.cpp)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_library(${NAME} ${SRCS})

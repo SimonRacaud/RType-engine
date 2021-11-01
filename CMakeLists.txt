@@ -66,11 +66,11 @@ set_target_properties(${NAME_SERVER}
         )
 
 ## GAME-ENGINE (client & server)
-##set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
-##add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
-##include_directories(${GAME_ENGINE_DIR}/include)
-##include_directories(${GAME_ENGINE_DIR}/src)
-##link_libraries(gameEngine)
+set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
+add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
+include_directories(${GAME_ENGINE_DIR}/include)
+include_directories(${GAME_ENGINE_DIR}/src)
+link_libraries(gameEngine)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/both/ConfigFile)
