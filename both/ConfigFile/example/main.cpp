@@ -54,5 +54,10 @@ int main(int ac, char **av)
     conf.setVarGetter<tmp_t>(getTmp);
 
     std::cout << conf.getVar<tmp_t>("exampleCustom").test << conf.getVar<tmp_t>("exampleCustom").test2 << std::endl;
+
+    std::vector<int> list = conf.getVectorOf<int>("exampleCustomList");
+
+    for (auto it : list)
+        std::cout << it << std::endl;
     return 0;
 }

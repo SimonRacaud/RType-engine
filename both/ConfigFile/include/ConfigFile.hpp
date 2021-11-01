@@ -36,6 +36,26 @@ class ConfigFile {
         throw std::invalid_argument("No getter for: " + std::string(typeid(varType).name()));
     }
 
+    template <typename varType> [[nodiscard]] std::vector<varType> getVectorOf(const std::string &name) const
+    {
+      std::vector<varType> list;
+      std::size_t key = typeid(varType).hash_code();
+      auto it = this->_loadLink.find(key);
+
+      if (it != this->_loadLink.end()) {
+        try {
+          std::vector<std::string> extractedList = this->extractDataArray(this->getDataFrom(name));
+
+          for (auto &str : extractedList)
+            list.push_back(std::any_cast<varType>(this->_loadLink.at(key)(str)));
+          return list;
+        } catch (const std::bad_any_cast &e) {
+          throw std::invalid_argument("Invalide function to load: " + std::string(typeid(varType).name()));
+        }
+      } else
+        throw std::invalid_argument("No getter for: " + std::string(typeid(varType).name()));
+    }
+
     template <typename varType> void setVarGetter(std::function<std::any (const std::string &)> func, bool force = false)
     {
       std::size_t key = typeid(varType).hash_code();
@@ -63,6 +83,7 @@ class ConfigFile {
 
     // PARSING
     [[nodiscard]] std::string getDataFrom(const std::string &name) const;
+    [[nodiscard]] std::vector<std::string> extractDataArray(const std::string &input) const;
 
   private:
     std::vector<std::string> _fileContent;

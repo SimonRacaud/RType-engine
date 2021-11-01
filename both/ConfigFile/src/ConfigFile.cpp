@@ -148,3 +148,21 @@ bool ConfigFile::isSetVar(const std::string &name) const
             return true;
     return false;
 }
+
+std::vector<std::string> ConfigFile::extractDataArray(const std::string &input) const
+{
+    std::vector<std::string> list;
+    std::string rawList;
+    size_t pos = 0;
+
+    if (!ConfigFileTools::matchWithRegex("^\\[.*\\]$", input))
+        throw std::invalid_argument("Incorrect line format for VECTOR: " + input);
+    rawList = input.substr(1, input.length() - 2);
+    while ((pos = rawList.find('\\')) != std::string::npos) {
+        list.push_back(rawList.substr(0, pos));
+        rawList.erase(0, pos + 1);
+    }
+    if (rawList.length())
+        list.push_back(rawList);
+    return list;
+}
