@@ -19,6 +19,8 @@ int main(void)
 	if (reg) {
 		PrintingSystem sys;
 		reg->dispatch<PrintEvent>("this works great");
+		reg->dispatch<PrintEvent>("Hello world");
+		reg->dispatch<PrintEvent>("wow");
 	}
 	reg->execQueue();
 	return 0;
