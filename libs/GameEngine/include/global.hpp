@@ -11,7 +11,11 @@
 #include <cstdint>
 #include <limits>
 #include <bitset>
+#include <typeindex>
+#include <functional>
 #include "env.hpp"
+#include "EntityName.hpp"
+#include "ClusterName.hpp"
 
 namespace Engine
 {
@@ -19,7 +23,14 @@ namespace Engine
 
     using Index = uint32_t;
 
-    static constexpr auto InvalidIndex = std::numeric_limits<Index>::max();
+    using TypeIdx = std::type_index;
+
+    using NetworkId = uint32_t;
+
+    using EntityDestructor = std::function<void(Entity, EntityName, ClusterName)>;
+
+    static constexpr Entity MaxEntity = std::numeric_limits<Entity>::max();
+    static constexpr Index InvalidIndex = std::numeric_limits<Index>::max();
 
     typedef std::bitset<MAX_COMPONENT_TYPE> Signature;
 }
