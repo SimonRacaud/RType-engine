@@ -33,11 +33,6 @@ SfmlModule::~SfmlModule()
     this->_objectList.clear();
 }
 
-void SfmlModule::addObject(GenericObject<std::string> &&newMember)
-{
-    this->_objectList.push_back(newMember);
-}
-
 void SfmlModule::removeObject(const std::string &token)
 {
     for (size_t i = 0; i < this->_objectList.size(); i++)

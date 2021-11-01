@@ -21,7 +21,12 @@ class SfmlModule: public IGraphicalModule<std::string>
     public:
         SfmlModule();
         ~SfmlModule();
-        void addObject(GenericObject<std::string> &&);
+
+        template <typename... buildParams> void addObject(const defaultType &type, buildParams &&... params)
+        {
+            this->_objectList.push_back(this->_factory.builderFactory(type, std::forward<buildParams>(params)...));
+        }
+
         void removeObject(const std::string &);
         bool isOpen() const;
         void play();
