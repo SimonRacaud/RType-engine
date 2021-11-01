@@ -12,6 +12,7 @@
 #include "IGraphicalModule.hpp"
 #include "FactoryObject/GetterName/GetterName.hpp"
 #include "FactoryObject/GetterObject/GetterObject.hpp"
+#include <vector>
 
 class SfmlModule: public IGraphicalModule<std::string>
 {
@@ -24,6 +25,7 @@ class SfmlModule: public IGraphicalModule<std::string>
 
     private:
         FactoryObject<std::string> _factory;
+        std::vector<GenericObject<std::string>> _objectList;
 };
 
 #endif

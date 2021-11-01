@@ -34,10 +34,10 @@ class FactoryObject
 
         void addToList(const defaultType &key, std::function<GenericObject<tokenType> (const tokenType &, constructorParams &&...)> func)
         {
-            this->_getterName[key] = func;
+            this->_builder[key] = func;
         }
 
-        /*template <typename... constructorParams>*/ GenericObject<tokenType> builderFactory(const defaultType &key, constructorParams &&... params)
+        GenericObject<tokenType> builderFactory(const defaultType &key, constructorParams &&... params)
         {
             tokenType token = this->_getterName.at(key)();
 

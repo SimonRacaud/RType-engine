@@ -109,10 +109,23 @@ class GenericObject
         {
             this->_call = call;
         }
+
+        bool operator==(const tokenType &token)
+        {
+            return this->_token == token;
+        }
+
+        GenericObject &operator=(const GenericObject &src)
+        {
+            this->_list = src._list;
+            this->_token = src._token;
+            this->_call = src._call;
+            return *this;
+        }
     private:
         std::unordered_map<size_t, std::unordered_map<tokenType, std::any>> _list;
         std::function<void (GenericObject<tokenType> &)> _call;
-        const tokenType _token;
+        tokenType _token;
 };
 
 #endif
