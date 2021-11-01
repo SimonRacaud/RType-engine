@@ -22,6 +22,8 @@ include_directories(
         ./src/BaseComponent
         ./src/ComponentManager
         ./src/EntityManager
+        ./src/AbstractSystem
+        ./src/SystemManager
 )
 
 ## SOURCES
@@ -33,7 +35,10 @@ set(SRCS
         src/EntityManager/EntityManager.cpp
         src/EntityRegister/EntityRegister.cpp
         src/EntityRegister/EntityBlock.cpp
-        src/NetworkIdRegister/NetworkIdRegister.cpp)
+        src/NetworkIdRegister/NetworkIdRegister.cpp
+        src/SystemManager/SystemManager.cpp
+        src/AbstractSystem/AbstractSystem.hpp
+        )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_library(${NAME} ${SRCS})

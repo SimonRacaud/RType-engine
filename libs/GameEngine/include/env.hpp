@@ -31,4 +31,9 @@
 #define NO_NET_ID 0
 #define INIT_NET_ID 1
 
+/**
+ * Default system running frequency
+ */
+#define DEF_SYSTEM_RUN_FREQ 10
+
 #endif // ENV_HPP
