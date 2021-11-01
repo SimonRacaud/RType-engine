@@ -48,35 +48,27 @@ namespace Engine {
         COMPONENTS
     '/
     namespace Component {
-        class Component<ComponentType> {
-            - {static} type: type_index
+        abstract BaseComponent<ComponentType> {
+            - {static} idx: Index
+            + {static} type: const type_index
 
             + constructor()
-            + getType(): type_index
+            + {static} setIndex(index: Index): void
+            + {static} getIndex(): Index
         }
-
-        class AbstractSyncComponent<Model> {
-            - _modified: bool
-
-            + notifyUpdate(): void
-            + isUpdated(): bool
-            + {abstract} serialise(): Model
-            + override(Model &data): void
-        }
-        Component <|-- AbstractSyncComponent
     }
     /'
         ENTITY MANAGER
     '/
     namespace Entity {
+
         class EntityManager {
-            - _public: EntityRegister
-            - _private: EntityRegister
+            - _entities: EntityRegister
 
             + constructor()
-            + createPrivate(name = ClusterName::GLOBAL: ClusterName, name = EntityName::NO_NAME: EntityName): Entity
-            + createPublic(name = ClusterName::GLOBAL: ClusterName, name = EntityName::NO_NAME: EntityName): Entity
-            + setAsPublic(privateEntity: Entity, publicId: Entity): void
+            + createPrivate(destructor: EntityDestructor&, cluster: ClusterName = ClusterName::GLOBAL, name: EntityName = EntityName::NO_NAME): Entity
+            + createPublic(destructor: EntityDestructor&, cluster: ClusterName = ClusterName::GLOBAL, name: EntityName = EntityName::NO_NAME): Entity
+            + replaceIndex(oldIndex: Entity, newIndex: Entity): void
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
@@ -91,36 +83,48 @@ namespace Engine {
             - getSignatureList(): vector<Signature>
             - getSignature(entity: Entity): const Signature
         }
+        note right of EntityManager::replaceIndex
+            Replace a private id by a public one
+        end note
+
         class EntityRegister {
             - _signatures: vector<Signature>
             - _bookedEntities: vector<EntityBlock>
             - _freeEntities: vector<Entity>
-            - _startInterval: size_t
-            - _endInterval: size_t
 
-            + constructor(endInterval: size_t, startInterval = 0: size_t)
+            + constructor()
             + allocate(size: size_t): void
-            + getEntitySignatures(): vector<Signature>
-            + getSignature(entity: Entity): Signature
-            + create(): Entity
+            + getSignatureList(): vector<Signature>
+            + getSignature(entity: Entity): const Signature
+            + create(offset: size_t = 0, cluster: EntityCluster, name: EntityName, destructor: EntityDestructor&): Entity
             ' Reserve public id
-            + createForce(entity: Entity): void
+            + createForce(entity: Entity, cluster: EntityCluster, name: EntityName, destructor: EntityDestructor&): void
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
-            + isset(entity: Entity): bool
             + getId(name: EntityName): Entity
             + getClusterSize(name: ClusterName): size_t
-            + exist(cluster = ClusterName::GLOBAL: EntityCluster, entity = EntityName::NO_NAME: EntityName): bool
-            + hasComponent<ComponentType>(entity: Entity): bool
-            + hasComponents<ComponentTypeList...>(entity: Entity): bool
+            + exist(entity: Entity): bool
+            + exist(entity: EntityName, cluster: EntityCluster = ClusterName::GLOBAL): bool
+            + exist(cluster: EntityCluster): bool
         }
-        EntityRegister "2" -- "1" EntityManager
+        EntityRegister "1" -- "1" EntityManager
         class EntityBlock {
-            + _entity: Entity
-            + _name: EntityName
-            + _cluster: EntityCluster
+            - _entity: Entity
+            - _name: EntityName
+            - _cluster: EntityCluster
+            - _destructor: EntityDestructor &
+
+            + constructor(entity: Entity, cluster: ClusterName, name: EntityName, destructor: EntityDestructor &)
+            + operator==(name: EntityName): bool
+            + operator==(cluster: ClusterName): bool
+            + getEntity() Entity
+            + setEntity(entity: Entity): void
+            + getName(): EntityName
+            + getCluster(): ClusterName
+            + destroy() void
         }
+        note top : using EntityDestructor = std::function<void(Entity, EntityName, EntityCluster)>;
         EntityBlock "0...*" -- "1" EntityRegister
     }
     /'
@@ -130,6 +134,7 @@ namespace Engine {
         class ComponentManager {
             - _components: array<IComponentTypeRegister>
 
+            + allocate(size: size_t): void
             + register<ComponentType>(): void
             + get<ComponentType>(entity: Entity): ComponentType &
             + getList<ComponentTypeList...>(entity: Entity): tuple<ComponentTypeList...&>
@@ -137,7 +142,7 @@ namespace Engine {
             + remove<ComponentType>(entity: Entity): void
             + remove<ComponentType>(name: EntityName): void
             + getOwner<ComponentType>(component: ComponentType const&): Entity
-            + zipper<ComponentTypeList...>(): tuple<ComponentTypeList...>
+            + foreachComponent<ComponentType, Function>(Function &fn): void
 
             - getRegister<ComponentType>(): ComponentTypeRegister<ComponentType>
             - checkType<ComponentType>(): void
@@ -187,7 +192,7 @@ namespace Engine {
         }
         AbstractSystem "0...*" -- "1" SystemManager
 
-        class AbstractSystem {
+        abstract AbstractSystem {
             - _type: type_index
             - _requiredComponents: Signature
             - _managedEntities: vector<Entity>
@@ -242,7 +247,7 @@ namespace Engine {
             + isClosed(): bool
         }
 
-        class AbstractScene {
+        abstract AbstractScene {
             - _closed: bool
             - _cluster: ClusterName
             - _type: type_index
@@ -294,7 +299,7 @@ namespace Engine {
         interface IEvent {
             + getType(): type_index
         }
-        class AbstractEvent {
+        abstract AbstractEvent {
             - {static} type: type_index
             + getType(): type_index
         }
@@ -333,6 +338,19 @@ namespace Game {
             constructor(example: Int)
         }
         Engine.Event.AbstractEvent <|-- StartGameEvent
+    }
+
+    namespace GameComponent {
+        abstract AbstractSyncComponent<Model> {
+            - _modified: bool
+
+            + notifyUpdate(): void
+            + isUpdated(): bool
+            + {abstract} serialise(): Model
+            + override(data: Model const&): void
+            + operator=(data: Model const&): void
+        }
+        Engine.Component.BaseComponent <|-- AbstractSyncComponent
     }
 }
 
