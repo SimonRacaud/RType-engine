@@ -66,9 +66,9 @@ namespace Engine {
             - _entities: EntityRegister
 
             + constructor()
-            + createPrivate(destructor: EntityDestructor&, cluster: ClusterName = ClusterName::GLOBAL, name: EntityName = EntityName::NO_NAME): Entity
-            + createPublic(destructor: EntityDestructor&, cluster: ClusterName = ClusterName::GLOBAL, name: EntityName = EntityName::NO_NAME): Entity
-            + replaceIndex(oldIndex: Entity, newIndex: Entity): void
+            + create(destructor: EntityDestructor&, cluster: ClusterName = ClusterName::GLOBAL, name: EntityName = EntityName::NO_NAME, setNetworkId: bool = false): Entity
+            + setNetworkId(entity: Entity, networkId: NetworkId): void
+            + getId(networkId: NetworkId): Entity
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
@@ -87,18 +87,29 @@ namespace Engine {
             Replace a private id by a public one
         end note
 
+        class NetworkIdRegister {
+            - _counter: NetworkId = 1
+            - _freeIds: vector<NetworkId>
+
+            + reserveId(): NetworkId
+            + reserveId(id: NetworkId): NetworkId
+            + releaseId(id: NetworkId): void
+        }
+
         class EntityRegister {
             - _signatures: vector<Signature>
             - _bookedEntities: vector<EntityBlock>
             - _freeEntities: vector<Entity>
+            - _networkIdManager: NetworkIdRegister
 
             + constructor()
             + allocate(size: size_t): void
             + getSignatureList(): vector<Signature>
             + getSignature(entity: Entity): const Signature
-            + create(offset: size_t = 0, cluster: EntityCluster, name: EntityName, destructor: EntityDestructor&): Entity
+            + create(cluster: EntityCluster, name: EntityName, destructor: EntityDestructor = null, setNetworkId: bool = false): Entity
             ' Reserve public id
-            + createForce(entity: Entity, cluster: EntityCluster, name: EntityName, destructor: EntityDestructor&): void
+            + setNetworkId(entity: Entity, networkId: NetworkId): void
+            + getId(networkId: NetworkId): Entity
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
@@ -109,15 +120,20 @@ namespace Engine {
             + exist(cluster: EntityCluster): bool
         }
         EntityRegister "1" -- "1" EntityManager
+        EntityRegister "1" -- "1" NetworkIdRegister
+        
         class EntityBlock {
             - _entity: Entity
             - _name: EntityName
             - _cluster: EntityCluster
             - _destructor: EntityDestructor &
+            - _networkId: NetworkId
 
             + constructor(entity: Entity, cluster: ClusterName, name: EntityName, destructor: EntityDestructor &)
             + operator==(name: EntityName): bool
             + operator==(cluster: ClusterName): bool
+            + setNetworkId(NetworkId id)
+            + getNetworkId(): NetworkId
             + getEntity() Entity
             + setEntity(entity: Entity): void
             + getName(): EntityName
