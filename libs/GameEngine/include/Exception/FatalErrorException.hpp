@@ -12,6 +12,7 @@
 
 namespace Engine {
     class FatalErrorException : public BasicException {
+      public:
         FatalErrorException(std::string const &message = "Fatal error")
             : BasicException(message) {}
         virtual ~FatalErrorException() = default;
