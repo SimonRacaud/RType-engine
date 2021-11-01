@@ -9,6 +9,7 @@
 #define NOTREGISTEREDEXCEPTION_HPP
 
 #include "BasicException.hpp"
+#include "global.hpp"
 
 namespace Engine
 {
