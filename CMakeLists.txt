@@ -76,5 +76,6 @@ set_target_properties(${NAME_SERVER}
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/both/ConfigFile)
 add_subdirectory(${ConfigFileDir})
 include_directories(${ConfigFileDir}/include)
+include_directories(${ConfigFileDir}/src/ConfigFileTools)
 target_link_libraries(${NAME_CLIENT} ConfigFile)
 target_link_libraries(${NAME_SERVER} ConfigFile)
