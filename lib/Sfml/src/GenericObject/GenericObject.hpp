@@ -102,7 +102,7 @@ class GenericObject
         void run()
         {
             if (this->_call != nullptr)
-                this->_call(this);
+                this->_call(*this);
         }
 
         void setRunning(std::function<void (GenericObject<tokenType> &)> call)
