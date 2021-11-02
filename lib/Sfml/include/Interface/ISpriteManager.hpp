@@ -9,10 +9,11 @@
 #define ISPRITEMANAGER_HPP
 
 #include <string>
-#include "Item/vector2D.hpp"
+#include "IMovable.hpp"
+#include "IResizable.hpp"
 #include "Item/surface.hpp"
 
-class ISpriteManager
+class ISpriteManager: public IMovable, public IResizable
 {
     public:
         ~ISpriteManager() = default;

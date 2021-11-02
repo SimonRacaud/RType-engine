@@ -8,10 +8,12 @@
 #ifndef IANIMATIONMANAGER_HPP
 #define IANIMATIONMANAGER_HPP
 
+#include "IMovable.hpp"
+#include "IResizable.hpp"
 #include "Item/vector2D.hpp"
 #include <string>
 
-class IAnimationManager
+class IAnimationManager: public IMovable, public IResizable
 {
     public:
         ~IAnimationManager() = default;

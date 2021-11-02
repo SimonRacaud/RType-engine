@@ -9,9 +9,11 @@
 #define ITEXTMANAGER_HPP
 
 #include <string>
+#include "IMovable.hpp"
+#include "IResizable.hpp"
 #include "Item/vector2D.hpp"
 
-class ITextManager
+class ITextManager: public IMovable, public IResizable
 {
     public:
         enum class color_e
