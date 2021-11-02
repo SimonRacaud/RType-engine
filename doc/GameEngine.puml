@@ -263,7 +263,7 @@ namespace Engine {
     '/
     namespace Engine.Event {
         class EventCallBack<EventType> {
-            - _callback: & std::function<void(EventType)>
+            - _callback: & std::function<void(EventType *)>
 
             + constructor(callback: std::function<void(EventType *)> &)
             + call(const IEvent *e): void
