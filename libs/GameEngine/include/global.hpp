@@ -1,14 +1,15 @@
-/*
-** EPITECH PROJECT, 2021
-** GameEngine
-** File description:
-** 27/05/2021 entity.hpp.h
-*/
+/**
+ * EPITECH PROJECT, 2021
+ * GameEngine
+ * \brief Custom type definition
+ * \author simon.racaud
+ */
 
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
 #include <bitset>
+#include <memory>
 #include <cstdint>
 #include <functional>
 #include <limits>
@@ -33,6 +34,10 @@ namespace Engine
 
     using EntityDestructor =
         std::function<void(Entity, EntityName, ClusterName)>;
+    using std::unique_ptr;
+
+    template <class ComponentType>
+    using ComponentBrowseFunction = std::function<void(unique_ptr<ComponentType> &)>;
 
     using Time = std::chrono::milliseconds;
     using DurationCast = std::chrono::duration<Time>;

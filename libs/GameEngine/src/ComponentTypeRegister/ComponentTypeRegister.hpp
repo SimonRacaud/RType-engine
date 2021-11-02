@@ -24,6 +24,7 @@ namespace Engine
     using std::size_t;
     using std::unique_ptr;
     using std::tuple;
+    using std::vector;
 
     template <typename ComponentType>
     class ComponentTypeRegister : public IComponentTypeRegister {
@@ -39,6 +40,8 @@ namespace Engine
 
         virtual void remove(Entity entity) override;
         Entity getOwner(const ComponentType &component);
+
+        vector<unique_ptr<ComponentType>> &getComponents();
 
       private:
         Signature &_getComponentSignature(Entity entity);
@@ -133,6 +136,12 @@ namespace Engine
         } catch (std::out_of_range const &) {
             throw NotFoundException("Signature not found");
         }
+    }
+
+    template <typename ComponentType>
+    vector<unique_ptr<ComponentType>> &ComponentTypeRegister<ComponentType>::getComponents()
+    {
+        return _components;
     }
 
 } // namespace Engine

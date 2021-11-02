@@ -18,7 +18,7 @@
 /**
  * Default size of a component type register container
  */
-#define ALLOC_COMPONENT 1
+#define ALLOC_COMPONENT_INSTANCE 8
 
 /**
  * Default size of the entity register container

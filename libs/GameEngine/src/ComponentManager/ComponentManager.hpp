@@ -10,26 +10,34 @@
 
 #include <memory>
 #include <algorithm>
+#include <vector>
 #include "BaseComponent.hpp"
 #include "ComponentTypeRegister/ComponentTypeRegister.hpp"
 #include "EntityName.hpp"
-#include "IComponentTypeRegister.hpp"
 #include "global.hpp"
+#include "EntityManager/EntityManager.hpp"
+#include "Exception/NotRegisteredException.hpp"
+#include "Exception/NotFoundException.hpp"
+#include "Exception/FatalErrorException.hpp"
+#include "FactoryShortcuts.hpp"
+#include "EngineFactory.hpp"
 
 namespace Engine
 {
     using std::array;
     using std::size_t;
     using std::shared_ptr;
+    using std::unique_ptr;
+    using std::vector;
 
     class ComponentManager {
         friend class EntityManager;
 
       public:
-        ComponentManager() = default;
+        ComponentManager();
         virtual ~ComponentManager() = default;
 
-        void allocate(size_t size);
+        void allocate();
         template <typename ComponentType> void registerComponent();
 
         template <typename ComponentType> ComponentType &get(Entity entity);
@@ -46,14 +54,17 @@ namespace Engine
         template <typename ComponentType>
         Entity getOwner(const ComponentType &component) const;
 
-        template <typename ComponentType, class Function>
-        void foreachComponent(Function fn);
+        template <typename ComponentType>
+        void foreachComponent(ComponentBrowseFunction<ComponentType> fn);
+
+        template <typename ComponentType>
+        bool hasComponent(Entity entity);
+        template <typename... ComponentTypeList>
+        bool hasComponents(Entity entity);
 
       private:
-        shared_ptr<IComponentTypeRegister> getRegister();
-
-        template <typename ComponentType> void checkType() const;
-        template <typename... ComponentTypeList> void checkTypeList() const;
+        template <typename ComponentType> void _checkType() const;
+        template <typename... ComponentTypeList> void _checkTypeList() const;
 
         template <typename ComponentType>
         ComponentTypeRegister<ComponentType> *getComponentContainer();
@@ -64,113 +75,134 @@ namespace Engine
       private:
         array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE>
             _componentRegisters;
+        size_t _componentTypeCount{0};
     };
+
+    template <typename ComponentType>
+    bool ComponentManager::hasComponent(Entity entity)
+    {
+        this->_checkType<ComponentType>();
+        return GET_ENTITY_M._getSignature(entity)[ComponentType::getIndex()];
+    }
+
+    template <typename... ComponentTypeList>
+    bool ComponentManager::hasComponents(Entity entity)
+    {
+        (this->_checkTypeList<ComponentTypeList>(), ...);
+        Signature requirements = Signature();
+        (requirements.set(ComponentTypeList::getIndex()), ...);
+        return (requirements & GET_ENTITY_M._getSignature(entity)) == requirements;
+    }
 
     template <typename ComponentType>
     void ComponentManager::registerComponent()
     {
-        // TODO
-        //        this->checkComponentType<ComponentType>();
-        //        _componentRegisters[ComponentType::type] =
-        //            std::make_shared<ComponentTypeRegister<ComponentType>>(
-        //                _entities.getEntitySignatures());
-        // component.setIndex(...)
+        this->_checkType<ComponentType>();
+        // Set idx
+        ComponentType::setIndex(_componentTypeCount);
+        this->_componentTypeCount++;
+        // Create register
+        vector<Signature> &signatures =
+            GET_ENTITY_M._getSignatureList();
+        _componentRegisters[ComponentType::type] =
+            std::make_shared<ComponentTypeRegister<ComponentType>>(signatures);
     }
 
     template <typename ComponentType>
     ComponentType &ComponentManager::get(Entity entity)
     {
-        // TODO
-        //        this->checkComponentType<ComponentType>();
-        //        if (this->hasComponent<ComponentType>(entity) == false) {
-        //            std::cerr << "ComponentManager::getComponent Entity " <<
-        //            entity
-        //                      << " request " << ComponentType::type << " component." <<
-        //                      std::endl;
-        //            throw std::invalid_argument(
-        //                "ComponentManager::getComponent The entity "
-        //                "don't have the requested component.");
-        //        }
-        //        return this->getComponentContainer<ComponentType>()->get(entity);
+        this->_checkType<ComponentType>();
+        if (this->hasComponent<ComponentType>(entity) == false) {
+            std::cerr << "ComponentManager::getComponent Entity " <<
+                entity << " request " << ComponentType::type << " component."
+                      << std::endl;
+            throw NotFoundException(
+                "ComponentManager::getComponent The entity "
+                "don't have the requested component.");
+        }
+        return this->getComponentContainer<ComponentType>()->get(entity);
     }
 
     template <typename... ComponentTypeList>
     std::tuple<ComponentTypeList &...> ComponentManager::getList(Entity entity)
     {
-        // TODO
-        //        this->checkComponentTypes<Ts...>();
-        //        if (this->hasComponents<Ts...>(entity) == false) {
-        //            ((std::cerr << "ComponentManager::getComponents Entity "
-        //            << entity
-        //                        << " request " << Ts::type << " component."
-        //                        << std::endl),
-        //                ...);
-        //            throw std::invalid_argument(
-        //                "ComponentManager::getComponents The entity "
-        //                "don't have the requested Components.");
-        //        }
-        //        return
-        //        std::tie(this->getComponentContainer<Ts>()->get(entity)...);
+        this->_checkTypeList<ComponentTypeList...>();
+        if (this->hasComponents<ComponentTypeList...>(entity) == false) {
+            ((std::cerr << "ComponentManager::getComponents Entity "
+            << entity << " request " << ComponentTypeList::type << " component."
+                        << std::endl), ...);
+            throw NotFoundException(
+                "ComponentManager::getComponents The entity "
+                "don't have the requested Components.");
+        }
+        return std::tie(
+            this->getComponentContainer<ComponentTypeList>()->get(entity)...);
     }
 
     template <typename ComponentType, typename... Args>
     void ComponentManager::add(Entity entity, Args &&...args)
     {
-        // TODO
-        //        this->checkComponentType<ComponentType>();
-        //        if (_componentRegisters[ComponentType::type] == nullptr) {
-        //            throw std::invalid_argument(
-        //                "Invalid component type (not registered?)");
-        //        }
-        //        if (this->hasComponent<ComponentType>(entity)) {
-        //            std::cerr << "ComponentManager::addComponent : Entity "
-        //                      << (uint) entity << " => BaseComponent N " <<
-        //                      ComponentType::type
-        //                      << std::endl;
-        //            throw
-        //            std::invalid_argument("ComponentManager::addComponent,
-        //            Same "
-        //                                        "component added several time
-        //                                        " "on an entity.");
-        //        }
-        //        this->getComponentContainer<ComponentType>()->add(
-        //            entity, std::forward<Args>(args)...);
-        //        // Send message to system
-        //        const Signature &signature = _entities.getSignature(entity);
-        //        this->_systemManager.onEntityUpdated(entity, signature);
+        this->_checkType<ComponentType>();
+        if (_componentRegisters[ComponentType::getIndex()] == nullptr) {
+            throw NotRegisteredException("Component type not registered");
+        }
+        if (this->hasComponent<ComponentType>(entity)) {
+            std::cerr << "ComponentManager::addComponent : Entity "
+                      << (uint)entity << " => Component " <<
+                      ComponentType::type << std::endl;
+            throw FatalErrorException("ComponentManager::addComponent, Same "
+                                        "component added several time"
+                                        "on an entity.");
+        }
+        this->getComponentContainer<ComponentType>()->add(
+            entity, std::forward<Args>(args)...);
+        // Send message to system
+        const Signature &signature = GET_ENTITY_M._getSignature(entity);
+        GET_SYS_M.onEntityUpdated(entity, signature);
     }
 
     template <typename ComponentType>
     void ComponentManager::remove(Entity entity)
     {
-        // TODO
-        //        this->checkComponentType<ComponentType>();
-        //        if (this->hasComponent<ComponentType>(entity) == false) {
-        //            throw std::invalid_argument(
-        //                "ComponentManager::removeComponent, the "
-        //                "entity don't have ComponentType component.");
-        //        }
-        //        this->getComponentContainer<ComponentType>()->remove(entity);
-        //        // Send message to systems
-        //        const auto &signature = _entities.getSignature(entity);
-        //        this->_systemManager.onEntityUpdated(entity, signature);
+        this->_checkType<ComponentType>();
+        if (this->hasComponent<ComponentType>(entity) == false) {
+            throw InvalidParameterException(
+                "ComponentManager::remove The "
+                "entity don't have the component.");
+        }
+        this->getComponentContainer<ComponentType>()->remove(entity);
+        // Send message to systems
+        const auto &signature = GET_ENTITY_M._getSignature(entity);
+        GET_SYS_M.onEntityUpdated(entity, signature);
     }
 
     template <typename ComponentType>
     void ComponentManager::remove(EntityName name)
     {
-        // TODO
+        Entity entity = GET_ENTITY_M.getId(name);
+
+        this->remove<ComponentType>(entity);
     }
 
     template <typename ComponentType>
     Entity ComponentManager::getOwner(const ComponentType &component) const
     {
-        // TODO
-        //        this->checkComponentType<ComponentType>();
-        //        return this->getComponentContainer<ComponentType>()->getOwner(component);
+        this->_checkType<ComponentType>();
+        return this->getComponentContainer<ComponentType>()->getOwner(component);
     }
 
-    template <typename ComponentType> void ComponentManager::checkType() const
+    template <typename ComponentType>
+    void ComponentManager::foreachComponent(
+        ComponentBrowseFunction<ComponentType> fn)
+    {
+        this->_checkType<ComponentType>();
+        vector<unique_ptr<ComponentType>> &components =
+            this->getComponentContainer<ComponentType>()->getComponents();
+
+        std::for_each(components.begin(), components.end(), fn);
+    }
+
+    template <typename ComponentType> void ComponentManager::_checkType() const
     {
         static_assert(std::is_base_of<BaseComponent<ComponentType>,
                           ComponentType>::value,
@@ -178,9 +210,9 @@ namespace Engine
     }
 
     template <typename... ComponentTypeList>
-    void ComponentManager::checkTypeList() const
+    void ComponentManager::_checkTypeList() const
     {
-        (this->checkType<ComponentTypeList>(), ...);
+        (this->_checkType<ComponentTypeList>(), ...);
     }
 
     template <typename ComponentType>
@@ -188,7 +220,7 @@ namespace Engine
     ComponentManager::getComponentContainer()
     {
         return static_cast<ComponentTypeRegister<ComponentType> *>(
-            _componentRegisters[ComponentType::type].get());
+            _componentRegisters[ComponentType::getIndex()].get());
     }
 
     template <typename ComponentType>
@@ -196,17 +228,7 @@ namespace Engine
     ComponentManager::getComponentContainer() const
     {
         return static_cast<ComponentTypeRegister<ComponentType> *>(
-            _componentRegisters[ComponentType::type].get());
-    }
-
-    template <typename ComponentType, class Function>
-    void ComponentManager::foreachComponent(Function fn)
-    {
-        this->checkType<ComponentType>();
-        std::vector<ComponentType> &components =
-            this->getComponentContainer<ComponentType>()->getComponents();
-
-        std::for_each(components.begin(), components.end(), fn);
+            _componentRegisters[ComponentType::getIndex()].get());
     }
 } // namespace Engine
 

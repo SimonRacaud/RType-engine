@@ -20,6 +20,8 @@ namespace Engine
         friend class ComponentManager;
 
       public:
+        friend class ComponentManager;
+
         explicit EntityManager();
         ~EntityManager() = default;
 

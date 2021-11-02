@@ -9,11 +9,16 @@
 
 using namespace Engine;
 
-void ComponentManager::allocate(std::size_t size)
+ComponentManager::ComponentManager()
+{
+    this->allocate();
+}
+
+void ComponentManager::allocate()
 {
     for (std::size_t i = 0; i < MAX_COMPONENT_TYPE; i++) {
         if (_componentRegisters[i]) {
-            _componentRegisters[i]->allocate(ALLOC_COMPONENT);
+            _componentRegisters[i]->allocate(ALLOC_COMPONENT_INSTANCE);
         }
     }
 }
