@@ -245,7 +245,7 @@ namespace Engine {
     namespace Scene {
         class SceneManager {
             - _list: vector<IScene>
-            - _currentScene: IScene &
+            - _currentScene: shared<IScene>
             - _nextScene: shared<IScene>
             - _previousScenes: stack<reference<IScene>>
 
@@ -255,9 +255,9 @@ namespace Engine {
             + select<SceneType>(closePrevious = true: bool): void
             + selectPrevious(): void
             + havePrevious(): bool
-            + getSelected(): IScene &
+            + getCurrent(): shared<IScene>
             + flushSelection(): void
-            + get<SceneType>(): IScene &
+            + get<SceneType>(): shared<IScene>
 
             # launchSystemCycle(): void
         }
@@ -272,13 +272,13 @@ namespace Engine {
             + isClosed(): bool
         }
 
-        abstract AbstractScene {
+        abstract AbstractScene<SceneType> {
             - _closed: bool
             - _cluster: ClusterName
-            - _type: type_index
 
-            + constructor(type: type_index, name: ClusterName)
-            + destructor()
+            + {static} type: type_index
+
+            + constructor(name: ClusterName)
             + {abstract} open(): void
             + close(): void
 
