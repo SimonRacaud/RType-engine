@@ -20,9 +20,7 @@ namespace Engine {
 		class EventCallBackRegister {
 			public:
 				EventCallBackRegister() = default;
-				~EventCallBackRegister() {
-
-				}
+				~EventCallBackRegister() {}
 
 				void execQueue()
 				{
@@ -30,10 +28,11 @@ namespace Engine {
 
 					while (_queue.size() > 0) {
 						e = _queue.front();
-						if (_registeredCallbacks.find(std::type_index(typeid(*e))) != _registeredCallbacks.end()) {
-							_registeredCallbacks[std::type_index(typeid(*e))]->call(e.get());
+						std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>>::iterator it = _registeredCallbacks.find(std::type_index(typeid(*e)));
+						if (it != _registeredCallbacks.end() && it->second != nullptr) {
+							it->second->call(e.get());
 						} else {
-							std::cout << "Event with no registered callbacks, skipping" << std::endl;
+							std::cerr << "Event with no registered callbacks, skipping" << std::endl;
 						}
 						_queue.pop();
 					}
@@ -44,6 +43,19 @@ namespace Engine {
 					std::shared_ptr<IEventCallback> func = std::make_shared<EventCallBack<EventType>>(callback);
 					
 					_registeredCallbacks[std::type_index(typeid(EventType))] = func;
+				}
+
+				template<class EventType>
+				void removeCallback(std::shared_ptr<IEventCallback> callback) {
+					std::shared_ptr<IEventCallback> func = _registeredCallbacks[std::type_index(typeid(EventType))];
+
+					if (func == _registeredCallbacks.end()) {
+						std::cerr << "Trying to remove a callback that does not exist" << std::endl;
+						return;
+					}
+					if (*func == *callback) {
+						_registeredCallbacks[std::type_index(typeid(EventType))] = nullptr;
+					}
 				}
 
 				template<class EventType, class... Args>
