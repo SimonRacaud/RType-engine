@@ -24,6 +24,7 @@ include_directories(
         ./src/EntityManager
         ./src/AbstractSystem
         ./src/SystemManager
+        ./src/AbstractScene
 )
 
 ## SOURCES
@@ -38,6 +39,8 @@ set(SRCS
         src/NetworkIdRegister/NetworkIdRegister.cpp
         src/SystemManager/SystemManager.cpp
         src/AbstractSystem/AbstractSystem.hpp
+        src/AbstractScene/AbstractScene.hpp
+        src/SceneManager/SceneManager.cpp
         )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
