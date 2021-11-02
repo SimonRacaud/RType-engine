@@ -47,7 +47,7 @@ namespace Engine {
 				}
 
 				template<class EventType, class... Args>
-				void dispatch(Args&&... eventArgs) {
+				void registerEvent(Args&&... eventArgs) {
 					std::shared_ptr<EventType> e = std::make_shared<EventType>(std::forward<Args>(eventArgs)...);
 					
 					_queue.push(e);

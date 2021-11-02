@@ -262,29 +262,28 @@ namespace Engine {
         EVENT MODULE
     '/
     namespace Engine.Event {
-        class EventCallBack<Args> {
-            - _event: const &IEvent
-            - _callback: & std::function<void(Args...)>
+        class EventCallBack<EventType> {
+            - _callback: & std::function<void(EventType)>
 
-            + constructor(event: const &IEvent, callback: std::function<void(Args)> &)
-            + call(args: Args...): void
+            + constructor(callback: std::function<void(EventType *)> &)
+            + call(const IEvent *e): void
             + operator==(event: const& IEvent): bool
         }
         note bottom : Représente une action en cas d'événement
         IEventCallBack <|-- EventCallBack
 
-        interface IEventCallBack<Args> {
-            + call(args: Args...): void
+        interface IEventCallBack {
+            + call(const IEvent *e): void
             + operator==(event: const& IEvent): bool
         }
 
 
         class EventCallBackRegister {
-            - _callbackList: unordered_map<IEvent, IEventCallBack>
-            - _queue: queue<IEvent>
+            - _callbackList: unordered_map<std::type_index, std::shared_ptr<IEventCallBack>>
+            - _queue: queue<std::shared_ptr<IEvent>>
 
-            + register<EventType>(callback: CallbackType): void
-            + dispatch<EventType>(Args...): void
+            + registerCallback<EventType>(callback: CallbackType): void
+            + registerEvent<EventType>(Args...): void
             + execQueue(): void
             - checkType<EventType>(): void
         }

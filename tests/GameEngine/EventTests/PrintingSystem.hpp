@@ -9,6 +9,7 @@
 #define PRINTINGSYSTEM_HPP_
 
 #include "PrintEvent.hpp"
+#include "MultipleEvent.hpp"
 #include <iostream>
 #include "global.hpp"
 
@@ -18,6 +19,7 @@ class PrintingSystem {
 		~PrintingSystem();
 		
 		static void printCallback(const PrintEvent *e);
+		static void multipleEvents(const MultipleEvent *e);
 	protected:
 	private:
 };
