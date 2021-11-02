@@ -14,6 +14,7 @@
 #include "ClusterName.hpp"
 #include "EntityBlock.hpp"
 #include "EntityName.hpp"
+#include "Exception/InvalidParameterException.hpp"
 #include "Exception/NotFoundException.hpp"
 #include "NetworkIdRegister/NetworkIdRegister.hpp"
 #include "env.hpp"
@@ -21,6 +22,8 @@
 
 namespace Engine
 {
+    using std::vector;
+
     class EntityRegister {
       public:
         EntityRegister() = default;
@@ -28,19 +31,21 @@ namespace Engine
 
         void allocate(std::size_t size);
         std::vector<Signature> &getSignatureList();
-        const Signature &getSignature(Entity entity) const;
+        [[nodiscard]] const Signature &getSignature(Entity entity) const;
         Entity create(ClusterName cluster, EntityName name,
             EntityDestructor destructor, bool setNetworkId = false);
         void remove(Entity entity);
         void remove(EntityName name);
         void remove(ClusterName cluster);
-        bool exist(Entity entity) const;
-        bool exist(EntityName name, ClusterName cluster = ClusterName::GLOBAL) const;
-        bool exist(ClusterName cluster) const;
-        Entity getId(EntityName name) const;
-        Entity getId(NetworkId networkId) const;
-        size_t getClusterSize(ClusterName cluster) const;
+        [[nodiscard]] bool exist(Entity entity) const;
+        [[nodiscard]] bool exist(EntityName name, ClusterName cluster = ClusterName::GLOBAL) const;
+        [[nodiscard]] Entity getId(EntityName name) const;
+        [[nodiscard]] Entity getId(NetworkId networkId) const;
+        [[nodiscard]] size_t getClusterSize(ClusterName cluster) const;
         void setNetworkId(Entity entity, NetworkId id);
+
+      private:
+        [[nodiscard]] vector<Entity> getClusterEntityList(ClusterName cluster) const;
 
       private:
         std::vector<Signature> _signatures;

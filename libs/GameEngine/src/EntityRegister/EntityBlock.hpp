@@ -19,20 +19,24 @@ namespace Engine
 {
     class EntityBlock {
       private:
-        Entity _entity;
-        EntityName _name;
-        ClusterName _cluster;
-        EntityDestructor _destructor;
-        NetworkId _networkId;
+        Entity _entity{0};
+        EntityName _name{0};
+        ClusterName _cluster{0};
+        EntityDestructor _destructor{nullptr};
+        NetworkId _networkId{NO_NET_ID};
 
       public:
+        EntityBlock() = default;
         EntityBlock(Entity entity, ClusterName cluster, EntityName name,
             EntityDestructor destructor);
+        EntityBlock(EntityBlock const& block);
         virtual ~EntityBlock() = default;
 
         bool operator==(Entity entity);
         bool operator==(EntityName name);
         bool operator==(ClusterName cluster);
+        EntityBlock &operator=(EntityBlock const& block);
+
         Entity getEntity() const;
         void setEntity(Entity entity);
         EntityName getName() const;
@@ -40,6 +44,9 @@ namespace Engine
         void destroy();
         void setNetworkId(NetworkId id);
         NetworkId getNetworkId() const;
+
+      public:
+        bool removed{false};
     };
 } // namespace Engine
 

@@ -73,7 +73,7 @@ namespace Engine {
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
             + exist(entity: Entity): bool
-            + exist(cluster = ClusterName::GLOBAL: EntityCluster, entity = EntityName::NO_NAME: EntityName): bool
+            + exist(entity: EntityName, cluster: EntityCluster = ClusterName::GLOBAL): bool
             + hasComponent<ComponentType>(entity: Entity): bool
             + hasComponents<ComponentTypeList...>(entity: Entity): bool
             + getId(name: EntityName): Entity

@@ -14,6 +14,7 @@ void EntityRegister::allocate(std::size_t size)
     _freeEntities.resize(size);
     std::iota(std::begin(_freeEntities), std::end(_freeEntities), 0);
     _signatures.resize(size);
+    _bookedEntities.resize(size);
 }
 
 std::vector<Signature> &EntityRegister::getSignatureList()
@@ -32,85 +33,122 @@ const Signature &EntityRegister::getSignature(Entity entity) const
 Entity EntityRegister::create(ClusterName cluster, EntityName name,
     EntityDestructor destructor, bool setNetworkId)
 {
-    // TODO : offset
     Entity entity = 0;
 
-    //    if (_freeEntities.empty()) {
-    //        entity = static_cast<Entity>(_signatures.size());
-    //        _signatures.emplace_back();
-    //    } else {
-    //        entity = _freeEntities.back();
-    //        _freeEntities.pop_back();
-    //        _signatures[entity].reset();
-    //    }
+    if (_freeEntities.empty()) {
+        entity = static_cast<Entity>(_signatures.size());
+        _signatures.emplace_back();
+        _bookedEntities.emplace_back(EntityBlock(entity, cluster, name, destructor));
+    } else {
+        entity = _freeEntities.back();
+        _freeEntities.pop_back();
+        _signatures[entity].reset();
+        _bookedEntities[entity] = EntityBlock(entity, cluster, name, destructor);
+    }
+    if (setNetworkId) {
+        _bookedEntities[entity].setNetworkId(_networkIdRegister.reserveId());
+    }
     return entity;
 }
 
 void EntityRegister::remove(Entity entity)
 {
-    // TODO
-    //    if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
-    //    _freeEntities.end()) {
-    //        throw std::invalid_argument("EntityRegister::remove Entity
-    //        already removed.");
-    //    }
-    //    _freeEntities.push_back(entity);
+    if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
+        _freeEntities.end()) {
+        throw InvalidParameterException("EntityRegister::remove Entity already removed.");
+    }
+    _freeEntities.push_back(entity);
+    _bookedEntities[entity].removed = true;
 }
 
 void EntityRegister::remove(EntityName name)
 {
-    /// TODO
+    Entity entity = this->getId(name);
+
+    this->remove(entity);
 }
 
 void EntityRegister::remove(ClusterName cluster)
 {
-    // TODO
+    vector<Entity> list = this->getClusterEntityList(cluster);
+
+    for (Entity entity : list) {
+        this->remove(entity);
+    }
 }
 
 bool EntityRegister::exist(Entity entity) const
 {
-    // TODO
-    //    if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
-    //    _freeEntities.end()) {
-    //        return false;
-    //    }
-    //    if (_signatures.size() <= entity) {
-    //        return false;
-    //    }
+    if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
+        _freeEntities.end()) {
+        return false;
+    }
+    if (_signatures.size() <= entity) {
+        return false;
+    }
     return true;
 }
 
 bool EntityRegister::exist(EntityName name, ClusterName cluster) const
 {
-    // TODO
-    return false;
-}
+    try {
+        Entity entity = this->getId(name);
 
-bool EntityRegister::exist(ClusterName cluster) const
-{
-    // TODO
+        if (_bookedEntities[entity].getCluster() == cluster) {
+            return true;
+        }
+    } catch (NotFoundException const &) {}
     return false;
 }
 
 Entity EntityRegister::getId(EntityName name) const
 {
-    // TODO
-    return 0;
+    for (EntityBlock const &block : _bookedEntities) {
+        if (block.removed == false && block.getName() == name) {
+            return block.getEntity();
+        }
+    }
+    throw NotFoundException("EntityRegister::getId Entity name not found");
 }
 
 Entity EntityRegister::getId(NetworkId networkId) const
 {
-    // TODO
-    return 0;
+    if (networkId == NO_NET_ID) {
+        throw FatalErrorException("EntityRegister::getId Invalid network id");
+    }
+    for (EntityBlock const &block : _bookedEntities) {
+        if (block.removed == false && block.getNetworkId() == networkId) {
+            return block.getEntity();
+        }
+    }
+    throw NotFoundException("EntityRegister::getId Network id not found");
 }
 
 size_t EntityRegister::getClusterSize(ClusterName cluster) const
 {
-    // TODO
-    return 0;
+    return this->getClusterEntityList(cluster).size();
 }
 
 void EntityRegister::setNetworkId(Entity entity, NetworkId id)
 {
-    // TODO
+    if (this->exist(entity) == false) {
+        throw InvalidParameterException("EntityRegister::setNetworkId the "
+                                        "entity doesn't exist");
+    }
+    this->_networkIdRegister.reserveId(id);
+    this->_bookedEntities[entity].setNetworkId(id);
+}
+
+vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const
+{
+    vector<Entity> list;
+
+    for (EntityBlock const &block : _bookedEntities) {
+        if (block.removed == false) {
+            if (block.getCluster() == cluster) {
+                list.push_back(block.getEntity());
+            }
+        }
+    }
+    return list;
 }
