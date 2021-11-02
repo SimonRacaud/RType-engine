@@ -17,6 +17,7 @@ class IAudioManager
         virtual void play() = 0;
         virtual void pause() = 0;
         virtual void restart() = 0;
+        virtual void setVolumes(size_t) = 0;
         virtual void setAudio(const std::string &) = 0;
 };
 

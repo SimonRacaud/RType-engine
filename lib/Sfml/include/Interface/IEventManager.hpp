@@ -9,6 +9,7 @@
 #define IEVENTMANAGER_HPP
 
 #include <string>
+#include "Item/vector2D.hpp"
 
 class IEventManager
 {
@@ -38,7 +39,7 @@ class IEventManager
         // MOUSE
         virtual bool mouseIsOn() const = 0; // TODO edit with surface
         virtual bool mouseIsOnClick(const keyEvent_e &) const = 0; // TODO edit with surface
-        virtual void getMousePos() const = 0; // TODO edit with vector
+        virtual vector2D getMousePos() const = 0;
 };
 
 #endif

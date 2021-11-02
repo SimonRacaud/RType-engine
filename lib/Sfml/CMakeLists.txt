@@ -25,8 +25,6 @@ include_directories(
 ## SOURCES
 set(SRCS
     src/SfmlModule.cpp
-    src/FactoryObject/GetterName/GetterName.cpp
-    src/FactoryObject/GetterObject/GetterObject.cpp
     )
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
