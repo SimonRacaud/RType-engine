@@ -25,6 +25,7 @@ include_directories(
         ./src/AbstractSystem
         ./src/SystemManager
         ./src/AbstractScene
+        ./src/Engine
 )
 
 ## SOURCES
@@ -41,6 +42,8 @@ set(SRCS
         src/AbstractSystem/AbstractSystem.hpp
         src/AbstractScene/AbstractScene.hpp
         src/SceneManager/SceneManager.cpp
+        src/Engine/GameEngine.cpp src/Engine/GameEngine.hpp
+        src/Engine/EngineFactory.cpp src/Engine/EngineFactory.hpp
         )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
