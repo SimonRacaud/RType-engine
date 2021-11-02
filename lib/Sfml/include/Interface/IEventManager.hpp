@@ -10,6 +10,7 @@
 
 #include <string>
 #include "Item/vector2D.hpp"
+#include "Item/surface.hpp"
 
 class IEventManager
 {
@@ -37,9 +38,9 @@ class IEventManager
         virtual bool isKeyPressed(const keyEvent_e &) const = 0;
 
         // MOUSE
-        virtual bool mouseIsOn() const = 0; // TODO edit with surface
-        virtual bool mouseIsOnClick(const keyEvent_e &) const = 0; // TODO edit with surface
         virtual vector2D getMousePos() const = 0;
+        virtual bool mouseIsOn(const surface &) const = 0;
+        virtual bool mouseIsOnClick(const surface &, const keyEvent_e &) const = 0;
 };
 
 #endif
