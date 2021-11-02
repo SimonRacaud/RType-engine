@@ -26,7 +26,7 @@ namespace Engine
         friend class EntityManager;
 
       public:
-        ComponentManager();
+        ComponentManager() = default;
         virtual ~ComponentManager() = default;
 
         void allocate(size_t size);
