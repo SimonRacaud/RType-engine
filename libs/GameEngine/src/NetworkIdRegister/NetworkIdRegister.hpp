@@ -12,11 +12,15 @@
 #define NETWORKIDREGISTER_HPP
 
 #include "global.hpp"
+#include "Exception/FatalErrorException.hpp"
 
 namespace Engine
 {
     using std::vector;
 
+    /**
+     * \brief Is responsible to assign the network ids. To avoid collision.
+     */
     class NetworkIdRegister {
       private:
         NetworkId _counter{INIT_NET_ID};
@@ -28,6 +32,7 @@ namespace Engine
 
         NetworkId reserveId();
         NetworkId reserveId(NetworkId id);
+        bool isReserved(NetworkId id);
         void releaseId(NetworkId id);
     };
 }
