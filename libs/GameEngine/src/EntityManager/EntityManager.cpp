@@ -96,3 +96,8 @@ const Signature EntityManager::_getSignature(Entity entity)
     // TODO
     return Signature();
 }
+
+EntityRegister &EntityManager::_getEntityRegister()
+{
+    return this->_entities;
+}

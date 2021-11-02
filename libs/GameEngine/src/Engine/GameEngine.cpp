@@ -29,7 +29,7 @@ ComponentManager &GameEngine::getComponentManager()
     return _componentManager;
 }
 
-EntityManager &GameEngine::getEntityManager()
+IEntityManager &GameEngine::getEntityManager()
 {
     return _entityManager;
 }

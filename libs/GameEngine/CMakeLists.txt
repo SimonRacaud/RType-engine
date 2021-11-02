@@ -28,9 +28,8 @@ include_directories(
         ./src/AbstractScene
         ./src/Engine
         ./src/Event/AbstractEvent
-        ./src/Event/EventCallBack/
+        ./src/Event/EventCallBack
         ./src/Event/EventCallBackRegister
-        
 )
 
 ## SOURCES
@@ -47,12 +46,9 @@ set(SRCS
         src/AbstractSystem/AbstractSystem.hpp
         src/AbstractScene/AbstractScene.hpp
         src/SceneManager/SceneManager.cpp
-        src/Engine/GameEngine.cpp src/Engine/GameEngine.hpp
-        src/Engine/EngineFactory.cpp src/Engine/EngineFactory.hpp
-
-        # Event
-        src/Event/EventCallBackRegister/EventCallBackRegister.cpp
-        )
+        src/Engine/GameEngine.cpp
+        src/Engine/EngineFactory.cpp
+        include/IGameEngine.hpp include/IEntityManager.hpp include/FactoryShortcuts.hpp)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})

@@ -13,12 +13,11 @@
 #include "global.hpp"
 #include "ClusterName.hpp"
 #include "EntityName.hpp"
+#include "IEntityManager.hpp"
 
 namespace Engine
 {
-    class EntityManager {
-        friend class ComponentManager;
-
+    class EntityManager : public IEntityManager {
       public:
         friend class ComponentManager;
 
@@ -38,11 +37,6 @@ namespace Engine
         bool exist(Entity entity);
         bool exist(ClusterName cluster = ClusterName::GLOBAL, EntityName name = EntityName::EMPTY);
 
-        template <typename ComponentType>
-        bool hasComponent(Entity entity);
-        template <typename... ComponentTypeList>
-        bool hasComponents(Entity entity);
-
         Entity getId(EntityName name);
         std::size_t getClusterSize(ClusterName cluster);
 
@@ -52,35 +46,14 @@ namespace Engine
       private:
         void _allocate(std::size_t size);
         std::vector<Signature> _getSignatureList();
+
         const Signature _getSignature(Entity entity);
+
+        EntityRegister &_getEntityRegister();
 
       private:
         EntityRegister _entities;
     };
-} // namespace Engine
-
-namespace Engine
-{
-    template <typename ComponentType>
-    bool EntityManager::hasComponent(Entity entity)
-    {
-        // TODO
-        //componentManager->checkComponentType<ComponentType>();
-//        return _private.getSignature(entity)[ComponentType::type];
-//        return _public.getSignature(entity)[ComponentType::type];
-        return false;
-    }
-
-    template <typename... ComponentTypeList>
-    bool EntityManager::hasComponents(Entity entity)
-    {
-        // TODO
-        //(componentManager->checkComponentTypes<Ts>(), ...);
-//        auto requirements = Signature();
-//        (requirements.set(Ts::type), ...);
-//        return (requirements & _entities.getSignature(entity)) == requirements;
-        return false;
-    }
 } // namespace Engine
 
 #endif // ENTITYMANAGER_HPP

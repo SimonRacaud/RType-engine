@@ -11,22 +11,24 @@
 #ifndef ENGINEFACTORY_HPP
 #define ENGINEFACTORY_HPP
 
-#include "Engine/GameEngine.hpp"
+#include "IGameEngine.hpp"
+#include <memory>
 
 namespace Engine
 {
+    using std::unique_ptr;
+
     class EngineFactory {
       public:
         EngineFactory() = delete;
         virtual ~EngineFactory() = delete;
 
-        static GameEngine &getInstance();
+        static IGameEngine &getInstance();
 
       private:
-        static GameEngine _engine;
+        static unique_ptr<IGameEngine> _engine;
     };
-
-    GameEngine EngineFactory::_engine = GameEngine();
+    unique_ptr<IGameEngine> EngineFactory::_engine = nullptr;
 }
 
 #endif // ENGINEFACTORY_HPP

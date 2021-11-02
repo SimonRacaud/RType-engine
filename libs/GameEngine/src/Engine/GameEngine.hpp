@@ -11,14 +11,15 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "EntityManager/EntityManager.hpp"
+#include "IEntityManager.hpp"
 #include "SystemManager/SystemManager.hpp"
 #include "ComponentManager/ComponentManager.hpp"
 #include "SceneManager/SceneManager.hpp"
+#include "IGameEngine.hpp"
 
 namespace Engine
 {
-    class GameEngine {
+    class GameEngine : public IGameEngine {
       public:
         GameEngine() = default;
         virtual ~GameEngine() = default;
@@ -26,7 +27,7 @@ namespace Engine
         void quit();
         void exec();
 
-        EntityManager &getEntityManager();
+        IEntityManager &getEntityManager();
         SystemManager &getSystemManager();
         ComponentManager &getComponentManager();
         SceneManager &getSceneManager();

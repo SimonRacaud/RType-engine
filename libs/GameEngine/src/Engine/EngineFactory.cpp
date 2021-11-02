@@ -9,10 +9,14 @@
 */
 
 #include "EngineFactory.hpp"
+#include "Engine/GameEngine.hpp"
 
 using namespace Engine;
 
-GameEngine &EngineFactory::getInstance()
+IGameEngine &EngineFactory::getInstance()
 {
-    return EngineFactory::_engine;
+    if (EngineFactory::_engine == nullptr) {
+        EngineFactory::_engine = std::make_unique<GameEngine>();
+    }
+    return *(EngineFactory::_engine.get());
 }
