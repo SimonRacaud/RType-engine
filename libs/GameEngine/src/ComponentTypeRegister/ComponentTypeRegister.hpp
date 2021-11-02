@@ -11,20 +11,24 @@
 #include "IComponentTypeRegister.hpp"
 #include "global.hpp"
 #include "Exception/InvalidParameterException.hpp"
+#include "Exception/NotFoundException.hpp"
 
 #include <vector>
 #include <unordered_map>
 #include <bitset>
 #include <iostream>
+#include <algorithm>
 
 namespace Engine
 {
     using std::size_t;
+    using std::unique_ptr;
+    using std::tuple;
 
     template <typename ComponentType>
     class ComponentTypeRegister : public IComponentTypeRegister {
       public:
-        ComponentTypeRegister(std::vector<Signature> &signatures);
+        explicit ComponentTypeRegister(std::vector<Signature> &signatures);
         virtual ~ComponentTypeRegister() = default;
 
         virtual void allocate(size_t size) override;
@@ -36,51 +40,64 @@ namespace Engine
         virtual void remove(Entity entity) override;
         Entity getOwner(const ComponentType &component);
 
-        std::vector<ComponentType> &getComponents();
+      private:
+        Signature &_getComponentSignature(Entity entity);
 
       private:
-        std::vector<ComponentType> _components;
+        std::vector<unique_ptr<ComponentType>> _components;
         std::vector<Entity> _componentOwners;
         std::unordered_map<Entity, size_t> _entityToComponent;
         std::vector<Signature> &_entitySignatures;
     };
 
-    template <typename T>
-    ComponentTypeRegister<T>::ComponentTypeRegister(std::vector<Signature> &signatures)
+    template <typename ComponentType>
+    ComponentTypeRegister<ComponentType>::ComponentTypeRegister(std::vector<Signature> &signatures)
         : _entitySignatures(signatures)
-    {
-    }
+    {}
 
-    template <typename T> void ComponentTypeRegister<T>::allocate(std::size_t size)
+    template <typename ComponentType>
+    void ComponentTypeRegister<ComponentType>::allocate(std::size_t size)
     {
         _components.reserve(size);
         _componentOwners.reserve(size);
         _entityToComponent.reserve(size);
     }
 
-    template <typename T> T &ComponentTypeRegister<T>::get(Entity entity)
+    template <typename ComponentType>
+    ComponentType &ComponentTypeRegister<ComponentType>::get(Entity entity)
     {
-        return _components[_entityToComponent[entity]];
+        try {
+            size_t componentIdx = _entityToComponent.at(entity);
+
+            return *(_components[componentIdx].get());
+        } catch (std::out_of_range const &) {
+            throw NotFoundException("Entity not found");
+        }
     }
 
-    template <typename T> template <typename... Args> void ComponentTypeRegister<T>::add(Entity entity, Args &&...args)
+    template <typename ComponentType>
+    template <typename... Args>
+    void ComponentTypeRegister<ComponentType>::add(Entity entity, Args &&...args)
     {
-        auto index = static_cast<size_t>(_components.size());
+        size_t index = static_cast<size_t>(_components.size());
 
-        _components.emplace_back(std::forward<Args>(args)...);
-        _componentOwners.emplace_back(entity);
+        _components.push_back(std::make_unique<ComponentType>(std::forward<Args>(args)...));
+        _componentOwners.push_back(entity);
         _entityToComponent[entity] = index;
-        _entitySignatures[entity][T::type] = true;
+        this->_getComponentSignature()[ComponentType::getIndex()] = true;
     }
 
-    template <typename T> void ComponentTypeRegister<T>::remove(Entity entity)
+    template <typename ComponentType>
+    void ComponentTypeRegister<ComponentType>::remove(Entity entity)
     {
-        if (!_entitySignatures[entity][T::type]) {
+        Signature &signature = this->_getComponentSignature();
+
+        if (false == signature[ComponentType::getIndex()]) {
             throw InvalidParameterException("Component doesn't exist");
         }
-        _entitySignatures[entity][T::type] = false;
-        auto index = _entityToComponent[entity];
-        // update _components
+        signature[ComponentType::type] = false;
+        Index index = _entityToComponent[entity];
+        // update _components slot
         _components[index] = std::move(_components.back());
         _components.pop_back();
         // update _entityToComponent
@@ -91,16 +108,31 @@ namespace Engine
         _componentOwners.pop_back();
     }
 
-    template <typename T> Entity ComponentTypeRegister<T>::getOwner(const T &component)
+    template <typename ComponentType>
+    Entity ComponentTypeRegister<ComponentType>::getOwner(const ComponentType &component)
     {
-        auto begin = _components.data();
-        auto index = static_cast<std::size_t>(&component - begin);
+        /// Search instance
+        auto it = std::find_if(_components.begin(), _components.end(),
+            [component](unique_ptr<ComponentType> &ptr) {return ptr.get() == &component;});
+
+        if (it == _components.end()) {
+            throw NotFoundException("Component instance not found");
+        }
+        /// Compute the diff between the beginning of the container and the ptr
+        auto beginPtr = _components.data();
+        auto index = static_cast<std::size_t>((*it) - beginPtr);
+
         return _componentOwners[index];
     }
 
-    template <typename T> std::vector<T> &ComponentTypeRegister<T>::getComponents()
+    template <typename ComponentType>
+    Signature &ComponentTypeRegister<ComponentType>::_getComponentSignature(Entity entity)
     {
-        return _components;
+        try {
+             return _entitySignatures.at(entity);
+        } catch (std::out_of_range const &) {
+            throw NotFoundException("Signature not found");
+        }
     }
 
 } // namespace Engine
