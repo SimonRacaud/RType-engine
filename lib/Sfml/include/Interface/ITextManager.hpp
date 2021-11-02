@@ -10,10 +10,12 @@
 
 #include <string>
 #include "IMovable.hpp"
+#include "IDrawable.hpp"
 #include "IResizable.hpp"
 #include "Item/vector2D.hpp"
 
-class ITextManager: public IMovable, public IResizable
+template <typename renderTool>
+class ITextManager: public IMovable, public IResizable, public IDrawable<renderTool>
 {
     public:
         enum class color_e
@@ -34,6 +36,8 @@ class ITextManager: public IMovable, public IResizable
         virtual void setSize(const vector2D &) = 0;
         virtual void setPosition(const vector2D &) = 0;
         virtual void setContent(const std::string &) = 0;
+
+        virtual void draw(renderTool &render) = 0;
         // TOOLS
         virtual void refresh() = 0;
 };

@@ -8,12 +8,13 @@
 #ifndef IDRAWABLE_HPP
 #define IDRAWABLE_HPP
 
+template <typename renderTool>
 class IDrawable
 {
     public:
         ~IDrawable() = default;
 
-        virtual void draw(/*???*/) = 0;
+        virtual void draw(renderTool &render) = 0;
 };
 
 #endif
