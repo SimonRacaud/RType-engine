@@ -183,7 +183,6 @@ namespace Engine {
             + add<Args...>(entity: Entity, Args...): void
             + remove(entity: Entity): void
             + getOwner(component: ComponentType &): Entity
-            + getComponents(): vector<ComponentType> &
         }
         IComponentTypeRegister <|-- ComponentTypeRegister
     }
