@@ -47,15 +47,16 @@ namespace Engine {
 
 				template<class EventType>
 				void removeCallback(std::shared_ptr<IEventCallback> callback) {
-					std::shared_ptr<IEventCallback> func = _registeredCallbacks[std::type_index(typeid(EventType))];
+					//TODO implement operator == for callbacks
+					// std::shared_ptr<IEventCallback> func = _registeredCallbacks[std::type_index(typeid(EventType))];
 
-					if (func == _registeredCallbacks.end()) {
-						std::cerr << "Trying to remove a callback that does not exist" << std::endl;
-						return;
-					}
-					if (*func == *callback) {
-						_registeredCallbacks[std::type_index(typeid(EventType))] = nullptr;
-					}
+					// if (func == _registeredCallbacks.end()) {
+					// 	std::cerr << "Trying to remove a callback that does not exist" << std::endl;
+					// 	return;
+					// }
+					// if (*func == *callback) {
+					// 	_registeredCallbacks[std::type_index(typeid(EventType))] = nullptr;
+					// }
 				}
 
 				template<class EventType, class... Args>
