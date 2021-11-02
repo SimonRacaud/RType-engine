@@ -19,6 +19,7 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 include_directories(
         ./include
         ./include/Event
+        ./include/Exception
         ./src/
         ./src/BaseComponent
         ./src/ComponentManager
@@ -49,9 +50,6 @@ set(SRCS
         src/SceneManager/SceneManager.cpp
         src/Engine/GameEngine.cpp src/Engine/GameEngine.hpp
         src/Engine/EngineFactory.cpp src/Engine/EngineFactory.hpp
-
-        # Event
-        src/Event/EventCallBackRegister/EventCallBackRegister.cpp
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 

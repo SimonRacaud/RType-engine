@@ -51,27 +51,29 @@ namespace Engine
          * @tparam Args 
          * @param systemTypeList All of the systems to select
          */
-        template <typename... Args>
-        void selectSystems(Args&&... systemTypeList);
+        template <class SystemType, typename... Args>
+        void selectSystems(SystemType currentSys, Args&&... systemTypeList);
+
+        void selectSystems();
 
         /**
-         * @brief 
+         * @brief Executes every selected system
          * 
          */
         void executeCycle();
 
         /**
-         * @brief 
+         * @brief For each system that is registered it calls its onEntityUpdated
          * 
          * @param entity 
          * @param signature 
          */
         void onEntityUpdated(Entity entity, const Signature &signature);
-        
+
         /**
-         * @brief 
+         * @brief For each system that is registered it calls its onEntityRemoved
          * 
-         * @param entity 
+         * @param entity the Entity to remove
          */
         void onEntityRemoved(Entity entity);
 
@@ -89,6 +91,7 @@ namespace Engine
         template <class SystemType>
         void _checkType();
 
+        std::shared_ptr<IAbstractSystem> retrieveSystem(const TypeIdx &type);
       private:
         std::vector<std::shared_ptr<IAbstractSystem>> _systems;
         std::vector<std::shared_ptr<IAbstractSystem>> _selectedSystems;
@@ -105,12 +108,12 @@ namespace Engine {
         auto sys = std::find_if(_systems.begin(), _systems.end(),
             [&](auto &sysType) {
                 return sysType.getType() == type;
-            })
+            });
         if (sys != _systems.end()) {
             std::cerr << "Did not create new system because it already exists" << std::endl;
             return *sys;
         }
-        SystemType *newSys = _systems.emplace_back(std::make_unique<SystemType>(std::forward<Args>(args)...));
+        SystemType *newSys = _systems.emplace_back(std::make_unique<SystemType>(std::forward<Args>(systemArgs)...));
         return *sys.get();
     }
 
@@ -121,14 +124,24 @@ namespace Engine {
         
         _systems.erase(std::remove_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
             return sysType.getType() == type;
-        }))
+        }));
     }
 
-    template <typename... Args>
-    void SystemManager::selectSystems(Args&&... systemTypeList)
+    template <class SystemType, typename... Args>
+    void SystemManager::selectSystems(SystemType currentSys, Args&&... systemTypeList)
     {
-        // TODO
-    }   
+        const TypeIdx type = std::type_index(typeid(SystemType));
+
+        auto sys = std::find_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
+            return sysType.getType() == type;
+        });
+        _selectedSystems.insert(sys);
+        selectSystems(systemTypeList...);
+    }
+
+    void SystemManager::selectSystems()
+    {        
+    }
 
     template <typename SystemType>
     SystemType &SystemManager::getSystem()
@@ -137,9 +150,9 @@ namespace Engine {
 
         auto sys = std::find_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
             return sysType.getType() == type;
-        })
+        });
         if (sys == _systems.end())
-            throw InvalidParameterException("No registered system with type : " + typeid(SystemType).name());
+            throw InvalidParameterException(std::string("No registered system with type : " + std::string(typeid(SystemType).name())));
         return *sys;
     }
 

@@ -11,7 +11,9 @@ using namespace Engine;
 
 void SystemManager::executeCycle()
 {
-    // TODO
+    for (auto &system : _selectedSystems) {
+        system->run();
+    }
 }
 
 void SystemManager::onEntityUpdated(Entity entity, const Signature &signature)
