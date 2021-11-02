@@ -14,9 +14,14 @@
 #include "ClusterName.hpp"
 #include "EntityName.hpp"
 #include "IEntityManager.hpp"
+#include "FactoryShortcuts.hpp"
+#include "EngineFactory.hpp"
+#include "ComponentManager.hpp"
 
 namespace Engine
 {
+    #define GET_COMP_M   EngineFactory::getInstance().getComponentManager()
+
     class EntityManager : public IEntityManager {
       public:
         friend class ComponentManager;
@@ -25,17 +30,15 @@ namespace Engine
         ~EntityManager() = default;
 
         Entity create(EntityDestructor destructor = nullptr, ClusterName cluster = ClusterName::GLOBAL,
-            EntityName entity = EntityName::EMPTY,
+            EntityName name = EntityName::EMPTY,
             bool setNetworkId = false);
-
-        void setAsPublic(Entity privateId, Entity publicId);
 
         void remove(Entity entity);
         void remove(EntityName name);
         void remove(ClusterName cluster);
 
         bool exist(Entity entity);
-        bool exist(ClusterName cluster = ClusterName::GLOBAL, EntityName name = EntityName::EMPTY);
+        bool exist(EntityName name, ClusterName cluster = ClusterName::GLOBAL);
 
         Entity getId(EntityName name);
         std::size_t getClusterSize(ClusterName cluster);

@@ -22,16 +22,14 @@ namespace Engine {
         virtual ~IEntityManager() = default;
 
         virtual Entity create(EntityDestructor destructor, ClusterName cluster,
-            EntityName entity, bool setNetworkId) = 0;
-
-        virtual void setAsPublic(Entity privateId, Entity publicId) = 0;
+            EntityName name, bool setNetworkId) = 0;
 
         virtual void remove(Entity entity) = 0;
         virtual void remove(EntityName name) = 0;
         virtual void remove(ClusterName cluster) = 0;
 
         virtual bool exist(Entity entity) = 0;
-        virtual bool exist(ClusterName cluster, EntityName name) = 0;
+        virtual bool exist(EntityName name, ClusterName cluster) = 0;
 
         virtual Entity getId(EntityName name) = 0;
         virtual std::size_t getClusterSize(ClusterName cluster) = 0;

@@ -19,8 +19,8 @@
 #include "Exception/NotRegisteredException.hpp"
 #include "Exception/NotFoundException.hpp"
 #include "Exception/FatalErrorException.hpp"
-#include "FactoryShortcuts.hpp"
 #include "EngineFactory.hpp"
+#include "FactoryShortcuts.hpp"
 
 namespace Engine
 {

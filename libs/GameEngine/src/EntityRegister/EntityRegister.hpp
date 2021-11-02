@@ -35,8 +35,8 @@ namespace Engine
         Entity create(ClusterName cluster, EntityName name,
             EntityDestructor destructor, bool setNetworkId = false);
         void remove(Entity entity);
-        void remove(EntityName name);
-        void remove(ClusterName cluster);
+        Entity remove(EntityName name);
+        vector<Entity> remove(ClusterName cluster);
         [[nodiscard]] bool exist(Entity entity) const;
         [[nodiscard]] bool exist(EntityName name, ClusterName cluster = ClusterName::GLOBAL) const;
         [[nodiscard]] Entity getId(EntityName name) const;

@@ -61,20 +61,22 @@ void EntityRegister::remove(Entity entity)
     _bookedEntities[entity].removed = true;
 }
 
-void EntityRegister::remove(EntityName name)
+Entity EntityRegister::remove(EntityName name)
 {
     Entity entity = this->getId(name);
 
     this->remove(entity);
+    return entity;
 }
 
-void EntityRegister::remove(ClusterName cluster)
+vector<Entity> EntityRegister::remove(ClusterName cluster)
 {
     vector<Entity> list = this->getClusterEntityList(cluster);
 
     for (Entity entity : list) {
         this->remove(entity);
     }
+    return list;
 }
 
 bool EntityRegister::exist(Entity entity) const
