@@ -113,7 +113,7 @@ namespace Engine
     
         if (getSceneItFromType(type) == _scenes.end())
             throw NotRegisteredException("This scene has already been registered");
-        _scenes.push_back(std::make_shared<SceneType>(sdtd::forward<Args>(args)...));
+        _scenes.push_back(std::make_shared<SceneType>(std::forward<Args>(args)...));
     }
 
     template <class SceneType>
@@ -124,7 +124,7 @@ namespace Engine
 
         if (it == _scenes.end())
             throw NotRegisteredException("No scene with this type has been registered");
-        index = std::distance(_scenes.begin(), it);
+        size_t index = std::distance(_scenes.begin(), it);
         if (_currentScene->getType() == _scenes[index]->getType()) {
             throw InvalidParameterException("Trying to unregister current loaded scene");
         }
@@ -141,7 +141,7 @@ namespace Engine
         auto it = getSceneItFromType(type);
         if (it == _scenes.end())
             throw NotRegisteredException("Could not select scene that has not been registered");
-        index = std::distance(_scenes.begin(), it);
+        size_t index = std::distance(_scenes.begin(), it);
         _nextScene = _scenes[index];
         if (closePrevious) {
             _previousScenes.top()->close();
@@ -158,7 +158,7 @@ namespace Engine
         auto it = getSceneItFromType(type);
         if (it == _scenes.end())
             throw InvalidParameterException("Could not get pointer to non existing scene");
-        index = std::distance(_scenes.begin(), it);
+        size_t index = std::distance(_scenes.begin(), it);
         return reinterpret_cast<AbstractScene<SceneType>>(_scenes[index]);
     }
 

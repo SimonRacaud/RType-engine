@@ -95,9 +95,9 @@ namespace Engine
 
     template <class SystemType> bool AbstractSystem<SystemType>::refresh()
     {
-        Time cTime = std::chrono::system_clock::now();
-        
-        if (_lastExecTime + _runningFrequency >= cTime) {
+        TimePoint cTime = std::chrono::steady_clock::now();
+
+        if (_lastExecTime >= cTime - _runningFrequency) {
             _lastExecTime = cTime;
             return true;
         }
