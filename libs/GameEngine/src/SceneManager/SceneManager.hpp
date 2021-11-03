@@ -17,6 +17,7 @@
 #include "AbstractScene.hpp"
 #include "env.hpp"
 #include "InvalidParameterException.hpp"
+#include "NotRegisteredException.hpp"
 
 namespace Engine
 {
@@ -111,7 +112,7 @@ namespace Engine
         const TypeIdx type = std::type_index(typeid(SceneType));
     
         if (getSceneItFromType(type) == _scenes.end())
-            throw InvalidParameterException("This scene has already been registered");
+            throw NotRegisteredException("This scene has already been registered");
         _scenes.push_back(std::make_shared<SceneType>(sdtd::forward<Args>(args)...));
     }
 
@@ -122,10 +123,10 @@ namespace Engine
         auto it = getSceneItFromType(type);
 
         if (it == _scenes.end())
-            throw InvalidParameterException("No scene with this type has been registered");
+            throw NotRegisteredException("No scene with this type has been registered");
         index = std::distance(_scenes.begin(), it);
         if (_currentScene->getType() == _scenes[index]->getType()) {
-            this->select((!_scene.empty()) ? _scenes.front() : nullptr);
+            throw InvalidParameterException("Trying to unregister current loaded scene");
         }
         _scenes[index] = _scenes.back();
         _scenes.pop_back();
@@ -139,7 +140,7 @@ namespace Engine
 
         auto it = getSceneItFromType(type);
         if (it == _scenes.end())
-            throw InvalidParameterException("Could not select scene that has not been registered");
+            throw NotRegisteredException("Could not select scene that has not been registered");
         index = std::distance(_scenes.begin(), it);
         _nextScene = _scenes[index];
         if (closePrevious) {
