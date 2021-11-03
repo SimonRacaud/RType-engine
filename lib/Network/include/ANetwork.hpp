@@ -7,9 +7,9 @@
 #ifndef BABEL_ANETWORK_HPP
 #define BABEL_ANETWORK_HPP
 
-#include <LockedUnorderedMultimap.hpp>
 #include <functional>
 #include <mutex>
+#include <utils/ThreadSafety/LockedUnorderedMultimap.hpp>
 #include "INetwork.hpp"
 
 #ifndef MY_MAP
@@ -168,7 +168,7 @@ namespace Network
         //        std::unordered_multimap<std::pair<const std::string, const std::size_t>,
         //            std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
         //            _recvData;
-        LockedUnorderedMultimap<std::pair<const std::string, const std::size_t>,
+        ThreadSafety::LockedUnorderedMultimap<std::pair<const std::string, const std::size_t>,
             std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
             _recvData;
         /**
