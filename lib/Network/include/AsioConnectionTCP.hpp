@@ -9,7 +9,6 @@
 #define BABEL_ASIOCONNECTIONTCP_HPP
 
 #include <functional>
-#include <unordered_map>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -18,8 +17,6 @@
 #endif
 
 #include <asio/error.hpp>
-#include <mutex>
-#include <thread>
 #include "ANetwork.hpp"
 #include "NetworkException.hpp"
 

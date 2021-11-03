@@ -12,11 +12,6 @@
 
 namespace ThreadSafety
 {
-    template <class Key, class T, class Hash = std::hash<Key>>
-    using iterator = typename std::unordered_multimap<Key, T, Hash>::iterator;
-    template <class Key, class T, class Hash = std::hash<Key>>
-    using const_iterator = typename std::unordered_multimap<Key, T, Hash>::const_iterator;
-
     /**
      * @brief A thread safe unordered multimap, with only used methods
      */
@@ -30,21 +25,76 @@ namespace ThreadSafety
         ~LockedUnorderedMultimap() = default;
 
         // Capacity
-        [[nodiscard]] bool empty() const noexcept;
-        std::size_t size() const noexcept;
+        [[nodiscard]] bool empty() const noexcept
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::empty();
+        }
+        std::size_t size() const noexcept
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::size();
+        }
         // Modifiers
-        void clear() noexcept;
+        void clear() noexcept
+        {
+            std::scoped_lock lock(_mutex);
 
-        iterator erase(iterator pos);
-        std::size_t erase(const Key &key);
-        iterator erase(const_iterator pos);
+            std::unordered_multimap<Key, T, Hash>::clear();
+        }
 
-        template <class... Args> iterator emplace(Args &&...args);
+        iterator erase(iterator pos)
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::erase(pos);
+        }
+        std::size_t erase(const Key &key)
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::erase(key);
+        }
+        iterator erase(const_iterator pos)
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::erase(pos);
+        }
+
+        template <class... Args> iterator emplace(Args &&...args)
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::emplace(args...);
+        }
         // Iterators
-        iterator begin() noexcept;
-        const_iterator begin() const noexcept;
-        iterator end() noexcept;
-        const_iterator end() const noexcept;
+        iterator begin() noexcept
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::begin();
+        }
+        const_iterator begin() const noexcept
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::begin();
+        }
+        iterator end() noexcept
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::end();
+        }
+        const_iterator end() const noexcept
+        {
+            std::scoped_lock lock(_mutex);
+
+            return std::unordered_multimap<Key, T, Hash>::end();
+        }
 
       private:
         /**
@@ -57,71 +107,5 @@ namespace ThreadSafety
          */
         mutable std::mutex _mutex;
     };
-
-    template <class Key, class T, class Hash> bool LockedUnorderedMultimap<Key, T, Hash>::empty() const noexcept
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::empty();
-    }
-    template <class Key, class T, class Hash> std::size_t LockedUnorderedMultimap<Key, T, Hash>::size() const noexcept
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::size();
-    }
-    template <class Key, class T, class Hash> void LockedUnorderedMultimap<Key, T, Hash>::clear() noexcept
-    {
-        std::scoped_lock lock(_mutex);
-
-        std::unordered_multimap<Key, T, Hash>::clear();
-    }
-    template <class Key, class T, class Hash>
-    iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::erase(iterator pos)
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::erase(pos);
-    }
-    template <class Key, class T, class Hash> std::size_t LockedUnorderedMultimap<Key, T, Hash>::erase(const Key &key)
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::erase(key);
-    }
-    template <class Key, class T, class Hash>
-    iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::erase(const_iterator pos)
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::erase(pos);
-    }
-    template <class Key, class T, class Hash>
-    template <class... Args>
-    iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::emplace(Args &&...args)
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::emplace(args...);
-    }
-    template <class Key, class T, class Hash>
-    iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::begin() noexcept
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::begin();
-    }
-    template <class Key, class T, class Hash>
-    const_iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::begin() const noexcept
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::begin();
-    }
-    template <class Key, class T, class Hash>
-    iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::end() noexcept
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::end();
-    }
-    template <class Key, class T, class Hash>
-    const_iterator<Key, T, Hash> LockedUnorderedMultimap<Key, T, Hash>::end() const noexcept
-    {
-        std::scoped_lock lock(_mutex);
-        return std::unordered_multimap<Key, T, Hash>::end();
-    }
 } // namespace ThreadSafety
-
 #endif // R_TYPE_LOCKED_UNORDERED_MULTIMAP_HPP

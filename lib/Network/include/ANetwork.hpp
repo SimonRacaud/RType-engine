@@ -8,7 +8,7 @@
 #define BABEL_ANETWORK_HPP
 
 #include <functional>
-#include <mutex>
+#include <thread>
 #include "INetwork.hpp"
 #include "utils/ThreadSafety/LockedDeque.hpp"
 #include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
