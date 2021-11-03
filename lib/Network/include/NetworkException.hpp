@@ -9,7 +9,7 @@
 
 #include <exception>
 #include <string>
-#include "formatString.hpp"
+#include "utils/formatString.hpp"
 
 namespace Network
 {
