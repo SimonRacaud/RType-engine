@@ -40,11 +40,13 @@ set(SRC_CLIENT ${SRC_DIR}/client/)
 set(CLIENT_SRCS
     ${SRC_DIR}NetworkException.cpp
 
-    ${SRC_CLIENT}/mainTestNetwork.cpp
     )
 
 ## TARGET
-add_executable(${CLIENT} ${CLIENT_SRCS})
+add_executable(${CLIENT}
+               ${CLIENT_SRCS}
+               ${SRC_CLIENT}/mainTestNetwork.cpp
+               )
 
 ## INCLUDES
 target_include_directories(${CLIENT} BEFORE PUBLIC include/client/)
@@ -72,7 +74,8 @@ set(SERVER_SRCS
     ${SRC_DIR}NetworkException.cpp
     )
 
-add_executable(${SERVER} ${SERVER_SRCS}
+add_executable(${SERVER}
+               ${SERVER_SRCS}
                ${SRC_SERVER}/mainTestNetwork.cpp
                )
 
