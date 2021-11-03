@@ -16,7 +16,7 @@ class IWindowManager
     public:
         ~IWindowManager() = default;
 
-        virtual void setFrameLiminter(size_t) = 0;
+        virtual void setFramerateLimiter(size_t) = 0;
         virtual void setSize(const vector2D &) = 0;
         virtual void setName(const std::string &) = 0;
 

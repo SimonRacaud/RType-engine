@@ -36,6 +36,7 @@ class ITextManager: public IMovable, public IResizable, public IDrawable<renderT
         virtual void setSize(const vector2D &) = 0;
         virtual void setPosition(const vector2D &) = 0;
         virtual void setContent(const std::string &) = 0;
+        virtual void setFont(const std::string &) = 0;
 
         virtual void draw(renderTool &render) = 0;
         // TOOLS
