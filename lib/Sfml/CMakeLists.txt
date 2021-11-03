@@ -25,6 +25,8 @@ include_directories(
 set(SRCS
     src/SfmlModule.cpp
     src/WindowManager/WindowManager.cpp
+    src/AudioManager/MusicManager/MusicManager.cpp
+    src/AudioManager/SoundManager/SoundManager.cpp
     )
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)

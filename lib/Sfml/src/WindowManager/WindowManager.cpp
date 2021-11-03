@@ -17,6 +17,8 @@ WindowManager::WindowManager(const WindowManager &src): _window(src._window), _f
 
 WindowManager::~WindowManager()
 {
+    if (this->isOpen())
+        this->_window->close();
     if (this->_window)
         this->_window.reset();
 }
@@ -51,7 +53,7 @@ void WindowManager::open()
 {
     if (this->_window)
         throw std::invalid_argument("Window already open");
-    this->_window = std::make_unique<sf::RenderWindow>();//TODO
+    this->_window = std::make_shared<sf::RenderWindow>();//TODO
 }
 
 void WindowManager::clear()
