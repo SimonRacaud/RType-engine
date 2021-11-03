@@ -24,6 +24,7 @@ include_directories(
 ## SOURCES
 set(SRCS
     src/SfmlModule.cpp
+    src/EventManager/EventManager.cpp
     src/WindowManager/WindowManager.cpp
     src/AudioManager/MusicManager/MusicManager.cpp
     src/AudioManager/SoundManager/SoundManager.cpp
