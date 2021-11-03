@@ -26,6 +26,7 @@ set(SRCS
     src/SfmlModule.cpp
     src/TextManager/TextManager.cpp
     src/EventManager/EventManager.cpp
+    src/SpriteManager/SpriteManager.cpp
     src/WindowManager/WindowManager.cpp
     src/AudioManager/MusicManager/MusicManager.cpp
     src/AudioManager/SoundManager/SoundManager.cpp

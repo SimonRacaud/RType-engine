@@ -17,6 +17,10 @@ TextManager::TextManager(const TextManager &src): _pos(src._pos), _size(src._siz
 
 TextManager::~TextManager()
 {
+    if (this->_font)
+        this->_font.reset();
+    if (this->_text)
+        this->_text.reset();
 }
 
 const vector2D &TextManager::getSize()
