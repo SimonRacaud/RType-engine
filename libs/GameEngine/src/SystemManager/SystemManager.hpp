@@ -104,11 +104,8 @@ namespace Engine {
     template <typename SystemType, typename... Args>
     SystemType &SystemManager::registerSystem(Args &&...systemArgs)
     {
-        const TypeIdx type = std::type_index(typeid(SystemType));
-        auto sys = std::find_if(_systems.begin(), _systems.end(),
-            [&](auto &sysType) {
-                return sysType.getType() == type;
-            });
+        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
+
         if (sys != _systems.end()) {
             std::cerr << "Did not create new system because it already exists" << std::endl;
             return *sys;
@@ -130,11 +127,8 @@ namespace Engine {
     template <class SystemType, typename... Args>
     void SystemManager::selectSystems(SystemType currentSys, Args&&... systemTypeList)
     {
-        const TypeIdx type = std::type_index(typeid(SystemType));
+        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
 
-        auto sys = std::find_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
-            return sysType.getType() == type;
-        });
         _selectedSystems.insert(sys);
         selectSystems(systemTypeList...);
     }
@@ -146,11 +140,8 @@ namespace Engine {
     template <typename SystemType>
     SystemType &SystemManager::getSystem()
     {
-        const TypeIdx type = std::type_index(typeid(SystemType));
+        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
 
-        auto sys = std::find_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
-            return sysType.getType() == type;
-        });
         if (sys == _systems.end())
             throw InvalidParameterException(std::string("No registered system with type : " + std::string(typeid(SystemType).name())));
         return *sys;
