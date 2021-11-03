@@ -5,13 +5,13 @@
 ** simon
 */
 
-#include "SfmlModule.hpp"
+#include <iostream>
+#include <SFML/Graphics.hpp>
 
-int main(int ac, char **av)
+void func();
+
+int main()
 {
-    SfmlModule core;
-
-    while (core.isOpen())
-        core.play();
+    func();
     return 0;
 }
