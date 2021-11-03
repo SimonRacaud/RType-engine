@@ -1,0 +1,10 @@
+[requires]
+asio/1.19.2
+
+[options]
+
+[imports]
+lib, *.so* -> bin/lib
+
+[generators]
+cmake
