@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2021
 ** LockedUnorderedMultimap.hpp
 ** File description:
-** TODO: add description
+** std::unordered_multimap but thread safe
 */
 #ifndef R_TYPE_LOCKED_UNORDERED_MULTIMAP_HPP
 #define R_TYPE_LOCKED_UNORDERED_MULTIMAP_HPP
@@ -19,9 +19,6 @@ namespace ThreadSafety
 
     /**
      * @brief A thread safe unordered multimap, with only used methods
-     * @tparam Key
-     * @tparam T
-     * @tparam Hash
      */
     template <class Key, class T, class Hash = std::hash<Key>>
     class LockedUnorderedMultimap : public std::unordered_multimap<Key, T, Hash> {
@@ -56,8 +53,9 @@ namespace ThreadSafety
         //    std::unordered_multimap<Key, T, Hash> my_multiMap;
         /**
          * @brief mutex should make this class thread safe
+         * @note mutable means modifiable in const method
          */
-        std::mutex _mutex;
+        mutable std::mutex _mutex;
     };
 
     template <class Key, class T, class Hash> bool LockedUnorderedMultimap<Key, T, Hash>::empty() const noexcept
