@@ -13,7 +13,7 @@
 #include <iostream>
 #include "Interface/IAudioManager.hpp"
 
-class SoundManager
+class SoundManager: public IAudioManager
 {
     public:
         SoundManager();
