@@ -20,11 +20,7 @@
 
 namespace Network
 {
-    enum protocol
-    {
-        TCP,
-        UDP
-    };
+    enum protocol { TCP, UDP };
 
     template <std::size_t PACKETSIZE> class IConnection {
       public:

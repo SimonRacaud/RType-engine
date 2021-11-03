@@ -13,8 +13,7 @@
 
 #ifndef MY_MAP
     #define MY_MAP
-struct hash_pair
-{
+struct hash_pair {
     std::size_t operator()(const std::pair<std::string, std::size_t> &pair) const
     {
         std::size_t h1 = std::hash<std::string>{}(pair.first);
@@ -87,8 +86,7 @@ namespace Network
         [[nodiscard]] bool isConnected(const std::string &ip, const std::size_t port) const override
         {
             if (!AAsioConnection<PACKETSIZE>::_connections.empty()
-                && std::find_if(_connections.begin(),
-                       _connections.end(),
+                && std::find_if(_connections.begin(), _connections.end(),
                        [=](const auto &connection) {
                            return ip == connection.first && port == connection.second;
                        })

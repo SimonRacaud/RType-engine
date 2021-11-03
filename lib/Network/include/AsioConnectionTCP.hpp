@@ -93,8 +93,7 @@ namespace Network
             //            return std::pair<std::array<char, PACKETSIZE>, std::size_t>({}, 0);
 
             auto my_recvData(std::find_if(AAsioConnection<PACKETSIZE>::_recvData.begin(),
-                AAsioConnection<PACKETSIZE>::_recvData.end(),
-                [&](const auto &recvData) {
+                AAsioConnection<PACKETSIZE>::_recvData.end(), [&](const auto &recvData) {
                     if (ip == recvData.first.first && port == recvData.first.second) {
                         return true;
                     }
@@ -197,11 +196,8 @@ namespace Network
             std::cout << "\tWill now Receive from " << connection << std::endl;
             connection->async_receive(asio::buffer(AAsioConnection<PACKETSIZE>::_recvBuf.data(),
                                           AAsioConnection<PACKETSIZE>::_recvBuf.size()),
-                std::bind(&AsioConnectionTCP<PACKETSIZE>::asyncReceiving,
-                    this,
-                    std::placeholders::_1,
-                    std::placeholders::_2,
-                    connection));
+                std::bind(&AsioConnectionTCP<PACKETSIZE>::asyncReceiving, this, std::placeholders::_1,
+                    std::placeholders::_2, connection));
         }
 
         void asyncReceiving(

@@ -64,8 +64,7 @@ namespace Network
             //            _socket.set_option(_receiveBufferSizeOption); // TODO refactor PACKETSIZE
 
             auto my_recvData(std::find_if(AAsioConnection<PACKETSIZE>::_recvData.begin(),
-                AAsioConnection<PACKETSIZE>::_recvData.end(),
-                [&](const auto &recvData) {
+                AAsioConnection<PACKETSIZE>::_recvData.end(), [&](const auto &recvData) {
                     if (ip == recvData.first.first && port == recvData.first.second) {
                         return true;
                     }
@@ -126,14 +125,9 @@ namespace Network
 
             asio::ip::udp::endpoint senderEndpoint(asio::ip::make_address(ip), port);
 
-            _socket.async_receive_from(asio::buffer(AAsioConnection<PACKETSIZE>::_recvBuf),
-                senderEndpoint,
-                std::bind(&AsioConnectionUDP<PACKETSIZE>::asyncReceiving,
-                    this,
-                    std::placeholders::_1,
-                    std::placeholders::_2,
-                    ip,
-                    port));
+            _socket.async_receive_from(asio::buffer(AAsioConnection<PACKETSIZE>::_recvBuf), senderEndpoint,
+                std::bind(&AsioConnectionUDP<PACKETSIZE>::asyncReceiving, this, std::placeholders::_1,
+                    std::placeholders::_2, ip, port));
         }
 
         void asyncReceiving(
