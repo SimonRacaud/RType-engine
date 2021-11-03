@@ -5,7 +5,13 @@
 ** simon
 */
 
-int main(int ac, char **av)
+#include <iostream>
+#include <SFML/Graphics.hpp>
+
+void func();
+
+int main()
 {
+    func();
     return 0;
 }

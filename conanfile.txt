@@ -1,0 +1,15 @@
+[requires]
+sfml/2.5.1@bincrafters/stable
+asio/1.19.2
+
+[options]
+sfml:graphics=True
+sfml:window=True
+sfml:audio=True
+sfml:network=True
+
+[imports]
+lib, *.so* -> bin/lib
+
+[generators]
+cmake

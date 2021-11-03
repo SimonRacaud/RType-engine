@@ -17,6 +17,9 @@ set(NAME_SERVER r-type_server)
 project(${NAME_CLIENT} VERSION 0.1 LANGUAGES CXX)
 project(${NAME_SERVER} VERSION 0.1 LANGUAGES CXX)
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
 ## GLOBAL INCLUDES
 include_directories(./include)
 
@@ -79,3 +82,10 @@ include_directories(${ConfigFileDir}/include)
 include_directories(${ConfigFileDir}/src/ConfigFileTools)
 target_link_libraries(${NAME_CLIENT} ConfigFile)
 target_link_libraries(${NAME_SERVER} ConfigFile)
+
+## SFML (client)
+set(SfmlDir ${PROJECT_SOURCE_DIR}/lib/Sfml)
+add_subdirectory(${SfmlDir})
+include_directories(${SfmlDir}/include)
+include_directories(${SfmlDir}/src)
+target_link_libraries(${NAME_CLIENT} Sfml)
