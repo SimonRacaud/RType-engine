@@ -44,8 +44,6 @@ namespace Network
             auto last(_socketConnections.end());
             auto connection(getConnection(ip, port));
 
-            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
             if (!connection)
                 throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
             first = std::find(first, last, connection);
@@ -61,16 +59,12 @@ namespace Network
 
         void disconnectAll() override
         {
-            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
             AAsioConnection<PACKETSIZE>::disconnectAll();
             _socketConnections.clear();
         }
 
         std::tuple<std::array<char, PACKETSIZE>, std::size_t, std::string, std::size_t> receiveAny() override
         {
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
             std::pair<std::array<char, PACKETSIZE>, std::size_t> buf;
 
             for (const auto &connection : AAsioConnection<PACKETSIZE>::_connections) {
@@ -91,8 +85,6 @@ namespace Network
         std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
             const std::string &ip, const std::size_t port) override
         {
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
             std::pair<std::array<char, PACKETSIZE>, std::size_t> buf({0}, 0);
             auto connection(getConnection(ip, port));
 
@@ -156,8 +148,6 @@ namespace Network
 
         std::shared_ptr<tcp::socket> getConnection(const std::string &ip, const std::size_t port)
         {
-            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
             for (auto socketConnection : _socketConnections) {
                 if (isConnection(socketConnection, ip, port)) {
                     return socketConnection;
@@ -174,7 +164,6 @@ namespace Network
         {
             if (!newConnection)
                 return;
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
 
             AAsioConnection<PACKETSIZE>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
@@ -202,10 +191,6 @@ namespace Network
          */
         void asyncReceive(std::shared_ptr<tcp::socket> &connection)
         {
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex); // todo ensure
-            //            that no
-            // problem with callback
-
             if (!connection)
                 return;
 
