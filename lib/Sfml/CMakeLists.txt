@@ -24,6 +24,7 @@ include_directories(
 ## SOURCES
 set(SRCS
     src/SfmlModule.cpp
+    src/WindowManager/WindowManager.cpp
     )
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
