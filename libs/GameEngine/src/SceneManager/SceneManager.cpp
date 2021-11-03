@@ -25,12 +25,14 @@ void SceneManager::flushSelection()
 
 void SceneManager::selectPrevious()
 {
-    // TODO
+    if (havePrevious()) {
+        
+    }
 }
 
 bool SceneManager::havePrevious() const
 {
-    // TODO
+    return !_previousScenes.empty();
 }
 
 shared_ptr<IScene> SceneManager::getCurrent()
@@ -97,6 +99,17 @@ shared_ptr<IScene> SceneManager::getCurrent()
 //        _nextScene = scene;
 //    }
 //}
+
+void SceneManager::select(const shared_ptr<IScene> &scene, bool closePrevious = true)
+{
+    if (closePrevious && _currentScene)
+        _currentScene->close();
+    if (!_currentScene) {
+
+    } else {
+        _nextScene = scene;
+    }
+}
 
 //void SceneManager::closeLastUnclosedScene()
 //{

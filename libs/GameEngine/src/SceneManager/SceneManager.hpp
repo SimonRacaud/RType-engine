@@ -58,6 +58,12 @@ namespace Engine
         template <typename SceneType>
         void select(bool closePrevious = true);
 
+        void select(const shared_ptr<IScene> &scene, bool closePrevious = true);
+
+        /**
+         * @brief Flush selection changes the current into the next and closes current
+         * 
+         */
         void flushSelection();
 
         /**
@@ -108,7 +114,7 @@ namespace Engine
             throw InvalidParameterException("This scene has already been registered");
         _scenes.push_back(std::make_shared<SceneType>(sdtd::forward<Args>(args)...));
     }
- 
+
     template <class SceneType>
     void SceneManager::unregister()
     {
@@ -118,66 +124,41 @@ namespace Engine
         if (it == _scenes.end())
             throw InvalidParameterException("No scene with this type has been registered");
         index = std::distance(_scenes.begin(), it);
-        
-        // TODO
-//        std::size_t index = 0;
-//        const std::type_info &type = typeid(T);
-//        auto type_it = std::find_if(_types.begin(), _types.end(), [&type](auto &sceneType) {
-//            return sceneType.get() == type;
-//        });
-//
-//        if (type_it == _types.end()) {
-//            throw std::exception();
-//        }
-//        index = std::distance(_types.begin(), type_it);
-//        if (_currentScene == _scenes[index]) {
-//            this->setCurrentScene((!_scenes.empty()) ? _scenes.front() : nullptr);
-//        }
-//        _types[index] = _types.back();
-//        _types.pop_back();
-//        _scenes[index] = _scenes.back();
-//        _scenes.pop_back();
+        if (_currentScene->getType() == _scenes[index]->getType()) {
+            this->select((!_scene.empty()) ? _scenes.front() : nullptr);
+        }
+        _scenes[index] = _scenes.back();
+        _scenes.pop_back();
     }
 
 
     template <typename SceneType>
     void SceneManager::select(bool closePrevious)
     {
-        // TODO
-//        std::size_t index = 0;
-//        const std::type_info &type = typeid(T);
-//        auto type_it = std::find_if(_types.begin(), _types.end(), [&type](auto &sceneType) {
-//            return sceneType.get() == type;
-//        });
-//        if (type_it == _types.end()) {
-//            throw std::exception();
-//        }
-//        _toClose = close;
-//        _toOpen = open;
-//        index = std::distance(_types.begin(), type_it);
-//        if (_currentScene == nullptr) {
-//            this->setCurrentScene(_scenes[index]);
-//        } else {
-//            _nextScene = _scenes[index];
-//        }
+        const TypeIdx type = std::type_index(typeid(SceneType));
+
+        auto it = getSceneItFromType(type);
+        if (it == _scenes.end())
+            throw InvalidParameterException("Could not select scene that has not been registered");
+        index = std::distance(_scenes.begin(), it);
+        _nextScene = _scenes[index];
+        if (closePrevious) {
+            _previousScenes.top()->close();
+            _previousScenes.pop();
+        }
     }
 
 
     template <class SceneType>
     shared_ptr<AbstractScene<SceneType>> SceneManager::get()
     {
-        // TODO
-//        std::size_t index = 0;
-//        const std::type_info &type = typeid(T);
-//        auto type_it = std::find_if(_types.begin(), _types.end(), [&type](auto &sceneType) {
-//            return sceneType.get() == type;
-//        });
-//
-//        if (type_it == _types.end()) {
-//            throw std::exception();
-//        }
-//        index = std::distance(_types.begin(), type_it);
-//        return _scenes[index];
+        const TypeIdx type = std::type_index(typeid(SceneType));
+
+        auto it = getSceneItFromType(type);
+        if (it == _scenes.end())
+            throw InvalidParameterException("Could not get pointer to non existing scene");
+        index = std::distance(_scenes.begin(), it);
+        return reinterpret_cast<AbstractScene<SceneType>>(_scenes[index]);
     }
 
 } // namespace Engine
