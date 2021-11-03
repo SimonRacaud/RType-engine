@@ -9,8 +9,9 @@
 
 #include <functional>
 #include <mutex>
-#include <utils/ThreadSafety/LockedUnorderedMultimap.hpp>
 #include "INetwork.hpp"
+#include "utils/ThreadSafety/LockedDeque.hpp"
+#include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
 #ifndef MY_MAP
     #define MY_MAP
@@ -157,7 +158,7 @@ namespace Network
          */
         bool _server;
 
-        std::deque<std::pair<const std::string, const std::size_t>> _connections;
+        ThreadSafety::LockedDeque<std::pair<const std::string, const std::size_t>> _connections;
 
         // Asynchronous operations
         /**

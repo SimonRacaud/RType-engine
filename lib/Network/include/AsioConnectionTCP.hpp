@@ -231,7 +231,7 @@ namespace Network
         /**
          * @brief deque of connected sockets
          */
-        std::deque<std::shared_ptr<tcp::socket>> _socketConnections;
+        ThreadSafety::LockedDeque<std::shared_ptr<tcp::socket>> _socketConnections;
 
         /**
          * @brief Option (to be set) to buffer data when receiving it
