@@ -7,6 +7,7 @@
 #ifndef BABEL_ANETWORK_HPP
 #define BABEL_ANETWORK_HPP
 
+#include <LockedUnorderedMultimap.hpp>
 #include <functional>
 #include <mutex>
 #include "INetwork.hpp"
@@ -164,10 +165,12 @@ namespace Network
          *  asynchronous operations
          * @note std::atomic ensures thread safety over this variable
          */
-        std::unordered_map<std::pair<const std::string, const std::size_t>,
+        //        std::unordered_multimap<std::pair<const std::string, const std::size_t>,
+        //            std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
+        //            _recvData;
+        LockedUnorderedMultimap<std::pair<const std::string, const std::size_t>,
             std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
             _recvData;
-
         /**
          * @property Run asynchronous asio operations in a non-blocking way
          */
