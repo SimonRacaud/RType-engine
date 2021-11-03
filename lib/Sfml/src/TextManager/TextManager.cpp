@@ -35,57 +35,51 @@ const vector2D &TextManager::getPosition()
 
 void TextManager::setColor(const color_e &color)
 {
-    if (!this->_text)
-        this->_text = std::make_shared<sf::Text>();
-    try {
-        this->_text->setFillColor(this->_colorLink.at(color));
-    } catch(...) {
-        throw std::invalid_argument("Invalid color");
-    }
+    this->_color = color;
 }
 
 void TextManager::setSize(const vector2D &size)
 {
-    if (!this->_text)
-        this->_text = std::make_shared<sf::Text>();
-    this->_text->setCharacterSize((size.x + size.y) / 2);
     this->_size = size;
 }
 
 void TextManager::setPosition(const vector2D &pos)
 {
-    if (!this->_text)
-        this->_text = std::make_shared<sf::Text>();
-    this->_text->setPosition(sf::Vector2f(pos.x, pos.y));
     this->_pos = pos;
 }
 
 void TextManager::setContent(const std::string &str)
 {
-    if (!this->_text)
-        this->_text = std::make_shared<sf::Text>();
-    this->_text->setString(str);
+    this->_content = str;
 }
 
 void TextManager::setFont(const std::string &name)
 {
-    if (!this->_text)
-        this->_text = std::make_shared<sf::Text>();
-    if (!this->_font)
-        this->_font = std::make_shared<sf::Font>();
-    if (!this->_font->loadFromFile(name))
-        throw std::invalid_argument("Invalid font " + name);
-    this->_text->setFont(*(this->_font.get()));
+    this->_fontPath = name;
 }
 
 void TextManager::draw(renderToolSfml &render)
 {
     if (!this->_text || !this->_font)
-        throw std::invalid_argument("Text and Font must be init");
+        this->refresh();
     render->draw(*(this->_text.get()));
 }
 
 void TextManager::refresh()
 {
-    // TODO UNUSED
+    if (!this->_text)
+        this->_text = std::make_shared<sf::Text>();
+    if (!this->_font)
+        this->_font = std::make_shared<sf::Font>();
+    if (!this->_font->loadFromFile(this->_fontPath))
+        throw std::invalid_argument("Invalid font " + this->_fontPath);
+    this->_text->setFont(*(this->_font.get()));
+    this->_text->setString(this->_content);
+    this->_text->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
+    this->_text->setCharacterSize((this->_size.x + this->_size.y) / 2);
+    try {
+        this->_text->setFillColor(this->_colorLink.at(this->_color));
+    } catch(...) {
+        throw std::invalid_argument("Invalid color");
+    }
 }
