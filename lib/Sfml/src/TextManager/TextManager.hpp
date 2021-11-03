@@ -5,6 +5,9 @@
 ** TextManager.hpp
 */
 
+#ifndef TEXTMANAGER_HPP
+#define TEXTMANAGER_HPP
+
 #include <unordered_map>
 #include "build.hpp"
 #include "Interface/ITextManager.hpp"
@@ -42,3 +45,5 @@ class TextManager: public ITextManager<renderToolSfml>
             {ITextManager::color_e::WHITE, sf::Color::White},
         };
 };
+
+#endif
