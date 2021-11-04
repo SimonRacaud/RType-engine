@@ -10,7 +10,7 @@
 
 using namespace Engine;
 
-static const Time refreshFreq = DEF_SYSTEM_RUN_FREQ;
+static const Time refreshFreq = static_cast<Time>(1000);
 static const SystemPriority priority = SystemPriority::HIGH;
 
 PhysicsSystem::PhysicsSystem()
