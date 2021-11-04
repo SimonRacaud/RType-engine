@@ -36,10 +36,15 @@ void func()
         // EVENT
         if (event.isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP))
             text.setColor(ITextManager<renderToolSfml>::color_e::BLUE);
+        else if (event.mouseIsOnClick(surface(vector2D(0, 0), vector2D(200, 200)), IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_MIDDLE))
+            text.setColor(ITextManager<renderToolSfml>::color_e::GREEN);
+        else if (event.mouseIsOn(surface(vector2D(0, 0), vector2D(200, 200))))
+            text.setColor(ITextManager<renderToolSfml>::color_e::WHITE);
         else
             text.setColor(ITextManager<renderToolSfml>::color_e::RED);
 
         text.setPosition(event.getMousePos());
+        text.refresh();
         // END
         
         // DRAW
