@@ -91,10 +91,10 @@ const sf::Drawable &AnimationManager::getNextSprite()
     if (this->_offset >= this->_nb)
         this->_offset = 0;
 
-    size_t x = this->_focus.pos.x * this->_offset;
-    size_t y = this->_focus.pos.y * this->_offset;
     size_t size_x = this->_focus.size.x;
     size_t size_y = this->_focus.size.y;
+    size_t x = this->_focus.pos.x + size_x * this->_offset;
+    size_t y = this->_focus.pos.y;
 
     this->_sprite->setTextureRect(sf::IntRect(x, y, size_x, size_y));
     return *(this->_sprite.get());

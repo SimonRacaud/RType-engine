@@ -9,6 +9,7 @@
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 #include "SpriteManager/SpriteManager.hpp"
+#include "AnimationManager/AnimationManager.hpp"
 #include "AudioManager/MusicManager/MusicManager.hpp"
 #include "AudioManager/SoundManager/SoundManager.hpp"
 #include <memory>
@@ -19,6 +20,7 @@ void func()
     TextManager text;
     EventManager event;
     SpriteManager sprite;
+    AnimationManager animation;
     MusicManager music;
     SoundManager sound;
 
@@ -31,8 +33,13 @@ void func()
     text.setContent("mdr");
     text.setFont("asset/font/Code-Bold.ttf");
 
-    sprite.setPosition({0, 0});
+    sprite.setPosition({100, 100});
     sprite.setSrcFilepath("asset/sprites/r-typesheet1.gif");
+
+    animation.setPosition({10, 10});
+    animation.setSrcPath("asset/sprites/r-typesheet1.gif");
+    animation.setFocus(surface(vector2D(267, 17), vector2D(33, 34)));
+    animation.setNbMember(4);
 
     music.setAudio("asset/music/song.ogg");
     music.play();
@@ -60,6 +67,7 @@ void func()
         // END
         
         // DRAW
+        animation.draw(window);
         text.draw(window);
         sprite.draw(window);
         // END
