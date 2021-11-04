@@ -18,6 +18,7 @@
 #include "global.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
 #include "InvalidParameterException.hpp"
+#include "NotFoundException.hpp"
 
 namespace Engine
 {
@@ -51,9 +52,10 @@ namespace Engine
          * @tparam Args 
          * @param systemTypeList All of the systems to select
          */
-        template <class SystemType, typename... Args>
-        void selectSystems(SystemType currentSys, Args&&... systemTypeList);
+        template <class SystemType, class... Args>
+        void selectSystems(Args&&... systemTypeList);
 
+        template<class SystemType>
         void selectSystems();
 
         /**
@@ -124,17 +126,25 @@ namespace Engine {
         }));
     }
 
-    template <class SystemType, typename... Args>
-    void SystemManager::selectSystems(SystemType currentSys, Args&&... systemTypeList)
+    template <class SystemType, class... Args>
+    void SystemManager::selectSystems(Args&&... systemTypeList)
     {
         auto it = retrieveSystem(GET_TYPE_IDX(SystemType));
 
+        if (it == _systems.end())
+            throw NotFoundException("Could not find system to select it");
         _selectedSystems.push_back(*it);
         selectSystems(systemTypeList...);
     }
-
+    
+    template<class SystemType>
     void SystemManager::selectSystems()
-    {        
+    {
+        auto it = retrieveSystem(GET_TYPE_IDX(SystemType));
+
+        if (it == _systems.end())
+            throw NotFoundException("Could not find system to select it");
+        _selectedSystems.push_back(*it);
     }
 
     template <typename SystemType>
