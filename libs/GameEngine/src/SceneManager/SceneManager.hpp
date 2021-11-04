@@ -110,10 +110,10 @@ namespace Engine
     template <typename SceneType, typename... Args>
     void SceneManager::registerScene(Args &&...args)
     {
-        const TypeIdx type = std::type_index(typeid(SceneType));
+        const TypeIdx type = GET_TYPE_IDX(SceneType);
     
-        if (getSceneItFromType(type) == _scenes.end())
-            throw NotRegisteredException("This scene has already been registered");
+        if (getSceneItFromType(type) != _scenes.end())
+            throw FatalErrorException("This scene has already been registered");
         _scenes.push_back(std::make_shared<SceneType>(std::forward<Args>(args)...));
     }
 
