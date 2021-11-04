@@ -14,7 +14,7 @@
 #include "global.hpp"
 #include "EntityRegister/EntityRegister.hpp"
 #include <vector>
-#include <stddef.h>
+#include <cstddef>
 
 namespace Engine {
     class IEntityManager {

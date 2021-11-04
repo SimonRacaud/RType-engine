@@ -55,7 +55,9 @@ set(SRCS
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_library(${NAME} ${SRCS})
+add_library(${NAME} SHARED ${SRCS})
+
+# set_target_properties(${NAME} PROPERTIES PUBLIC_HEADER include/GameEngine.hpp)
 
 if (MSVC)
     target_compile_options(${NAME} PRIVATE /W4 /WX)

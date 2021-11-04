@@ -54,8 +54,6 @@ namespace Engine
         template <class SystemType, typename... Args>
         void selectSystems(SystemType currentSys, Args&&... systemTypeList);
 
-        void selectSystems();
-
         /**
          * @brief Executes every selected system
          * 
@@ -131,10 +129,6 @@ namespace Engine {
 
         _selectedSystems.push_back(*it);
         selectSystems(systemTypeList...);
-    }
-
-    void SystemManager::selectSystems()
-    {        
     }
 
     template <typename SystemType>
