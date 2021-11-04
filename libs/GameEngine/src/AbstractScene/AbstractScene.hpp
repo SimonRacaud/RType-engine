@@ -16,6 +16,7 @@ namespace Engine
     class AbstractScene : public IScene {
       public:
         AbstractScene(ClusterName cluster);
+        AbstractScene();
         virtual ~AbstractScene() = default;
 
         virtual void close();
@@ -31,6 +32,9 @@ namespace Engine
         ClusterName _cluster;
         bool _closed{false};
     };
+
+    template <class SceneType>
+    const TypeIdx AbstractScene<SceneType>::type = GET_TYPE_IDX(AbstractScene<SceneType>);
 
     template <class SceneType>
     AbstractScene<SceneType>::AbstractScene(ClusterName cluster)
