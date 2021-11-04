@@ -19,6 +19,7 @@
 #include "AbstractSystem/AbstractSystem.hpp"
 #include "Exception/InvalidParameterException.hpp"
 #include "Exception/NotFoundException.hpp"
+#include <iostream>
 
 namespace Engine
 {
@@ -132,7 +133,7 @@ namespace Engine {
     template <class... SystemTypeList>
     void SystemManager::selectSystems()
     {
-        (this->selectSystems<SystemTypeList>(), ...);
+        (this->selectSystem<SystemTypeList>(), ...);
     }
 
     template<class SystemType>
