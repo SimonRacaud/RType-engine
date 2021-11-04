@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include "EventManager/EventManager.hpp"
+#include "WindowManager/WindowManager.hpp"
 
 EventManager::EventManager(): _mouse(), _keyStack()
 {
@@ -21,10 +22,10 @@ EventManager::~EventManager()
     this->_keyStack.clear();
 }
 
-void EventManager::refresh()
+void EventManager::refresh(renderToolSfml &render)
 {
     this->_keyStack.clear();
-    this->fetchEvent();
+    this->fetchEvent(render);
 }
 
 bool EventManager::isKeyPressed(const IEventManager::keyEvent_e &key) const
@@ -66,20 +67,22 @@ bool EventManager::isValideEnum(const IEventManager::keyEvent_e &key) const
     return active && !invalid;
 }
 
-void EventManager::fetchEvent()
+void EventManager::fetchEvent(renderToolSfml &render)
 {
-    std::shared_ptr<sf::Window> window = nullptr; // TODO TAKE DECISION
+    auto tmp = dynamic_cast<WindowManager *>(render.get());
     sf::Event event;
     
-    while (window->pollEvent(event)) {
+    while (tmp->_window->pollEvent(event)) {
         switch (event.type)
         {
-            case sf::Event::Event::Closed: window->close(); break;
+            case sf::Event::Event::Closed: tmp->close(); break;
             case sf::Event::MouseMoved: this->mouseFetch(event); break;
             case sf::Event::EventType::KeyPressed: this->keyboardFetch(event); break;
             case sf::Event::EventType::MouseButtonPressed: this->mouseKeyFetch(event); break;
             default: break;
         }
+        if (event.type == sf::Event::Event::Closed)
+            break;
     }
 }
 

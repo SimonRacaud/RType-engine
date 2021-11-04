@@ -61,11 +61,9 @@ void TextManager::setFont(const std::string &name)
 
 void TextManager::draw(renderToolSfml &render)
 {
-    std::shared_ptr<WindowManager> tmp(dynamic_cast<WindowManager *>(render.get()));
-
     if (!this->_text || !this->_font)
         this->refresh();
-    tmp->_window->draw(*(this->_text.get()));
+    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_text.get()));
 }
 
 void TextManager::refresh()

@@ -51,9 +51,10 @@ bool WindowManager::isOpen() const
 
 void WindowManager::open()
 {
-    if (this->_window)
+    if (this->isOpen())
         throw std::invalid_argument("Window already open");
-    this->_window = std::make_shared<sf::RenderWindow>();//TODO
+    this->_window = std::make_shared<sf::RenderWindow>(sf::VideoMode(this->_size.x, this->_size.y), this->_name);
+    this->setFramerateLimiter(this->_fps);
 }
 
 void WindowManager::clear()
@@ -66,7 +67,7 @@ void WindowManager::clear()
 
 void WindowManager::refresh()
 {
-    if (this->_window)
+    if (this->isOpen())
         this->_window->display();
     else
         throw std::invalid_argument("Window must be open");

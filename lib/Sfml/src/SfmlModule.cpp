@@ -30,6 +30,7 @@ void func()
 }*/
 
 #include "TextManager/TextManager.hpp"
+#include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 #include "SpriteManager/SpriteManager.hpp"
 #include <memory>
@@ -38,6 +39,7 @@ void func()
 {
     std::shared_ptr<IWindowManager> window = std::make_shared<WindowManager>();
     TextManager text;
+    EventManager event;
     SpriteManager sprite;
 
     window->setName("yolo");
@@ -52,7 +54,6 @@ void func()
     sprite.setPosition({0, 0});
     sprite.setSrcFilepath("asset/sprites/r-typesheet1.gif");
 
-    window->open();
     while (window->isOpen()) {
         window->clear();
         // DRAW
@@ -60,5 +61,6 @@ void func()
         sprite.draw(window);
         // END
         window->refresh();
+        event.refresh(window);
     }
 }
