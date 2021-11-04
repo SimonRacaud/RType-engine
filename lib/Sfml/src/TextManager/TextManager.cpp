@@ -77,7 +77,8 @@ void TextManager::refresh()
     this->_text->setFont(*(this->_font.get()));
     this->_text->setString(this->_content);
     this->_text->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
-    this->_text->setCharacterSize((this->_size.x + this->_size.y) / 2);
+    if (this->_size.x && this->_size.y)
+        this->_text->setCharacterSize((this->_size.x + this->_size.y) / 2);
     try {
         this->_text->setFillColor(this->_colorLink.at(this->_color));
     } catch(...) {

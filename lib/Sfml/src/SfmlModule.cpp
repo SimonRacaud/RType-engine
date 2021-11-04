@@ -5,30 +5,6 @@
 ** SfmlModule.cpp
 */
 
-/*#include <iostream>
-#include <SFML/Graphics.hpp>
-
-void func()
-{
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
-}*/
-
 #include "TextManager/TextManager.hpp"
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
@@ -56,6 +32,16 @@ void func()
 
     while (window->isOpen()) {
         window->clear();
+
+        // EVENT
+        if (event.isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP))
+            text.setColor(ITextManager<renderToolSfml>::color_e::BLUE);
+        else
+            text.setColor(ITextManager<renderToolSfml>::color_e::RED);
+
+        text.setPosition(event.getMousePos());
+        // END
+        
         // DRAW
         text.draw(window);
         sprite.draw(window);

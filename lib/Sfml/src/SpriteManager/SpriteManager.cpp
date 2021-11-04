@@ -66,5 +66,6 @@ void SpriteManager::refresh()
         throw std::invalid_argument("Texture load failed " + this->_path);
     this->_sprite->setTexture(*(this->_texture.get()));
     this->_sprite->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
-    this->_sprite->setScale(sf::Vector2f(this->_size.x, this->_size.y));
+    if (this->_size.x && this->_size.y)
+        this->_sprite->setScale(sf::Vector2f(this->_size.x, this->_size.y));
 }
