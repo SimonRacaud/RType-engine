@@ -18,6 +18,10 @@
 
 namespace Engine {
     class IEntityManager {
+        /**
+         * \brief Access to the signatures of the entities
+         */
+        friend class ComponentManager;
       public:
         virtual ~IEntityManager() = default;
 
