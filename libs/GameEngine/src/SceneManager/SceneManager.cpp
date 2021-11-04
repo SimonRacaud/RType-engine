@@ -14,7 +14,7 @@ using namespace Engine;
 void SceneManager::run()
 {
     if (_currentScene != nullptr) {
-        //TODO include gameEngine factory when merge has fixed include problems
+        EngineFactory::getInstance().getSystemManager().executeCycle();
     }
 }
 

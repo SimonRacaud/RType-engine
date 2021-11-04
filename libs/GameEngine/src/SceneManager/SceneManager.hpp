@@ -18,6 +18,7 @@
 #include "env.hpp"
 #include "InvalidParameterException.hpp"
 #include "NotRegisteredException.hpp"
+#include "EngineFactory.hpp"
 
 namespace Engine
 {
