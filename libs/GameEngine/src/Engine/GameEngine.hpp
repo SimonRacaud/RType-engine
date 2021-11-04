@@ -16,6 +16,7 @@
 #include "ComponentManager/ComponentManager.hpp"
 #include "SceneManager/SceneManager.hpp"
 #include "IGameEngine.hpp"
+#include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 
 namespace Engine
 {
@@ -40,10 +41,10 @@ namespace Engine
         SystemManager &getSystemManager();
         ComponentManager &getComponentManager();
         SceneManager &getSceneManager();
-        // EventCallbackRegister &getEventRegister(); TODO
+        Event::EventCallbackRegister &getEventRegister();
 
       private:
-        // EventCallbackRegister _eventRegister; TODO
+        Event::EventCallbackRegister _eventRegister;
         EntityManager _entityManager;
         SystemManager _systemManager;
         ComponentManager _componentManager;

@@ -7,10 +7,10 @@
 
 #include "PrintEvent.hpp"
 #include "PrintingSystem.hpp"
-#include "global.hpp"
+#include "Testglobal.hpp"
 #include "MultipleEvent.hpp"
 
-//The reg variable will in the end be the Engine object. That holds a pointer to a EventCallBackRegister
+//The reg variable will in the end be the Engine object. That holds a pointer to a EventCallbackRegister
 //For this example I made the register global to facilitate the test
 int main(void)
 {

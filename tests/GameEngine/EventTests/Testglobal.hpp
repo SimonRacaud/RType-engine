@@ -8,9 +8,9 @@
 #ifndef GLOBAL_HPP_
 #define GLOBAL_HPP_
 
-#include "../../../libs/GameEngine/src/Event/EventCallBackRegister/EventCallBackRegister.hpp"
+#include "../../../libs/GameEngine/src/Event/EventCallbackRegister/EventCallbackRegister.hpp"
 
-extern Engine::Event::EventCallBackRegister *reg;
+extern Engine::Event::EventCallbackRegister *reg;
 
 void init();
 

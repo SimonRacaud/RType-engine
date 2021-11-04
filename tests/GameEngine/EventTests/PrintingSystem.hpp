@@ -11,7 +11,7 @@
 #include "PrintEvent.hpp"
 #include "MultipleEvent.hpp"
 #include <iostream>
-#include "global.hpp"
+#include "Testglobal.hpp"
 
 class PrintingSystem {
 	public:

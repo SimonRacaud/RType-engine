@@ -95,7 +95,12 @@ namespace Engine
 
     template <class SystemType> bool AbstractSystem<SystemType>::refresh()
     {
-        // TODO
+        TimePoint cTime = std::chrono::steady_clock::now();
+
+        if (_lastExecTime >= cTime - _runningFrequency) {
+            _lastExecTime = cTime;
+            return true;
+        }
         return false;
     }
 

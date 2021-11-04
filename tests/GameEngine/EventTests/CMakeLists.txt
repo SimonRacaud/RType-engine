@@ -22,7 +22,7 @@ include_directories(
         ../../../libs/GameEngine/src/
         ../../../libs/GameEngine/src/Event/AbstractEvent
         ../../../libs/GameEngine/src/Event/EventCallBack/
-        ../../../libs/GameEngine/src/Event/EventCallBackRegister    
+        ../../../libs/GameEngine/src/Event/EventCallbackRegister    
         ./   
 )
 

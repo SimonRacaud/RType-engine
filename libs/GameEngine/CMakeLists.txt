@@ -19,6 +19,7 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 include_directories(
         ./include
         ./include/Event
+        ./include/Exception
         ./src/
         ./src/BaseComponent
         ./src/ComponentManager
@@ -26,6 +27,7 @@ include_directories(
         ./src/AbstractSystem
         ./src/SystemManager
         ./src/AbstractScene
+        ./src/SceneManager
         ./src/Engine
         ./src/Event/AbstractEvent
         ./src/Event/EventCallBack

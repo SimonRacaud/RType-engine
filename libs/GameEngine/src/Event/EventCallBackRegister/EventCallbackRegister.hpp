@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2021
 ** RType
 ** File description:
-** EventCallBackRegister
+** EventCallbackRegister
 */
 
 #ifndef EVENTCALLBACKREGISTER_HPP_
@@ -17,10 +17,10 @@
 
 namespace Engine {
 	namespace Event {
-		class EventCallBackRegister {
+		class EventCallbackRegister {
 			public:
-				EventCallBackRegister() = default;
-				~EventCallBackRegister() {}
+				EventCallbackRegister() = default;
+				~EventCallbackRegister() {}
 
 				void execQueue()
 				{

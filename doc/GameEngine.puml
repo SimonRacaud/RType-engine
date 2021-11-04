@@ -14,7 +14,7 @@ namespace Engine {
     EngineFactory "1" -- "1" Engine
 
     class Engine {
-        - _eventRegister: EventCallBackRegister
+        - _eventRegister: EventCallbackRegister
         - _entityManager: EntityManager
         - _systemManager: SystemManager
         - _componentManager: ComponentManager
@@ -193,7 +193,7 @@ namespace Engine {
     namespace System {
         class SystemManager {
             - _list: vector<shared<AbstractSystem>>
-            - _selected: vector<shared<AbstractSystem>>
+            - _selectedSystems: vector<shared<AbstractSystem>>
 
             + register<SystemType, Args...>(TODO, Args...): SystemType &
             + unRegister<SystemType>(): void
@@ -307,7 +307,7 @@ namespace Engine {
         }
 
 
-        class EventCallBackRegister {
+        class EventCallbackRegister {
             - _callbackList: unordered_map<std::type_index, std::shared_ptr<IEventCallBack>>
             - _queue: queue<std::shared_ptr<IEvent>>
 
@@ -316,8 +316,8 @@ namespace Engine {
             + execQueue(): void
             - checkType<EventType>(): void
         }
-        EventCallBackRegister "1" -- "0..*" IEventCallBack
-        EventCallBackRegister "1" -- "0..*" IEvent
+        EventCallbackRegister "1" -- "0..*" IEventCallBack
+        EventCallbackRegister "1" -- "0..*" IEvent
 
         interface IEvent {
             + getType(): type_index

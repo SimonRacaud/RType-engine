@@ -7,10 +7,10 @@
 
 #include "global.hpp"
 
-Engine::Event::EventCallBackRegister *reg = nullptr;
+Engine::Event::EventCallbackRegister *reg = nullptr;
 
 void init()
 {
 	if (!reg)
-		reg = new Engine::Event::EventCallBackRegister();
+		reg = new Engine::Event::EventCallbackRegister();
 }
