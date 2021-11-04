@@ -117,18 +117,18 @@ namespace Engine
         _components.push_back(std::make_unique<ComponentType>(std::forward<Args>(args)...));
         _componentOwners.push_back(entity);
         _entityToComponent[entity] = index;
-        this->_getComponentSignature()[ComponentType::getIndex()] = true;
+        this->_getComponentSignature(entity)[ComponentType::getIndex()] = true;
     }
 
     template <typename ComponentType>
     void ComponentTypeRegister<ComponentType>::remove(Entity entity)
     {
-        Signature &signature = this->_getComponentSignature();
+        Signature &signature = this->_getComponentSignature(entity);
 
         if (false == signature[ComponentType::getIndex()]) {
             throw InvalidParameterException("Component doesn't exist");
         }
-        signature[ComponentType::type] = false;
+        signature[ComponentType::getIndex()] = false;
         Index index = _entityToComponent[entity];
         // update _components slot
         _components[index] = std::move(_components.back());
