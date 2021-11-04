@@ -8,13 +8,15 @@
 ** \date 04/11/2021
 */
 
-#ifndef GAMEENGINE_HPP
-#define GAMEENGINE_HPP
+#ifndef ENGINECORE_HPP
+#define ENGINECORE_HPP
 
 #include "Engine/EngineFactory.hpp"
+#include "AbstractScene/AbstractScene.hpp"
+#include "SceneManager/SceneManager.hpp"
 
 #include "Systems/PhysicsSystem/PhysicsSystem.hpp"
 #include "Components/Position.hpp"
 #include "Components/Position.hpp"
 
-#endif // GAMEENGINE_HPP
+#endif // ENGINECORE_HPP
