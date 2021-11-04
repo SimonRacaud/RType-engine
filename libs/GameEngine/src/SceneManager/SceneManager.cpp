@@ -51,8 +51,8 @@ shared_ptr<IScene> SceneManager::getCurrent()
 
 vector<shared_ptr<IScene>>::iterator SceneManager::getSceneItFromType(const TypeIdx &type)
 {
-    auto it = std::find_if(_scenes.begin(), _scenes.end(), [&](shared_ptr<IScene> &sceneType) {
-        return sceneType->getType() == type;
+    auto it = std::find_if(_scenes.begin(), _scenes.end(), [&](shared_ptr<IScene> scene) {
+        return scene->getType().hash_code() == type.hash_code();
     });
     return it;
 }

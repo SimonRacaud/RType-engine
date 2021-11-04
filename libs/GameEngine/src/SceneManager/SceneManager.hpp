@@ -110,7 +110,7 @@ namespace Engine
     template <typename SceneType, typename... Args>
     void SceneManager::registerScene(Args &&...args)
     {
-        const TypeIdx type = GET_TYPE_IDX(SceneType);
+        const TypeIdx type = AbstractScene<SceneType>::type;
     
         if (getSceneItFromType(type) != _scenes.end())
             throw FatalErrorException("This scene has already been registered");
@@ -120,16 +120,15 @@ namespace Engine
     template <class SceneType>
     void SceneManager::unregister()
     {
-        const TypeIdx type = std::type_index(typeid(SceneType));
+        const TypeIdx type = AbstractScene<SceneType>::type;
         auto it = getSceneItFromType(type);
 
         if (it == _scenes.end())
             throw NotRegisteredException("No scene with this type has been registered");
-        size_t index = std::distance(_scenes.begin(), it);
-        if (_currentScene->getType() == _scenes[index]->getType()) {
+        if (_currentScene->getType() == (*it)->getType()) {
             throw InvalidParameterException("Trying to unregister current loaded scene");
         }
-        _scenes[index] = _scenes.back();
+        (*it) = _scenes.back();
         _scenes.pop_back();
     }
 
@@ -137,14 +136,13 @@ namespace Engine
     template <typename SceneType>
     void SceneManager::select(bool closePrevious)
     {
-        const TypeIdx type = std::type_index(typeid(SceneType));
+        const TypeIdx type = AbstractScene<SceneType>::type;
 
         auto it = getSceneItFromType(type);
         if (it == _scenes.end())
             throw NotRegisteredException("Could not select scene that has not been registered");
-        size_t index = std::distance(_scenes.begin(), it);
-        _nextScene = _scenes[index];
-        if (closePrevious) {
+        _nextScene = *it;
+        if (closePrevious && false == _previousScenes.empty()) {
             _previousScenes.top()->close();
             _previousScenes.pop();
         }
@@ -154,13 +152,12 @@ namespace Engine
     template <class SceneType>
     shared_ptr<AbstractScene<SceneType>> SceneManager::get()
     {
-        const TypeIdx type = std::type_index(typeid(SceneType));
-
+        const TypeIdx type = AbstractScene<SceneType>::type;
         auto it = getSceneItFromType(type);
+
         if (it == _scenes.end())
             throw InvalidParameterException("Could not get pointer to non existing scene");
-        size_t index = std::distance(_scenes.begin(), it);
-        return reinterpret_cast<AbstractScene<SceneType>>(_scenes[index]);
+        return reinterpret_cast<AbstractScene<SceneType>>(*it);
     }
 
 } // namespace Engine
