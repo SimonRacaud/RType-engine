@@ -10,12 +10,12 @@
 #include <utility>
 
 using namespace Engine;
-
+ 
 void SceneManager::run()
 {
-   if (_currentScene != nullptr) {
-       //TODO get systems and execute cycle ?
-   }
+    if (_currentScene != nullptr) {
+        //TODO include gameEngine factory when merge has fixed include problems
+    }
 }
 
 void SceneManager::flushSelection()

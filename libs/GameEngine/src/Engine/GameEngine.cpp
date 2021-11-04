@@ -44,4 +44,7 @@ SceneManager &GameEngine::getSceneManager()
     return _sceneManager;
 }
 
-
+Event::EventCallbackRegister &GameEngine::getEventRegister()
+{
+    return _eventRegister;
+}

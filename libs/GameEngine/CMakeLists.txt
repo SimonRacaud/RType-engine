@@ -27,6 +27,7 @@ include_directories(
         ./src/AbstractSystem
         ./src/SystemManager
         ./src/AbstractScene
+        ./src/SceneManager
         ./src/Engine
         ./src/Event/AbstractEvent
         ./src/Event/EventCallBack/

@@ -91,7 +91,7 @@ namespace Engine
         template <class SystemType>
         void _checkType();
 
-        std::shared_ptr<IAbstractSystem> retrieveSystem(const TypeIdx &type);
+        std::vector<std::shared_ptr<IAbstractSystem>>::iterator retrieveSystem(const TypeIdx &type);
       private:
         std::vector<std::shared_ptr<IAbstractSystem>> _systems;
         std::vector<std::shared_ptr<IAbstractSystem>> _selectedSystems;
@@ -111,7 +111,7 @@ namespace Engine {
             return *sys;
         }
         SystemType *newSys = _systems.emplace_back(std::make_unique<SystemType>(std::forward<Args>(systemArgs)...));
-        return *sys.get();
+        return *newSys;
     }
 
     template <class SystemType>
@@ -127,9 +127,9 @@ namespace Engine {
     template <class SystemType, typename... Args>
     void SystemManager::selectSystems(SystemType currentSys, Args&&... systemTypeList)
     {
-        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto it = retrieveSystem(GET_TYPE_IDX(SystemType));
 
-        _selectedSystems.insert(sys);
+        _selectedSystems.push_back(*it);
         selectSystems(systemTypeList...);
     }
 
