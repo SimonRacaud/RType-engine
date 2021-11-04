@@ -9,6 +9,7 @@
 #define ANIMATIONMANAGER_HPP
 
 #include "build.hpp"
+#include "FrameRateLimiter.hpp"
 #include "Interface/IAnimationManager.hpp"
 
 class AnimationManager: public IAnimationManager<renderToolSfml>
@@ -30,7 +31,9 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         void setFocus(const surface &);
 
     private:
+        void nextStep();
         const sf::Drawable &getNextSprite();
+        static void stepManager(size_t &);
 
     private:
         vector2D _pos;
@@ -41,6 +44,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         size_t _offset;
         surface _focus;
         size_t _nb;
+        Singly::FrameRateLimiter<void (size_t &)> _limiter;
 };
 
 #endif

@@ -8,11 +8,11 @@
 #include "AnimationManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-AnimationManager::AnimationManager(): _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr), _offset(), _focus(), _nb(0)
+AnimationManager::AnimationManager(): _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr), _offset(), _focus(), _nb(0), _limiter(1, AnimationManager::stepManager)
 {
 }
 
-AnimationManager::AnimationManager(const AnimationManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture), _offset(src._offset), _focus(src._focus), _nb(src._nb)
+AnimationManager::AnimationManager(const AnimationManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture), _offset(src._offset), _focus(src._focus), _nb(src._nb), _limiter(1, AnimationManager::stepManager)
 {
 }
 
@@ -87,15 +87,20 @@ void AnimationManager::setNbMember(size_t nb)
 
 const sf::Drawable &AnimationManager::getNextSprite()
 {
+    this->_limiter.runIt(this->_offset);
+    if (this->_offset >= this->_nb)
+        this->_offset = 0;
+
     size_t x = this->_focus.pos.x * this->_offset;
     size_t y = this->_focus.pos.y * this->_offset;
     size_t size_x = this->_focus.size.x;
     size_t size_y = this->_focus.size.y;
 
     this->_sprite->setTextureRect(sf::IntRect(x, y, size_x, size_y));
-
-    this->_offset++;
-    if (this->_offset >= this->_nb)
-        this->_offset = 0;
     return *(this->_sprite.get());
+}
+
+void AnimationManager::stepManager(size_t &step)
+{
+    step++;
 }
