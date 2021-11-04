@@ -43,12 +43,14 @@ set(SRCS_CLIENT
 add_executable(${CLIENT}
                ${SRCS_CLIENT}
                ${CLIENT_DIR}/mainTestClientNetwork.cpp
+               ../../src/NetworkException.cpp
                )
 
 
 ## INCLUDES
 target_include_directories(${CLIENT} BEFORE PUBLIC include)
 target_include_directories(${CLIENT} BEFORE PUBLIC ${CMAKE_HOME_DIRECTORY}/../../include/)
+target_include_directories(${CLIENT} BEFORE PUBLIC ${CMAKE_HOME_DIRECTORY}/../../include/utils)
 
 ## COMPILATION FLAGS
 if (MSVC)
@@ -75,13 +77,14 @@ set(SRCS_SERVER
 
 add_executable(${SERVER}
                ${SRCS_SERVER}
-#               ${SERVER_DIR}/mainSTestServerNetwork.cpp
-               /home/arthur/Epitek/Epi_workinonit/R-Type/lib/Network/tests/functional/src/server/mainTestServerNetwork.cpp
+               ${SERVER_DIR}/mainTestServerNetwork.cpp
+               ../../src/NetworkException.cpp
                )
 
 ## INCLUDES
 target_include_directories(${SERVER} BEFORE PUBLIC include)
 target_include_directories(${SERVER} BEFORE PUBLIC ${CMAKE_HOME_DIRECTORY}/../../include/)
+target_include_directories(${CLIENT} BEFORE PUBLIC ${CMAKE_HOME_DIRECTORY}/../../include/utils)
 
 ## COMPILATION FLAGS
 if (MSVC)
