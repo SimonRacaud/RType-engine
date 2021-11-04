@@ -21,9 +21,9 @@ namespace Engine {
         virtual void close() = 0;
         virtual void open() = 0;
 
-        virtual TypeIdx getType() = 0;
-        virtual ClusterName getCluster() = 0;
-        virtual bool isClosed() = 0;
+        virtual TypeIdx getType() const = 0;
+        virtual ClusterName getCluster() const = 0;
+        virtual bool isClosed() const = 0;
     };
 }
 
