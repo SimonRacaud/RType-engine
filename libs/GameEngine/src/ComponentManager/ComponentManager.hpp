@@ -175,9 +175,8 @@ namespace Engine
         ComponentType::setIndex(_componentTypeCount);
         this->_componentTypeCount++;
         // Create register
-        vector<Signature> &signatures =
-            GET_ENTITY_M._getSignatureList();
-        _componentRegisters[ComponentType::type] =
+        vector<Signature> &signatures = GET_ENTITY_M._getSignatureList();
+        _componentRegisters[ComponentType::getIndex()] =
             std::make_shared<ComponentTypeRegister<ComponentType>>(signatures);
     }
 
