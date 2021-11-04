@@ -18,20 +18,7 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 ## INCLUDES
 include_directories(
         ./include
-        ./include/Event
-        ./include/Exception
         ./src/
-        ./src/BaseComponent
-        ./src/ComponentManager
-        ./src/EntityManager
-        ./src/AbstractSystem
-        ./src/SystemManager
-        ./src/AbstractScene
-        ./src/SceneManager
-        ./src/Engine
-        ./src/Event/AbstractEvent
-        ./src/Event/EventCallBack
-        ./src/Event/EventCallBackRegister
 )
 
 ## SOURCES
@@ -51,13 +38,11 @@ set(SRCS
         src/Engine/GameEngine.cpp
         src/Engine/EngineFactory.cpp
         src/Systems/PhysicsSystem/PhysicsSystem.cpp
-        src/GameEngine.hpp)
+        )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_library(${NAME} SHARED ${SRCS})
-
-set_target_properties(${NAME} PROPERTIES PUBLIC_HEADER include/GameEngine.hpp)
 
 if (MSVC)
     target_compile_options(${NAME} PRIVATE /W4 /WX)

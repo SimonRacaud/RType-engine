@@ -11,7 +11,7 @@
 #include <memory>
 #include <algorithm>
 #include <vector>
-#include "BaseComponent.hpp"
+#include "BaseComponent/BaseComponent.hpp"
 #include "ComponentTypeRegister/ComponentTypeRegister.hpp"
 #include "EntityName.hpp"
 #include "global.hpp"
@@ -19,7 +19,7 @@
 #include "Exception/NotRegisteredException.hpp"
 #include "Exception/NotFoundException.hpp"
 #include "Exception/FatalErrorException.hpp"
-#include "EngineFactory.hpp"
+#include "Engine/EngineFactory.hpp"
 #include "FactoryShortcuts.hpp"
 
 namespace Engine

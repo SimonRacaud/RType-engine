@@ -11,7 +11,7 @@
 #ifndef GAMEENGINE_HPP
 #define GAMEENGINE_HPP
 
-#include "EngineFactory.hpp"
+#include "Engine/EngineFactory.hpp"
 
 #include "Systems/PhysicsSystem/PhysicsSystem.hpp"
 #include "Components/Position.hpp"

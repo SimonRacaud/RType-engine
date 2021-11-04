@@ -17,7 +17,7 @@
 #include <vector>
 #include "global.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
-#include "InvalidParameterException.hpp"
+#include "Exception/InvalidParameterException.hpp"
 
 namespace Engine
 {

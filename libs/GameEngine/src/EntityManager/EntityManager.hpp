@@ -15,8 +15,8 @@
 #include "EntityName.hpp"
 #include "IEntityManager.hpp"
 #include "FactoryShortcuts.hpp"
-#include "EngineFactory.hpp"
-#include "ComponentManager.hpp"
+#include "Engine/EngineFactory.hpp"
+#include "ComponentManager/ComponentManager.hpp"
 
 namespace Engine
 {
