@@ -12,7 +12,9 @@ using namespace Engine;
 void SystemManager::executeCycle()
 {
     for (auto &system : _selectedSystems) {
-        system->run();
+        if (system->refresh()) {
+            system->run();
+        }
     }
 }
 
