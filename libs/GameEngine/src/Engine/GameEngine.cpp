@@ -21,6 +21,7 @@ void GameEngine::exec()
 {
     while (_loop) {
         this->_sceneManager.run();
+        this->_sceneManager.flushSelection();
     }
 }
 
