@@ -14,6 +14,7 @@
 #include "Item/surface.hpp"
 #include "Item/vector2D.hpp"
 #include <string>
+#include <functional>
 
 template <typename renderTool>
 class IAnimationManager: public IMovable, public IResizable, public IDrawable<renderTool>
@@ -34,6 +35,7 @@ class IAnimationManager: public IMovable, public IResizable, public IDrawable<re
         virtual void setNbMember(size_t) = 0;
         virtual void forceOffset(size_t) = 0;
         virtual void setFocus(const surface &) = 0;
+        virtual void setStepMovement(std::function<surface (surface, size_t)>) = 0;
 };
 
 #endif

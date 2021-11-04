@@ -8,11 +8,11 @@
 #include "AnimationManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-AnimationManager::AnimationManager(): _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr), _offset(), _focus(), _nb(0), _limiter(1, AnimationManager::stepManager)
+AnimationManager::AnimationManager(): _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr), _offset(), _focus(), _nb(0), _limiter(1, AnimationManager::stepManager), _func(AnimationManager::defaultMove)
 {
 }
 
-AnimationManager::AnimationManager(const AnimationManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture), _offset(src._offset), _focus(src._focus), _nb(src._nb), _limiter(1, AnimationManager::stepManager)
+AnimationManager::AnimationManager(const AnimationManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture), _offset(src._offset), _focus(src._focus), _nb(src._nb), _limiter(1, AnimationManager::stepManager), _func(AnimationManager::defaultMove)
 {
 }
 
@@ -91,10 +91,12 @@ const sf::Drawable &AnimationManager::getNextSprite()
     if (this->_offset >= this->_nb)
         this->_offset = 0;
 
-    size_t size_x = this->_focus.size.x;
-    size_t size_y = this->_focus.size.y;
-    size_t x = this->_focus.pos.x + size_x * this->_offset;
-    size_t y = this->_focus.pos.y;
+    surface tmp = this->_func(this->_focus, this->_offset);
+    size_t size_x = tmp.size.x;
+    size_t size_y = tmp.size.y;
+    size_t x = tmp.pos.x;
+    size_t y = tmp.pos.y;
+
 
     this->_sprite->setTextureRect(sf::IntRect(x, y, size_x, size_y));
     return *(this->_sprite.get());
@@ -103,4 +105,22 @@ const sf::Drawable &AnimationManager::getNextSprite()
 void AnimationManager::stepManager(size_t &step)
 {
     step++;
+}
+
+void AnimationManager::setStepMovement(std::function<surface (surface, size_t)> func)
+{
+    if (func)
+        this->_func = func;
+    else
+        this->_func = nullptr;
+}
+
+surface AnimationManager::defaultMove(surface focus, size_t offset)
+{
+    size_t size_x = focus.size.x;
+    size_t size_y = focus.size.y;
+    size_t x = focus.pos.x + size_x * offset;
+    size_t y = focus.pos.y;
+
+    return surface(vector2D(x, y), vector2D(size_x, size_y));
 }

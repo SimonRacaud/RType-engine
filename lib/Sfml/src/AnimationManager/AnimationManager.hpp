@@ -29,11 +29,13 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         void setNbMember(size_t);
         void forceOffset(size_t);
         void setFocus(const surface &);
+        void setStepMovement(std::function<surface (surface, size_t)>);
 
     private:
         void nextStep();
         const sf::Drawable &getNextSprite();
         static void stepManager(size_t &);
+        static surface defaultMove(surface, size_t);
 
     private:
         vector2D _pos;
@@ -45,6 +47,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         surface _focus;
         size_t _nb;
         Singly::FrameRateLimiter<void (size_t &)> _limiter;
+        std::function<surface (surface, size_t)> _func;
 };
 
 #endif
