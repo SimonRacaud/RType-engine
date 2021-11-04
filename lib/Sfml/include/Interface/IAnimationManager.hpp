@@ -11,6 +11,7 @@
 #include "IMovable.hpp"
 #include "IDrawable.hpp"
 #include "IResizable.hpp"
+#include "Item/surface.hpp"
 #include "Item/vector2D.hpp"
 #include <string>
 
@@ -24,11 +25,15 @@ class IAnimationManager: public IMovable, public IResizable, public IDrawable<re
         virtual const vector2D &getPosition() = 0;
         virtual void setSize(const vector2D &) = 0;
         virtual void setPosition(const vector2D &) = 0;
-        virtual void setDirPath(const std::string &) = 0;
+        virtual void setSrcPath(const std::string &) = 0;
 
         virtual void draw(renderTool &render) = 0;
 
         virtual void refresh() = 0;
+
+        virtual void setNbMember(size_t) = 0;
+        virtual void forceOffset(size_t) = 0;
+        virtual void setFocus(const surface &) = 0;
 };
 
 #endif

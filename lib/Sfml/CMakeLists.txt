@@ -28,6 +28,7 @@ set(SRCS
     src/EventManager/EventManager.cpp
     src/SpriteManager/SpriteManager.cpp
     src/WindowManager/WindowManager.cpp
+    src/AnimationManager/AnimationManager.cpp
     src/AudioManager/MusicManager/MusicManager.cpp
     src/AudioManager/SoundManager/SoundManager.cpp
     )
