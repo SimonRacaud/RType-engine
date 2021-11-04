@@ -6,6 +6,7 @@
 */
 
 #include "TextManager.hpp"
+#include "WindowManager/WindowManager.hpp"
 
 TextManager::TextManager(): _pos(), _size(), _color(), _content(), _fontPath(), _font(nullptr), _text(nullptr)
 {
@@ -60,9 +61,11 @@ void TextManager::setFont(const std::string &name)
 
 void TextManager::draw(renderToolSfml &render)
 {
+    std::shared_ptr<WindowManager> tmp(dynamic_cast<WindowManager *>(render.get()));
+
     if (!this->_text || !this->_font)
         this->refresh();
-    render->draw(*(this->_text.get()));
+    tmp->_window->draw(*(this->_text.get()));
 }
 
 void TextManager::refresh()

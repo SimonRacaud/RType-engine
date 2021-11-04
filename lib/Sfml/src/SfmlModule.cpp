@@ -5,7 +5,7 @@
 ** SfmlModule.cpp
 */
 
-#include <iostream>
+/*#include <iostream>
 #include <SFML/Graphics.hpp>
 
 void func()
@@ -26,5 +26,39 @@ void func()
         window.clear();
         window.draw(shape);
         window.display();
+    }
+}*/
+
+#include "TextManager/TextManager.hpp"
+#include "WindowManager/WindowManager.hpp"
+#include "SpriteManager/SpriteManager.hpp"
+#include <memory>
+
+void func()
+{
+    std::shared_ptr<IWindowManager> window = std::make_shared<WindowManager>();
+    TextManager text;
+    SpriteManager sprite;
+
+    window->setName("yolo");
+    window->setFramerateLimiter(30);
+    window->setSize(vector2D(800, 800));
+    window->open();
+
+    text.setColor(ITextManager<renderToolSfml>::color_e::RED);
+    text.setContent("mdr");
+    text.setFont("asset/font/Code-Bold.ttf");
+
+    sprite.setPosition({0, 0});
+    sprite.setSrcFilepath("asset/sprites/r-typesheet1.gif");
+
+    window->open();
+    while (window->isOpen()) {
+        window->clear();
+        // DRAW
+        text.draw(window);
+        sprite.draw(window);
+        // END
+        window->refresh();
     }
 }

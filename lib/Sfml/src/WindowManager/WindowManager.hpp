@@ -28,8 +28,10 @@ class WindowManager: public IWindowManager
         void refresh();
         void close();
     
-    private:
+    public:
         std::shared_ptr<sf::RenderWindow> _window;
+
+    private:
         size_t _fps;
         vector2D _size;
         std::string _name;
