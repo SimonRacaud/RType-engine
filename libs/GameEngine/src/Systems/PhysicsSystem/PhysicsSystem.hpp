@@ -9,18 +9,20 @@
 #define PHYSICSSYSTEM_HPP
 
 #include "env.hpp"
+#include "global.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
-#include "components/Position.hpp"
-#include "components/Velocity.hpp"
+#include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
 #include "EntityManager/EntityManager.hpp"
 
 namespace Engine
 {
-    class PhysicsSystem : public AbstractSystem {
+    class PhysicsSystem : public AbstractSystem<PhysicsSystem> {
       public:
-        PhysicsSystem(EntityManager &entityManager);
+        PhysicsSystem();
+        virtual ~PhysicsSystem() = default;
 
-        void update(float dt);
+        void run();
 
       private:
     };

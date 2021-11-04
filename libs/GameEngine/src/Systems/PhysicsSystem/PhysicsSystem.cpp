@@ -6,19 +6,24 @@
 */
 
 #include "PhysicsSystem.hpp"
+#include "FactoryShortcuts.hpp"
 
 using namespace Engine;
 
-PhysicsSystem::PhysicsSystem(EntityManager &entityManager) : AbstractSystem(entityManager)
+static const Time refreshFreq = DEF_SYSTEM_RUN_FREQ;
+static const SystemPriority priority = SystemPriority::HIGH;
+
+PhysicsSystem::PhysicsSystem()
+    : AbstractSystem<PhysicsSystem>(refreshFreq, priority)
 {
     this->setRequirements<Position, Velocity>();
 }
 
-void PhysicsSystem::update(float dt)
+void PhysicsSystem::run()
 {
     for (const Entity &entity : this->getManagedEntities()) {
-        auto [position, velocity] = _entityManager.getComponents<Position, Velocity>(entity);
-        position.x += velocity.x * dt;
-        position.y += velocity.y * dt;
+        auto [position, velocity] = GET_COMP_M.getList<Position, Velocity>(entity);
+        position.x += velocity.x;
+        position.y += velocity.y;
     }
 }
