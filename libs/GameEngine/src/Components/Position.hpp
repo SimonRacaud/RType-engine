@@ -12,18 +12,13 @@
 
 namespace Engine
 {
-    struct Position : public Component<Position> {
-        Position(float x, float y) : x(x), y(y)
-        {
-        }
-        Position() : x(0), y(0)
-        {
-        }
-
+    struct Position : public BaseComponent<Position> {
+        Position(float x, float y) : x(x), y(y) {}
+        Position() = default;
         virtual ~Position() = default;
 
-        float x;
-        float y;
+        float x{0};
+        float y{0};
     };
 } // namespace Engine
 
