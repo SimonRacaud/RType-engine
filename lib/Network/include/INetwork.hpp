@@ -27,12 +27,15 @@ namespace Network
         /**
          * @brief Connect to a remote INetwork class
          * @param ip The ip of the targeted machine
+         * @param port The port of the targeted machine
+         * @return true if connected, false otherwise
          */
         virtual bool connect(const std::string &ip, const std::size_t port) = 0;
 
         /**
          * @brief Disconnect from a particular machine
          * @param ip The machine's ip address
+         * @param port The machine's port
          */
         virtual void disconnect(const std::string &ip, const std::size_t port) = 0;
         /**
@@ -49,6 +52,7 @@ namespace Network
         /**
          * @brief Receive data from a particular machine
          * @param ip The machine's ip address
+         * @param number The machine's port number
          * @return The data received, '\0's if nothing received
          */
         virtual std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
@@ -64,12 +68,14 @@ namespace Network
          * @brief Send data to a particular machine
          * @param buf The data sent
          * @param ip The machine's ip address
+         * @param port The machine's port number
          */
         virtual void send(const std::array<char, PACKETSIZE> &buf, const std::string &ip, const std::size_t port) = 0;
 
         /**
          * @brief Check if a machine is connected
          * @param ip The machine's ip address
+         * @param port The machine's port number
          * @return True if connected, false otherwise
          */
         [[nodiscard]] virtual bool isConnected(const std::string &ip, const std::size_t port) const = 0;

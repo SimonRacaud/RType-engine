@@ -35,9 +35,6 @@ namespace Network
         }
 
         /**
-         * @brief
-         * @param ip
-         * @param port
          * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
          */
         void disconnect(const std::string &ip, const std::size_t port) override
@@ -65,6 +62,10 @@ namespace Network
             _socketConnections.clear();
         }
 
+        /**
+         * @brief Receive data from connected machines
+         * @return The data and its author, if received
+         */
         std::tuple<std::array<char, PACKETSIZE>, std::size_t, std::string, std::size_t> receiveAny() override
         {
             std::pair<std::array<char, PACKETSIZE>, std::size_t> buf;
@@ -84,6 +85,13 @@ namespace Network
             return std::make_tuple(std::array<char, PACKETSIZE>(), 0, "", 0);
         }
 
+        /**
+         * @brief Receive data from a particular machine
+         * @param ip The ip of the machine to receive data from
+         * @param port The port of the machine to receive data from
+         * @return The data, if received
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
         std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
             const std::string &ip, const std::size_t port) override
         {
@@ -115,6 +123,9 @@ namespace Network
             }
         }
 
+        /**
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
         void send(const std::array<char, PACKETSIZE> &buf, const std::string &ip, const std::size_t port) override
         {
             auto connection(getConnection(ip, port));
@@ -125,6 +136,9 @@ namespace Network
         }
 
       protected:
+        /**
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
         void send(const std::array<char, PACKETSIZE> &buf, std::shared_ptr<tcp::socket> &connection)
         {
             if (!connection)
