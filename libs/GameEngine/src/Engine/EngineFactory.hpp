@@ -32,7 +32,6 @@ namespace Engine
       private:
         static unique_ptr<IGameEngine> _engine;
     };
-    unique_ptr<IGameEngine> EngineFactory::_engine = nullptr;
 }
 
 #endif // ENGINEFACTORY_HPP

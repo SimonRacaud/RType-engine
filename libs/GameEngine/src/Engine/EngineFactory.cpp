@@ -13,6 +13,8 @@
 
 using namespace Engine;
 
+unique_ptr<IGameEngine> EngineFactory::_engine = nullptr;
+
 IGameEngine &EngineFactory::getInstance()
 {
     if (EngineFactory::_engine == nullptr) {

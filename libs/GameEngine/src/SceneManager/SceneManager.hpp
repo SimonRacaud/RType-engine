@@ -14,11 +14,11 @@
 #include <stack>
 #include "IScene.hpp"
 #include "EntityManager/EntityManager.hpp"
-#include "AbstractScene.hpp"
+#include "AbstractScene/AbstractScene.hpp"
 #include "env.hpp"
-#include "InvalidParameterException.hpp"
-#include "NotRegisteredException.hpp"
-#include "EngineFactory.hpp"
+#include "Exception/InvalidParameterException.hpp"
+#include "Exception/NotRegisteredException.hpp"
+#include "Engine/EngineFactory.hpp"
 
 namespace Engine
 {

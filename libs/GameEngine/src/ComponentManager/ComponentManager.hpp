@@ -11,7 +11,7 @@
 #include <memory>
 #include <algorithm>
 #include <vector>
-#include "BaseComponent.hpp"
+#include "BaseComponent/BaseComponent.hpp"
 #include "ComponentTypeRegister/ComponentTypeRegister.hpp"
 #include "EntityName.hpp"
 #include "global.hpp"
@@ -19,11 +19,13 @@
 #include "Exception/NotRegisteredException.hpp"
 #include "Exception/NotFoundException.hpp"
 #include "Exception/FatalErrorException.hpp"
-#include "EngineFactory.hpp"
+#include "Engine/EngineFactory.hpp"
 #include "FactoryShortcuts.hpp"
 
 namespace Engine
 {
+    #define GET_ENTITY_M EngineFactory::getInstance().getEntityManager()
+
     using std::array;
     using std::size_t;
     using std::shared_ptr;
@@ -31,9 +33,12 @@ namespace Engine
     using std::vector;
 
     class ComponentManager {
+      public:
+        /**
+         * \brief Access to the component register
+         */
         friend class EntityManager;
 
-      public:
         ComponentManager();
         virtual ~ComponentManager() = default;
 
@@ -196,9 +201,9 @@ namespace Engine
     {
         this->_checkTypeList<ComponentTypeList...>();
         if (this->hasComponents<ComponentTypeList...>(entity) == false) {
-            ((std::cerr << "ComponentManager::getComponents Entity "
-            << entity << " request " << ComponentTypeList::type << " component."
-                        << std::endl), ...);
+            ((std::cerr << "ComponentManager::getComponents Entity " <<
+                 entity << " request " << ComponentTypeList::getIndex()
+                        << " component." << std::endl), ...);
             throw NotFoundException(
                 "ComponentManager::getComponents The entity "
                 "don't have the requested Components.");
@@ -217,7 +222,7 @@ namespace Engine
         if (this->hasComponent<ComponentType>(entity)) {
             std::cerr << "ComponentManager::addComponent : Entity "
                       << (uint)entity << " => Component " <<
-                      ComponentType::type << std::endl;
+                      ComponentType::getIndex() << std::endl;
             throw FatalErrorException("ComponentManager::addComponent, Same "
                                         "component added several time"
                                         "on an entity.");

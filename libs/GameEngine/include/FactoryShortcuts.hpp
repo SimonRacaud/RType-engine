@@ -11,12 +11,8 @@
 #ifndef FACTORYSHORTCUTS_HPP
 #define FACTORYSHORTCUTS_HPP
 
-#include "EngineFactory.hpp"
-#include "EntityManager.hpp"
-#include "SystemManager.hpp"
-
+#include "SystemManager/SystemManager.hpp"
 namespace Engine {
-    #define GET_ENTITY_M EngineFactory::getInstance().getEntityManager()
     #define GET_SYS_M    EngineFactory::getInstance().getSystemManager()
 }
 

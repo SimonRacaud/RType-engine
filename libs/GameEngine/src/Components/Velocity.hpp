@@ -12,18 +12,13 @@
 
 namespace Engine
 {
-    struct Velocity : public Component<Velocity> {
-        Velocity(float x, float y) : x(x), y(y)
-        {
-        }
-        Velocity() : x(0), y(0)
-        {
-        }
-
+    struct Velocity : public BaseComponent<Velocity> {
+        Velocity(float x, float y) : x(x), y(y) {}
+        Velocity() = default;
         virtual ~Velocity() = default;
 
-        float x;
-        float y;
+        float x{0};
+        float y{0};
     };
 } // namespace Engine
 

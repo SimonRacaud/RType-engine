@@ -34,6 +34,6 @@
 /**
  * Default system running frequency
  */
-#define DEF_SYSTEM_RUN_FREQ 10
+#define DEF_SYSTEM_RUN_FREQ (const Time)10
 
 #endif // ENV_HPP
