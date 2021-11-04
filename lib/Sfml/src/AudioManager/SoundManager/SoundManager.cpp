@@ -7,7 +7,7 @@
 
 #include "SoundManager.hpp"
 
-SoundManager::SoundManager(): _manager(nullptr), _sound(nullptr), _path(""), _volume(0), _pause(false)
+SoundManager::SoundManager(): _manager(nullptr), _sound(nullptr), _path(""), _volume(100), _pause(false)
 {
 }
 
@@ -69,9 +69,8 @@ void SoundManager::setVolume(size_t newVolume)
 
 void SoundManager::setAudio(const std::string &name)
 {
-    if (!this->_manager || !this->_sound)
-        throw std::invalid_argument("Audio must be play");
-    this->loadAudio(name);
+    if (this->_manager && this->_sound)
+        this->loadAudio(name);
     this->_path = name;
 }
 

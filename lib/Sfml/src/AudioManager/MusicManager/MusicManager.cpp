@@ -7,7 +7,7 @@
 
 #include "MusicManager.hpp"
 
-MusicManager::MusicManager(): _manager(nullptr), _path(""), _volume(0), _pause(false)
+MusicManager::MusicManager(): _manager(nullptr), _path(""), _volume(100), _pause(false)
 {
 }
 
@@ -78,4 +78,5 @@ void MusicManager::loadAudio(const std::string &name)
 {
     if (!this->_manager->openFromFile(name))
         throw std::invalid_argument("Failed to open: " + name);
+    this->_manager->setLoop(true);
 }

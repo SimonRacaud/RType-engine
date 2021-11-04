@@ -9,6 +9,8 @@
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 #include "SpriteManager/SpriteManager.hpp"
+#include "AudioManager/MusicManager/MusicManager.hpp"
+#include "AudioManager/SoundManager/SoundManager.hpp"
 #include <memory>
 
 void func()
@@ -17,6 +19,8 @@ void func()
     TextManager text;
     EventManager event;
     SpriteManager sprite;
+    MusicManager music;
+    SoundManager sound;
 
     window->setName("yolo");
     window->setFramerateLimiter(30);
@@ -30,10 +34,18 @@ void func()
     sprite.setPosition({0, 0});
     sprite.setSrcFilepath("asset/sprites/r-typesheet1.gif");
 
+    music.setAudio("asset/music/song.ogg");
+    music.play();
+
+    sound.setAudio("asset/sound/ActiveBomb.ogg");
+
     while (window->isOpen()) {
         window->clear();
 
         // EVENT
+        if (event.isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_LEFT))
+            sound.play();
+
         if (event.isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP))
             text.setColor(ITextManager<renderToolSfml>::color_e::BLUE);
         else if (event.mouseIsOnClick(surface(vector2D(0, 0), vector2D(200, 200)), IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_MIDDLE))
@@ -54,4 +66,5 @@ void func()
         window->refresh();
         event.refresh(window);
     }
+    music.pause();
 }
