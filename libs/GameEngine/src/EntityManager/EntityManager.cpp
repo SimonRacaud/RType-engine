@@ -89,12 +89,12 @@ void EntityManager::_allocate(std::size_t size)
     _entities.allocate(size);
 }
 
-std::vector<Signature> EntityManager::_getSignatureList()
+std::vector<Signature> &EntityManager::_getSignatureList()
 {
     return this->_entities.getSignatureList();
 }
 
-const Signature EntityManager::_getSignature(Entity entity)
+const Signature &EntityManager::_getSignature(Entity entity)
 {
     return this->_entities.getSignature(entity);
 }

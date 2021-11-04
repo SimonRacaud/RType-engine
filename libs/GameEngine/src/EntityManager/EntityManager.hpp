@@ -110,11 +110,11 @@ namespace Engine
       private:
         void _allocate(std::size_t size);
 
-        std::vector<Signature> _getSignatureList();
+        std::vector<Signature> &_getSignatureList();
         /**
          * @throws NotFoundException
          */
-        const Signature _getSignature(Entity entity);
+        const Signature &_getSignature(Entity entity);
 
         EntityRegister &_getEntityRegister();
 

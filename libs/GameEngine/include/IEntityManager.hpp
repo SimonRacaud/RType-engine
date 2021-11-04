@@ -26,7 +26,7 @@ namespace Engine {
         virtual ~IEntityManager() = default;
 
         virtual Entity create(EntityDestructor destructor, ClusterName cluster,
-            EntityName name, bool setNetworkId) = 0;
+            EntityName name, bool setNetworkId = false) = 0;
 
         virtual void remove(Entity entity) = 0;
         virtual void remove(EntityName name) = 0;
@@ -42,8 +42,8 @@ namespace Engine {
         virtual void setNetworkId(Entity entity, NetworkId networkId) = 0;
 
       private:
-        virtual std::vector<Signature> _getSignatureList() = 0;
-        virtual const Signature _getSignature(Entity entity) = 0;
+        virtual std::vector<Signature> &_getSignatureList() = 0;
+        virtual const Signature &_getSignature(Entity entity) = 0;
 
         virtual EntityRegister &_getEntityRegister() = 0;
     };
