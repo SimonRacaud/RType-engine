@@ -31,6 +31,11 @@ namespace Engine
         virtual ~NetworkIdRegister() = default;
 
         NetworkId reserveId();
+        /**
+         * @throws FatalErrorException : already reserved
+         * @param id : network id
+         * @return
+         */
         NetworkId reserveId(NetworkId id);
         bool isReserved(NetworkId id);
         void releaseId(NetworkId id);

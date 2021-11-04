@@ -23,6 +23,10 @@ namespace Engine
         EngineFactory() = delete;
         virtual ~EngineFactory() = delete;
 
+        /**
+         * @brief Singleton of the Game Engine core
+         * @return
+         */
         static IGameEngine &getInstance();
 
       private:

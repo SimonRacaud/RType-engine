@@ -17,6 +17,9 @@
 
 namespace Engine
 {
+    /**
+     * @brief Stock the information about one entity
+     */
     class EntityBlock {
       private:
         Entity _entity{0};

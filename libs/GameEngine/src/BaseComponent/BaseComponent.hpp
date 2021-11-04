@@ -17,7 +17,14 @@
 
 namespace Engine
 {
+    /**
+     * \brief Every components must inherit of BaseComponent
+     * @tparam ComponentType
+     */
     template <class ComponentType> class BaseComponent {
+        /**
+         * \brief The component manager is the only one that can do setIndex.
+         */
         friend class ComponentManager;
 
       public:
@@ -25,36 +32,44 @@ namespace Engine
         virtual ~BaseComponent() = default;
 
         /**
-         * \brief unique id of the component
+         * \brief Unique id of the component type.
          */
         static const TypeIdx type;
 
+        /**
+         * @throws NotRegisteredException
+         * @return
+         */
         static Index getIndex();
-
       private:
         static void setIndex(Index index);
-        static Index idx;
+
+      private:
+        /**
+         * \brief Index of the component type in the register list. (ECS)
+         */
+        static Index _index;
     };
 
     template <class ComponentType>
     Index BaseComponent<ComponentType>::getIndex()
     {
-        if (BaseComponent<ComponentType>::idx == InvalidIndex) {
+        if (BaseComponent<ComponentType>::_index == InvalidIndex) {
             throw NotRegisteredException("Component");
         }
-        return BaseComponent<ComponentType>::idx;
+        return BaseComponent<ComponentType>::_index;
     }
     template <class ComponentType>
     void BaseComponent<ComponentType>::setIndex(Index index)
     {
-        BaseComponent<ComponentType>::idx = index;
+        BaseComponent<ComponentType>::_index = index;
     }
 
     template <typename ComponentType>
     const TypeIdx BaseComponent<ComponentType>::type = GET_TYPE_IDX(BaseComponent<ComponentType>);
 
     template <typename ComponentType>
-    Index BaseComponent<ComponentType>::idx = InvalidIndex;
+    Index BaseComponent<ComponentType>::_index = InvalidIndex;
 
 } // namespace Engine
 

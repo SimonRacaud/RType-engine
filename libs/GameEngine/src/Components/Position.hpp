@@ -1,0 +1,30 @@
+/*
+** EPITECH PROJECT, 2021
+** GameEngine
+** File description:
+** 27/05/2021 Position.hpp.h
+*/
+
+#ifndef POSITION_HPP
+#define POSITION_HPP
+
+#include "BaseComponent/BaseComponent.hpp"
+
+namespace Engine
+{
+    struct Position : public Component<Position> {
+        Position(float x, float y) : x(x), y(y)
+        {
+        }
+        Position() : x(0), y(0)
+        {
+        }
+
+        virtual ~Position() = default;
+
+        float x;
+        float y;
+    };
+} // namespace Engine
+
+#endif // POSITION_HPP

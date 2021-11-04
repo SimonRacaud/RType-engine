@@ -37,28 +37,96 @@ namespace Engine
         ComponentManager();
         virtual ~ComponentManager() = default;
 
+        /**
+         * \brief Register's array allocation.
+         */
         void allocate();
+
+        /**
+         * \brief add a component to the Engine
+         * @tparam ComponentType
+         */
         template <typename ComponentType> void registerComponent();
 
+        /**
+         * @brief Get a component of a specific entity
+         * @throws NotFoundException
+         * @tparam ComponentType
+         * @param entity
+         * @return ComponentType
+         */
         template <typename ComponentType> ComponentType &get(Entity entity);
 
+        /**
+         * @brief Get component(s) of a specific entity
+         * @throws NotFoundException
+         * @tparam ComponentTypeList
+         * @param entity
+         * @return tuple<ComponentType>
+         */
         template <typename... ComponentTypeList>
         std::tuple<ComponentTypeList &...> getList(Entity entity);
 
+        /**
+         * @brief Attach a component to a specific entity
+         * @throws FatalErrorException
+         * @throws NotRegisteredException
+         * @throws NotFoundException
+         * @tparam ComponentType
+         * @tparam Args
+         * @param entity
+         * @param args Arguments of the component's constructor
+         */
         template <typename ComponentType, typename... Args>
         void add(Entity entity, Args &&...args);
 
+        /**
+         * @brief Remove a component of a specific entity
+         * @throws InvalidParameterException
+         * @tparam ComponentType
+         * @param entity
+         */
         template <typename ComponentType> void remove(Entity entity);
+        /**
+         * @brief Remove a component of a named entity
+         * @throws InvalidParameterException
+         * @tparam ComponentType
+         * @param name
+         */
         template <typename ComponentType> void remove(EntityName name);
 
+        /**
+         * @brief Get the id of the entity that own a specific component
+         * @throws NotFoundException
+         * @tparam ComponentType
+         * @param component
+         * @return
+         */
         template <typename ComponentType>
         Entity getOwner(const ComponentType &component) const;
 
+        /**
+         * @brief Do an action on every instances of a component type
+         * @tparam ComponentType
+         * @param fn
+         */
         template <typename ComponentType>
         void foreachComponent(ComponentBrowseFunction<ComponentType> fn);
 
+        /**
+         * @brief Do the entity has a component ComponentType ?
+         * @tparam ComponentType
+         * @param entity
+         * @return
+         */
         template <typename ComponentType>
         bool hasComponent(Entity entity);
+        /**
+         * @brief Do the entity has every components ComponentTypeList ?
+         * @tparam ComponentTypeList
+         * @param entity
+         * @return
+         */
         template <typename... ComponentTypeList>
         bool hasComponents(Entity entity);
 

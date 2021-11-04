@@ -55,7 +55,7 @@ void EntityRegister::remove(Entity entity)
 {
     if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
         _freeEntities.end()) {
-        throw InvalidParameterException("EntityRegister::remove Entity already removed.");
+        throw NotFoundException("EntityRegister::remove Entity already removed.");
     }
     _freeEntities.push_back(entity);
     _bookedEntities[entity].removed = true;

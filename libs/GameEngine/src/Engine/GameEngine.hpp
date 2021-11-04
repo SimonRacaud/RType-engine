@@ -19,12 +19,21 @@
 
 namespace Engine
 {
+    /**
+     * @brief Core of the game engine
+     */
     class GameEngine : public IGameEngine {
       public:
         GameEngine() = default;
         virtual ~GameEngine() = default;
 
+        /**
+         * @brief Stop the game engine
+         */
         void quit();
+        /**
+         * @brief Start the game engine
+         */
         void exec();
 
         IEntityManager &getEntityManager();

@@ -26,21 +26,51 @@ namespace Engine
     using std::tuple;
     using std::vector;
 
+    /**
+     * @brief That class manage the instances of a component
+     * @tparam ComponentType
+     */
     template <typename ComponentType>
     class ComponentTypeRegister : public IComponentTypeRegister {
       public:
+        /**
+         * @param signatures : Signatures of every entities of the ECS
+         */
         explicit ComponentTypeRegister(std::vector<Signature> &signatures);
         virtual ~ComponentTypeRegister() = default;
 
+        /**
+         * @brief Memory optimisation : pre-allocation of the containers
+         * @param size
+         */
         virtual void allocate(size_t size) override;
 
+        /**
+         * @brief Get the instance attached to an entity
+         * @throws NotFoundException
+         * @param entity
+         * @return
+         */
         ComponentType &get(Entity entity);
 
         template <typename... Args> void add(Entity entity, Args &&...args);
 
+        /**
+         * @throws InvalidParameterException
+         * @param entity
+         */
         virtual void remove(Entity entity) override;
+        /**
+         * @throws NotFoundException
+         * @param component
+         * @return
+         */
         Entity getOwner(const ComponentType &component);
 
+        /**
+         * @brief Reference to the list of the instances
+         * @return
+         */
         vector<unique_ptr<ComponentType>> &getComponents();
 
       private:
