@@ -35,7 +35,6 @@ namespace Network
                 }
                 return false;
             }
-            std::cout << "add connection" << std::endl;
             AsioConnectionTCP<PACKETSIZE>::addConnection(newConnection);
             return true;
         }

@@ -21,10 +21,8 @@ namespace Network
          * @param ip The ip of the non-connected machine
          * @param port The port of the non-connected machine
          */
-        explicit invalidConnection(const std::string &message = "Machine not connected" /* todo change by
-                                                                                         * _baseMessage*/
-            ,
-            const std::string &ip = "", std::size_t port = 0);
+        explicit invalidConnection(
+            const std::string &message = _baseMessage, const std::string &ip = "", std::size_t port = 0);
         ~invalidConnection() override = default;
 
         [[nodiscard]] const char *what() const noexcept override;
@@ -33,12 +31,12 @@ namespace Network
         std::string _message;
 
       public:
-        //        static const std::string _baseMessage;
-        //        static const std::string _baseMessageFormat;
+        static const std::string _baseMessage;
+        static const std::string _baseMessageFormat;
     };
 } // namespace Network
 
-// inline const std::string _baseMessage = "Machine not connected";
-// inline const std::string _baseMessageFormat = _baseMessage + " -> ip : {}, port : {}";
+inline const std::string _baseMessage = "Machine not connected";
+inline const std::string _baseMessageFormat = _baseMessage + " -> ip : {}, port : {}";
 
 #endif // R_TYPE_NETWORKEXCEPTION_HPP

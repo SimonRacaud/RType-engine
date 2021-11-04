@@ -10,6 +10,7 @@
 #include <functional>
 #include <thread>
 #include "INetwork.hpp"
+#include "NetworkException.hpp"
 #include "utils/ThreadSafety/LockedDeque.hpp"
 #include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
@@ -37,11 +38,8 @@ namespace Network
 
         ~AAsioConnection()
         {
-            std::cout << "Stopping run async" << std::endl;
-            stopRunAsync(); // todo search blocking / infinite loop
-            std::cout << "Stopped run async" << std::endl;
+            stopRunAsync();
             disconnectAll();
-            std::cout << "Disconnect all" << std::endl;
         }
 
         AAsioConnection &operator=(const AAsioConnection<PACKETSIZE> &) = delete;
@@ -61,11 +59,8 @@ namespace Network
             std::pair<const std::string, const std::size_t> value(ip, port);
 
             first = std::find(first, last, value);
-
-            //            if (first == last)
-            //                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip,
-            //                port);
-
+            if (first == last)
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             for (auto i = first; ++i != last;)
                 if (!(*i == value))
                     (void) std::move(*i); // todo test
@@ -118,9 +113,8 @@ namespace Network
         void realRunAsync()
         {
             while (_thread.joinable() && !AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
-                std::cout << "thread running" << std::endl;
                 _ioContext.run_one();
-                usleep(500); // todo remove
+                usleep(500); // TODO remove
             }
         }
 
@@ -129,7 +123,6 @@ namespace Network
             if (!_thread.joinable()) {
                 return;
             }
-            std::cout << "trying to stop io_context " << std::endl;
             if (!AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
                 AAsioConnection<PACKETSIZE>::_ioContext.stop();
             }
@@ -176,10 +169,9 @@ namespace Network
          * @property Run asynchronous asio operations in a non-blocking way
          */
         std::thread _thread;
-        std::mutex _mutex;
         /**
          * @note std::atomic ensures thread safety over this variable
-         */ // todo make atomic
+         */
         std::array<char, PACKETSIZE> _recvBuf{0};
     };
 } // namespace Network

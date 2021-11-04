@@ -18,7 +18,6 @@
 
 #include <asio/error.hpp>
 #include "ANetwork.hpp"
-#include "NetworkException.hpp"
 
 namespace Network
 {
@@ -35,6 +34,12 @@ namespace Network
             this->disconnectAll();
         }
 
+        /**
+         * @brief
+         * @param ip
+         * @param port
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
         void disconnect(const std::string &ip, const std::size_t port) override
         {
             auto first(_socketConnections.begin());
@@ -42,10 +47,10 @@ namespace Network
             auto connection(getConnection(ip, port));
 
             if (!connection)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             first = std::find(first, last, connection);
             if (first == last)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             AAsioConnection<PACKETSIZE>::disconnect(
                 connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
             if (first != last)
@@ -86,8 +91,7 @@ namespace Network
             auto connection(getConnection(ip, port));
 
             if (!connection)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
-            //            return std::pair<std::array<char, PACKETSIZE>, std::size_t>({}, 0);
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
 
             auto my_recvData(std::find_if(AAsioConnection<PACKETSIZE>::_recvData.begin(),
                 AAsioConnection<PACKETSIZE>::_recvData.end(), [&](const auto &recvData) {
@@ -116,8 +120,7 @@ namespace Network
             auto connection(getConnection(ip, port));
 
             if (!connection)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
-            std::cout << "connection exists, need to send now" << std::endl;
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             send(buf, connection);
         }
 
@@ -126,7 +129,6 @@ namespace Network
         {
             if (!connection)
                 throw Network::invalidConnection();
-            std::cout << "sending ..." << std::endl;
             connection->send(asio::buffer(std::string(buf.data(), buf.size())));
         }
 
@@ -190,7 +192,6 @@ namespace Network
             if (!connection)
                 return;
 
-            std::cout << "\tWill now Receive from " << connection << std::endl;
             connection->async_receive(asio::buffer(AAsioConnection<PACKETSIZE>::_recvBuf.data(),
                                           AAsioConnection<PACKETSIZE>::_recvBuf.size()),
                 std::bind(&AsioConnectionTCP<PACKETSIZE>::asyncReceiving, this, std::placeholders::_1,
@@ -200,23 +201,18 @@ namespace Network
         void asyncReceiving(
             const asio::error_code &err, const std::size_t &lenRecvBuf, std::shared_ptr<tcp::socket> &connection)
         {
-            std::cout << "asyncReceiving()" << std::endl;
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
-                    std::cout << "\tAn error occured : asio::error::misc_errors" << std::endl;
                     return;
                 }
             }
-            std::cout << "\t\tNo error" << std::endl;
             if (!lenRecvBuf) {
-                std::cout << "\t\t\tAn error occured : no lenRecvBuf" << std::endl;
                 return;
             }
 
             if (!AAsioConnection<PACKETSIZE>::_recvBuf.data()) {
                 return;
             }
-            std::cout << "\t\t\t\t\tReceived data" << std::endl;
             AAsioConnection<PACKETSIZE>::_recvData.emplace(
                 std::make_pair(
                     connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port()),
