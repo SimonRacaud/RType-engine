@@ -50,7 +50,8 @@ set(SRCS
         src/SceneManager/SceneManager.cpp
         src/Engine/GameEngine.cpp
         src/Engine/EngineFactory.cpp
-        include/IGameEngine.hpp include/IEntityManager.hpp include/FactoryShortcuts.hpp)
+        src/Systems/PhysicsSystem/PhysicsSystem.cpp
+        )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
