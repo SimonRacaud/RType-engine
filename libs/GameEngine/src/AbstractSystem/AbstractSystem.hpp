@@ -108,7 +108,7 @@ namespace Engine
     template <typename... ComponentTypeList>
     void AbstractSystem<SystemType>::setRequirements()
     {
-        (_requirements.set(ComponentTypeList::type), ...);
+        (_requirements.set(ComponentTypeList::getIndex()), ...);
     }
 
     template <class SystemType>
