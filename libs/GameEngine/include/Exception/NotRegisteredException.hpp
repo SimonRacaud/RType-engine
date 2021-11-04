@@ -22,7 +22,7 @@ namespace Engine
         }
 
         explicit NotRegisteredException(std::string const &type)
-            : BasicException(type + " not registered")
+            : BasicException(type)
         {
         }
 
