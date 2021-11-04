@@ -5,7 +5,7 @@
 ** Implementation of exceptions for network
 */
 
-#include <NetworkException.hpp>
+#include "NetworkException.hpp"
 #include <utility>
 
 using namespace Network;

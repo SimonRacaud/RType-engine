@@ -34,9 +34,10 @@ namespace Network
         static const std::string _baseMessage;
         static const std::string _baseMessageFormat;
     };
-} // namespace Network
 
-inline const std::string _baseMessage = "Machine not connected";
-inline const std::string _baseMessageFormat = _baseMessage + " -> ip : {}, port : {}";
+    inline const std::string invalidConnection::_baseMessage = "Machine not connected";
+    inline const std::string invalidConnection::_baseMessageFormat = invalidConnection::_baseMessage + " -> ip : {}, port : {}";
+
+} // namespace Network
 
 #endif // R_TYPE_NETWORKEXCEPTION_HPP
