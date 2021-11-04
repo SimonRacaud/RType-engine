@@ -8,8 +8,8 @@
 #ifndef CUSTOM_ENTITY_NAME_HPP
 #define CUSTOM_ENTITY_NAME_HPP
 
-//#define CUSTOM_ENTITY_NAME  \
-//    TEST,                   \
+#define CUSTOM_ENTITY_NAME  \
+    TEST,                   \
 
 #include "EntityName.hpp"
 

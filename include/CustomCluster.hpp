@@ -9,6 +9,7 @@
 #define CUSTOMCLUSTER_HPP
 
 #define CUSTOM_CLUSTERS \
+    START,              \
     GAME,               \
     HOME,               \
     SETTINGS,           \
