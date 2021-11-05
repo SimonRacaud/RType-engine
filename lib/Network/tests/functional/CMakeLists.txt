@@ -29,7 +29,7 @@ include_directories(
 
 set(SRC_DIR src/)
 
-############## TEST
+############## EXECUTABLES
 ####### Client
 set(CLIENT client)
 set(CLIENT_DIR ${SRC_DIR}${CLIENT}/)
@@ -98,3 +98,32 @@ set_target_properties(${SERVER} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "..")
 
 ## LDD conan
 target_link_libraries(${SERVER} PUBLIC ${CONAN_LIBS})
+
+
+############## TESTS
+
+include(CTest)
+enable_testing()
+
+##### WORKING TEST
+#enable_testing()
+#add_test(usage_test bin/client 1)
+#set_tests_properties(usage_test PROPERTIES WILL_FAIL TRUE)
+
+##### NOT WORKING TEST
+#set(TEST_NUMBER 1)
+#set(TEST noArg)
+#add_test(NAME ${TEST}
+#                           COMMAND ${CLIENT} 1)
+#         COMMAND bin/server 1
+#         COMMAND bin/client 1)
+#set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+
+set(TEST_NUMBER 1)
+set(TEST noArg)
+add_test(NAME ${TEST}
+         #                           COMMAND ${CLIENT} 1)
+         COMMAND ${CMAKE_HOME_DIRECTORY}/ctestWithTwoCommands.sh ./bin/server 1 ./bin/client 1)
+set_tests_properties(${TEST}
+                     PROPERTIES
+                     PASS_REGULAR_EXPRESSION "client connection, send, disconnection")

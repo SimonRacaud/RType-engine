@@ -26,11 +26,13 @@ int testServerAcceptReceive()
 
     while (true) {
         recvData = server.receiveAny();
-            if (std::get<1>(recvData)) {
+        if (std::get<1>(recvData)) {
+            std::cout.write(std::get<0>(recvData).data(), std::get<1>(recvData));
+            std::cout << std::endl;
             return 0;
         }
         // todo set clock to avoid infinite loop
-        //  in ctest ?
+        //  in shell script ?
         //  with Clock class ?
     }
     return 84;
