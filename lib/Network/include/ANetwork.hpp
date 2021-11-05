@@ -8,6 +8,7 @@
 #define BABEL_ANETWORK_HPP
 
 #include <functional>
+#include <iostream>
 #include <thread>
 #include "INetwork.hpp"
 #include "NetworkException.hpp"
