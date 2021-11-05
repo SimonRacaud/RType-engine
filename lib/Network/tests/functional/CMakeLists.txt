@@ -37,13 +37,13 @@ set(CLIENT_DIR ${SRC_DIR}${CLIENT}/)
 ## SOURCES
 set(SRCS_CLIENT
     ${CLIENT_DIR}testClientTCP.cpp
+    ../../src/NetworkException.cpp
     )
 
 ## TARGET
 add_executable(${CLIENT}
                ${SRCS_CLIENT}
                ${CLIENT_DIR}/mainTestClientNetwork.cpp
-               ../../src/NetworkException.cpp
                )
 
 
@@ -73,12 +73,12 @@ set(SERVER_DIR ${SRC_DIR}${SERVER}/)
 ## SOURCES
 set(SRCS_SERVER
     ${SERVER_DIR}testServerTCP.cpp
+    ../../src/NetworkException.cpp
     )
 
 add_executable(${SERVER}
                ${SRCS_SERVER}
                ${SERVER_DIR}/mainTestServerNetwork.cpp
-               ../../src/NetworkException.cpp
                )
 
 ## INCLUDES
@@ -123,7 +123,7 @@ set(TEST_NUMBER 1)
 set(TEST noArg)
 add_test(NAME ${TEST}
          #                           COMMAND ${CLIENT} 1)
-         COMMAND ${CMAKE_HOME_DIRECTORY}/ctestWithTwoCommands.sh ./bin/server 1 ./bin/client 1)
+         COMMAND ${CMAKE_HOME_DIRECTORY}/testServerClient.sh ./bin/server 1 ./bin/client 1)
 set_tests_properties(${TEST}
                      PROPERTIES
                      PASS_REGULAR_EXPRESSION "client connection, send, disconnection")
