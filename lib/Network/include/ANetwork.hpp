@@ -116,7 +116,9 @@ namespace Network
         void realRunAsync()
         {
             while (_thread.joinable() && !AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
-                _ioContext.run_one_for(std::chrono::seconds(1));
+                std::cout << "thread running" << std::endl;
+                //                _ioContext.run_one_for(std::chrono::seconds(1));
+                _ioContext.run_one();
                 // todo might not work for big packets
             }
         }
