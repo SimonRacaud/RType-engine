@@ -186,7 +186,7 @@ namespace Engine
         this->_checkType<ComponentType>();
         if (this->hasComponent<ComponentType>(entity) == false) {
             std::cerr << "ComponentManager::getComponent Entity " <<
-                entity << " request " << ComponentType::type << " component."
+                entity << " request " << ComponentType::type.name() << " component."
                       << std::endl;
             throw NotFoundException(
                 "ComponentManager::getComponent The entity "
