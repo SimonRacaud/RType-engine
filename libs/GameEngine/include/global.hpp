@@ -20,6 +20,7 @@
 #include "ClusterName.hpp"
 #include "EntityName.hpp"
 #include "env.hpp"
+#include "IEvent.hpp"
 
 namespace Engine
 {
@@ -31,6 +32,9 @@ namespace Engine
     #define GET_TYPE_IDX(type) std::type_index(typeid(type))
 
     using NetworkId = uint32_t;
+
+    using EventCallbackSignature =
+        std::function<void(const Engine::Event::IEvent *)>;
 
     using EntityDestructor =
         std::function<void(Entity, EntityName, ClusterName)>;
