@@ -12,6 +12,7 @@
 #include "env.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
 #include "Components/Timer.hpp"
+#include "EntityManager/EntityManager.hpp"
 #include <list>
 
 namespace Engine {

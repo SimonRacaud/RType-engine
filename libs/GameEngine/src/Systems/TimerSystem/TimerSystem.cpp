@@ -7,7 +7,7 @@
 
 #include "TimerSystem.hpp"
 #include "FactoryShortcuts.hpp"
-#include "EntityManager.hpp"
+
 using namespace Engine;
 
 TimerSystem::TimerSystem(float interval) : _interval(interval)

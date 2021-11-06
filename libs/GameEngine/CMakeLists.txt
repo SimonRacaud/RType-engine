@@ -25,19 +25,30 @@ include_directories(
 set(SRCS
         # Exception
         src/Exception/BasicException.cpp
+        
         src/ComponentManager/ComponentManager.cpp
         src/ComponentTypeRegister/ComponentTypeRegister.hpp
+        
         src/EntityManager/EntityManager.cpp
+        
         src/EntityRegister/EntityRegister.cpp
         src/EntityRegister/EntityBlock.cpp
+        
         src/NetworkIdRegister/NetworkIdRegister.cpp
+        
         src/SystemManager/SystemManager.cpp
+        
         src/AbstractSystem/AbstractSystem.hpp
         src/AbstractScene/AbstractScene.hpp
+        
         src/SceneManager/SceneManager.cpp
+        
         src/Engine/GameEngine.cpp
         src/Engine/EngineFactory.cpp
+
         src/Systems/PhysicsSystem/PhysicsSystem.cpp
+        src/Systems/TimerSystem/TimerSystem.hpp
+        src/Systems/TimerSystem/TimerSystem.cpp
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
