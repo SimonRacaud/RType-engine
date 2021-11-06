@@ -122,7 +122,7 @@ enable_testing()
 set(TEST_NUMBER 1)
 set(TEST noArg)
 add_test(NAME ${TEST}
-         COMMAND ${CMAKE_HOME_DIRECTORY}/testServerClient.sh ./bin/server 1 ./bin/client 1)
+         COMMAND ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh -c ./bin/server 1 -c ./bin/client 1)
 set_tests_properties(${TEST}
                      PROPERTIES
                      PASS_REGULAR_EXPRESSION "client connection, send, disconnection")
