@@ -125,4 +125,4 @@ add_test(NAME ${TEST}
          COMMAND ${CMAKE_HOME_DIRECTORY}/testServerClient.sh ./bin/server 1 ./bin/client 1)
 set_tests_properties(${TEST}
                      PROPERTIES
-                     PASS_REGULAR_EXPRESSION "*client connection, send, disconnection*")
+                     PASS_REGULAR_EXPRESSION "client connection, send, disconnection")
