@@ -39,7 +39,7 @@ namespace Engine {
 				}
 
 				template<class EventType>
-				void registerCallback(std::function<void(const EventType*)> callback) {
+				void registerCallback(EventCallbackSignature callback) {
 					std::shared_ptr<IEventCallback> func = std::make_shared<EventCallBack<EventType>>(callback);
 					
 					_registeredCallbacks[std::type_index(typeid(EventType))] = func;
@@ -69,7 +69,7 @@ namespace Engine {
 			private:
 				template<class EventType>
 				void checkType() {
-					std::cout << std::type_index(typeid(EventType)).hash_code() << std::endl;
+					static_assert(std::is_base_of<EventType, IEvent>::value, "Invalid event type");
 				}
 				std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>> _registeredCallbacks;
 				std::queue<std::shared_ptr<IEvent>> _queue;

@@ -20,7 +20,7 @@
 #include "ClusterName.hpp"
 #include "EntityName.hpp"
 #include "env.hpp"
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 
 namespace Engine
 {
