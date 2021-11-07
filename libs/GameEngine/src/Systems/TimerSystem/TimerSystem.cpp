@@ -12,6 +12,7 @@ using namespace Engine;
 
 TimerSystem::TimerSystem(float interval) : _interval(interval)
 {
+	this->setRequirements<Timer>();
 }
 
 TimerSystem::~TimerSystem()
