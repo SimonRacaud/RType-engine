@@ -12,6 +12,7 @@
 #define IGAMEENGINE_HPP
 
 #include "IEntityManager.hpp"
+#include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 
 namespace Engine
 {
@@ -30,7 +31,7 @@ namespace Engine
         virtual SystemManager &getSystemManager() = 0;
         virtual ComponentManager &getComponentManager() = 0;
         virtual SceneManager &getSceneManager() = 0;
-        // virtual EventCallbackRegister &getEventRegister() = 0; TODO
+        virtual Event::EventCallbackRegister &getEventRegister() = 0;
     };
 }
 

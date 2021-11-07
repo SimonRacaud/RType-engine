@@ -16,7 +16,9 @@
 #include "SceneManager/SceneManager.hpp"
 
 #include "Systems/PhysicsSystem/PhysicsSystem.hpp"
+#include "Systems/TimerSystem/TimerSystem.hpp"
 #include "Components/Position.hpp"
 #include "Components/Position.hpp"
+#include "Components/Timer.hpp"
 
 #endif // ENGINECORE_HPP
