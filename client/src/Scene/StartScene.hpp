@@ -24,6 +24,8 @@ namespace Scene
         virtual ~StartScene() = default;
 
         virtual void open();
+
+        void timerCallback(const TimerEvent *e);
     };
 }
 

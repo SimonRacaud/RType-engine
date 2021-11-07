@@ -10,6 +10,7 @@
 
 #include "StartScene.hpp"
 #include "System/LogPositionSystem.hpp"
+#include "TimerEvent.hpp"
 
 using namespace Scene;
 
@@ -28,8 +29,15 @@ void StartScene::open()
 
     componentManager.add<Engine::Position>(entity, 10, 10);
     componentManager.add<Engine::Velocity>(entity, 1, 0);
-
+    componentManager.add<Engine::Timer<TimerEvent>>(entity, 100, "Hello World");
     Engine::SystemManager &systemManager = engine.getSystemManager();
+    GET_EVENT_REG.registerCallback<TimerEvent>(Engine::EventCallbackSignature(timerCallback));
 
-    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, Engine::TimerSystem>();
+    systemManager.getSystem<Engine::TimerSystem>().setInterval(1);
+}
+
+void StartScene::timerCallback(const TimerEvent *e)
+{
+    std::cout << e->_print << std::endl;
 }
