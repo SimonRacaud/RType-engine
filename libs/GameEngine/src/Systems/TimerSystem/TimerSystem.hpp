@@ -11,14 +11,14 @@
 #include "global.hpp"
 #include "env.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
-#include "Components/Timer.hpp"
+#include "Components/BaseTimer.hpp"
 #include "EntityManager/EntityManager.hpp"
 #include <list>
 
 namespace Engine {
 	class TimerSystem : public AbstractSystem<TimerSystem> {
 		public:
-			TimerSystem(float interval);
+			TimerSystem();
 			~TimerSystem();
 
 			/**
@@ -33,6 +33,13 @@ namespace Engine {
 			 *
 			 */
 			void reset();
+
+			/**
+			 * @brief Set the Interval object
+			 * 
+			 * @param interval 
+			 */
+			void setInterval(const float &interval);
 		private:
 			float _interval;
 	};

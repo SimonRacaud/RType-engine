@@ -8,28 +8,22 @@
 #ifndef TIMER_HPP_
 #define TIMER_HPP_
 
-#include "BaseComponent/BaseComponent.hpp"
-#include <functional>
-#include <chrono>
+#include "BaseTimer.hpp"
+#include "global.hpp"
 
 namespace Engine {
-	class Timer : public BaseComponent<Timer> {
+	template<class EventType, class... EventArgs>
+	class Timer : public BaseTimer {
 		public:
-			Timer(float time, EventCallbackSignature callback, Event::IEvent *e) 
-				: _maxTime(time), _currentTime(time), _callback(callback), _callbackEvent(e) {}
+			template<class... Args>
+			Timer(float time, Args&&... args)
+				: BaseTimer(time), _args(std::forward<Args>(args)...) {}
 			virtual ~Timer() = default;
 
-			/**
-			 * @brief Resets the timer to zero
-			 * 
-			 */
-			inline void reset() { _currentTime = _maxTime; }
-
-			float _maxTime;
-			float _currentTime;
-			EventCallbackSignature _callback;
-			Event::IEvent *_callbackEvent;
-
+			virtual void exec() override {
+				GET_EVENT_REG.registerEvent<EventType>(std::forward<EventArgs>(_args));
+			}
+			std::tuple<EventArgs...> _args;
 	};
 }
 
