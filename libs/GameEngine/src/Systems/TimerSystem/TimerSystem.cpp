@@ -10,7 +10,10 @@
 
 using namespace Engine;
 
-TimerSystem::TimerSystem(float interval) : _interval(interval)
+static const Engine::Time freq = static_cast<Engine::Time>(1000);
+static const SystemPriority priority = SystemPriority::HIGH;
+
+TimerSystem::TimerSystem(float interval) : AbstractSystem<TimerSystem>(freq, priority), _interval(interval)
 {
 	this->setRequirements<Timer>();
 }
