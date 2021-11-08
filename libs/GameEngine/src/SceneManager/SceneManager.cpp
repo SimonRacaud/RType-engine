@@ -10,11 +10,31 @@
 #include <utility>
 
 using namespace Engine;
- 
+
+SceneManager::~SceneManager()
+{
+    if (this->_currentScene != nullptr) {
+        this->_currentScene->close();
+    }
+    while (_previousScenes.empty() == false) {
+        shared_ptr<IScene> &scene = _previousScenes.top();
+        if (!scene->isClosed()) {
+            scene->close();
+        }
+        _previousScenes.pop();
+    }
+}
+
 void SceneManager::run()
 {
+    TimePoint now = Clock::now();
+
     if (_currentScene != nullptr) {
         EngineFactory::getInstance().getSystemManager().executeCycle();
+    }
+    if ((now - _previousSceneFlush) > SCENE_MANAG_FREQ_FLUSH_CHANGE) {
+        _previousSceneFlush = now;
+        this->flushSelection();
     }
 }
 
@@ -23,19 +43,24 @@ void SceneManager::flushSelection()
     if (_nextScene == nullptr)
         return;
     if (_currentScene != nullptr) {
-        _currentScene->close();
+        if (_closeSceneOnChange) {
+            SHOW_DEBUG("Scene: close scene type=" + TYPE_STR(_currentScene->getType()));
+            _currentScene->close();
+        }
         _previousScenes.push(_currentScene);
     }
     _currentScene = _nextScene;
+    SHOW_DEBUG("Scene: open scene type=" + TYPE_STR(_currentScene->getType()));
     _currentScene->open();
     _nextScene = nullptr;
 }
 
 void SceneManager::selectPrevious()
 {
-    if (havePrevious()) {
+    if (this->havePrevious()) {
         _nextScene = _previousScenes.top();
-        _previousScenes.pop();        
+        _closeSceneOnChange = true;
+        _previousScenes.pop();
     }
 }
 

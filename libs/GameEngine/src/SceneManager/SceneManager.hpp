@@ -29,7 +29,7 @@ namespace Engine
     class SceneManager {
       public:
         SceneManager() = default;
-        ~SceneManager() = default;
+        virtual ~SceneManager();
 
         void run();
 
@@ -63,12 +63,6 @@ namespace Engine
         void select(const shared_ptr<IScene> &scene, bool closePrevious = true);
 
         /**
-         * @brief Flush selection changes the current into the next and closes current
-         * 
-         */
-        void flushSelection();
-
-        /**
          * @brief Select the previous scene and load it
          * 
          */
@@ -99,12 +93,20 @@ namespace Engine
         shared_ptr<AbstractScene<SceneType>> get();
 
       private:
+        /**
+         * @brief Flush selection changes the current into the next and closes current
+         */
+        void flushSelection();
+
+      private:
         vector<shared_ptr<IScene>>::iterator getSceneItFromType(const TypeIdx &type);
 
         shared_ptr<IScene> _currentScene{nullptr};
         shared_ptr<IScene> _nextScene{nullptr};
+        bool _closeSceneOnChange{true};
         vector<shared_ptr<IScene>> _scenes;
         stack<shared_ptr<IScene>> _previousScenes;
+        TimePoint _previousSceneFlush;
     };
 
     template <typename SceneType, typename... Args>
@@ -145,10 +147,7 @@ namespace Engine
         if (it == _scenes.end())
             throw NotRegisteredException("Could not select scene that has not been registered");
         _nextScene = *it;
-        if (closePrevious && false == _previousScenes.empty()) {
-            _previousScenes.top()->close();
-            _previousScenes.pop();
-        }
+        this->_closeSceneOnChange = closePrevious;
     }
 
 
