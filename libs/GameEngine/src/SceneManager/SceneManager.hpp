@@ -45,7 +45,7 @@ namespace Engine
 
         /**
          * @brief Removes a scene from the vector, and if that scene is the current scene, change it to the first scene
-         * 
+         * @deprecated
          * @tparam SceneType Type of scene
          */
         template <typename SceneType>
@@ -120,25 +120,28 @@ namespace Engine
     template <class SceneType>
     void SceneManager::unregister()
     {
-        const TypeIdx type = AbstractScene<SceneType>::type;
-        auto it = getSceneItFromType(type);
+        throw FatalErrorException("SceneManager::unregister Deprecated method");
+        auto it = getSceneItFromType(AbstractScene<SceneType>::type);
 
-        if (it == _scenes.end())
-            throw NotRegisteredException("No scene with this type has been registered");
-        if (_currentScene->getType() == (*it)->getType()) {
+        if (it == _scenes.end()) {
+            throw NotRegisteredException(
+                "No scene with this type has been registered");
+        }
+        if (_currentScene != nullptr &&
+            _currentScene->getType().hash_code() == (*it)->getType().hash_code()) {
             throw InvalidParameterException("Trying to unregister current loaded scene");
         }
-        (*it) = _scenes.back();
+        if (_scenes.size() > 1) {
+            (*it) = _scenes.back();
+        }
         _scenes.pop_back();
     }
-
 
     template <typename SceneType>
     void SceneManager::select(bool closePrevious)
     {
-        const TypeIdx type = AbstractScene<SceneType>::type;
+        auto it = getSceneItFromType(AbstractScene<SceneType>::type);
 
-        auto it = getSceneItFromType(type);
         if (it == _scenes.end())
             throw NotRegisteredException("Could not select scene that has not been registered");
         _nextScene = *it;

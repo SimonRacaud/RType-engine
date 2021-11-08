@@ -9,9 +9,12 @@
 #define ABSTRACTSCENE_HPP_
 
 #include "IScene.hpp"
+#include "Engine/EngineFactory.hpp"
 
 namespace Engine
 {
+    #define GET_ENTITY_M EngineFactory::getInstance().getEntityManager()
+
     template <class SceneType>
     class AbstractScene : public IScene {
       public:
@@ -44,7 +47,7 @@ namespace Engine
     template <class SceneType>
     void AbstractScene<SceneType>::close()
     {
-        // TODO
+        GET_ENTITY_M.remove(_cluster); // remove owned entities
         this->_closed = true;
     }
 
