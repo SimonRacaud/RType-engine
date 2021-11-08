@@ -14,6 +14,16 @@ EntityManager::EntityManager()
     this->_allocate(ALLOCATE_NB_ENTITY);
 }
 
+EntityManager::~EntityManager() noexcept
+{
+    const std::vector<Entity> &list = this->_entities.getEntityList();
+
+    for (Entity entity : list) {
+        this->remove(entity);
+    }
+    SHOW_DEBUG("Entity: " + std::to_string(list.size()) + " entities removed.");
+}
+
 Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster,
     EntityName name, bool setNetworkId)
 {

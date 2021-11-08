@@ -30,7 +30,7 @@ namespace Engine
         friend class ComponentManager;
 
         explicit EntityManager();
-        ~EntityManager() = default;
+        virtual ~EntityManager();
 
         /**
          * @brief Create a new entity

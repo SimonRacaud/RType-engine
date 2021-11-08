@@ -8,6 +8,7 @@
 #ifndef ENTITYREGISTER_HPP
 #define ENTITYREGISTER_HPP
 
+#include <iostream>
 #include <cstddef>
 #include <vector>
 #include <numeric>
@@ -117,6 +118,11 @@ namespace Engine
          * @param id
          */
         void setNetworkId(Entity entity, NetworkId id);
+
+        /**
+         * @brief Get a list of all entities
+         */
+        vector<Entity> getEntityList() const;
 
       private:
         [[nodiscard]] vector<Entity> getClusterEntityList(ClusterName cluster) const;

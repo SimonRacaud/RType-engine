@@ -49,7 +49,7 @@ namespace Engine
         NetworkId getNetworkId() const;
 
       public:
-        bool removed{false};
+        bool removed{true};
     };
 } // namespace Engine
 

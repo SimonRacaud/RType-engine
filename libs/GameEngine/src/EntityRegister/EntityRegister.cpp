@@ -48,11 +48,14 @@ Entity EntityRegister::create(ClusterName cluster, EntityName name,
     if (setNetworkId) {
         _bookedEntities[entity].setNetworkId(_networkIdRegister.reserveId());
     }
+    _bookedEntities[entity].removed = false;
+    SHOW_DEBUG("Entity: create id=" + std::to_string(entity));
     return entity;
 }
 
 void EntityRegister::remove(Entity entity)
 {
+    SHOW_DEBUG("Entity: remove id=" + std::to_string(entity));
     if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
         _freeEntities.end()) {
         throw NotFoundException("EntityRegister::remove Entity already removed.");
@@ -105,9 +108,9 @@ bool EntityRegister::exist(EntityName name, ClusterName cluster) const
 
 Entity EntityRegister::getId(EntityName name) const
 {
-    for (EntityBlock const &block : _bookedEntities) {
-        if (block.removed == false && block.getName() == name) {
-            return block.getEntity();
+    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false && it->getName() == name) {
+            return it->getEntity();
         }
     }
     throw NotFoundException("EntityRegister::getId Entity name not found");
@@ -118,9 +121,9 @@ Entity EntityRegister::getId(NetworkId networkId) const
     if (networkId == NO_NET_ID) {
         throw FatalErrorException("EntityRegister::getId Invalid network id");
     }
-    for (EntityBlock const &block : _bookedEntities) {
-        if (block.removed == false && block.getNetworkId() == networkId) {
-            return block.getEntity();
+    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false && it->getNetworkId() == networkId) {
+            return it->getEntity();
         }
     }
     throw NotFoundException("EntityRegister::getId Network id not found");
@@ -145,11 +148,23 @@ vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const
 {
     vector<Entity> list;
 
-    for (EntityBlock const &block : _bookedEntities) {
-        if (block.removed == false) {
-            if (block.getCluster() == cluster) {
-                list.push_back(block.getEntity());
+    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false) {
+            if (it->getCluster() == cluster) {
+                list.push_back(it->getEntity());
             }
+        }
+    }
+    return list;
+}
+
+vector<Entity> EntityRegister::getEntityList() const
+{
+    vector<Entity> list;
+
+    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false) {
+            list.push_back(it->getEntity());
         }
     }
     return list;

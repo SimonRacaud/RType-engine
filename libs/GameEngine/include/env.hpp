@@ -14,6 +14,7 @@
  * @brief display debug information on stderr
  */
 #define ENABLE_DEBUG
+#define DEBUG_COMPONENT true
 
 /**
  * @brief Size of the component manager container

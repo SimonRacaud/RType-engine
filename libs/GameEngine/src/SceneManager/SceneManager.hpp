@@ -29,7 +29,7 @@ namespace Engine
     class SceneManager {
       public:
         SceneManager() = default;
-        virtual ~SceneManager();
+        virtual ~SceneManager() noexcept;
 
         void run();
 
