@@ -19,4 +19,6 @@
 #include "Components/Position.hpp"
 #include "Components/Position.hpp"
 
+#include "Utils/display.hpp"
+
 #endif // ENGINECORE_HPP
