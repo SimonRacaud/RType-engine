@@ -13,7 +13,7 @@ void SystemManager::executeCycle()
 {
     for (auto &system : _selectedSystems) {
         if (system->refresh()) {
-            system->run();
+            system->runSystem();
         }
     }
 }

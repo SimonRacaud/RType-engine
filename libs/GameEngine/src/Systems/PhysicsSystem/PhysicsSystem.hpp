@@ -22,7 +22,7 @@ namespace Engine
         PhysicsSystem();
         virtual ~PhysicsSystem() = default;
 
-        void run();
+        void run(const std::vector<Engine::Entity> &entities);
 
       private:
     };

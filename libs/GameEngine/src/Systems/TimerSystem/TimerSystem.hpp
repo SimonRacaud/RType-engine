@@ -26,7 +26,7 @@ namespace Engine {
 			 * 
 			 * @param ms Time to update each timer with
 			 */
-			void run() override;
+			void run(const vector<Entity> &entities) override;
 
 			/**
 			 * @brief Resets all active timers to 0

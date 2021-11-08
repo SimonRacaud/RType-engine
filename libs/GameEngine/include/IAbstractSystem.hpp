@@ -22,7 +22,12 @@ namespace Engine {
         /**
          * \brief Execute the logic of the class
          */
-        virtual void run() = 0;
+        virtual void run(const std::vector<Entity> &entities) = 0;
+
+        /**
+         * \brief technical operations before run(), do not override
+         */
+        virtual void runSystem() = 0;
 
         /**
          * \brief Do the system need to be executed? (running frequency)
