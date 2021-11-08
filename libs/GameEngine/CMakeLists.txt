@@ -50,6 +50,7 @@ set(SRCS
         src/Systems/TimerSystem/TimerSystem.cpp
 
         src/Utils/display.cpp
+        src/Utils/SignalManager.cpp
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 

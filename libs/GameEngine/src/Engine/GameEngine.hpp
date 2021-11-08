@@ -25,7 +25,7 @@ namespace Engine
      */
     class GameEngine : public IGameEngine {
       public:
-        GameEngine() = default;
+        GameEngine();
         virtual ~GameEngine() = default;
 
         /**

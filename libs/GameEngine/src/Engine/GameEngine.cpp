@@ -9,8 +9,14 @@
 */
 
 #include "GameEngine.hpp"
+#include "Utils/SignalManager.hpp"
 
 using namespace Engine;
+
+GameEngine::GameEngine()
+{
+    SignalManager::apply();
+}
 
 void GameEngine::quit()
 {
