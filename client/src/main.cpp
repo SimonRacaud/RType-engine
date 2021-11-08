@@ -10,7 +10,7 @@
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
 #include "Scene/StartScene.hpp"
-#include "System/LogPositionSystem.hpp"
+#include "System/LogPosition/LogPositionSystem.hpp"
 
 using namespace std;
 

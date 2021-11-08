@@ -9,7 +9,7 @@
 */
 
 #include "StartScene.hpp"
-#include "System/LogPositionSystem.hpp"
+#include "System/LogPosition/LogPositionSystem.hpp"
 
 using namespace Scene;
 

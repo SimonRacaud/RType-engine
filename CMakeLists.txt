@@ -27,8 +27,8 @@ include_directories(./include)
 set(CLIENT_SRCS
         client/src/main.cpp
         client/src/Scene/StartScene.cpp
-        client/src/System/LogPositionSystem.cpp
-        client/src/System/LogPositionSystem.hpp
+        client/src/System/LogPosition/LogPositionSystem.cpp
+        client/src/System/LogPosition/LogPositionSystem.hpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
