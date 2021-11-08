@@ -8,13 +8,17 @@
 #ifndef TIMEREVENT_HPP_
 #define TIMEREVENT_HPP_
 
-#include "Event/AbstractEvent/AbstractEvent.hpp"
+#include "Event/IEvent.hpp"
 #include <string>
 
-class TimerEvent : Engine::Event::AbstractEvent<TimerEvent> {
+class TimerEvent : Engine::Event::IEvent {
 	public:
 		TimerEvent(std::string &print) : _print(print) {}
-		virtual ~TimerEvent() = default;
+		~TimerEvent() = default;
+
+		virtual std::type_index getType() const override {
+			return std::type_index(typeid(this));
+		}
 
 		std::string _print;
 	protected:

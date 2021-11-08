@@ -39,9 +39,9 @@ namespace Engine {
 				}
 
 				template<class EventType>
-				void registerCallback(EventCallbackSignature callback) {
+				void registerCallback(std::function<void(const EventType *)> callback) {
 					std::shared_ptr<IEventCallback> func = std::make_shared<EventCallBack<EventType>>(callback);
-					
+
 					_registeredCallbacks[std::type_index(typeid(EventType))] = func;
 				}
 
@@ -74,7 +74,6 @@ namespace Engine {
 				std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>> _registeredCallbacks;
 				std::queue<std::shared_ptr<IEvent>> _queue;
 		};
-
 	}
 }
 
