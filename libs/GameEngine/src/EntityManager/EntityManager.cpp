@@ -44,14 +44,20 @@ void EntityManager::remove(Entity entity)
 
 void EntityManager::remove(EntityName name)
 {
-    Signature const &signature = this->_entities.getSignature(
-        this->_entities.getId(name));
-    // Hey Entity Register, remove [entity] from your register
-    Entity entity = _entities.remove(name);
-    // Hey systems! Remove [entity] from your managed entity lists
-    GET_SYS_M.onEntityRemoved(entity);
-    // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
-    this->_removeEntityComponents(entity, signature);
+    while (true) {
+        try {
+            Signature const &signature =
+                this->_entities.getSignature(this->_entities.getId(name));
+            // Hey Entity Register, remove [entity] from your register
+            Entity entity = _entities.remove(name);
+            // Hey systems! Remove [entity] from your managed entity lists
+            GET_SYS_M.onEntityRemoved(entity);
+            // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
+            this->_removeEntityComponents(entity, signature);
+        } catch (NotFoundException const &) {
+            break;
+        }
+    }
 }
 
 void EntityManager::remove(ClusterName cluster)
