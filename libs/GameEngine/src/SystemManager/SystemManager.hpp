@@ -15,11 +15,12 @@
 #include <memory>
 #include <typeinfo>
 #include <vector>
+#include <iostream>
 #include "global.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
 #include "Exception/InvalidParameterException.hpp"
 #include "Exception/NotFoundException.hpp"
-#include <iostream>
+#include "IAbstractSystem.hpp"
 
 namespace Engine
 {
@@ -103,21 +104,20 @@ namespace Engine
         std::vector<std::shared_ptr<IAbstractSystem>> _selectedSystems;
     };
 }
-
-#include "AbstractSystem/AbstractSystem.hpp"
-
 namespace Engine {
     template <typename SystemType, typename... Args>
     SystemType &SystemManager::registerSystem(Args &&...systemArgs)
     {
-        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto sys = this->retrieveSystem(SystemType::type);
 
         if (sys != _systems.end()) {
             std::cerr << "Did not create new system because it already exists" << std::endl;
             return *static_cast<SystemType *>(sys->get());
         }
-        shared_ptr<IAbstractSystem> newSys = _systems.emplace_back(std::make_unique<SystemType>(std::forward<Args>(systemArgs)...));
-        return *static_cast<SystemType *>(newSys.get());
+        _systems.emplace_back(
+            std::make_shared<SystemType>(std::forward<Args>(systemArgs)...)
+                );
+        return *static_cast<SystemType *>(_systems.back().get());
     }
 
     template <class SystemType>
@@ -125,9 +125,12 @@ namespace Engine {
     {
         const TypeIdx type = std::type_index(typeid(SystemType));
 
-        _systems.erase(std::remove_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
+        _selectedSystems.erase(_systems.begin(), _systems.end(), [&](auto &sysType) {
             return sysType.getType() == type;
-        }));
+        });
+        _systems.erase(_systems.begin(), _systems.end(), [&](auto &sysType) {
+            return sysType.getType() == type;
+        });
     }
 
     template <class... SystemTypeList>
@@ -139,20 +142,23 @@ namespace Engine {
     template<class SystemType>
     void SystemManager::selectSystem()
     {
-        auto it = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto it = retrieveSystem(SystemType::type);
 
         if (it == _systems.end())
             throw NotFoundException("Could not find system to select it");
-        _selectedSystems.push_back(*it);
+        _selectedSystems.push_back((*it));
     }
 
     template <typename SystemType>
     SystemType &SystemManager::getSystem()
     {
-        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto sys = retrieveSystem(SystemType::type);
 
-        if (sys == _systems.end())
-            throw InvalidParameterException(std::string("No registered system with type : " + std::string(typeid(SystemType).name())));
+        if (sys == _systems.end()) {
+            throw InvalidParameterException(
+                std::string("No registered system with type : "
+                    + std::string(typeid(SystemType).name())));
+        }
         return *sys;
     }
 
