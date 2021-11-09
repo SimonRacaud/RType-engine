@@ -16,6 +16,7 @@
 #include "Event/AudioEvent/AudioEventLoad.hpp"
 #include "Event/AudioEvent/AudioEventPlay.hpp"
 #include "Event/AudioEvent/AudioEventVolume.hpp"
+#include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ static void init()
 int main(void)
 {
     init();
+    AudioEventManager audio;
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Position>();
