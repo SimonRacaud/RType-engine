@@ -47,6 +47,7 @@ namespace Engine
     template <class SceneType>
     void AbstractScene<SceneType>::close()
     {
+        SHOW_DEBUG("Will clear scene cluster:");
         GET_ENTITY_M.remove(_cluster); // remove owned entities
         this->_closed = true;
     }

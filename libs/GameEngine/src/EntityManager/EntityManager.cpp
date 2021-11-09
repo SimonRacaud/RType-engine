@@ -18,6 +18,7 @@ EntityManager::~EntityManager() noexcept
 {
     const std::vector<Entity> &list = this->_entities.getEntityList();
 
+    SHOW_DEBUG("Will clean entities:");
     for (Entity entity : list) {
         this->remove(entity);
     }

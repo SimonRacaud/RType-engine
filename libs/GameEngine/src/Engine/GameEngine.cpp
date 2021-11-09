@@ -12,10 +12,23 @@
 #include "Utils/SignalManager.hpp"
 
 using namespace Engine;
+using namespace std;
 
 GameEngine::GameEngine()
+    : _entityManager(new EntityManager),
+      _systemManager(new SystemManager),
+      _componentManager(new ComponentManager),
+      _sceneManager(new SceneManager)
 {
     SignalManager::apply();
+}
+
+GameEngine::~GameEngine() noexcept
+{
+    delete _sceneManager;
+    delete _entityManager;
+    delete _componentManager;
+    delete _systemManager;
 }
 
 void GameEngine::quit()
@@ -26,28 +39,28 @@ void GameEngine::quit()
 void GameEngine::exec()
 {
     while (_loop) {
-        this->_sceneManager.run();
+        this->_sceneManager->run();
     }
 }
 
 ComponentManager &GameEngine::getComponentManager()
 {
-    return _componentManager;
+    return *_componentManager;
 }
 
 IEntityManager &GameEngine::getEntityManager()
 {
-    return _entityManager;
+    return *_entityManager;
 }
 
 SystemManager &GameEngine::getSystemManager()
 {
-    return _systemManager;
+    return *_systemManager;
 }
 
 SceneManager &GameEngine::getSceneManager()
 {
-    return _sceneManager;
+    return *_sceneManager;
 }
 
 Event::EventCallbackRegister &GameEngine::getEventRegister()

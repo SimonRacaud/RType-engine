@@ -17,16 +17,18 @@
 #include "SceneManager/SceneManager.hpp"
 #include "IGameEngine.hpp"
 #include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
+#include <memory>
 
 namespace Engine
 {
+    using std::unique_ptr;
     /**
      * @brief Core of the game engine
      */
     class GameEngine : public IGameEngine {
       public:
         GameEngine();
-        virtual ~GameEngine() = default;
+        virtual ~GameEngine();
 
         /**
          * @brief Stop the game engine
@@ -44,11 +46,11 @@ namespace Engine
         Event::EventCallbackRegister &getEventRegister();
 
       private:
+        EntityManager *_entityManager;
+        SystemManager *_systemManager;
+        ComponentManager *_componentManager;
+        SceneManager *_sceneManager;
         Event::EventCallbackRegister _eventRegister;
-        EntityManager _entityManager;
-        SystemManager _systemManager;
-        ComponentManager _componentManager;
-        SceneManager _sceneManager;
         bool _loop{true};
     };
 }
