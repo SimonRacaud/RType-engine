@@ -47,4 +47,6 @@
  */
 #define SCENE_MANAG_FREQ_FLUSH_CHANGE (const Time)500
 
+#define MAX_THROW_EXIT 20
+
 #endif // ENV_HPP
