@@ -11,13 +11,21 @@
 
 AudioEventManager::AudioEventManager()
 {
-    //std::function<void(const AudioEventLoad *)> loadFunc = loadAudio;
-
-    //reg->registerCallback<AudioEventLoad>(loadFunc);
-    //reg->registerCallback<AudioEventPlay>(playAudio);
-    //reg->registerCallback<AudioEventStop>(stopAudio);
-    //reg->registerCallback<AudioEventPause>(pauseAudio);
-    //reg->registerCallback<AudioEventVolume>(volumeAudio);
+    reg->registerCallback<AudioEventLoad>([this] (const Engine::Event::IEvent *e) {
+        this->loadAudio(static_cast<const AudioEventLoad *>(e));
+    });
+    reg->registerCallback<AudioEventPlay>([this] (const Engine::Event::IEvent *e) {
+        this->playAudio(static_cast<const AudioEventPlay *>(e));
+    });
+    reg->registerCallback<AudioEventStop>([this] (const Engine::Event::IEvent *e) {
+        this->stopAudio(static_cast<const AudioEventStop *>(e));
+    });
+    reg->registerCallback<AudioEventPause>([this] (const Engine::Event::IEvent *e) {
+        this->pauseAudio(static_cast<const AudioEventPause *>(e));
+    });
+    reg->registerCallback<AudioEventVolume>([this] (const Engine::Event::IEvent *e) {
+        this->volumeAudio(static_cast<const AudioEventVolume *>(e));
+    });
 }
 
 void AudioEventManager::loadAudio(const AudioEventLoad *e)

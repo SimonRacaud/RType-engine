@@ -24,7 +24,6 @@ class AudioEventManager
         AudioEventManager();
         ~AudioEventManager() = default;
 
-    private:
         void loadAudio(const AudioEventLoad *e);
         void playAudio(const AudioEventPlay *e);
         void stopAudio(const AudioEventStop *e);
