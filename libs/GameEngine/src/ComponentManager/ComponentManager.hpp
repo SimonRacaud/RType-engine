@@ -248,8 +248,6 @@ namespace Engine
         // Send message to systems
         const auto &signature = GET_ENTITY_M._getSignature(entity);
         GET_SYS_M.onEntityUpdated(entity, signature);
-        SHOW_DEBUG_COMPONENT("Component: remove for entity id=" + std::to_string(entity)
-            + ", component type=" + TYPE_STR(ComponentType::type));
     }
 
     template <typename ComponentType>

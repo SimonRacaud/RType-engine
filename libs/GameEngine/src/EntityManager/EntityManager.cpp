@@ -33,16 +33,17 @@ Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster,
 
 void EntityManager::remove(Entity entity)
 {
+    Signature signature = this->_entities.getSignature(entity);
+    std::array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE> &registers = GET_COMP_M._componentRegisters;
+
     // Hey Entity Register, remove [entity] from your register
     _entities.remove(entity);
-     // Hey systems! Remove [entity] from your managed entity lists
+    // Hey systems! Remove [entity] from your managed entity lists
     GET_SYS_M.onEntityRemoved(entity);
-     // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
-    for (auto &componentRegister : GET_COMP_M._componentRegisters) {
-        if (componentRegister != nullptr) {
-            try {
-                componentRegister->remove(entity);
-            } catch (InvalidParameterException const &) {}
+    // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
+    for (size_t idx = 0; idx < signature.size(); idx++) {
+        if (signature[idx] && registers[idx] != nullptr) {
+            registers[idx]->remove(entity);
         }
     }
 }

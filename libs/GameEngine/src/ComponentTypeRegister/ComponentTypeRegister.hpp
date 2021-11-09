@@ -139,6 +139,8 @@ namespace Engine
         // update _componentOwners
         _componentOwners[index] = _componentOwners.back();
         _componentOwners.pop_back();
+        SHOW_DEBUG_COMPONENT("Component: remove for entity id=" + std::to_string(entity)
+            + ", component type=" + TYPE_STR(ComponentType::type));
     }
 
     template <typename ComponentType>
