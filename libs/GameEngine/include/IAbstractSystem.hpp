@@ -11,6 +11,9 @@
 #ifndef IABSTRACTSYSTEM_HPP
 #define IABSTRACTSYSTEM_HPP
 
+#include "SystemPriority.hpp"
+#include "global.hpp"
+
 namespace Engine {
     class IAbstractSystem {
       public:
