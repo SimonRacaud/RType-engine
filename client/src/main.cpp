@@ -9,7 +9,7 @@
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
-#include "Scene/StartScene.hpp"
+#include "Scene/Start/StartScene.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 
 using namespace std;
