@@ -201,3 +201,10 @@ NetworkId EntityRegister::getNetworkId(Entity entity) const
     }
     return net;
 }
+
+void EntityRegister::destroyEntity(Entity entity)
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::destroyEntity entity not found");
+    _bookedEntities[entity].destroy(); // launch destructor
+}

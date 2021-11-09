@@ -34,7 +34,9 @@ Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster,
 void EntityManager::remove(Entity entity)
 {
     Signature const &signature = this->_entities.getSignature(entity);
+
     // Hey Entity Register, remove [entity] from your register
+    _entities.destroyEntity(entity); // launch destructor callback
     _entities.remove(entity);
     // Hey systems! Remove [entity] from your managed entity lists
     GET_SYS_M.onEntityRemoved(entity);
@@ -48,7 +50,9 @@ void EntityManager::remove(EntityName name)
         try {
             Signature const &signature =
                 this->_entities.getSignature(this->_entities.getId(name));
+
             // Hey Entity Register, remove [entity] from your register
+            _entities.destroyEntity(this->getId(name)); // launch destructor callback
             Entity entity = _entities.remove(name);
             // Hey systems! Remove [entity] from your managed entity lists
             GET_SYS_M.onEntityRemoved(entity);
@@ -65,6 +69,8 @@ void EntityManager::remove(ClusterName cluster)
     vector<Entity> const &entities = this->_entities.getClusterEntityList(cluster);
 
     for (Entity entity : entities) {
+        _entities.destroyEntity(entity); // launch destructor callback
+
         Signature const &signature = this->_entities.getSignature(entity);
         // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
         this->_removeEntityComponents(entity, signature);

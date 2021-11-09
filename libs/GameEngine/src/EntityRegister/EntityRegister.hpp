@@ -147,6 +147,12 @@ namespace Engine
 
         [[nodiscard]] vector<Entity> getClusterEntityList(ClusterName cluster) const;
 
+        /**
+         * @brief Launch entity destructor
+         * @param entity
+         */
+        void destroyEntity(Entity entity);
+
       private:
         std::vector<Signature> _signatures;
         std::vector<EntityBlock> _bookedEntities;
