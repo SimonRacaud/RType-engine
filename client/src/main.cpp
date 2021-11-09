@@ -6,12 +6,30 @@
 */
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
+#include "CustomCluster.hpp"
+#include "CustomEntityName.hpp"
+#include "EngineCore.hpp"
+#include "Scene/Start/StartScene.hpp"
+#include "System/LogPosition/LogPositionSystem.hpp"
 
-void func();
+using namespace std;
 
-int main()
+Engine::IGameEngine &engine = Engine::EngineFactory::getInstance();
+
+int main(void)
 {
-    func();
-    return 0;
+    Engine::ComponentManager &componentManager = engine.getComponentManager();
+    componentManager.registerComponent<Engine::Position>();
+    componentManager.registerComponent<Engine::Velocity>();
+
+    Engine::SystemManager &systemManager = engine.getSystemManager();
+    systemManager.registerSystem<Engine::PhysicsSystem>();
+    systemManager.registerSystem<System::LogPositionSystem>();
+
+    Engine::SceneManager &sceneManager = engine.getSceneManager();
+    sceneManager.registerScene<Scene::StartScene>();
+    sceneManager.select<Scene::StartScene>();
+
+    engine.exec();
+    return EXIT_SUCCESS;
 }
