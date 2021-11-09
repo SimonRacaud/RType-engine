@@ -120,7 +120,7 @@ namespace Engine
         void setNetworkId(Entity entity, NetworkId id);
 
         /**
-         * @brief Get a list of all entities
+         * @brief Get a list of all entities (used to clear all entities)
          */
         vector<Entity> getEntityList() const;
 

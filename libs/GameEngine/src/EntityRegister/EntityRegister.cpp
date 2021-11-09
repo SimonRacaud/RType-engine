@@ -108,7 +108,7 @@ bool EntityRegister::exist(EntityName name, ClusterName cluster) const
 
 Entity EntityRegister::getId(EntityName name) const
 {
-    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
         if (it->removed == false && it->getName() == name) {
             return it->getEntity();
         }
@@ -121,7 +121,7 @@ Entity EntityRegister::getId(NetworkId networkId) const
     if (networkId == NO_NET_ID) {
         throw FatalErrorException("EntityRegister::getId Invalid network id");
     }
-    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
         if (it->removed == false && it->getNetworkId() == networkId) {
             return it->getEntity();
         }
@@ -148,7 +148,7 @@ vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const
 {
     vector<Entity> list;
 
-    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
         if (it->removed == false) {
             if (it->getCluster() == cluster) {
                 list.push_back(it->getEntity());
@@ -162,7 +162,7 @@ vector<Entity> EntityRegister::getEntityList() const
 {
     vector<Entity> list;
 
-    for (auto it = _bookedEntities.begin() + _freeEntities.size(); it != _bookedEntities.end(); it++) {
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
         if (it->removed == false) {
             list.push_back(it->getEntity());
         }

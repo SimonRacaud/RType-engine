@@ -126,7 +126,7 @@ namespace Engine
         Signature &signature = this->_getComponentSignature(entity);
 
         if (false == signature[ComponentType::getIndex()]) {
-            throw InvalidParameterException("Component doesn't exist");
+            throw InvalidParameterException("ComponentTypeRegister::remove Component doesn't exist");
         }
         signature[ComponentType::getIndex()] = false;
         Index index = _entityToComponent[entity];

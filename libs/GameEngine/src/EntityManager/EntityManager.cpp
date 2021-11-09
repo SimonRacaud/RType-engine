@@ -18,7 +18,7 @@ EntityManager::~EntityManager() noexcept
 {
     const std::vector<Entity> &list = this->_entities.getEntityList();
 
-    SHOW_DEBUG("Will clean entities:");
+    SHOW_DEBUG("Will clean " + std::to_string(list.size()) + " entities:");
     for (Entity entity : list) {
         this->remove(entity);
     }
@@ -40,7 +40,9 @@ void EntityManager::remove(Entity entity)
      // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
     for (auto &componentRegister : GET_COMP_M._componentRegisters) {
         if (componentRegister != nullptr) {
-            componentRegister->remove(entity);
+            try {
+                componentRegister->remove(entity);
+            } catch (InvalidParameterException const &) {}
         }
     }
 }
