@@ -8,7 +8,7 @@
 #ifndef AUDIOEVENTPAUSE_HPP
 #define AUDIOEVENTPAUSE_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 #include <string>
 
 class AudioEventPause : public Engine::Event::IEvent

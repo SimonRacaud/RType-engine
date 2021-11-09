@@ -8,10 +8,8 @@
 #ifndef AUDIOEVENTLOAD_HPP
 #define AUDIOEVENTLOAD_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 #include "Interface/IAudioManager.hpp"
-#include "AudioManager/SoundManager/SoundManager.hpp"
-#include "AudioManager/MusicManager/MusicManager.hpp"
 #include <memory>
 #include <string>
 
@@ -25,14 +23,8 @@ class AudioEventLoad : public Engine::Event::IEvent
         };
 
 	public:
-		AudioEventLoad(const audioType_e &type, const std::string &path) : _member(nullptr), _path(path)
+		AudioEventLoad(const audioType_e &type, const std::string &path) : _type(type), _path(path)
         {
-            switch (type)
-            {
-                case audioType_e::SOUND: this->_member = std::make_unique<SoundManager>(); break;
-                case audioType_e::MUSIC: this->_member = std::make_unique<MusicManager>(); break;
-                default: throw std::invalid_argument("Invalid enum audioType_e"); break;
-            }
         }
 		~AudioEventLoad() = default;
 
@@ -41,7 +33,7 @@ class AudioEventLoad : public Engine::Event::IEvent
 		}
 
     public:
-        std::unique_ptr<IAudioManager> _member;
+        audioType_e _type;
         std::string _path;
 };
 

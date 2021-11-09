@@ -6,24 +6,32 @@
 */
 
 #include "AudioEventManager.hpp"
+#include "AudioManager/SoundManager/SoundManager.hpp"
+#include "AudioManager/MusicManager/MusicManager.hpp"
 
 AudioEventManager::AudioEventManager()
 {
-    EventRegister->registerCallback(loadAudio);
-    EventRegister->registerCallback(playAudio);
-    EventRegister->registerCallback(stopAudio);
-    EventRegister->registerCallback(pauseAudio);
-    EventRegister->registerCallback(volumeAudio);
+    //std::function<void(const AudioEventLoad *)> loadFunc = loadAudio;
+
+    //reg->registerCallback<AudioEventLoad>(loadFunc);
+    //reg->registerCallback<AudioEventPlay>(playAudio);
+    //reg->registerCallback<AudioEventStop>(stopAudio);
+    //reg->registerCallback<AudioEventPause>(pauseAudio);
+    //reg->registerCallback<AudioEventVolume>(volumeAudio);
 }
 
 void AudioEventManager::loadAudio(const AudioEventLoad *e)
 {
     try {
         this->_list.at(e->_path);
-        e->_member.reset();
     } catch (...) {
-        e->_member->setAudio(e->_path);
-        this->_list[e->_path] = std::move(e->_member);
+        switch (e->_type)
+        {
+            case AudioEventLoad::audioType_e::SOUND: this->_list[e->_path] = std::make_unique<SoundManager>(); break;
+            case AudioEventLoad::audioType_e::MUSIC: this->_list[e->_path] = std::make_unique<MusicManager>(); break;
+            default: throw std::invalid_argument("Invalid enum audioType_e"); break;
+        }
+        this->_list[e->_path]->setAudio(e->_path);
     }
 }
 

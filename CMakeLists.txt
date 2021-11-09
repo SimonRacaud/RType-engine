@@ -31,7 +31,7 @@ set(CLIENT_SRCS
         client/src/main.cpp
         client/src/Scene/Start/StartScene.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
-        client/src/System/LogPosition/LogPositionSystem.hpp
+        client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})

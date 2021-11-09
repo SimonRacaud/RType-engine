@@ -8,7 +8,7 @@
 #ifndef AUDIOEVENTVOLUME_HPP
 #define AUDIOEVENTVOLUME_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 #include <string>
 
 class AudioEventVolume : public Engine::Event::IEvent

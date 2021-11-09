@@ -8,7 +8,7 @@
 #ifndef AUDIOEVENTSTOP_HPP
 #define AUDIOEVENTSTOP_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 #include <string>
 
 class AudioEventStop : public Engine::Event::IEvent

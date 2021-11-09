@@ -8,7 +8,7 @@
 #ifndef AUDIOEVENTPLAY_HPP
 #define AUDIOEVENTPLAY_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 #include <string>
 
 class AudioEventPlay : public Engine::Event::IEvent
