@@ -33,14 +33,14 @@ void DebugScene::open()
      * Entities
      */
     Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
-    Engine::Entity entity3 = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
+    entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
     Engine::Entity entity2 = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
 
     /**
      * Network ID
      */
     // entityManager.setNetworkId(entity, 42);
-    std::cerr << "Id = " << entityManager.getNetworkId(entity);
+    std::cerr << "Net Id = " << entityManager.getNetworkId(entity) << std::endl;
 
     /**
      * Components
@@ -52,10 +52,12 @@ void DebugScene::open()
     //    try {
     //        entityManager.remove(Engine::EntityName::TEST);
     //    } catch (Engine::BasicException const &e) {
-    //        std::cerr << "En error occured\n";
+    //        std::cerr << "En error occurred\n";
     //    }
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
 
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
+    systemManager.unregisterSystem<Engine::PhysicsSystem>();
+    systemManager.unregisterSystem<Engine::PhysicsSystem>();
 }

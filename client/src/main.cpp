@@ -29,8 +29,8 @@ int main(void)
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
-    sceneManager.select<Scene::StartScene>();
     sceneManager.registerScene<Scene::DebugScene>();
+    sceneManager.select<Scene::DebugScene>();
 
     engine.exec();
     return EXIT_SUCCESS;
