@@ -26,7 +26,7 @@ include_directories(./include)
 ## SOURCES
 set(CLIENT_SRCS
         client/src/main.cpp
-        client/src/Scene/StartScene.cpp
+        client/src/Scene/Start/StartScene.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.hpp
         )
