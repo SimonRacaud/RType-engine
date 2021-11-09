@@ -20,6 +20,7 @@ class MusicManager: public IAudioManager
         MusicManager(const MusicManager &);
         ~MusicManager();
         void play();
+        void stop();
         void pause();
         void restart();
         size_t getVolume();
