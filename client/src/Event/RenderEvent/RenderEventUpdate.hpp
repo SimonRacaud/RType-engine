@@ -8,14 +8,15 @@
 #ifndef RENDEREVENTUPDATE_HPP
 #define RENDEREVENTUPDATE_HPP
 
-#include "IEvent.hpp"
+#include "build.hpp"
+#include "Event/IEvent.hpp"
 #include "Interface/IDrawable.hpp"
 
 template<typename uniqueId>
 class RenderEventUpdate : public Engine::Event::IEvent
 {
 	public:
-		RenderEventUpdate(uniqueId id, IDrawable *obj) : _id(id), _obj(obj)
+		RenderEventUpdate(uniqueId id, IDrawable<renderToolSfml> *obj) : _id(id), _obj(obj)
         {
         }
 		~RenderEventUpdate() = default;
@@ -26,7 +27,7 @@ class RenderEventUpdate : public Engine::Event::IEvent
 
     public:
         uniqueId _id;
-        IDrawable *_obj;
+        IDrawable<renderToolSfml> *_obj;
 };
 
 #endif

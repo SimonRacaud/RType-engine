@@ -8,14 +8,14 @@
 #ifndef RENDEREVENTADD_HPP
 #define RENDEREVENTADD_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 #include "Interface/IDrawable.hpp"
 
 template<typename uniqueId>
 class RenderEventAdd : public Engine::Event::IEvent
 {
 	public:
-		RenderEventAdd(uniqueId id, IDrawable *obj) : _id(id), _obj(obj)
+		RenderEventAdd(uniqueId id, IDrawable<renderToolSfml> *obj) : _id(id), _obj(obj)
         {
         }
 		~RenderEventAdd() = default;
@@ -26,7 +26,7 @@ class RenderEventAdd : public Engine::Event::IEvent
 
     public:
         uniqueId _id;
-        IDrawable *_obj;
+        IDrawable<renderToolSfml> *_obj;
 };
 
 #endif

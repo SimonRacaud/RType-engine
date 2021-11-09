@@ -8,7 +8,7 @@
 #ifndef RENDEREVENTREMOVE_HPP
 #define RENDEREVENTREMOVE_HPP
 
-#include "IEvent.hpp"
+#include "Event/IEvent.hpp"
 
 template<typename uniqueId>
 class RenderEventRemove : public Engine::Event::IEvent
