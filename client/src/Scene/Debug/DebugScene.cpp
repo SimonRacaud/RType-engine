@@ -19,18 +19,43 @@ DebugScene::DebugScene()
     : Engine::AbstractScene<DebugScene>(Engine::ClusterName::HOME)
 {}
 
+static const auto destruct = [] (Engine::Entity entity, Engine::EntityName name,
+                          Engine::ClusterName cluster) {
+    std::cerr << "DESTROY " << entity << " " << (int)name << " " << (int)cluster << "\n";
+};
+
 void DebugScene::open()
 {
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     Engine::IEntityManager &entityManager = engine.getEntityManager();
 
-//    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
-//
-//    componentManager.add<Engine::Position>(entity, 10, 10);
-//    componentManager.add<Engine::Velocity>(entity, 1, 0);
+    /**
+     * Entities
+     */
+    Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
+    Engine::Entity entity3 = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
+    Engine::Entity entity2 = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
+
+    /**
+     * Network ID
+     */
+    // entityManager.setNetworkId(entity, 42);
+    std::cerr << "Id = " << entityManager.getNetworkId(entity);
+
+    /**
+     * Components
+     */
+    componentManager.add<Engine::Position>(entity, 10, 10);
+    componentManager.add<Engine::Position>(entity2, 10, 10);
+    componentManager.add<Engine::Velocity>(entity, 1, 0);
+
+    //    try {
+    //        entityManager.remove(Engine::EntityName::TEST);
+    //    } catch (Engine::BasicException const &e) {
+    //        std::cerr << "En error occured\n";
+    //    }
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
 
-    systemManager.selectSystems<System::LogPositionSystem>();
-    std::cerr << "OPEN DEBUG SCENE" << std::endl;
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
 }

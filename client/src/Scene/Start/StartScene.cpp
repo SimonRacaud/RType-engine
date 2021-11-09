@@ -21,15 +21,12 @@ StartScene::StartScene()
 
 void StartScene::open()
 {
-    Engine::ComponentManager &componentManager = engine.getComponentManager();
     Engine::IEntityManager &entityManager = engine.getEntityManager();
+    Engine::ComponentManager &componentManager = engine.getComponentManager();
 
-    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    // Create entities here...
 
-    componentManager.add<Engine::Position>(entity, 10, 10);
-    componentManager.add<Engine::Velocity>(entity, 1, 0);
-
+    /// Select needed systems
     Engine::SystemManager &systemManager = engine.getSystemManager();
-
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
 }
