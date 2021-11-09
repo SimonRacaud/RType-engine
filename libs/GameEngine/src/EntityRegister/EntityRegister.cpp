@@ -147,6 +147,12 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
         throw InvalidParameterException("EntityRegister::setNetworkId the "
                                         "entity doesn't exist");
     }
+    try {
+        NetworkId id = this->getNetworkId(entity); // that method will throw if not found
+
+        throw InvalidParameterException("EntityRegister::setNetworkId "
+            "network id " + std::to_string(id) + " already assigned.");
+    } catch (NotFoundException const &e) {}
     this->_networkIdRegister.reserveId(id);
     this->_bookedEntities[entity].setNetworkId(id);
 }
@@ -175,4 +181,23 @@ vector<Entity> EntityRegister::getEntityList() const
         }
     }
     return list;
+}
+
+ClusterName EntityRegister::getCluster(Entity entity) const
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::getCluster entity not found");
+    return this->_bookedEntities[entity].getCluster();
+}
+
+NetworkId EntityRegister::getNetworkId(Entity entity) const
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::getCluster entity not found");
+    NetworkId net = this->_bookedEntities[entity].getNetworkId();
+
+    if (net == NO_NET_ID) {
+        throw NotFoundException("EntityRegister::getNetworkId the entity doesn't have an id");
+    }
+    return net;
 }

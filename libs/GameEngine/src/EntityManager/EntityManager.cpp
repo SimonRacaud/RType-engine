@@ -127,6 +127,16 @@ std::size_t EntityManager::getClusterSize(ClusterName cluster)
     return this->_entities.getClusterSize(cluster);
 }
 
+NetworkId EntityManager::getNetworkId(Entity entity)
+{
+    return _entities.getNetworkId(entity);
+}
+
+ClusterName EntityManager::getCluster(Entity entity)
+{
+    return _entities.getCluster(entity);
+}
+
 void EntityManager::_removeEntityComponents(Entity entity,
     Signature const &signature)
 {

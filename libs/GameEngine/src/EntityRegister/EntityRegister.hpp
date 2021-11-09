@@ -128,6 +128,19 @@ namespace Engine
         void setNetworkId(Entity entity, NetworkId id);
 
         /**
+         * @throws NotFoundException
+         * @param entity
+         * @return
+         */
+        ClusterName getCluster(Entity entity) const;
+        /**
+         * @throws NotFoundException
+         * @param entity
+         * @return
+         */
+        NetworkId getNetworkId(Entity entity) const;
+
+        /**
          * @brief Get a list of all entities (used to clear all entities)
          */
         vector<Entity> getEntityList() const;
