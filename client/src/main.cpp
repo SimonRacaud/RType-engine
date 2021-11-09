@@ -18,6 +18,17 @@
 #include "Event/AudioEvent/AudioEventVolume.hpp"
 #include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
 
+#include "build.hpp"
+
+#include "Event/RenderEvent/RenderEventAdd.hpp"
+#include "Event/RenderEvent/RenderEventDraw.hpp"
+#include "Event/RenderEvent/RenderEventManager/RenderEventManager.hpp"
+
+#include "TextManager/TextManager.hpp"
+#include "WindowManager/WindowManager.hpp"
+
+#include "System/InputEventManager/InputEventManager.hpp"
+
 using namespace std;
 
 Engine::IGameEngine &engine = Engine::EngineFactory::getInstance();
@@ -33,6 +44,35 @@ int main(void)
 {
     init();
     AudioEventManager audio;
+    RenderEventManager render;
+    std::shared_ptr<IWindowManager> window = std::make_shared<WindowManager>();
+    InputEventManager input(window);
+    TextManager text;
+
+    reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
+    reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
+    reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
+
+    text.setColor(ITextManager<renderToolSfml>::color_e::RED);
+    text.setContent("mdr");
+    text.setFont("asset/font/Code-Bold.ttf");
+
+    reg->registerEvent<RenderEventAdd<std::string>>("one", static_cast<IDrawable<renderToolSfml> *>(&text));
+
+    window->setName("yolo");
+    window->setFramerateLimiter(30);
+    window->setSize(vector2D(800, 800));
+    window->open();
+
+    while (window->isOpen()) {
+        window->clear();
+
+        reg->registerEvent<RenderEventDraw>(window);
+        reg->execQueue();
+
+        window->refresh();
+        input.run();
+    }
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Position>();
@@ -46,11 +86,6 @@ int main(void)
     sceneManager.registerScene<Scene::StartScene>();
     sceneManager.select<Scene::StartScene>();
 
-    reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
-    reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
-    reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
-
-    reg->execQueue();
     engine.exec();
     return EXIT_SUCCESS;
 }
