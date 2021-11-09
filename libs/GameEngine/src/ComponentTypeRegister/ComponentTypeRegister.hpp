@@ -104,7 +104,7 @@ namespace Engine
 
             return *(_components[componentIdx].get());
         } catch (std::out_of_range const &) {
-            throw NotFoundException("Entity not found");
+            throw NotFoundException("ComponentTypeRegister::get Entity not found");
         }
     }
 

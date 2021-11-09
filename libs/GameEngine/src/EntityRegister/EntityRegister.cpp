@@ -25,7 +25,7 @@ std::vector<Signature> &EntityRegister::getSignatureList()
 const Signature &EntityRegister::getSignature(Entity entity) const
 {
     if (!this->exist(entity)) {
-        throw NotFoundException("Entity not found");
+        throw NotFoundException("EntityRegister::getSignature Entity not found");
     }
     return _signatures[entity];
 }
@@ -80,6 +80,13 @@ vector<Entity> EntityRegister::remove(ClusterName cluster)
         this->remove(entity);
     }
     return list;
+}
+
+void EntityRegister::remove(const vector<Entity> &list)
+{
+    for (Entity entity : list) {
+        this->remove(entity);
+    }
 }
 
 bool EntityRegister::exist(Entity entity) const

@@ -33,48 +33,41 @@ Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster,
 
 void EntityManager::remove(Entity entity)
 {
-    Signature signature = this->_entities.getSignature(entity);
-    std::array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE> &registers = GET_COMP_M._componentRegisters;
-
+    Signature const &signature = this->_entities.getSignature(entity);
     // Hey Entity Register, remove [entity] from your register
     _entities.remove(entity);
     // Hey systems! Remove [entity] from your managed entity lists
     GET_SYS_M.onEntityRemoved(entity);
     // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
-    for (size_t idx = 0; idx < signature.size(); idx++) {
-        if (signature[idx] && registers[idx] != nullptr) {
-            registers[idx]->remove(entity);
-        }
-    }
+    this->_removeEntityComponents(entity, signature);
 }
 
 void EntityManager::remove(EntityName name)
 {
+    Signature const &signature = this->_entities.getSignature(
+        this->_entities.getId(name));
     // Hey Entity Register, remove [entity] from your register
     Entity entity = _entities.remove(name);
     // Hey systems! Remove [entity] from your managed entity lists
     GET_SYS_M.onEntityRemoved(entity);
     // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
-    for (auto &componentRegister : GET_COMP_M._componentRegisters) {
-        if (componentRegister != nullptr) {
-            componentRegister->remove(entity);
-        }
-    }
+    this->_removeEntityComponents(entity, signature);
 }
 
 void EntityManager::remove(ClusterName cluster)
 {
+    vector<Entity> const &entities = this->_entities.getClusterEntityList(cluster);
+
+    for (Entity entity : entities) {
+        Signature const &signature = this->_entities.getSignature(entity);
+        // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
+        this->_removeEntityComponents(entity, signature);
+    }
     // Hey Entity Register, remove [entity] from your register
-    vector<Entity> entityList = _entities.remove(cluster);
-    for (Entity entity : entityList) {
+    _entities.remove(entities);
+    for (Entity entity : entities) {
         // Hey systems! Remove [entity] from your managed entity lists
         GET_SYS_M.onEntityRemoved(entity);
-        // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
-        for (auto &componentRegister : GET_COMP_M._componentRegisters) {
-            if (componentRegister != nullptr) {
-                componentRegister->remove(entity);
-            }
-        }
     }
 }
 
@@ -126,4 +119,21 @@ Entity EntityManager::getId(EntityName name)
 std::size_t EntityManager::getClusterSize(ClusterName cluster)
 {
     return this->_entities.getClusterSize(cluster);
+}
+
+void EntityManager::_removeEntityComponents(Entity entity,
+    Signature const &signature)
+{
+    std::array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE> &registers
+        = GET_COMP_M._componentRegisters;
+
+    for (size_t idx = 0; idx < signature.size(); idx++) {
+        if (signature[idx] && registers[idx] != nullptr) {
+            try {
+                registers[idx]->remove(entity);
+            } catch (InvalidParameterException const &) {
+                std::cerr << "EntityManager::remove oops that error mustn't append" << std::endl;
+            }
+        }
+    }
 }

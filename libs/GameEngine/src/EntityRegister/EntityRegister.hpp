@@ -77,6 +77,14 @@ namespace Engine
          * @return
          */
         vector<Entity> remove(ClusterName cluster);
+
+        /**
+         * @brief Remove a list of entity
+         * @param list
+         * @throws NotFoundException
+         */
+        void remove(vector<Entity> const &list);
+
         /**
          * @brief Do the entity exist ?
          * @param entity
@@ -124,7 +132,6 @@ namespace Engine
          */
         vector<Entity> getEntityList() const;
 
-      private:
         [[nodiscard]] vector<Entity> getClusterEntityList(ClusterName cluster) const;
 
       private:

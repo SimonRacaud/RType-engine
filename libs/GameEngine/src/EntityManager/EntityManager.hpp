@@ -118,6 +118,8 @@ namespace Engine
 
         EntityRegister &_getEntityRegister();
 
+        void _removeEntityComponents(Entity entity, Signature const &signature);
+
       private:
         EntityRegister _entities;
     };
