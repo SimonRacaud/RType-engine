@@ -39,7 +39,7 @@ void EntityManager::remove(Entity entity)
     _entities.destroyEntity(entity); // launch destructor callback
     _entities.remove(entity);
     // Hey systems! Remove [entity] from your managed entity lists
-    GET_SYS_M.onEntityRemoved(entity);
+    GET_SYS_M._onEntityRemoved(entity);
     // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
     this->_removeEntityComponents(entity, signature);
 }
@@ -55,7 +55,7 @@ void EntityManager::remove(EntityName name)
             _entities.destroyEntity(this->getId(name)); // launch destructor callback
             Entity entity = _entities.remove(name);
             // Hey systems! Remove [entity] from your managed entity lists
-            GET_SYS_M.onEntityRemoved(entity);
+            GET_SYS_M._onEntityRemoved(entity);
             // Hey BaseComponent Registers! Remove the instances of the Components of [entity].
             this->_removeEntityComponents(entity, signature);
         } catch (NotFoundException const &) {
@@ -79,7 +79,7 @@ void EntityManager::remove(ClusterName cluster)
     _entities.remove(entities);
     for (Entity entity : entities) {
         // Hey systems! Remove [entity] from your managed entity lists
-        GET_SYS_M.onEntityRemoved(entity);
+        GET_SYS_M._onEntityRemoved(entity);
     }
 }
 

@@ -18,14 +18,14 @@ void SystemManager::executeCycle()
     }
 }
 
-void SystemManager::onEntityUpdated(Entity entity, const Signature &signature)
+void SystemManager::_onEntityUpdated(Entity entity, const Signature &signature)
 {
     for (auto &system : _systems) {
         system->onEntityUpdated(entity, signature);
     }
 }
 
-void SystemManager::onEntityRemoved(Entity entity)
+void SystemManager::_onEntityRemoved(Entity entity)
 {
     for (shared_ptr<IAbstractSystem> system : _systems) {
         if (system != nullptr) {;
