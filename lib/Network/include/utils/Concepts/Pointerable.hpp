@@ -7,6 +7,8 @@
 #ifndef R_TYPE_POINTERABLE_HPP
 #define R_TYPE_POINTERABLE_HPP
 
+//#if __cplusplus > 201703L && __cpp_concepts >= 201907L
+
 #include <concepts>
 
 template <typename T>
@@ -27,4 +29,5 @@ concept Pointerable = requires(T a, T *b)
         } -> std::convertible_to<T>;
 };
 
+//#endif // __cplusplus
 #endif // R_TYPE_POINTERABLE_HPP
