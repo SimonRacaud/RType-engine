@@ -14,7 +14,7 @@ namespace Engine {
     EngineFactory "1" -- "1" Engine
 
     class Engine {
-        - _eventRegister: EventCallBackRegister
+        - _eventRegister: EventCallbackRegister
         - _entityManager: EntityManager
         - _systemManager: SystemManager
         - _componentManager: ComponentManager
@@ -48,40 +48,32 @@ namespace Engine {
         COMPONENTS
     '/
     namespace Component {
-        class Component<ComponentType> {
-            - {static} type: type_index
+        abstract BaseComponent<ComponentType> {
+            - {static} idx: Index
+            + {static} type: const type_index
 
             + constructor()
-            + getType(): type_index
+            + {static} setIndex(index: Index): void
+            + {static} getIndex(): Index
         }
-
-        class AbstractSyncComponent<Model> {
-            - _modified: bool
-
-            + notifyUpdate(): void
-            + isUpdated(): bool
-            + {abstract} serialise(): Model
-            + override(Model &data): void
-        }
-        Component <|-- AbstractSyncComponent
     }
     /'
         ENTITY MANAGER
     '/
     namespace Entity {
+
         class EntityManager {
-            - _public: EntityRegister
-            - _private: EntityRegister
+            - _entities: EntityRegister
 
             + constructor()
-            + createPrivate(name = ClusterName::GLOBAL: ClusterName, name = EntityName::NO_NAME: EntityName): Entity
-            + createPublic(name = ClusterName::GLOBAL: ClusterName, name = EntityName::NO_NAME: EntityName): Entity
-            + setAsPublic(privateEntity: Entity, publicId: Entity): void
+            + create(destructor: EntityDestructor&, cluster: ClusterName = ClusterName::GLOBAL, name: EntityName = EntityName::NO_NAME, setNetworkId: bool = false): Entity
+            + setNetworkId(entity: Entity, networkId: NetworkId): void
+            + getId(networkId: NetworkId): Entity
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
             + exist(entity: Entity): bool
-            + exist(cluster = ClusterName::GLOBAL: EntityCluster, entity = EntityName::NO_NAME: EntityName): bool
+            + exist(entity: EntityName, cluster: EntityCluster = ClusterName::GLOBAL): bool
             + hasComponent<ComponentType>(entity: Entity): bool
             + hasComponents<ComponentTypeList...>(entity: Entity): bool
             + getId(name: EntityName): Entity
@@ -91,36 +83,64 @@ namespace Engine {
             - getSignatureList(): vector<Signature>
             - getSignature(entity: Entity): const Signature
         }
+        note right of EntityManager::replaceIndex
+            Replace a private id by a public one
+        end note
+
+        class NetworkIdRegister {
+            - _counter: NetworkId = 1
+            - _freeIds: vector<NetworkId>
+
+            + reserveId(): NetworkId
+            + reserveId(id: NetworkId): NetworkId
+            + releaseId(id: NetworkId): void
+        }
+
         class EntityRegister {
             - _signatures: vector<Signature>
             - _bookedEntities: vector<EntityBlock>
             - _freeEntities: vector<Entity>
-            - _startInterval: size_t
-            - _endInterval: size_t
+            - _networkIdManager: NetworkIdRegister
 
-            + constructor(endInterval: size_t, startInterval = 0: size_t)
+            + constructor()
             + allocate(size: size_t): void
-            + getEntitySignatures(): vector<Signature>
-            + getSignature(entity: Entity): Signature
-            + create(): Entity
+            + getSignatureList(): vector<Signature>
+            + getSignature(entity: Entity): const Signature
+            + create(cluster: EntityCluster, name: EntityName, destructor: EntityDestructor = null, setNetworkId: bool = false): Entity
             ' Reserve public id
-            + createForce(entity: Entity): void
+            + setNetworkId(entity: Entity, networkId: NetworkId): void
+            + getId(networkId: NetworkId): Entity
             + remove(entity: Entity): void
             + remove(name: EntityName): void
             + remove(name: ClusterName): void
-            + isset(entity: Entity): bool
             + getId(name: EntityName): Entity
             + getClusterSize(name: ClusterName): size_t
-            + exist(cluster = ClusterName::GLOBAL: EntityCluster, entity = EntityName::NO_NAME: EntityName): bool
-            + hasComponent<ComponentType>(entity: Entity): bool
-            + hasComponents<ComponentTypeList...>(entity: Entity): bool
+            + exist(entity: Entity): bool
+            + exist(entity: EntityName, cluster: EntityCluster = ClusterName::GLOBAL): bool
+            + exist(cluster: EntityCluster): bool
         }
-        EntityRegister "2" -- "1" EntityManager
+        EntityRegister "1" -- "1" EntityManager
+        EntityRegister "1" -- "1" NetworkIdRegister
+        
         class EntityBlock {
-            + _entity: Entity
-            + _name: EntityName
-            + _cluster: EntityCluster
+            - _entity: Entity
+            - _name: EntityName
+            - _cluster: EntityCluster
+            - _destructor: EntityDestructor &
+            - _networkId: NetworkId
+
+            + constructor(entity: Entity, cluster: ClusterName, name: EntityName, destructor: EntityDestructor &)
+            + operator==(name: EntityName): bool
+            + operator==(cluster: ClusterName): bool
+            + setNetworkId(NetworkId id)
+            + getNetworkId(): NetworkId
+            + getEntity() Entity
+            + setEntity(entity: Entity): void
+            + getName(): EntityName
+            + getCluster(): ClusterName
+            + destroy() void
         }
+        note top : using EntityDestructor = std::function<void(Entity, EntityName, EntityCluster)>;
         EntityBlock "0...*" -- "1" EntityRegister
     }
     /'
@@ -130,6 +150,7 @@ namespace Engine {
         class ComponentManager {
             - _components: array<IComponentTypeRegister>
 
+            + allocate(size: size_t): void
             + register<ComponentType>(): void
             + get<ComponentType>(entity: Entity): ComponentType &
             + getList<ComponentTypeList...>(entity: Entity): tuple<ComponentTypeList...&>
@@ -137,7 +158,7 @@ namespace Engine {
             + remove<ComponentType>(entity: Entity): void
             + remove<ComponentType>(name: EntityName): void
             + getOwner<ComponentType>(component: ComponentType const&): Entity
-            + zipper<ComponentTypeList...>(): tuple<ComponentTypeList...>
+            + foreachComponent<ComponentType, Function>(Function &fn): void
 
             - getRegister<ComponentType>(): ComponentTypeRegister<ComponentType>
             - checkType<ComponentType>(): void
@@ -162,7 +183,6 @@ namespace Engine {
             + add<Args...>(entity: Entity, Args...): void
             + remove(entity: Entity): void
             + getOwner(component: ComponentType &): Entity
-            + getComponents(): vector<ComponentType> &
         }
         IComponentTypeRegister <|-- ComponentTypeRegister
     }
@@ -172,13 +192,13 @@ namespace Engine {
     '/
     namespace System {
         class SystemManager {
-            - _list: vector<AbstractSystem>
-            - _selected: vector<reference<AbstractSystem>>
+            - _list: vector<shared<AbstractSystem>>
+            - _selectedSystems: vector<shared<AbstractSystem>>
 
-            + register<SystemType, Args...>(Args...): SystemType &
+            + register<SystemType, Args...>(TODO, Args...): SystemType &
             + unRegister<SystemType>(): void
-            + select<SystemTypeList...>()
-            + execCycle()
+            + select<SystemTypeList...>(): void
+            + executeCycle(): void
             + onEntityUpdated(entity: Entity, signature: Signature): void
             + onEntityRemoved(entity: Entity): void
             + getSystem<SystemType>(): SystemType &
@@ -187,26 +207,35 @@ namespace Engine {
         }
         AbstractSystem "0...*" -- "1" SystemManager
 
-        class AbstractSystem {
-            - _type: type_index
+        abstract AbstractSystem<SystemType> {
+            - {static} _type: const type_index
+            - _lastExecTime: TimePoint
             - _requiredComponents: Signature
             - _managedEntities: vector<Entity>
             - _entityToIndex: map<Entity, size_t>
-            - _runningFrequency: chrono::time_point<chrono::steady_clock>
-            - _priority: Priority
+            - _runningFrequency: Time
+            - _priority: SystemPriority
 
-            + constructor(runningFrequency: chrono::time_point<chrono::steady_clock> = DEFAULT_FREQ, priority: Priority = MEDIUM)
+            + constructor(runningFrequency: Time = DEFAULT_FREQ, priority: SystemPriority = MEDIUM)
             + getPriority(): Priority
-            + getType(): type_index
+            + getType(): const &type_index
+            + refresh(): bool
             + {abstract} run(): void
             + setRequirements<ComponentTypeList...>(): void
             + onEntityUpdated(Entity entity, Signature signature): void
             + onManagedEntityRemoved(Entity entity): void
             + onManagedEntityAdded(Entity entity): void
             + onEntityRemoved(Entity entity): void
-            + attachEntity(Entity entity): void
-            + detachEntity(Entity entity): void
+            - attachEntity(Entity entity): void
+            - detachEntity(Entity entity): void
             # getManagedEntities(): vector<Entity>&
+        }
+        AbstractSystem "1" -- "1" SystemPriority
+
+        enum SystemPriority {
+            LOW,
+            MEDIUM,
+            HIGH
         }
     }
     /'
@@ -215,7 +244,7 @@ namespace Engine {
     namespace Scene {
         class SceneManager {
             - _list: vector<IScene>
-            - _currentScene: IScene &
+            - _currentScene: shared<IScene>
             - _nextScene: shared<IScene>
             - _previousScenes: stack<reference<IScene>>
 
@@ -225,9 +254,9 @@ namespace Engine {
             + select<SceneType>(closePrevious = true: bool): void
             + selectPrevious(): void
             + havePrevious(): bool
-            + getSelected(): IScene &
+            + getCurrent(): shared<IScene>
             + flushSelection(): void
-            + get<SceneType>(): IScene &
+            + get<SceneType>(): shared<IScene>
 
             # launchSystemCycle(): void
         }
@@ -242,13 +271,13 @@ namespace Engine {
             + isClosed(): bool
         }
 
-        class AbstractScene {
+        abstract AbstractScene<SceneType> {
             - _closed: bool
             - _cluster: ClusterName
-            - _type: type_index
 
-            + constructor(type: type_index, name: ClusterName)
-            + destructor()
+            + {static} type: type_index
+
+            + constructor(name: ClusterName)
             + {abstract} open(): void
             + close(): void
 
@@ -262,39 +291,38 @@ namespace Engine {
         EVENT MODULE
     '/
     namespace Engine.Event {
-        class EventCallBack<Args> {
-            - _event: const &IEvent
-            - _callback: & std::function<void(Args...)>
+        class EventCallBack<EventType> {
+            - _callback: & std::function<void(EventType *)>
 
-            + constructor(event: const &IEvent, callback: std::function<void(Args)> &)
-            + call(args: Args...): void
+            + constructor(callback: std::function<void(EventType *)> &)
+            + call(const IEvent *e): void
             + operator==(event: const& IEvent): bool
         }
         note bottom : Représente une action en cas d'événement
         IEventCallBack <|-- EventCallBack
 
-        interface IEventCallBack<Args> {
-            + call(args: Args...): void
+        interface IEventCallBack {
+            + call(const IEvent *e): void
             + operator==(event: const& IEvent): bool
         }
 
 
-        class EventCallBackRegister {
-            - _callbackList: unordered_map<IEvent, IEventCallBack>
-            - _queue: queue<IEvent>
+        class EventCallbackRegister {
+            - _callbackList: unordered_map<std::type_index, std::shared_ptr<IEventCallBack>>
+            - _queue: queue<std::shared_ptr<IEvent>>
 
-            + register<EventType>(callback: CallbackType): void
-            + dispatch<EventType>(Args...): void
+            + registerCallback<EventType>(callback: CallbackType): void
+            + registerEvent<EventType>(Args...): void
             + execQueue(): void
             - checkType<EventType>(): void
         }
-        EventCallBackRegister "1" -- "0..*" IEventCallBack
-        EventCallBackRegister "1" -- "0..*" IEvent
+        EventCallbackRegister "1" -- "0..*" IEventCallBack
+        EventCallbackRegister "1" -- "0..*" IEvent
 
         interface IEvent {
             + getType(): type_index
         }
-        class AbstractEvent {
+        abstract AbstractEvent {
             - {static} type: type_index
             + getType(): type_index
         }
@@ -333,6 +361,19 @@ namespace Game {
             constructor(example: Int)
         }
         Engine.Event.AbstractEvent <|-- StartGameEvent
+    }
+
+    namespace GameComponent {
+        abstract AbstractSyncComponent<Model> {
+            - _modified: bool
+
+            + notifyUpdate(): void
+            + isUpdated(): bool
+            + {abstract} serialise(): Model
+            + override(data: Model const&): void
+            + operator=(data: Model const&): void
+        }
+        Engine.Component.BaseComponent <|-- AbstractSyncComponent
     }
 }
 

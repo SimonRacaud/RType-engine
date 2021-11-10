@@ -33,7 +33,7 @@ state GameEngine {
             FlushSelection --> ExecuteSystemCycle
             ExecuteSystemCycle : SystemManager::executeCycle()
             ExecuteSystemCycle --> ExecuteEventQueue
-            ExecuteEventQueue : EventCallBackRegister::execQueue()
+            ExecuteEventQueue : EventCallbackRegister::execQueue()
         }
     }
     GameEngineExec --> GameEngineDestroy

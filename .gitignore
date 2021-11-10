@@ -1,8 +1,10 @@
 .idea
+compile.sh
 r-type_server
 r-type_client
 cmake-build-debug
 build
+doc/*.svg
 
 ### C ###
 # Prerequisites
