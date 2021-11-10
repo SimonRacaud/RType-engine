@@ -36,6 +36,7 @@ set(CLIENT_SRCS
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
+        client/src/GameCore/GameCore.cpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
