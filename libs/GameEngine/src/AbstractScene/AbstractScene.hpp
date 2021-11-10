@@ -33,7 +33,7 @@ namespace Engine
 
       protected:
         ClusterName _cluster;
-        bool _closed{false};
+        bool _closed{true};
     };
 
     template <class SceneType>
