@@ -10,6 +10,7 @@
 #include "Component/InputEvent.hpp"
 
 extern std::shared_ptr<IWindowManager> window;
+extern std::unique_ptr<IEventManager<renderToolSfml>> event;
 
 System::InputEventSystem::InputEventSystem() : Engine::AbstractSystem<InputEventSystem>()
 {
@@ -18,9 +19,14 @@ System::InputEventSystem::InputEventSystem() : Engine::AbstractSystem<InputEvent
 
 void System::InputEventSystem::run(const std::vector<Engine::Entity> &entities)
 {
-    for (const Engine::Entity &entity : entities) {
-        auto [event] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::InputEvent>(entity);
+    if (event && window->isOpen()) {
+        for (const Engine::Entity &entity : entities) {
+            auto [eventModule] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::InputEvent>(entity);
 
-        event._func(entity);
+            eventModule._func(entity);
+        }
+        event->refresh(window);
+    } else {
+        throw std::invalid_argument("Invalid event -> nullptr");
     }
 }

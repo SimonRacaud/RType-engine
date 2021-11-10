@@ -18,9 +18,15 @@ System::RenderSystem::RenderSystem() : Engine::AbstractSystem<RenderSystem>()
 
 void System::RenderSystem::run(const std::vector<Engine::Entity> &entities)
 {
-    for (const Engine::Entity &entity : entities) {
-        auto [render] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Render>(entity);
+    if (window && window->isOpen()) {
+        window->clear();
+        for (const Engine::Entity &entity : entities) {
+            auto [render] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Render>(entity);
 
-        render._src->draw(window);
+            render._src->draw(window);
+        }
+        window->refresh();
+    } else {
+        throw std::invalid_argument("Window is close");
     }
 }

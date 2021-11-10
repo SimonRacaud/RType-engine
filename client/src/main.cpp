@@ -21,17 +21,21 @@
 #include "build.hpp"
 
 #include "TextManager/TextManager.hpp"
+#include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
 #include "Component/Render.hpp"
+#include "Component/InputEvent.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
+#include "System/InputEventSystem/InputEventSystem.hpp"
 
 using namespace std;
 
 Engine::IGameEngine &engine = Engine::EngineFactory::getInstance();
 Engine::Event::EventCallbackRegister *reg = nullptr;
 std::shared_ptr<IWindowManager> window = nullptr;
+std::unique_ptr<IEventManager<renderToolSfml>> event = nullptr;
 
 static void init()
 {
@@ -39,6 +43,8 @@ static void init()
 		reg = new Engine::Event::EventCallbackRegister();
     if (!window)
 		window = std::make_shared<WindowManager>();
+    if (!event)
+		event = std::make_unique<EventManager>();
 
     window->setName("yolo");
     window->setFramerateLimiter(30);
@@ -56,14 +62,16 @@ int main(void)
     reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
+    componentManager.registerComponent<Engine::Render>();
     componentManager.registerComponent<Engine::Position>();
     componentManager.registerComponent<Engine::Velocity>();
-    componentManager.registerComponent<Engine::Render>();
+    componentManager.registerComponent<Engine::InputEvent>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
-    systemManager.registerSystem<Engine::PhysicsSystem>();
-    systemManager.registerSystem<System::LogPositionSystem>();
     systemManager.registerSystem<System::RenderSystem>();
+    systemManager.registerSystem<Engine::PhysicsSystem>();
+    systemManager.registerSystem<System::InputEventSystem>();
+    systemManager.registerSystem<System::LogPositionSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

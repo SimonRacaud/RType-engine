@@ -16,7 +16,7 @@
 namespace Engine
 {
     struct InputEvent : public BaseComponent<InputEvent> {
-        InputEvent(std::function<void (const Engine::Entity &entity)> func) : _func(func)
+        InputEvent(std::function<void (const Engine::Entity &)> func) : _func(func)
         {
             if (!func)
                 throw std::invalid_argument("Invalid std::fonction -> nullptr");
