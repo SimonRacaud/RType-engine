@@ -21,6 +21,7 @@ DebugScene::DebugScene(std::string testParam)
     std::cerr << testParam << std::endl;
 }
 
+// Must be in an Entity's factory
 static const auto destruct = [] (Engine::Entity entity, Engine::EntityName name,
                           Engine::ClusterName cluster) {
     std::cerr << "DESTROY " << entity << " " << (int)name << " " << (int)cluster << "\n";
@@ -32,7 +33,7 @@ void DebugScene::open()
     Engine::IEntityManager &entityManager = engine.getEntityManager();
 
     /**
-     * Entities
+     * Entities (must be in an entity's factory)
      */
     Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
     entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
@@ -45,7 +46,7 @@ void DebugScene::open()
     std::cerr << "Net Id = " << entityManager.getNetworkId(entity) << std::endl;
 
     /**
-     * Components
+     * Components (must be in an entity's factory)
      */
     componentManager.add<Engine::Position>(entity, 10, 10);
     componentManager.add<Engine::Position>(entity2, 10, 10);
@@ -58,7 +59,6 @@ void DebugScene::open()
     //    }
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
-
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
