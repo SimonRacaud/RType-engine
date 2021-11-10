@@ -63,9 +63,9 @@ namespace Engine {
 				void registerEvent(Args&&... eventArgs) {
 
 					checkType<EventType>();
-					std::shared_ptr<EventType> e = std::make_shared<EventType>(std::forward<Args>(eventArgs)...);
-					
-					_queue.push(static_cast<const IEvent *>(e));
+					std::shared_ptr<Engine::Event::IEvent> e = std::make_shared<EventType>(std::forward<Args>(eventArgs)...);
+
+					_queue.push(e);
 				}
 
 			private:
