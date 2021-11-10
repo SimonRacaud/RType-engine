@@ -9,6 +9,9 @@
 */
 
 #include "StartScene.hpp"
+#include "Component/Render.hpp"
+#include "TextManager/TextManager.hpp"
+#include "System/RenderSystem/RenderSystem.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 
 using namespace Scene;
@@ -29,7 +32,13 @@ void StartScene::open()
     componentManager.add<Engine::Position>(entity, 10, 10);
     componentManager.add<Engine::Velocity>(entity, 1, 0);
 
+    std::shared_ptr<TextManager> tmp = std::make_shared<TextManager>();
+    tmp->setColor(ITextManager<renderToolSfml>::color_e::RED);
+    tmp->setContent("mdr");
+    tmp->setFont("asset/font/Code-Bold.ttf");
+    componentManager.add<Engine::Render>(entity, tmp);
+
     Engine::SystemManager &systemManager = engine.getSystemManager();
 
-    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem>();
 }

@@ -27,60 +27,48 @@
 #include "TextManager/TextManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
+#include "Component/Render.hpp"
+
+#include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventManager/InputEventManager.hpp"
 
 using namespace std;
 
 Engine::IGameEngine &engine = Engine::EngineFactory::getInstance();
 Engine::Event::EventCallbackRegister *reg = nullptr;
+std::shared_ptr<IWindowManager> window = nullptr;
 
 static void init()
 {
 	if (!reg)
 		reg = new Engine::Event::EventCallbackRegister();
+    if (!window)
+		window = std::make_shared<WindowManager>();
+
+    window->setName("yolo");
+    window->setFramerateLimiter(30);
+    window->setSize(vector2D(800, 800));
+    window->open();
 }
 
 int main(void)
 {
     init();
     AudioEventManager audio;
-    RenderEventManager render;
-    std::shared_ptr<IWindowManager> window = std::make_shared<WindowManager>();
-    InputEventManager input(window);
-    TextManager text;
 
     reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
     reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
     reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
-    text.setColor(ITextManager<renderToolSfml>::color_e::RED);
-    text.setContent("mdr");
-    text.setFont("asset/font/Code-Bold.ttf");
-
-    reg->registerEvent<RenderEventAdd<std::string>>("one", static_cast<IDrawable<renderToolSfml> *>(&text));
-
-    window->setName("yolo");
-    window->setFramerateLimiter(30);
-    window->setSize(vector2D(800, 800));
-    window->open();
-
-    while (window->isOpen()) {
-        window->clear();
-
-        reg->registerEvent<RenderEventDraw>(window);
-        reg->execQueue();
-
-        window->refresh();
-        input.run();
-    }
-
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Position>();
     componentManager.registerComponent<Engine::Velocity>();
+    componentManager.registerComponent<Engine::Render>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<Engine::PhysicsSystem>();
     systemManager.registerSystem<System::LogPositionSystem>();
+    systemManager.registerSystem<System::RenderSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
