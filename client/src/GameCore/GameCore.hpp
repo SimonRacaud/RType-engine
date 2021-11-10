@@ -12,6 +12,7 @@
 #include "EngineCore.hpp"
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
+#include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
 
 class GameCore
 {
@@ -27,6 +28,9 @@ class GameCore
         Engine::Event::EventCallbackRegister *reg;
         std::shared_ptr<IWindowManager> window;
         std::unique_ptr<IEventManager<renderToolSfml>> event;
+
+    private:
+        AudioEventManager _audio;
 };
 
 #endif
