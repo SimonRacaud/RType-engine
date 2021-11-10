@@ -230,7 +230,7 @@ namespace Engine
             entity, std::forward<Args>(args)...);
         // Send message to system
         const Signature &signature = GET_ENTITY_M._getSignature(entity);
-        GET_SYS_M.onEntityUpdated(entity, signature);
+        GET_SYS_M._onEntityUpdated(entity, signature);
         SHOW_DEBUG_COMPONENT("Component: create for entity id=" + std::to_string(entity)
             + ", component type=" + TYPE_STR(ComponentType::type));
     }
@@ -247,9 +247,7 @@ namespace Engine
         this->getComponentContainer<ComponentType>()->remove(entity);
         // Send message to systems
         const auto &signature = GET_ENTITY_M._getSignature(entity);
-        GET_SYS_M.onEntityUpdated(entity, signature);
-        SHOW_DEBUG_COMPONENT("Component: remove for entity id=" + std::to_string(entity)
-            + ", component type=" + TYPE_STR(ComponentType::type));
+        GET_SYS_M._onEntityUpdated(entity, signature);
     }
 
     template <typename ComponentType>

@@ -17,7 +17,7 @@ namespace Engine {
 		template<class EventType>
 		class EventCallBack : public IEventCallback {
 			public:
-				EventCallBack(EventCallbackSignature callback) : _callback(callback) {}
+				EventCallBack(std::function<void(const EventType *)> callback) : _callback(callback) {}
 				~EventCallBack() = default;
 
 				inline void call(const IEvent *event) override {
@@ -25,7 +25,7 @@ namespace Engine {
 				}
 
 			protected:
-				EventCallbackSignature _callback;
+				std::function<void(const EventType *)> _callback;
 			private:
 
 		};

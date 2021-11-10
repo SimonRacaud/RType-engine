@@ -11,25 +11,21 @@
 #include "BaseComponent/BaseComponent.hpp"
 #include <functional>
 #include <chrono>
+#include <tuple>
+#include "global.hpp"
 
 namespace Engine {
 	class Timer : public BaseComponent<Timer> {
 		public:
-			Timer(float time, EventCallbackSignature callback, Event::IEvent *e) 
-				: _maxTime(time), _currentTime(time), _callback(callback), _callbackEvent(e) {}
+			Timer(Time time, const std::shared_ptr<std::function<void(Entity)>> factory, bool countdown = true)
+				: _countdown(countdown), _maxTime(time), _currentTime(time), _startTime(Clock::now()), _eventFactory(factory) {}
 			virtual ~Timer() = default;
 
-			/**
-			 * @brief Resets the timer to zero
-			 * 
-			 */
-			inline void reset() { _currentTime = _maxTime; }
-
-			float _maxTime;
-			float _currentTime;
-			EventCallbackSignature _callback;
-			Event::IEvent *_callbackEvent;
-
+			bool _countdown;
+			Time _maxTime;
+			Time _currentTime;
+			TimePoint _startTime;
+			std::shared_ptr<std::function<void(Entity)>> _eventFactory;
 	};
 }
 

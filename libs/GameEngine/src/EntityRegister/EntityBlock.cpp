@@ -62,7 +62,9 @@ ClusterName EntityBlock::getCluster() const
 
 void EntityBlock::destroy()
 {
-    this->_destructor(_entity, _name, _cluster);
+    if (this->_destructor != nullptr) {
+        this->_destructor(_entity, _name, _cluster);
+    }
 }
 
 void EntityBlock::setNetworkId(NetworkId id)

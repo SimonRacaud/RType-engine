@@ -51,15 +51,6 @@ namespace Engine
         template <class SystemType>
         void unregisterSystem();
 
-        /**
-         * @brief Selects a list of systems to add them to the selected vector
-         *
-         * @tparam Args
-         * @param systemTypeList All of the systems to select
-         */
-        template <class SystemTypeList>
-        void selectSystem();
-
         template<class... SystemTypeList>
         void selectSystems();
 
@@ -70,22 +61,6 @@ namespace Engine
         void executeCycle();
 
         /**
-         * @brief For each system that is registered it calls its onEntityUpdated
-         *
-         * @param entity
-         * @param signature
-         */
-        void onEntityUpdated(Entity entity, const Signature &signature);
-
-        /**
-         * @brief For each system that is registered it calls its onEntityRemoved
-         *
-         * @param entity the Entity to remove
-         */
-        void onEntityRemoved(Entity entity);
-
-
-        /**
          * @brief Returns a system of type from the list
          *
          * @tparam SystemType type to return
@@ -93,6 +68,31 @@ namespace Engine
          */
         template <typename SystemType>
         SystemType &getSystem();
+
+        /**
+         * @brief For each system that is registered it calls its _onEntityUpdated
+         * @brief DO NOT CALL OUTSIDE THE ENGINE, INTERNAL METHODE
+         * @param entity
+         * @param signature
+         */
+        void _onEntityUpdated(Entity entity, const Signature &signature);
+
+        /**
+         * @brief For each system that is registered it calls its _onEntityRemoved
+         * @brief DO NOT CALL OUTSIDE THE ENGINE, INTERNAL METHODE
+         * @param entity the Entity to remove
+         */
+        void _onEntityRemoved(Entity entity);
+
+      private:
+        /**
+         * @brief Selects a list of systems to add them to the selected vector
+         *
+         * @tparam Args
+         * @param systemTypeList All of the systems to select
+         */
+        template <class SystemTypeList>
+        void selectSystem();
 
       private:
         template <class SystemType>
@@ -123,20 +123,33 @@ namespace Engine {
     template <class SystemType>
     void SystemManager::unregisterSystem()
     {
-        const TypeIdx type = std::type_index(typeid(SystemType));
+        const TypeIdx type = SystemType::type;
+        const auto it = std::find_if(_systems.begin(), _systems.end(),
+            [type](std::shared_ptr<IAbstractSystem> &sysType) {
+                return sysType->getType().hash_code() == type.hash_code();
+        });
+        const auto itSelect = std::find_if(_selectedSystems.begin(), _selectedSystems.end(),
+            [type](std::shared_ptr<IAbstractSystem> &sysType) {
+                return sysType->getType().hash_code() == type.hash_code();
+        });
 
-        _selectedSystems.erase(_systems.begin(), _systems.end(), [&](auto &sysType) {
-            return sysType.getType() == type;
-        });
-        _systems.erase(_systems.begin(), _systems.end(), [&](auto &sysType) {
-            return sysType.getType() == type;
-        });
+        if (it != _systems.end()) {
+            _systems.erase(it);
+        }
+        if (itSelect != _selectedSystems.end()) {
+            _selectedSystems.erase(itSelect);
+        }
     }
 
     template <class... SystemTypeList>
     void SystemManager::selectSystems()
     {
+        _selectedSystems.clear();
         (this->selectSystem<SystemTypeList>(), ...);
+        std::sort(_selectedSystems.begin(), _selectedSystems.end(),
+            [] (shared_ptr<IAbstractSystem> const &a, shared_ptr<IAbstractSystem> const &b) {
+                return a->getPriority() < b->getPriority();
+        });
     }
 
     template<class SystemType>
@@ -159,7 +172,7 @@ namespace Engine {
                 std::string("No registered system with type : "
                     + std::string(typeid(SystemType).name())));
         }
-        return *sys;
+        return *static_cast<SystemType *>((*sys).get());;
     }
 
     template <class SystemType>

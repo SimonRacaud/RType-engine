@@ -11,6 +11,7 @@
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
 #include "Scene/Start/StartScene.hpp"
+#include "Scene/Debug/DebugScene.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 
 #include "Event/AudioEvent/AudioEventLoad.hpp"
@@ -66,15 +67,18 @@ int main(void)
     componentManager.registerComponent<Engine::Position>();
     componentManager.registerComponent<Engine::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
+    componentManager.registerComponent<Engine::Timer>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
     systemManager.registerSystem<Engine::PhysicsSystem>();
     systemManager.registerSystem<System::InputEventSystem>();
     systemManager.registerSystem<System::LogPositionSystem>();
+    systemManager.registerSystem<Engine::TimerSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
+    sceneManager.registerScene<Scene::DebugScene>("Mon paramètre de test");
     sceneManager.select<Scene::StartScene>();
 
     reg->execQueue();

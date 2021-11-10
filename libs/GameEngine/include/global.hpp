@@ -33,9 +33,6 @@ namespace Engine
 
     using NetworkId = uint32_t;
 
-    using EventCallbackSignature =
-        std::function<void(const Engine::Event::IEvent *)>;
-
     using EntityDestructor =
         std::function<void(Entity, EntityName, ClusterName)>;
     using std::unique_ptr;

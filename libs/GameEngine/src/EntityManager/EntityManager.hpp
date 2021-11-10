@@ -107,6 +107,20 @@ namespace Engine
          */
         void setNetworkId(Entity entity, NetworkId networkId);
 
+        /**
+         * @brief The network id of an entity. NotfoundException if it doesn't have one
+         * @param entity 
+         * @return
+         */
+        NetworkId getNetworkId(Entity entity);
+
+        /**
+         * @brief Get the cluster of an entity
+         * @param entity
+         * @return
+         */
+        ClusterName getCluster(Entity entity);
+
       private:
         void _allocate(std::size_t size);
 
@@ -117,6 +131,8 @@ namespace Engine
         const Signature &_getSignature(Entity entity);
 
         EntityRegister &_getEntityRegister();
+
+        void _removeEntityComponents(Entity entity, Signature const &signature);
 
       private:
         EntityRegister _entities;

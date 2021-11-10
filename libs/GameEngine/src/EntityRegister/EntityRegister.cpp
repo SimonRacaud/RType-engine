@@ -25,7 +25,7 @@ std::vector<Signature> &EntityRegister::getSignatureList()
 const Signature &EntityRegister::getSignature(Entity entity) const
 {
     if (!this->exist(entity)) {
-        throw NotFoundException("Entity not found");
+        throw NotFoundException("EntityRegister::getSignature Entity not found");
     }
     return _signatures[entity];
 }
@@ -80,6 +80,13 @@ vector<Entity> EntityRegister::remove(ClusterName cluster)
         this->remove(entity);
     }
     return list;
+}
+
+void EntityRegister::remove(const vector<Entity> &list)
+{
+    for (Entity entity : list) {
+        this->remove(entity);
+    }
 }
 
 bool EntityRegister::exist(Entity entity) const
@@ -140,6 +147,12 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
         throw InvalidParameterException("EntityRegister::setNetworkId the "
                                         "entity doesn't exist");
     }
+    try {
+        NetworkId id = this->getNetworkId(entity); // that method will throw if not found
+
+        throw InvalidParameterException("EntityRegister::setNetworkId "
+            "network id " + std::to_string(id) + " already assigned.");
+    } catch (NotFoundException const &e) {}
     this->_networkIdRegister.reserveId(id);
     this->_bookedEntities[entity].setNetworkId(id);
 }
@@ -168,4 +181,30 @@ vector<Entity> EntityRegister::getEntityList() const
         }
     }
     return list;
+}
+
+ClusterName EntityRegister::getCluster(Entity entity) const
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::getCluster entity not found");
+    return this->_bookedEntities[entity].getCluster();
+}
+
+NetworkId EntityRegister::getNetworkId(Entity entity) const
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::getCluster entity not found");
+    NetworkId net = this->_bookedEntities[entity].getNetworkId();
+
+    if (net == NO_NET_ID) {
+        throw NotFoundException("EntityRegister::getNetworkId the entity doesn't have an id");
+    }
+    return net;
+}
+
+void EntityRegister::destroyEntity(Entity entity)
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::destroyEntity entity not found");
+    _bookedEntities[entity].destroy(); // launch destructor
 }

@@ -38,8 +38,15 @@ void GameEngine::quit()
 
 void GameEngine::exec()
 {
-    while (_loop) {
-        this->_sceneManager->run();
+    size_t securityCounter = 0; // avoid infinite loop
+
+    while (_loop && securityCounter < MAX_THROW_EXIT) {
+        try {
+            this->_sceneManager->run();
+        } catch (BasicException const &e) {
+            std::cerr << "[Engine] " << e.what() << std::endl;
+            securityCounter++;
+        }
     }
 }
 

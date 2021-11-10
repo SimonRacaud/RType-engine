@@ -36,7 +36,7 @@ set(SRCS
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
-add_library(${NAME} ${SRCS})
+add_library(${NAME} SHARED ${SRCS})
 
 if (MSVC)
     target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
