@@ -18,6 +18,8 @@
 
 namespace Engine
 {
+    using std::vector;
+
     template <class SystemType> class AbstractSystem : public IAbstractSystem {
       public:
         AbstractSystem(Time runningFreq = (Time) DEF_SYSTEM_RUN_FREQ,
@@ -31,12 +33,17 @@ namespace Engine
         /**
          * \brief Execute the logic of the class
          */
-        virtual void run() = 0;
+        virtual void run(const vector<Entity> &entities) = 0;
 
         /**
          * \brief Do the system need to be executed? (running frequency)
          */
         bool refresh();
+
+        /**
+         * \brief technical operations before run(), do not override
+         */
+        void runSystem();
 
         template <typename... ComponentTypeList> void setRequirements();
 
@@ -167,6 +174,14 @@ namespace Engine
 
     template <class SystemType>
     void AbstractSystem<SystemType>::onManagedEntityRemoved(Entity) {}
+
+    template <class SystemType>
+    void AbstractSystem<SystemType>::runSystem()
+    {
+        const vector<Entity> &entities = this->getManagedEntities();
+
+        this->run(entities);
+    }
 
 } // namespace Engine
 

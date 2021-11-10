@@ -104,7 +104,7 @@ namespace Engine
 
             return *(_components[componentIdx].get());
         } catch (std::out_of_range const &) {
-            throw NotFoundException("Entity not found");
+            throw NotFoundException("ComponentTypeRegister::get Entity not found");
         }
     }
 
@@ -126,7 +126,7 @@ namespace Engine
         Signature &signature = this->_getComponentSignature(entity);
 
         if (false == signature[ComponentType::getIndex()]) {
-            throw InvalidParameterException("Component doesn't exist");
+            throw InvalidParameterException("ComponentTypeRegister::remove Component doesn't exist");
         }
         signature[ComponentType::getIndex()] = false;
         Index index = _entityToComponent[entity];
@@ -139,6 +139,8 @@ namespace Engine
         // update _componentOwners
         _componentOwners[index] = _componentOwners.back();
         _componentOwners.pop_back();
+        SHOW_DEBUG_COMPONENT("Component: remove for entity id=" + std::to_string(entity)
+            + ", component type=" + TYPE_STR(ComponentType::type));
     }
 
     template <typename ComponentType>

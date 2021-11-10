@@ -13,6 +13,7 @@
 
 using namespace System;
 using namespace Engine;
+using namespace std;
 
 static const Engine::Time freq = static_cast<Engine::Time>(1000);
 
@@ -21,11 +22,11 @@ LogPositionSystem::LogPositionSystem() : Engine::AbstractSystem<LogPositionSyste
     this->setRequirements<Engine::Position, Engine::Velocity>();
 }
 
-void LogPositionSystem::run()
+void LogPositionSystem::run(const vector<Entity> &entities)
 {
-    for (const Entity &entity : this->getManagedEntities()) {
+    for (const Entity &entity : entities) {
         auto [position, velocity] = GET_COMP_M.getList<Position, Velocity>(entity);
 
-        std::cerr << "Position : Entity[" << (int)entity << "] Position x[" << position.x << "] y[" << position.y << "]" << std::endl;
+        cerr << "Log : Entity[id=" << entity << "] " << position << " " << velocity << endl;
     }
 }

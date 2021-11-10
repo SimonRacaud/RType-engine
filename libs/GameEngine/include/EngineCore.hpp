@@ -21,4 +21,6 @@
 #include "Components/Position.hpp"
 #include "Components/Timer.hpp"
 
+#include "Utils/display.hpp"
+
 #endif // ENGINECORE_HPP

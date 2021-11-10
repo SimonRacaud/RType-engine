@@ -13,30 +13,32 @@ void SystemManager::executeCycle()
 {
     for (auto &system : _selectedSystems) {
         if (system->refresh()) {
-            system->run();
+            system->runSystem();
         }
     }
 }
 
-void SystemManager::onEntityUpdated(Entity entity, const Signature &signature)
+void SystemManager::_onEntityUpdated(Entity entity, const Signature &signature)
 {
     for (auto &system : _systems) {
         system->onEntityUpdated(entity, signature);
     }
 }
 
-void SystemManager::onEntityRemoved(Entity entity)
+void SystemManager::_onEntityRemoved(Entity entity)
 {
-    for (auto &system : _systems) {
-        system->onEntityRemoved(entity);
+    for (shared_ptr<IAbstractSystem> system : _systems) {
+        if (system != nullptr) {;
+            system->onEntityRemoved(entity);
+        }
     }
 }
 
 std::vector<std::shared_ptr<IAbstractSystem>>::iterator SystemManager::retrieveSystem(const TypeIdx &type)
 {
     auto sys = std::find_if(_systems.begin(), _systems.end(),
-    [&](std::shared_ptr<IAbstractSystem> &sysType) {
-        return sysType->getType() == type;
+        [type](std::shared_ptr<IAbstractSystem> &sysType) {
+            return sysType->getType().hash_code() == type.hash_code();
     });
     return sys;
 }

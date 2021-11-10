@@ -15,11 +15,12 @@
 #include <memory>
 #include <typeinfo>
 #include <vector>
+#include <iostream>
 #include "global.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
 #include "Exception/InvalidParameterException.hpp"
 #include "Exception/NotFoundException.hpp"
-#include <iostream>
+#include "IAbstractSystem.hpp"
 
 namespace Engine
 {
@@ -69,22 +70,6 @@ namespace Engine
         void executeCycle();
 
         /**
-         * @brief For each system that is registered it calls its onEntityUpdated
-         *
-         * @param entity
-         * @param signature
-         */
-        void onEntityUpdated(Entity entity, const Signature &signature);
-
-        /**
-         * @brief For each system that is registered it calls its onEntityRemoved
-         *
-         * @param entity the Entity to remove
-         */
-        void onEntityRemoved(Entity entity);
-
-
-        /**
          * @brief Returns a system of type from the list
          *
          * @tparam SystemType type to return
@@ -92,6 +77,21 @@ namespace Engine
          */
         template <typename SystemType>
         SystemType &getSystem();
+
+        /**
+         * @brief For each system that is registered it calls its _onEntityUpdated
+         * @brief DO NOT CALL OUTSIDE THE ENGINE, INTERNAL METHODE
+         * @param entity
+         * @param signature
+         */
+        void _onEntityUpdated(Entity entity, const Signature &signature);
+
+        /**
+         * @brief For each system that is registered it calls its _onEntityRemoved
+         * @brief DO NOT CALL OUTSIDE THE ENGINE, INTERNAL METHODE
+         * @param entity the Entity to remove
+         */
+        void _onEntityRemoved(Entity entity);
 
       private:
         template <class SystemType>
@@ -103,31 +103,41 @@ namespace Engine
         std::vector<std::shared_ptr<IAbstractSystem>> _selectedSystems;
     };
 }
-
-#include "AbstractSystem/AbstractSystem.hpp"
-
 namespace Engine {
     template <typename SystemType, typename... Args>
     SystemType &SystemManager::registerSystem(Args &&...systemArgs)
     {
-        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto sys = this->retrieveSystem(SystemType::type);
 
         if (sys != _systems.end()) {
             std::cerr << "Did not create new system because it already exists" << std::endl;
             return *static_cast<SystemType *>(sys->get());
         }
-        shared_ptr<IAbstractSystem> newSys = _systems.emplace_back(std::make_unique<SystemType>(std::forward<Args>(systemArgs)...));
-        return *static_cast<SystemType *>(newSys.get());
+        _systems.emplace_back(
+            std::make_shared<SystemType>(std::forward<Args>(systemArgs)...)
+                );
+        return *static_cast<SystemType *>(_systems.back().get());
     }
 
     template <class SystemType>
     void SystemManager::unregisterSystem()
     {
-        const TypeIdx type = std::type_index(typeid(SystemType));
+        const TypeIdx type = SystemType::type;
+        const auto it = std::find_if(_systems.begin(), _systems.end(),
+            [type](std::shared_ptr<IAbstractSystem> &sysType) {
+                return sysType->getType().hash_code() == type.hash_code();
+        });
+        const auto itSelect = std::find_if(_selectedSystems.begin(), _selectedSystems.end(),
+            [type](std::shared_ptr<IAbstractSystem> &sysType) {
+                return sysType->getType().hash_code() == type.hash_code();
+        });
 
-        _systems.erase(std::remove_if(_systems.begin(), _systems.end(), [&](auto &sysType) {
-            return sysType.getType() == type;
-        }));
+        if (it != _systems.end()) {
+            _systems.erase(it);
+        }
+        if (itSelect != _selectedSystems.end()) {
+            _selectedSystems.erase(itSelect);
+        }
     }
 
     template <class... SystemTypeList>
@@ -139,20 +149,23 @@ namespace Engine {
     template<class SystemType>
     void SystemManager::selectSystem()
     {
-        auto it = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto it = retrieveSystem(SystemType::type);
 
         if (it == _systems.end())
             throw NotFoundException("Could not find system to select it");
-        _selectedSystems.push_back(*it);
+        _selectedSystems.push_back((*it));
     }
 
     template <typename SystemType>
     SystemType &SystemManager::getSystem()
     {
-        auto sys = retrieveSystem(GET_TYPE_IDX(SystemType));
+        auto sys = retrieveSystem(SystemType::type);
 
-        if (sys == _systems.end())
-            throw InvalidParameterException(std::string("No registered system with type : " + std::string(typeid(SystemType).name())));
+        if (sys == _systems.end()) {
+            throw InvalidParameterException(
+                std::string("No registered system with type : "
+                    + std::string(typeid(SystemType).name())));
+        }
         return *sys;
     }
 

@@ -19,9 +19,9 @@ PhysicsSystem::PhysicsSystem()
     this->setRequirements<Position, Velocity>();
 }
 
-void PhysicsSystem::run()
+void PhysicsSystem::run(const std::vector<Engine::Entity> &entities)
 {
-    for (const Entity &entity : this->getManagedEntities()) {
+    for (const Entity &entity : entities) {
         auto [position, velocity] = GET_COMP_M.getList<Position, Velocity>(entity);
         position.x += velocity.x;
         position.y += velocity.y;

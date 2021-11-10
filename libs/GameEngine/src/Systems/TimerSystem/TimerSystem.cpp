@@ -22,7 +22,7 @@ TimerSystem::~TimerSystem()
 {
 }
 
-void TimerSystem::run()
+void TimerSystem::run(const vector<Entity> &entities)
 {
 	for (Entity e : this->getManagedEntities()) {
 		auto timer = GET_COMP_M.get<BaseTimer>(e);

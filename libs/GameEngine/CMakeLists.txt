@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.17)
 
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug) # TODO : update after
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -47,8 +47,10 @@ set(SRCS
         src/Engine/EngineFactory.cpp
 
         src/Systems/PhysicsSystem/PhysicsSystem.cpp
-        src/Systems/TimerSystem/TimerSystem.hpp
         src/Systems/TimerSystem/TimerSystem.cpp
+
+        src/Utils/display.cpp
+        src/Utils/SignalManager.cpp
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 

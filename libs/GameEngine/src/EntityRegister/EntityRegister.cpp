@@ -25,7 +25,7 @@ std::vector<Signature> &EntityRegister::getSignatureList()
 const Signature &EntityRegister::getSignature(Entity entity) const
 {
     if (!this->exist(entity)) {
-        throw NotFoundException("Entity not found");
+        throw NotFoundException("EntityRegister::getSignature Entity not found");
     }
     return _signatures[entity];
 }
@@ -48,11 +48,14 @@ Entity EntityRegister::create(ClusterName cluster, EntityName name,
     if (setNetworkId) {
         _bookedEntities[entity].setNetworkId(_networkIdRegister.reserveId());
     }
+    _bookedEntities[entity].removed = false;
+    SHOW_DEBUG("Entity: create id=" + std::to_string(entity));
     return entity;
 }
 
 void EntityRegister::remove(Entity entity)
 {
+    SHOW_DEBUG("Entity: remove id=" + std::to_string(entity));
     if (std::find(_freeEntities.begin(), _freeEntities.end(), entity) !=
         _freeEntities.end()) {
         throw NotFoundException("EntityRegister::remove Entity already removed.");
@@ -77,6 +80,13 @@ vector<Entity> EntityRegister::remove(ClusterName cluster)
         this->remove(entity);
     }
     return list;
+}
+
+void EntityRegister::remove(const vector<Entity> &list)
+{
+    for (Entity entity : list) {
+        this->remove(entity);
+    }
 }
 
 bool EntityRegister::exist(Entity entity) const
@@ -105,9 +115,9 @@ bool EntityRegister::exist(EntityName name, ClusterName cluster) const
 
 Entity EntityRegister::getId(EntityName name) const
 {
-    for (EntityBlock const &block : _bookedEntities) {
-        if (block.removed == false && block.getName() == name) {
-            return block.getEntity();
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false && it->getName() == name) {
+            return it->getEntity();
         }
     }
     throw NotFoundException("EntityRegister::getId Entity name not found");
@@ -118,9 +128,9 @@ Entity EntityRegister::getId(NetworkId networkId) const
     if (networkId == NO_NET_ID) {
         throw FatalErrorException("EntityRegister::getId Invalid network id");
     }
-    for (EntityBlock const &block : _bookedEntities) {
-        if (block.removed == false && block.getNetworkId() == networkId) {
-            return block.getEntity();
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false && it->getNetworkId() == networkId) {
+            return it->getEntity();
         }
     }
     throw NotFoundException("EntityRegister::getId Network id not found");
@@ -137,6 +147,12 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
         throw InvalidParameterException("EntityRegister::setNetworkId the "
                                         "entity doesn't exist");
     }
+    try {
+        NetworkId id = this->getNetworkId(entity); // that method will throw if not found
+
+        throw InvalidParameterException("EntityRegister::setNetworkId "
+            "network id " + std::to_string(id) + " already assigned.");
+    } catch (NotFoundException const &e) {}
     this->_networkIdRegister.reserveId(id);
     this->_bookedEntities[entity].setNetworkId(id);
 }
@@ -145,12 +161,50 @@ vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const
 {
     vector<Entity> list;
 
-    for (EntityBlock const &block : _bookedEntities) {
-        if (block.removed == false) {
-            if (block.getCluster() == cluster) {
-                list.push_back(block.getEntity());
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false) {
+            if (it->getCluster() == cluster) {
+                list.push_back(it->getEntity());
             }
         }
     }
     return list;
+}
+
+vector<Entity> EntityRegister::getEntityList() const
+{
+    vector<Entity> list;
+
+    for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
+        if (it->removed == false) {
+            list.push_back(it->getEntity());
+        }
+    }
+    return list;
+}
+
+ClusterName EntityRegister::getCluster(Entity entity) const
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::getCluster entity not found");
+    return this->_bookedEntities[entity].getCluster();
+}
+
+NetworkId EntityRegister::getNetworkId(Entity entity) const
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::getCluster entity not found");
+    NetworkId net = this->_bookedEntities[entity].getNetworkId();
+
+    if (net == NO_NET_ID) {
+        throw NotFoundException("EntityRegister::getNetworkId the entity doesn't have an id");
+    }
+    return net;
+}
+
+void EntityRegister::destroyEntity(Entity entity)
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::destroyEntity entity not found");
+    _bookedEntities[entity].destroy(); // launch destructor
 }

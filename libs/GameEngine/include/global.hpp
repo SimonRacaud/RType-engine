@@ -49,6 +49,14 @@ namespace Engine
     static constexpr Index InvalidIndex = std::numeric_limits<Index>::max();
 
     typedef std::bitset<MAX_COMPONENT_TYPE> Signature;
+
+    #ifdef ENABLE_DEBUG
+        #define SHOW_DEBUG(message) (std::cerr << message << std::endl)
+        #define SHOW_DEBUG_COMPONENT(message) if (DEBUG_COMPONENT) SHOW_DEBUG(message)
+    #else
+        #define SHOW_DEBUG(message)
+    #endif
+    #define TYPE_STR(type) std::to_string(type.hash_code())
 } // namespace Engine
 
 #endif // GLOBAL_HPP

@@ -41,6 +41,20 @@ namespace Engine {
         virtual Entity getId(NetworkId id) = 0;
         virtual void setNetworkId(Entity entity, NetworkId networkId) = 0;
 
+        /**
+         * @brief The network id of an entity. NotfoundException if it doesn't have one
+         * @param entity
+         * @return
+         */
+        virtual NetworkId getNetworkId(Entity entity) = 0;
+
+        /**
+         * @brief Get the cluster of an entity
+         * @param entity
+         * @return
+         */
+        virtual ClusterName getCluster(Entity entity) = 0;
+
       private:
         virtual std::vector<Signature> &_getSignatureList() = 0;
         virtual const Signature &_getSignature(Entity entity) = 0;

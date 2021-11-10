@@ -9,8 +9,9 @@
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
-#include "Scene/StartScene.hpp"
-#include "System/LogPositionSystem.hpp"
+#include "Scene/Start/StartScene.hpp"
+#include "Scene/Debug/DebugScene.hpp"
+#include "System/LogPosition/LogPositionSystem.hpp"
 
 using namespace std;
 
@@ -28,7 +29,8 @@ int main(void)
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
-    sceneManager.select<Scene::StartScene>();
+    sceneManager.registerScene<Scene::DebugScene>();
+    sceneManager.select<Scene::DebugScene>();
 
     engine.exec();
     return EXIT_SUCCESS;

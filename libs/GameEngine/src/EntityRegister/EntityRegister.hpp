@@ -8,6 +8,7 @@
 #ifndef ENTITYREGISTER_HPP
 #define ENTITYREGISTER_HPP
 
+#include <iostream>
 #include <cstddef>
 #include <vector>
 #include <numeric>
@@ -76,6 +77,14 @@ namespace Engine
          * @return
          */
         vector<Entity> remove(ClusterName cluster);
+
+        /**
+         * @brief Remove a list of entity
+         * @param list
+         * @throws NotFoundException
+         */
+        void remove(vector<Entity> const &list);
+
         /**
          * @brief Do the entity exist ?
          * @param entity
@@ -118,8 +127,31 @@ namespace Engine
          */
         void setNetworkId(Entity entity, NetworkId id);
 
-      private:
+        /**
+         * @throws NotFoundException
+         * @param entity
+         * @return
+         */
+        ClusterName getCluster(Entity entity) const;
+        /**
+         * @throws NotFoundException
+         * @param entity
+         * @return
+         */
+        NetworkId getNetworkId(Entity entity) const;
+
+        /**
+         * @brief Get a list of all entities (used to clear all entities)
+         */
+        vector<Entity> getEntityList() const;
+
         [[nodiscard]] vector<Entity> getClusterEntityList(ClusterName cluster) const;
+
+        /**
+         * @brief Launch entity destructor
+         * @param entity
+         */
+        void destroyEntity(Entity entity);
 
       private:
         std::vector<Signature> _signatures;
