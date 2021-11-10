@@ -51,15 +51,6 @@ namespace Engine
         template <class SystemType>
         void unregisterSystem();
 
-        /**
-         * @brief Selects a list of systems to add them to the selected vector
-         *
-         * @tparam Args
-         * @param systemTypeList All of the systems to select
-         */
-        template <class SystemTypeList>
-        void selectSystem();
-
         template<class... SystemTypeList>
         void selectSystems();
 
@@ -92,6 +83,16 @@ namespace Engine
          * @param entity the Entity to remove
          */
         void _onEntityRemoved(Entity entity);
+
+      private:
+        /**
+         * @brief Selects a list of systems to add them to the selected vector
+         *
+         * @tparam Args
+         * @param systemTypeList All of the systems to select
+         */
+        template <class SystemTypeList>
+        void selectSystem();
 
       private:
         template <class SystemType>
@@ -143,7 +144,12 @@ namespace Engine {
     template <class... SystemTypeList>
     void SystemManager::selectSystems()
     {
+        _selectedSystems.clear();
         (this->selectSystem<SystemTypeList>(), ...);
+        std::sort(_selectedSystems.begin(), _selectedSystems.end(),
+            [] (shared_ptr<IAbstractSystem> const &a, shared_ptr<IAbstractSystem> const &b) {
+                return a->getPriority() < b->getPriority();
+        });
     }
 
     template<class SystemType>

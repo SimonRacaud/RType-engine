@@ -34,10 +34,10 @@ void SystemManager::_onEntityRemoved(Entity entity)
     }
 }
 
-std::vector<std::shared_ptr<IAbstractSystem>>::iterator SystemManager::retrieveSystem(const TypeIdx &type)
+vector<shared_ptr<IAbstractSystem>>::iterator SystemManager::retrieveSystem(const TypeIdx &type)
 {
     auto sys = std::find_if(_systems.begin(), _systems.end(),
-        [type](std::shared_ptr<IAbstractSystem> &sysType) {
+        [type](shared_ptr<IAbstractSystem> &sysType) {
             return sysType->getType().hash_code() == type.hash_code();
     });
     return sys;
