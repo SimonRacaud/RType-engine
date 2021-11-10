@@ -13,7 +13,8 @@
 class GameStage : public IGameStage
 {
     public:
-        GameStage();
+        GameStage(const std::string &path);
+        GameStage(std::vector<std::string> file);
         ~GameStage();
 
         // HEADER DATA
@@ -27,6 +28,15 @@ class GameStage : public IGameStage
 
         // ENDED DATA
         std::string getStageNext() const;
+
+    protected:
+        void extract();
+        void applyFormat();
+        void checkFormat() const;
+        std::vector<std::string> readFile(const std::string &) const;
+
+    private:
+        std::vector<std::string> _content;
 };
 
 #endif

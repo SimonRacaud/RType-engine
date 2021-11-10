@@ -7,8 +7,18 @@
 
 #include "GameStage.hpp"
 
-GameStage::GameStage()
+GameStage::GameStage(const std::string &path) : _content(this->readFile(path))
 {
+    this->applyFormat();
+    this->checkFormat();
+    this->extract();
+}
+
+GameStage::GameStage(std::vector<std::string> file) : _content(file)
+{
+    this->applyFormat();
+    this->checkFormat();
+    this->extract();
 }
 
 GameStage::~GameStage()
@@ -43,4 +53,20 @@ std::queue<StageStep> GameStage::getStageStepAt(std::size_t time, bool move)
 std::string GameStage::getStageNext() const
 {
     return "";
+}
+
+void GameStage::extract()
+{
+}
+
+void GameStage::applyFormat()
+{
+}
+
+void GameStage::checkFormat() const
+{
+}
+
+std::vector<std::string> GameStage::readFile(const std::string &) const
+{
 }
