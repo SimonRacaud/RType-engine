@@ -28,9 +28,9 @@ namespace Network
         void setUserList(std::vector<UserRaw> const &list);
         void setErrorMessage(std::string const &message);
 
-        template <std::size_t PACKETSIZE> std::array<char, PACKETSIZE> getBuffer() const
+        template <Pointerable Data> Data getBuffer() const
         {
-            std::array<char, PACKETSIZE> buffer;
+            Data buffer;
             TramTCP *content = (TramTCP *) (buffer.data());
 
             std::memset(content, 0, PACKETSIZE);
@@ -42,7 +42,7 @@ namespace Network
                 ContactRaw *ptr = (ContactRaw *) (((char *) content) + TRAM_SIZE_SHIFT);
                 std::memcpy(ptr, _contactPtr, _tram.list_size);
             } else if (_tram.error) {
-                char *ptr = ((char *)content) + TRAM_SIZE_SHIFT;
+                char *ptr = ((char *) content) + TRAM_SIZE_SHIFT;
                 std::memcpy(ptr, _errorMessage.c_str(), _tram.list_size);
             }
             return buffer;

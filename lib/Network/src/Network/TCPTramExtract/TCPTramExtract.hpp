@@ -17,9 +17,9 @@
 
 namespace Network
 {
-    template <std::size_t PACKETSIZE> class TCPTramExtract {
+    template <Pointerable Data> class TCPTramExtract {
       public:
-        TCPTramExtract(const std::array<char, PACKETSIZE> &buf) : _buf(buf)
+        TCPTramExtract(const Data &buf) : _buf(buf)
         {
             if (PACKETSIZE < sizeof(Network::TramTCP))
                 throw std::invalid_argument("Invalid PACKETSIZE");
@@ -84,7 +84,7 @@ namespace Network
         }
 
       private:
-        const std::array<char, PACKETSIZE> _buf;
+        const Data _buf;
         Network::TramTCP _tram;
     };
 } // namespace Network

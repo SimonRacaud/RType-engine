@@ -23,9 +23,9 @@ namespace Network
 {
     using asio::ip::tcp;
 
-    template <std::size_t PACKETSIZE> class AsioConnectionTCP : public AAsioConnection<PACKETSIZE> {
+    template <Pointerable Data> class AsioConnectionTCP : public AAsioConnection<Data> {
       public:
-        explicit AsioConnectionTCP(const bool server = false) : AAsioConnection<PACKETSIZE>(server)
+        explicit AsioConnectionTCP(const bool server = false) : AAsioConnection<Data>(server)
         {
         }
 
@@ -48,7 +48,7 @@ namespace Network
             first = std::find(first, last, connection);
             if (first == last)
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            AAsioConnection<PACKETSIZE>::disconnect(
+            AAsioConnection<Data>::disconnect(
                 connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
             if (first != last)
                 for (auto i = first; ++i != last;)
@@ -58,7 +58,7 @@ namespace Network
 
         void disconnectAll() override
         {
-            AAsioConnection<PACKETSIZE>::disconnectAll();
+            AAsioConnection<Data>::disconnectAll();
             _socketConnections.clear();
         }
 
@@ -66,11 +66,11 @@ namespace Network
          * @brief Receive data from connected machines
          * @return The data and its author, if received
          */
-        std::tuple<std::array<char, PACKETSIZE>, std::size_t, std::string, std::size_t> receiveAny() override
+        std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override
         {
-            std::pair<std::array<char, PACKETSIZE>, std::size_t> buf;
+            std::pair<Data, std::size_t> buf;
 
-            for (const auto &connection : AAsioConnection<PACKETSIZE>::_connections) {
+            for (const auto &connection : AAsioConnection<Data>::_connections) {
                 buf = receive(connection.first, connection.second);
 
                 if (buf.second != 0) {
@@ -82,7 +82,7 @@ namespace Network
                  */
             }
 
-            return std::make_tuple(std::array<char, PACKETSIZE>(), 0, "", 0);
+            return std::make_tuple(Data(), 0, "", 0);
         }
 
         /**
@@ -92,31 +92,32 @@ namespace Network
          * @return The data, if received
          * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
          */
-        std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
-            const std::string &ip, const std::size_t port) override
+        std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override
         {
-            std::pair<std::array<char, PACKETSIZE>, std::size_t> buf({0}, 0);
+            std::pair<Data, std::size_t> buf({0}, 0);
             auto connection(getConnection(ip, port));
 
             if (!connection)
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
 
-            auto my_recvData(std::find_if(AAsioConnection<PACKETSIZE>::_recvData.begin(),
-                AAsioConnection<PACKETSIZE>::_recvData.end(), [&](const auto &recvData) {
+            auto my_recvData(std::find_if(AAsioConnection<Data>::_recvData.begin(),
+                AAsioConnection<Data>::_recvData.end(), [&](const auto &recvData) {
                     if (ip == recvData.first.first && port == recvData.first.second) {
                         return true;
                     }
                     return false;
                 }));
-            if (my_recvData != AAsioConnection<PACKETSIZE>::_recvData.end()) {
+            if (my_recvData != AAsioConnection<Data>::_recvData.end()) {
+                std::cout << "received" << std::endl;
+
                 buf = std::make_pair(my_recvData->second.first, my_recvData->second.second);
-                AAsioConnection<PACKETSIZE>::_recvData.erase(my_recvData);
+                AAsioConnection<Data>::_recvData.erase(my_recvData);
                 return buf;
             }
-            return std::pair<std::array<char, PACKETSIZE>, std::size_t>({}, 0);
+            return std::pair<Data, std::size_t>({}, 0);
         }
 
-        void sendAll(const std::array<char, PACKETSIZE> &buf) override
+        void sendAll(const Data &buf) override
         {
             for (auto &connection : _socketConnections) {
                 send(buf, connection);
@@ -126,7 +127,7 @@ namespace Network
         /**
          * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
          */
-        void send(const std::array<char, PACKETSIZE> &buf, const std::string &ip, const std::size_t port) override
+        void send(const Data &buf, const std::string &ip, const std::size_t port) override
         {
             auto connection(getConnection(ip, port));
 
@@ -139,11 +140,12 @@ namespace Network
         /**
          * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
          */
-        void send(const std::array<char, PACKETSIZE> &buf, std::shared_ptr<tcp::socket> &connection)
+        void send(const Data &buf, std::shared_ptr<tcp::socket> &connection)
         {
             if (!connection)
                 throw Network::invalidConnection();
-            connection->send(asio::buffer(std::string(buf.data(), buf.size())));
+            std::cout << "sending : size(" << buf.size() << ")" << std::endl; // todo remove
+            connection->send(asio::buffer(&buf, buf.size()));
         }
 
         [[nodiscard]] bool isConnection(const std::shared_ptr<tcp::socket> &connection, const std::string &otherIp,
@@ -177,7 +179,7 @@ namespace Network
             if (!newConnection)
                 return;
 
-            AAsioConnection<PACKETSIZE>::connect(
+            AAsioConnection<Data>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
             _socketConnections.push_back(newConnection);
             //            newConnection->set_option(_receiveBufferSizeOption); // TODO refactor PACKETSIZE
@@ -206,31 +208,39 @@ namespace Network
             if (!connection)
                 return;
 
-            connection->async_receive(asio::buffer(AAsioConnection<PACKETSIZE>::_recvBuf.data(),
-                                          AAsioConnection<PACKETSIZE>::_recvBuf.size()),
-                std::bind(&AsioConnectionTCP<PACKETSIZE>::asyncReceiving, this, std::placeholders::_1,
-                    std::placeholders::_2, connection));
+            connection->async_receive(
+                asio::buffer(&AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
+                std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
+                    connection));
         }
 
         void asyncReceiving(
             const asio::error_code &err, const std::size_t &lenRecvBuf, std::shared_ptr<tcp::socket> &connection)
         {
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
                     return;
                 }
             }
-            if (!lenRecvBuf) {
+            std::cout << "no error" << std::endl;
+            std::cout << "size(" << AAsioConnection<Data>::_recvBuf.first.size() << ")" << std::endl;
+            //            if (!lenRecvBuf) {
+            //                return;
+            //            }
+            if (!AAsioConnection<Data>::_recvBuf.first.size()) {
                 return;
             }
 
-            if (!AAsioConnection<PACKETSIZE>::_recvBuf.data()) {
-                return;
-            }
-            AAsioConnection<PACKETSIZE>::_recvData.emplace(
-                std::make_pair(
-                    connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port()),
-                std::make_pair(AAsioConnection<PACKETSIZE>::_recvBuf, lenRecvBuf));
+            std::cout << "length exists" << std::endl;
+
+            //            if (!AAsioConnection<Data>::_recvBuf.data()) {
+            //                return;
+            //        }
+            AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
+                                                         connection->remote_endpoint().port()),
+                std::make_pair(AAsioConnection<Data>::_recvBuf.first,
+                    AAsioConnection<Data>::_recvBuf.first.size() /*lenRecvBuf*/));
             asyncReceive(connection);
         }
 
@@ -243,7 +253,7 @@ namespace Network
         /**
          * @brief Option (to be set) to buffer data when receiving it
          */
-        asio::socket_base::receive_buffer_size _receiveBufferSizeOption{PACKETSIZE};
+        //        asio::socket_base::receive_buffer_size _receiveBufferSizeOption{PACKETSIZE};
 
         /**
          * @brief Option (to be set) to buffer data when sending it

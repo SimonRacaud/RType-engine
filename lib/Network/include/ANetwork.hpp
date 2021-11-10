@@ -30,7 +30,7 @@ struct hash_pair {
 
 namespace Network
 {
-    template <std::size_t PACKETSIZE> class AAsioConnection : public IConnection<PACKETSIZE> {
+    template <Pointerable Data> class AAsioConnection : public IConnection<Data> {
       public:
         explicit AAsioConnection(const bool server = false) : _server(server)
         {
@@ -43,12 +43,12 @@ namespace Network
             disconnectAll();
         }
 
-        AAsioConnection &operator=(const AAsioConnection<PACKETSIZE> &) = delete;
-        AAsioConnection(const AAsioConnection<PACKETSIZE> &) = delete;
+        AAsioConnection &operator=(const AAsioConnection<Data> &) = delete;
+        AAsioConnection(const AAsioConnection<Data> &) = delete;
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
-            AAsioConnection<PACKETSIZE>::_connections.emplace_back(ip, port);
+            AAsioConnection<Data>::_connections.emplace_back(ip, port);
             return true;
         }
 
@@ -72,26 +72,25 @@ namespace Network
 
         void disconnectAll() override
         {
-            AAsioConnection<PACKETSIZE>::_connections.clear();
+            AAsioConnection<Data>::_connections.clear();
         }
 
-        std::tuple<std::array<char, PACKETSIZE>, std::size_t, std::string, std::size_t> receiveAny() override = 0;
+        std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override = 0;
 
-        std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
-            const std::string &ip, const std::size_t port) override = 0;
+        std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override = 0;
 
-        void sendAll(const std::array<char, PACKETSIZE> &buf) override = 0;
+        void sendAll(const Data &buf) override = 0;
 
-        void send(const std::array<char, PACKETSIZE> &buf, const std::string &ip, const std::size_t port) override = 0;
+        void send(const Data &buf, const std::string &ip, const std::size_t port) override = 0;
 
         [[nodiscard]] bool isConnected(const std::string &ip, const std::size_t port) const override
         {
-            if (!AAsioConnection<PACKETSIZE>::_connections.empty()
+            if (!AAsioConnection<Data>::_connections.empty()
                 && std::find_if(_connections.begin(), _connections.end(),
                        [=](const auto &connection) {
                            return ip == connection.first && port == connection.second;
                        })
-                    != AAsioConnection<PACKETSIZE>::_connections.end())
+                    != AAsioConnection<Data>::_connections.end())
                 return true;
             return false;
         }
@@ -107,7 +106,7 @@ namespace Network
         {
             if (_thread.joinable())
                 return;
-            _thread = std::thread(&AAsioConnection<PACKETSIZE>::realRunAsync, this);
+            _thread = std::thread(&AAsioConnection<Data>::realRunAsync, this);
         }
 
         /**
@@ -116,7 +115,7 @@ namespace Network
          */
         void realRunAsync()
         {
-            while (_thread.joinable() && !AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
+            while (_thread.joinable() && !AAsioConnection<Data>::_ioContext.stopped()) {
                 std::cout << "thread running" << std::endl;
                 //                _ioContext.run_one_for(std::chrono::seconds(1));
                 _ioContext.run_one();
@@ -129,8 +128,8 @@ namespace Network
             if (!_thread.joinable()) {
                 return;
             }
-            if (!AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
-                AAsioConnection<PACKETSIZE>::_ioContext.stop();
+            if (!AAsioConnection<Data>::_ioContext.stopped()) {
+                AAsioConnection<Data>::_ioContext.stop();
             }
             if (_thread.joinable())
                 _thread.join();
@@ -166,10 +165,10 @@ namespace Network
          * @note std::atomic ensures thread safety over this variable
          */
         //        std::unordered_multimap<std::pair<const std::string, const std::size_t>,
-        //            std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
+        //            std::pair<Data, std::size_t>, hash_pair>
         //            _recvData;
         ThreadSafety::LockedUnorderedMultimap<std::pair<const std::string, const std::size_t>,
-            std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
+            std::pair<Data, std::size_t>, hash_pair>
             _recvData;
         /**
          * @property Run asynchronous asio operations in a non-blocking way
@@ -178,7 +177,7 @@ namespace Network
         /**
          * @note std::atomic ensures thread safety over this variable
          */
-        std::array<char, PACKETSIZE> _recvBuf{0};
+        std::pair<Data, std::size_t> _recvBuf;
     };
 } // namespace Network
 
