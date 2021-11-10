@@ -27,12 +27,12 @@ GameStage::~GameStage()
 
 std::size_t GameStage::getStageLvl() const
 {
-    return 0;
+    return this->_header.lvl;
 }
 
 std::string GameStage::getStageBackground() const
 {
-    return "";
+    return this->_header.background;
 }
 
 StageStep GameStage::getStageStep(bool move)
@@ -52,7 +52,7 @@ std::queue<StageStep> GameStage::getStageStepAt(std::size_t time, bool move)
 
 std::string GameStage::getStageNext() const
 {
-    return "";
+    return this->_ended.nextStage;
 }
 
 void GameStage::extract()
