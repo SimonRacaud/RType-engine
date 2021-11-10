@@ -9,6 +9,8 @@
 #define GAMESTAGE_HPP
 
 #include "IGameStage.hpp"
+#include "Tools/EndedData.hpp"
+#include "Tools/HeaderData.hpp"
 
 class GameStage : public IGameStage
 {
@@ -37,6 +39,9 @@ class GameStage : public IGameStage
 
     private:
         std::vector<std::string> _content;
+        std::vector<StageStep> _step;
+        HeaderData _header;
+        EndedData _ended;
 };
 
 #endif
