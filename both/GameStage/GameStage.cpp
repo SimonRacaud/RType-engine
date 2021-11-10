@@ -25,7 +25,7 @@ std::string GameStage::getStageBackground() const
     return "";
 }
 
-StageStep GameStage::getStageStep(bool move = true)
+StageStep GameStage::getStageStep(bool move)
 {
     return StageStep(EntityType::MAX_VALUE, 0, "", {0, 0});
 }
@@ -35,7 +35,7 @@ std::queue<StageStep> GameStage::getStagePrevious(std::size_t nb) const
     return std::queue<StageStep>();
 }
 
-std::queue<StageStep> GameStage::getStageStepAt(std::size_t time, bool move = true)
+std::queue<StageStep> GameStage::getStageStepAt(std::size_t time, bool move)
 {
     return std::queue<StageStep>();
 }

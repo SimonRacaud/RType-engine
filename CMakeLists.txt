@@ -37,6 +37,7 @@ set(CLIENT_SRCS
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
+        both/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
@@ -59,6 +60,7 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
+        both/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
