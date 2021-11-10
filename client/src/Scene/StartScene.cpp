@@ -26,26 +26,25 @@ void StartScene::open()
 
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
 
-    // const std::function<void(Engine::Entity e)> testCallback = [] (Engine::Entity) {
-    // };
+    const std::function<void(Engine::Entity e)> testCallback = [] (Engine::Entity) {
+        std::cout << "STD FUNCTION CALLBACK\n";
+        engine.getEventRegister().registerEvent<TimerEvent>("hello");
+    };
 
     componentManager.add<Engine::Position>(entity, 10, 10);
     componentManager.add<Engine::Velocity>(entity, 1, 0);
-    componentManager.add<Engine::Timer>(entity, 100, nullptr);
-
+    componentManager.add<Engine::Timer>(entity, static_cast<Engine::Time>(100), std::make_shared<std::function<void(Engine::Entity e)>>(testCallback), false);
     Engine::SystemManager &systemManager = engine.getSystemManager();
-    Engine::Event::EventCallbackRegister &eventRegister = engine.getEventRegister();
+
 
     std::function<void(const TimerEvent *e)> func = timerCallback;
     engine.getEventRegister().registerCallback(func);
-    std::string n = "hello";
-    eventRegister.registerEvent<TimerEvent>(n);
 
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, Engine::TimerSystem>();
-    systemManager.getSystem<Engine::TimerSystem>().setInterval(1);
+    systemManager.getSystem<Engine::TimerSystem>().setInterval(static_cast<Engine::Time>(1000));
 }
 
 void StartScene::timerCallback(const TimerEvent *e)
 {
-    std::cout << e->_print << std::endl;
+    std::cout << "TIMER CALLBACK: " << e->_print << std::endl;
 }
