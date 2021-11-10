@@ -20,10 +20,6 @@
 
 #include "build.hpp"
 
-#include "Event/RenderEvent/RenderEventAdd.hpp"
-#include "Event/RenderEvent/RenderEventDraw.hpp"
-#include "Event/RenderEvent/RenderEventManager/RenderEventManager.hpp"
-
 #include "TextManager/TextManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
@@ -74,6 +70,7 @@ int main(void)
     sceneManager.registerScene<Scene::StartScene>();
     sceneManager.select<Scene::StartScene>();
 
+    reg->execQueue();
     engine.exec();
     return EXIT_SUCCESS;
 }
