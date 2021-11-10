@@ -43,7 +43,7 @@ target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
 if (MSVC)
     target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
 else ()
-    target_compile_options(${NAME_CLIENT} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
+    target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
 
 set_target_properties(${NAME_CLIENT}
