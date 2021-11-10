@@ -61,15 +61,17 @@ namespace Engine {
 
 				template<class EventType, class... Args>
 				void registerEvent(Args&&... eventArgs) {
+
+					checkType<EventType>();
 					std::shared_ptr<EventType> e = std::make_shared<EventType>(std::forward<Args>(eventArgs)...);
 					
-					_queue.push(e);
+					_queue.push(static_cast<const IEvent *>(e));
 				}
 
 			private:
 				template<class EventType>
 				void checkType() {
-					static_assert(std::is_base_of<EventType, IEvent>::value, "Invalid event type");
+					static_assert(std::is_base_of<IEvent, EventType>::value, "Invalid event type");
 				}
 				std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>> _registeredCallbacks;
 				std::queue<std::shared_ptr<IEvent>> _queue;

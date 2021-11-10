@@ -15,7 +15,7 @@ static const SystemPriority priority = SystemPriority::HIGH;
 
 TimerSystem::TimerSystem() : AbstractSystem<TimerSystem>(freq, priority), _interval(0)
 {
-	this->setRequirements<BaseTimer>();
+	this->setRequirements<Timer>();
 }
 
 TimerSystem::~TimerSystem()
@@ -25,11 +25,13 @@ TimerSystem::~TimerSystem()
 void TimerSystem::run()
 {
 	for (Entity e : this->getManagedEntities()) {
-		auto timer = GET_COMP_M.get<BaseTimer>(e);
-		timer._currentTime -= _interval;
-		if (timer._currentTime <= 0.0f) {
-			timer.exec();
-			timer.reset();
+		auto timer = GET_COMP_M.get<Timer>(e);
+		if (timer._countdown) {
+			timer._currentTime -= _interval;
+			if (timer._currentTime <= 0.0f) {
+				timer._eventFactory->operator()(e);
+				timer.reset();
+			}
 		}
 	}
 }
@@ -37,7 +39,7 @@ void TimerSystem::run()
 void TimerSystem::reset()
 {
 	for (Entity e : this->getManagedEntities()) {
-		auto timer = GET_COMP_M.get<BaseTimer>(e);
+		auto timer = GET_COMP_M.get<Timer>(e);
 		timer.reset();
 	}
 }

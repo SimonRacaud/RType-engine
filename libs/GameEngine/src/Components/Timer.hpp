@@ -8,22 +8,30 @@
 #ifndef TIMER_HPP_
 #define TIMER_HPP_
 
-#include "BaseTimer.hpp"
+#include "BaseComponent/BaseComponent.hpp"
+#include <functional>
+#include <chrono>
+#include <tuple>
 #include "global.hpp"
 
 namespace Engine {
-	template<class EventType, class... EventArgs>
-	class Timer : public BaseTimer {
+	class Timer : public BaseComponent<Timer> {
 		public:
-			template<class... Args>
-			Timer(float time, Args&&... args)
-				: BaseTimer(time), _args(std::forward<Args>(args)...) {}
+			Timer(float time, const std::shared_ptr<std::function<void(Entity)>> factory, bool countdown = true)
+				: _countdown(countdown), _maxTime(time), _currentTime(time), _eventFactory(factory) {}
 			virtual ~Timer() = default;
 
-			virtual void exec() override {
-				GET_EVENT_REG.registerEvent<EventType>(std::forward<EventArgs>(_args));
-			}
-			std::tuple<EventArgs...> _args;
+			/**
+			 * @brief Resets the timer to zero
+			 * 
+			 */
+			inline void reset() { _currentTime = _maxTime; }
+
+			bool _countdown;
+			float _maxTime;
+			float _currentTime;
+			float _startTime;
+			std::shared_ptr<std::function<void(Entity)>> _eventFactory;
 	};
 }
 

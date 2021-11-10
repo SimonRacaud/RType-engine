@@ -10,7 +10,6 @@
 
 #include "StartScene.hpp"
 #include "System/LogPositionSystem.hpp"
-#include "TimerEvent.hpp"
 
 using namespace Scene;
 
@@ -27,11 +26,20 @@ void StartScene::open()
 
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
 
+    // const std::function<void(Engine::Entity e)> testCallback = [] (Engine::Entity) {
+    // };
+
     componentManager.add<Engine::Position>(entity, 10, 10);
     componentManager.add<Engine::Velocity>(entity, 1, 0);
-    componentManager.add<Engine::Timer<TimerEvent>>(entity, 100, "Hello World");
+    componentManager.add<Engine::Timer>(entity, 100, nullptr);
+
     Engine::SystemManager &systemManager = engine.getSystemManager();
-    GET_EVENT_REG.registerCallback<TimerEvent>(Engine::EventCallbackSignature(timerCallback));
+    Engine::Event::EventCallbackRegister &eventRegister = engine.getEventRegister();
+
+    std::function<void(const TimerEvent *e)> func = timerCallback;
+    engine.getEventRegister().registerCallback(func);
+    std::string n = "hello";
+    eventRegister.registerEvent<TimerEvent>(n);
 
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, Engine::TimerSystem>();
     systemManager.getSystem<Engine::TimerSystem>().setInterval(1);

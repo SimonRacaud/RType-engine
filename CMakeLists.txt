@@ -29,6 +29,7 @@ set(CLIENT_SRCS
         client/src/Scene/StartScene.cpp
         client/src/System/LogPositionSystem.cpp
         client/src/System/LogPositionSystem.hpp
+        client/src/Events/TimerEvent.hpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})

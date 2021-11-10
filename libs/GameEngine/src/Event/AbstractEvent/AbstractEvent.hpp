@@ -8,7 +8,7 @@
 #ifndef ABSTRACTEVENT_HPP_
 #define ABSTRACTEVENT_HPP_
 
-#include <IEvent.hpp>
+#include "Event/IEvent.hpp"
 #include "global.hpp"
 
 namespace Engine {
@@ -19,7 +19,7 @@ namespace Engine {
 				AbstractEvent() = default;
 				~AbstractEvent() = default;
 				
-				inline std::type_index getType() override {
+				inline std::type_index getType() const override {
 					return type;
 				}
 				static const TypeIdx type;

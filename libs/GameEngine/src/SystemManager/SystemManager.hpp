@@ -153,7 +153,7 @@ namespace Engine {
 
         if (sys == _systems.end())
             throw InvalidParameterException(std::string("No registered system with type : " + std::string(typeid(SystemType).name())));
-        return *sys;
+        return *static_cast<SystemType *>((*sys).get());
     }
 
     template <class SystemType>

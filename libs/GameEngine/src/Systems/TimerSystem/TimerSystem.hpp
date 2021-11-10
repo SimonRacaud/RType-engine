@@ -11,7 +11,7 @@
 #include "global.hpp"
 #include "env.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
-#include "Components/BaseTimer.hpp"
+#include "Components/Timer.hpp"
 #include "EntityManager/EntityManager.hpp"
 #include <list>
 

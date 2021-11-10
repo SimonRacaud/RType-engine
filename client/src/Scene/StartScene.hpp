@@ -14,6 +14,7 @@
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
+#include "Events/TimerEvent.hpp"
 
 namespace Scene
 {
@@ -25,7 +26,7 @@ namespace Scene
 
         virtual void open();
 
-        void timerCallback(const TimerEvent *e);
+        static void timerCallback(const TimerEvent *e);
     };
 }
 
