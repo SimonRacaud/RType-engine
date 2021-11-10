@@ -9,6 +9,7 @@
 #include "InputEventSystem.hpp"
 #include "Component/InputEvent.hpp"
 
+extern Engine::IGameEngine &engine;
 extern std::shared_ptr<IWindowManager> window;
 extern std::unique_ptr<IEventManager<renderToolSfml>> event;
 
@@ -29,4 +30,6 @@ void System::InputEventSystem::run(const std::vector<Engine::Entity> &entities)
     } else {
         throw std::invalid_argument("Invalid event -> nullptr");
     }
+    if (!window->isOpen())
+        engine.quit();
 }
