@@ -24,7 +24,7 @@ TimerSystem::~TimerSystem()
 
 void TimerSystem::run(const vector<Entity> &entities)
 {
-	for (Entity e : this->getManagedEntities()) {
+	for (Entity e : entities) {
 		auto timer = GET_COMP_M.get<Timer>(e);
 		if (timer._countdown) {
 			timer._currentTime -= _interval;
