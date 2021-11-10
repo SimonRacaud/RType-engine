@@ -8,22 +8,25 @@
 #ifndef ABSTRACTEVENT_HPP_
 #define ABSTRACTEVENT_HPP_
 
-#include <IEvent.hpp>
+#include "Event/IEvent.hpp"
+#include "global.hpp"
 
 namespace Engine {
 	namespace Event {
-		class AbstractEvent : public IEvent{
+		template<typename EventType>
+		class AbstractEvent : public IEvent {
 			public:
-				AbstractEvent();
-				~AbstractEvent();
+				AbstractEvent() = default;
+				~AbstractEvent() = default;
 				
 				inline std::type_index getType() const override {
-					return *_typeIndex;
+					return type;
 				}
-			private:
-				std::type_index *_typeIndex;
+				static const TypeIdx type;
 		};
 	}
 }
+template<typename EventType>
+const Engine::TypeIdx Engine::Event::AbstractEvent<EventType>::type = GET_TYPE_IDX(Engine::Event::AbstractEvent<EventType>);
 
 #endif /* !ABSTRACTEVENT_HPP_ */

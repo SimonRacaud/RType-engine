@@ -18,7 +18,7 @@
 namespace Engine {
 	class TimerSystem : public AbstractSystem<TimerSystem> {
 		public:
-			TimerSystem(float interval);
+			TimerSystem();
 			~TimerSystem();
 
 			/**
@@ -29,12 +29,13 @@ namespace Engine {
 			void run(const vector<Entity> &entities) override;
 
 			/**
-			 * @brief Resets all active timers to 0
-			 *
+			 * @brief Set the Interval object
+			 * 
+			 * @param interval 
 			 */
-			void reset();
+			void setInterval(const Time &interval);
 		private:
-			float _interval;
+			Time _interval;
 	};
 }
 

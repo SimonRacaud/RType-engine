@@ -22,10 +22,12 @@ int main(void)
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Position>();
     componentManager.registerComponent<Engine::Velocity>();
+    componentManager.registerComponent<Engine::Timer>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<Engine::PhysicsSystem>();
     systemManager.registerSystem<System::LogPositionSystem>();
+    systemManager.registerSystem<Engine::TimerSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

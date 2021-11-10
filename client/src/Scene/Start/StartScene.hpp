@@ -14,6 +14,7 @@
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
+#include "Events/TimerEvent.hpp"
 
 namespace Scene
 {

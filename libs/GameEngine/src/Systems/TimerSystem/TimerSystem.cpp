@@ -13,7 +13,7 @@ using namespace Engine;
 static const Engine::Time freq = static_cast<Engine::Time>(1000);
 static const SystemPriority priority = SystemPriority::HIGH;
 
-TimerSystem::TimerSystem(float interval) : AbstractSystem<TimerSystem>(freq, priority), _interval(interval)
+TimerSystem::TimerSystem() : AbstractSystem<TimerSystem>(freq, priority), _interval(0)
 {
 	this->setRequirements<Timer>();
 }
@@ -24,20 +24,25 @@ TimerSystem::~TimerSystem()
 
 void TimerSystem::run(const vector<Entity> &entities)
 {
-	for (Entity e : this->getManagedEntities()) {
+	for (Entity e : entities) {
 		auto timer = GET_COMP_M.get<Timer>(e);
-		timer._currentTime -= _interval;
-		if (timer._currentTime <= 0.0f) {
-			timer._callback(timer._callbackEvent);
-			timer.reset();
+		if (timer._countdown) {
+			timer._currentTime -= _interval;
+			if (timer._currentTime.count() <= 0) {
+				timer._eventFactory->operator()(e);
+				timer._currentTime = timer._maxTime;
+			}
+		} else {
+			auto now = Clock::now();
+			if (now - timer._startTime >= timer._maxTime) {
+				timer._eventFactory->operator()(e);
+				timer._startTime = now;
+			}
 		}
 	}
 }
 
-void TimerSystem::reset()
+void TimerSystem::setInterval(const Time &interval)
 {
-	for (Entity e : this->getManagedEntities()) {
-		auto timer = GET_COMP_M.get<Timer>(e);
-		timer.reset();
-	}
+	_interval = interval;
 }
