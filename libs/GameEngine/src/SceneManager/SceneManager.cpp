@@ -51,7 +51,9 @@ void SceneManager::flushSelection()
     }
     _currentScene = _nextScene;
     SHOW_DEBUG("Scene: open scene type=" + TYPE_STR(_currentScene->getType()));
-    _currentScene->open();
+    if (_currentScene->isClosed()) {
+        _currentScene->open();
+    }
     _nextScene = nullptr;
 }
 

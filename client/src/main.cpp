@@ -29,7 +29,7 @@ int main(void)
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
-    sceneManager.registerScene<Scene::DebugScene>();
+    sceneManager.registerScene<Scene::DebugScene>("Mon paramètre de test");
     sceneManager.select<Scene::DebugScene>();
 
     engine.exec();
