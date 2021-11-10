@@ -8,6 +8,8 @@
 ** \date 04/11/2021
 */
 
+#include "GameCore/GameCore.hpp"
+
 #include "StartScene.hpp"
 #include "Component/Render.hpp"
 #include "Component/InputEvent.hpp"
@@ -27,8 +29,8 @@ StartScene::StartScene()
 
 void StartScene::open()
 {
-    Engine::IEntityManager &entityManager = engine.getEntityManager();
-    Engine::ComponentManager &componentManager = engine.getComponentManager();
+    Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
+    Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
 
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
 
@@ -44,11 +46,11 @@ void StartScene::open()
     componentManager.add<Engine::Render>(entity, tmp);
 
     componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &) {
-        auto pos = event->getMousePos();
+        auto pos = GameCore::event->getMousePos();
         std::cout << "Mouse pos -> {" << pos.x << ", " << pos.y << "}" << std::endl;
     });
 
     /// Select needed systems
-    Engine::SystemManager &systemManager = engine.getSystemManager();
+    Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem>();
 }

@@ -16,8 +16,6 @@
 #include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 #include <unordered_map>
 
-extern Engine::Event::EventCallbackRegister *reg;
-
 class AudioEventManager
 {
 	public:

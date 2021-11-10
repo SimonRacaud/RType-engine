@@ -7,11 +7,8 @@
 
 #include <iostream>
 #include "InputEventSystem.hpp"
+#include "GameCore/GameCore.hpp"
 #include "Component/InputEvent.hpp"
-
-extern Engine::IGameEngine &engine;
-extern std::shared_ptr<IWindowManager> window;
-extern std::unique_ptr<IEventManager<renderToolSfml>> event;
 
 System::InputEventSystem::InputEventSystem() : Engine::AbstractSystem<InputEventSystem>()
 {
@@ -20,16 +17,16 @@ System::InputEventSystem::InputEventSystem() : Engine::AbstractSystem<InputEvent
 
 void System::InputEventSystem::run(const std::vector<Engine::Entity> &entities)
 {
-    if (event && window->isOpen()) {
+    if (GameCore::event && GameCore::window->isOpen()) {
         for (const Engine::Entity &entity : entities) {
             auto [eventModule] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::InputEvent>(entity);
 
             eventModule._func(entity);
         }
-        event->refresh(window);
+        GameCore::event->refresh(GameCore::window);
     } else {
         throw std::invalid_argument("Invalid event -> nullptr");
     }
-    if (!window->isOpen())
-        engine.quit();
+    if (!GameCore::window->isOpen())
+        GameCore::engine.quit();
 }

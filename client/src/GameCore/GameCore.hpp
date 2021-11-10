@@ -8,8 +8,12 @@
 #ifndef GAMECORE_HPP
 #define GAMECORE_HPP
 
-#include "build.hpp"
+
+#include "CustomCluster.hpp"
+#include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
+
+#include "build.hpp"
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 #include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
@@ -24,10 +28,10 @@ class GameCore
         void run();
 
     public:
-        Engine::IGameEngine &engine;
-        Engine::Event::EventCallbackRegister *reg;
-        std::shared_ptr<IWindowManager> window;
-        std::unique_ptr<IEventManager<renderToolSfml>> event;
+        static Engine::IGameEngine &engine;
+        static Engine::Event::EventCallbackRegister *reg;
+        static std::shared_ptr<IWindowManager> window;
+        static std::unique_ptr<IEventManager<renderToolSfml>> event;
 
     private:
         AudioEventManager _audio;

@@ -24,11 +24,12 @@
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 
-GameCore::GameCore() :
-engine(Engine::EngineFactory::getInstance()),
-reg(new Engine::Event::EventCallbackRegister()),
-window(std::make_shared<WindowManager>()),
-event(std::make_unique<EventManager>())
+Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
+Engine::Event::EventCallbackRegister *GameCore::reg = new Engine::Event::EventCallbackRegister();
+std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
+std::unique_ptr<IEventManager<renderToolSfml>> GameCore::event = std::make_unique<EventManager>();
+
+GameCore::GameCore()
 {
     window->setName("yolo");
     window->setFramerateLimiter(30);

@@ -8,8 +8,7 @@
 #include <iostream>
 #include "RenderSystem.hpp"
 #include "Component/Render.hpp"
-
-extern std::shared_ptr<IWindowManager> window;
+#include "GameCore/GameCore.hpp"
 
 System::RenderSystem::RenderSystem() : Engine::AbstractSystem<RenderSystem>()
 {
@@ -18,14 +17,14 @@ System::RenderSystem::RenderSystem() : Engine::AbstractSystem<RenderSystem>()
 
 void System::RenderSystem::run(const std::vector<Engine::Entity> &entities)
 {
-    if (window && window->isOpen()) {
-        window->clear();
+    if (GameCore::window && GameCore::window->isOpen()) {
+        GameCore::window->clear();
         for (const Engine::Entity &entity : entities) {
             auto [render] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Render>(entity);
 
-            render._src->draw(window);
+            render._src->draw(GameCore::window);
         }
-        window->refresh();
+        GameCore::window->refresh();
     } else {
         throw std::invalid_argument("Window is close");
     }

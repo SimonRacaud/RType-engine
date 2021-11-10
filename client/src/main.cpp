@@ -7,11 +7,6 @@
 
 #include "GameCore/GameCore.hpp"
 
-Engine::IGameEngine &engine = Engine::EngineFactory::getInstance();
-Engine::Event::EventCallbackRegister *reg = nullptr;
-std::shared_ptr<IWindowManager> window = nullptr;
-std::unique_ptr<IEventManager<renderToolSfml>> event = nullptr;
-
 int main(void)
 {
     try {

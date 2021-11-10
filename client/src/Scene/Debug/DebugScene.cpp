@@ -9,11 +9,10 @@
 */
 
 #include "DebugScene.hpp"
+#include "GameCore/GameCore.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 
 using namespace Scene;
-
-extern Engine::IGameEngine &engine;
 
 DebugScene::DebugScene(std::string testParam)
     : Engine::AbstractScene<DebugScene>(Engine::ClusterName::HOME)
@@ -29,8 +28,8 @@ static const auto destruct = [] (Engine::Entity entity, Engine::EntityName name,
 
 void DebugScene::open()
 {
-    Engine::ComponentManager &componentManager = engine.getComponentManager();
-    Engine::IEntityManager &entityManager = engine.getEntityManager();
+    Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
+    Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 
     /**
      * Entities (must be in an entity's factory)
@@ -58,7 +57,7 @@ void DebugScene::open()
     //        std::cerr << "En error occurred\n";
     //    }
 
-    Engine::SystemManager &systemManager = engine.getSystemManager();
+    Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
