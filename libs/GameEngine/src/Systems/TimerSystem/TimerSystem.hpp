@@ -29,19 +29,13 @@ namespace Engine {
 			void run() override;
 
 			/**
-			 * @brief Resets all active timers to 0
-			 *
-			 */
-			void reset();
-
-			/**
 			 * @brief Set the Interval object
 			 * 
 			 * @param interval 
 			 */
-			void setInterval(const float &interval);
+			void setInterval(const Time &interval);
 		private:
-			float _interval;
+			Time _interval;
 	};
 }
 

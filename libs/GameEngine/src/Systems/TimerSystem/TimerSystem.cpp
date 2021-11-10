@@ -28,23 +28,21 @@ void TimerSystem::run()
 		auto timer = GET_COMP_M.get<Timer>(e);
 		if (timer._countdown) {
 			timer._currentTime -= _interval;
-			if (timer._currentTime <= 0.0f) {
+			if (timer._currentTime.count() <= 0) {
 				timer._eventFactory->operator()(e);
-				timer.reset();
+				timer._currentTime = timer._maxTime;
+			}
+		} else {
+			auto now = Clock::now();
+			if (now - timer._startTime >= timer._maxTime) {
+				timer._eventFactory->operator()(e);
+				timer._startTime = now;
 			}
 		}
 	}
 }
 
-void TimerSystem::reset()
-{
-	for (Entity e : this->getManagedEntities()) {
-		auto timer = GET_COMP_M.get<Timer>(e);
-		timer.reset();
-	}
-}
-
-void TimerSystem::setInterval(const float &interval)
+void TimerSystem::setInterval(const Time &interval)
 {
 	_interval = interval;
 }
