@@ -19,7 +19,7 @@ namespace Scene
 {
     class DebugScene : public Engine::AbstractScene<DebugScene> {
       public:
-        DebugScene();
+        DebugScene(std::string testParam);
         virtual ~DebugScene() = default;
 
         virtual void open();

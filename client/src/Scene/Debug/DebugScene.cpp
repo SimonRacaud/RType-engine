@@ -15,9 +15,11 @@ using namespace Scene;
 
 extern Engine::IGameEngine &engine;
 
-DebugScene::DebugScene()
+DebugScene::DebugScene(std::string testParam)
     : Engine::AbstractScene<DebugScene>(Engine::ClusterName::HOME)
-{}
+{
+    std::cerr << testParam << std::endl;
+}
 
 static const auto destruct = [] (Engine::Entity entity, Engine::EntityName name,
                           Engine::ClusterName cluster) {
@@ -58,6 +60,6 @@ void DebugScene::open()
     Engine::SystemManager &systemManager = engine.getSystemManager();
 
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
-    systemManager.unregisterSystem<Engine::PhysicsSystem>();
-    systemManager.unregisterSystem<Engine::PhysicsSystem>();
+    //systemManager.unregisterSystem<Engine::PhysicsSystem>();
+    //systemManager.unregisterSystem<Engine::PhysicsSystem>();
 }
