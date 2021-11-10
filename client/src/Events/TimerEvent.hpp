@@ -11,9 +11,9 @@
 #include "Event/IEvent.hpp"
 #include <string>
 
-class TimerEvent : Engine::Event::IEvent {
+class TimerEvent : public Engine::Event::IEvent {
 	public:
-		TimerEvent(std::string &print) : _print(print) {}
+		TimerEvent(const std::string &print) : _print(print) {}
 		~TimerEvent() = default;
 
 		virtual std::type_index getType() const override {

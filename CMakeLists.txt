@@ -26,9 +26,16 @@ include_directories(./include)
 ## SOURCES
 set(CLIENT_SRCS
         client/src/main.cpp
+<<<<<<< HEAD
         client/src/Scene/Start/StartScene.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/Scene/Debug/DebugScene.cpp
+=======
+        client/src/Scene/StartScene.cpp
+        client/src/System/LogPositionSystem.cpp
+        client/src/System/LogPositionSystem.hpp
+        client/src/Events/TimerEvent.hpp
+>>>>>>> debug/game-engine-timerSystem
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})

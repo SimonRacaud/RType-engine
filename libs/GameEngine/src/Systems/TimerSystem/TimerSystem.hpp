@@ -11,7 +11,7 @@
 #include "global.hpp"
 #include "env.hpp"
 #include "AbstractSystem/AbstractSystem.hpp"
-#include "Components/BaseTimer.hpp"
+#include "Components/Timer.hpp"
 #include "EntityManager/EntityManager.hpp"
 #include <list>
 
@@ -29,19 +29,13 @@ namespace Engine {
 			void run(const vector<Entity> &entities) override;
 
 			/**
-			 * @brief Resets all active timers to 0
-			 *
-			 */
-			void reset();
-
-			/**
 			 * @brief Set the Interval object
 			 * 
 			 * @param interval 
 			 */
-			void setInterval(const float &interval);
+			void setInterval(const Time &interval);
 		private:
-			float _interval;
+			Time _interval;
 	};
 }
 
