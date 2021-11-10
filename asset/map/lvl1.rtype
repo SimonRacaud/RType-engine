@@ -1,0 +1,11 @@
+XXXX "./Background/test.png" 10
+0000 BONUS  {10, 10}     "/AI/test.ai"
+0000 ENEMI1 {0, 0}       "/AI/hard.ai"
+0000 ENEMI1 {100, 100}   "/AI/easy.ai"
+0010 ENEMI2 {25, 25}     "/AI/hard2.ai"
+0010 ENEMI2 {75, 75}     "/AI/easy2.ai"
+0015 ENEMI3 {50, 50}     "/AI/master.ai"
+0020 ENEMI3 {50, 50}     "/AI/master.ai"
+0025 ENEMI3 {50, 50}     "/AI/master.ai"
+0030 ENEMI3 {50, 50}     "/AI/master.ai"
+XXXX "./NEXT_STAGE/test.rtype"
