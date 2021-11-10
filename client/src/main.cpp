@@ -26,7 +26,6 @@
 #include "Component/Render.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
-#include "System/InputEventManager/InputEventManager.hpp"
 
 using namespace std;
 
