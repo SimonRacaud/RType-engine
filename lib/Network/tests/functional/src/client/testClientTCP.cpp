@@ -33,7 +33,7 @@ class intWrapper {
 
     int getVal() const
     {
-        return _val;
+        return _val + _otherVal;
     }
 
   private:

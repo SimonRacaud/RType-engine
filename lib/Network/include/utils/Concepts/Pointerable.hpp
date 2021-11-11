@@ -29,12 +29,8 @@ concept Pointerable = requires(T a, T *b)
         // todo realy necessary ?
         //  the receive is automatic
         //  the send does not need to be precised ? yes
-        //        sizeof(a) // todo find a way to make that viable with dynamic size variables (arrays ...)
         a.size() // todo find a way to make that viable with dynamic size variables (arrays ...)
                  //        } -> std::convertible_to<std::size_t>;
-        } -> std::integral;
-    {
-        a.getVal() // todo remove after debug
         } -> std::integral;
     {
         *b
