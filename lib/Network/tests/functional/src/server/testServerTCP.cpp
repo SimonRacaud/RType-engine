@@ -19,16 +19,41 @@ class intWrapper {
 
     std::size_t size() const
     {
-        return sizeof(int);
+        return sizeof(intWrapper);
     }
 
-    int getVal()
+    int getVal() const
     {
         return _val;
     }
 
+    intWrapper *data() const
+    {
+        intWrapper *my_new = new intWrapper;
+        std::cout << "sizeof(intWrapper)" << sizeof(intWrapper) << std::endl;
+
+        *my_new = _val;
+        *(my_new + sizeof(int)) = _otherVal;
+        return my_new;
+    }
+    intWrapper &operator=(const intWrapper &rhs)
+    {
+        //        std::cout << "operator is called" << std::endl;
+        this->_val = rhs.getVal();
+        if (_val != 222)
+            std::cout << std::endl
+                      << std::endl
+                      << std::endl
+                      << std::endl
+                      << std::endl
+                      << std::endl
+                      << "operator= is called, val = " << _val << std::endl;
+        return *this;
+    }
+
   private:
     int _val{222};
+    int _otherVal{444};
 };
 
 /**
@@ -42,12 +67,13 @@ int testServerAcceptReceive()
     const std::size_t portServer(8080);
     std::tuple<intWrapper, std::size_t, std::string, std::size_t> recvData; // TODO DATA replace by type
     AsioServerTCP<intWrapper> server(portServer);                           // TODO DATA replace by type
+    intWrapper my_var;
 
     while (true) {
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
             //            std::cout.write(std::get<0>(recvData).getVal(), std::get<1>(recvData));
-            intWrapper my_var = std::get<0>(recvData);
+            my_var = std::get<0>(recvData);
             std::cout << "my_var.getVal() : " << my_var.getVal() << std::endl;
             std::cout << std::endl;
             return 0;

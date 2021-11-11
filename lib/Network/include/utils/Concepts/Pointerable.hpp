@@ -21,7 +21,8 @@ template <typename T>
 concept Pointerable = requires(T a, T *b)
 {
     {
-        &a
+        //        &a
+        a.data()
         } -> std::convertible_to<T *>;
 
     {
@@ -31,6 +32,9 @@ concept Pointerable = requires(T a, T *b)
         //        sizeof(a) // todo find a way to make that viable with dynamic size variables (arrays ...)
         a.size() // todo find a way to make that viable with dynamic size variables (arrays ...)
                  //        } -> std::convertible_to<std::size_t>;
+        } -> std::integral;
+    {
+        a.getVal() // remove after debug
         } -> std::integral;
     {
         *b

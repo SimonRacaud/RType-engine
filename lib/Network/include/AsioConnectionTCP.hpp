@@ -144,8 +144,18 @@ namespace Network
         {
             if (!connection)
                 throw Network::invalidConnection();
-            std::cout << "sending : size(" << buf.size() << ")" << std::endl; // todo remove
-            connection->send(asio::buffer(&buf, buf.size()));
+            //            char *my_array = new char(buf.size());
+
+            std::cout << "sending : size(" << buf.size() << ")" << std::endl;     // todo remove
+            std::cout << "sending : getVal(" << buf.getVal() << ")" << std::endl; // todo remove
+            //            memcpy(my_array, &buf, buf.size());
+            int *my_array = (int *) buf.data();
+            printf("%i.\n", (int) (*my_array));
+            printf("%i.\n", (int) (my_array[1]));
+            //            std::cout << my_array << std::endl;
+            //            std::cout.write(my_array, buf.size());
+            //            std::cout << std::endl << "end of sending prints" << std::endl;
+            connection->send(asio::buffer(buf.data(), buf.size()));
         }
 
         [[nodiscard]] bool isConnection(const std::shared_ptr<tcp::socket> &connection, const std::string &otherIp,
@@ -209,7 +219,7 @@ namespace Network
                 return;
 
             connection->async_receive(
-                asio::buffer(&AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
+                asio::buffer(&AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.first.size()),
                 std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
                     connection));
         }
@@ -224,7 +234,7 @@ namespace Network
                 }
             }
             std::cout << "no error" << std::endl;
-            std::cout << "size(" << AAsioConnection<Data>::_recvBuf.first.size() << ")" << std::endl;
+            std::cout << "received size(" << AAsioConnection<Data>::_recvBuf.first.size() << ")" << std::endl;
             //            if (!lenRecvBuf) {
             //                return;
             //            }
