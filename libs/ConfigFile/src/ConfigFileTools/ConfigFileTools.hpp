@@ -24,6 +24,10 @@ class ConfigFileTools {
     [[nodiscard]] static bool insensitiveCmp(const std::string &a, const std::string &b);
     [[nodiscard]] static bool matchWithRegex(const std::string &regex, const std::string &line);
     [[nodiscard]] static std::string getAfterToken(const std::string &line, const std::string &match);
+    [[nodiscard]] static std::vector<std::string> getSplittedObj(const std::string &line);
+  
+  private:
+    [[nodiscard]] static size_t getFirstOf(const std::string &line, char toFound);
 };
 
 #endif

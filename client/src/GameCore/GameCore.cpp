@@ -12,6 +12,8 @@
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 
+#include "ConfigFileExternal/ConfigFileExternal.hpp"
+
 #include "Scene/Start/StartScene.hpp"
 #include "Scene/Debug/DebugScene.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
@@ -27,12 +29,14 @@
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager<renderToolSfml>> GameCore::event = std::make_unique<EventManager>();
+std::unique_ptr<ConfigFile> GameCore::config = std::make_unique<ConfigFile>("client.config");
 
 GameCore::GameCore()
 {
-    window->setName("yolo");
-    window->setFramerateLimiter(30);
-    window->setSize(vector2D(800, 800));
+    config->setVarGetter<vector2D>(ConfigFileExternal::getVector2D);
+    window->setName(config->getVar<std::string>("WINDOW_NAME"));
+    window->setFramerateLimiter(config->getVar<int>("WINDOW_FAMERATE"));
+    window->setSize(config->getVar<vector2D>("WINDOW_SIZE"));
     window->open();
 }
 

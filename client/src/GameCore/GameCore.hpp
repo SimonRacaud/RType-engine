@@ -8,6 +8,7 @@
 #ifndef GAMECORE_HPP
 #define GAMECORE_HPP
 
+#include "ConfigFile.hpp"
 
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
@@ -31,6 +32,7 @@ class GameCore
         static Engine::IGameEngine &engine;
         static std::shared_ptr<IWindowManager> window;
         static std::unique_ptr<IEventManager<renderToolSfml>> event;
+        static std::unique_ptr<ConfigFile> config;
 
     private:
         AudioEventManager _audio;

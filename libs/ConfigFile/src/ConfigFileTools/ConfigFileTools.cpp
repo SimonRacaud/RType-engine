@@ -104,3 +104,29 @@ bool ConfigFileTools::insensitiveCmp(const std::string &a, const std::string &b)
         }
     );
 }
+
+size_t ConfigFileTools::getFirstOf(const std::string &line, char toFound)
+{
+    size_t i = 0;
+
+    for (i = 0; i < line.size() && line[i] != toFound; i++);
+    return i;
+}
+
+std::vector<std::string> ConfigFileTools::getSplittedObj(const std::string &input)
+{
+    int i = 0;
+    std::vector<std::string> content;
+    std::string line = input.substr(1, input.size() - 2);
+    size_t start = 0;
+    size_t end = 0;
+    
+    while (end != line.size()) {
+        start = end;
+        end += ConfigFileTools::getFirstOf(line.substr(start), ':');
+        end += ConfigFileTools::getFirstOf(line.substr(end), '\"');
+        content.push_back(line.substr(start, end));
+        i++;
+    }
+    return content;
+}
