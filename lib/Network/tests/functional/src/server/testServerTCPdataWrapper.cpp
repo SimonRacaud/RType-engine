@@ -8,6 +8,7 @@
 #include <cstring>
 #include "AsioServerTCP.hpp"
 #include "DataWrapper.hpp"
+#include "Tram/JoinRoom.hpp"
 #include <unordered_map>
 
 using namespace Network;
@@ -25,7 +26,7 @@ int testServerAcceptReceiveDataWrapper()
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
     AsioServerTCP<DataWrapper> server(portServer);
     DataWrapper my_var;
-    my_structData my_data{23};
+    Tram::JoinRoom my_data{23};
 
     while (true) {
         recvData = server.receiveAny();
@@ -33,8 +34,8 @@ int testServerAcceptReceiveDataWrapper()
             my_var = std::get<0>(recvData);
             //            std::cout << "my_var.getVal() : " << my_var.getVal() << std::endl;
             //            std::cout << "my_var.getOhterVal() : " << my_var.getOtherVal() << std::endl;
-            my_data = my_var.getData<my_structData>();
-            std::cout << my_data.testValue << std::endl;
+            my_data = my_var.getData<Tram::JoinRoom>();
+            std::cout << my_data.roomId << std::endl;
             std::cout << std::endl;
             return 0;
         }

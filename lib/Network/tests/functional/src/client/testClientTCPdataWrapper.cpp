@@ -8,6 +8,7 @@
 #include <cstring>
 #include "AsioClientTCP.hpp"
 #include "DataWrapper.hpp"
+#include "Tram/JoinRoom.hpp"
 
 using namespace Network;
 
@@ -23,10 +24,10 @@ int testClientConnectSendDisconnectDataWrapper()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    my_structData my_data{56};
+    Tram::JoinRoom my_data{56};
 
     DataWrapper myData;
-    myData.setData<my_structData>(my_data);
+    myData.setData<Tram::JoinRoom>(my_data);
     AsioClientTCP<DataWrapper> client;
     bool connected = client.connect(ipServer, portServer);
 
