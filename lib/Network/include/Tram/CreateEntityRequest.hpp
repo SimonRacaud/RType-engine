@@ -16,12 +16,13 @@
 #include <string>
 #include "utils/timeDef.hpp"
 
-namespace Tram {
+namespace Tram
+{
     struct CreateEntityRequest {
         /**
          * @brief private id of the entity
          */
-        uin32_t entityPrivate;
+        uint32_t entityPrivate;
         /**
          * @brief type of the entity factory ex: "player", "enemy"
          * @brief a confirmer
@@ -32,6 +33,6 @@ namespace Tram {
          */
         Time timestamp;
     };
-}
+} // namespace Tram
 
 #endif // CREATEENTITYREQUEST_HPP
