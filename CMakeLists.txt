@@ -37,6 +37,7 @@ set(CLIENT_SRCS
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
+        client/src/Entities/Button/Button.cpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})

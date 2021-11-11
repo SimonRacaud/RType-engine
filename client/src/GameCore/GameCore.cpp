@@ -43,9 +43,9 @@ GameCore::~GameCore()
 
 void GameCore::run()
 {
-    reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
-    reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
-    reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
+    //reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
+    //reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
+    //reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Render>();
