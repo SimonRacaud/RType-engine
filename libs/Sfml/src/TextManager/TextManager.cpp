@@ -16,6 +16,10 @@ TextManager::TextManager(const TextManager &src): _pos(src._pos), _size(src._siz
 {
 }
 
+TextManager::TextManager(vector2D pos, vector2D size, color_e color, std::string content, std::string path) : _pos(pos), _size(size), _color(color), _content(content), _fontPath(path), _font(nullptr), _text(nullptr)
+{
+}
+
 TextManager::~TextManager()
 {
     if (this->_font)
@@ -78,7 +82,7 @@ void TextManager::refresh()
     this->_text->setString(this->_content);
     this->_text->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
     if (this->_size.x && this->_size.y)
-        this->_text->setCharacterSize((this->_size.x + this->_size.y) / 2);
+        this->_text->setCharacterSize((this->_size.x + this->_size.y) * 8);
     try {
         this->_text->setFillColor(this->_colorLink.at(this->_color));
     } catch(...) {
