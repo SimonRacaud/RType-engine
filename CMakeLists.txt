@@ -40,7 +40,7 @@ set(CLIENT_SRCS
         client/src/Entities/Button/Button.cpp
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
-        )
+        client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp)
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
