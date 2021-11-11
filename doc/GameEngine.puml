@@ -375,6 +375,28 @@ namespace Game {
         }
         Engine.Component.BaseComponent <|-- AbstractSyncComponent
     }
+    namespace GameSystem {
+        class SyncSystem {
+            + constructor()
+            + run(entities: vector<Entity>): void
+        }
+        Engine.System.AbstractSystem <|-- SyncSystem
+        note bottom : syncronise components
+        
+        class StageSystem {
+            + constructor()
+            + run(entities: vector<Entity>): void
+        }
+        Engine.System.AbstractSystem <|-- StageSystem
+        note bottom : in server, create entities
+
+        class GarageSystem {
+            + constructor()
+            + run(entities: vector<Entity>): void
+        }
+        Engine.System.AbstractSystem <|-- GarageSystem
+        note bottom : in server, remove entities
+    }
 }
 
 @enduml
