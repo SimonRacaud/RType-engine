@@ -37,7 +37,8 @@ set(CLIENT_SRCS
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
-        client/src/Component/Scroll.hpp)
+        client/src/Component/Scroll.hpp
+        client/src/System/ScrollSystem/ScrollSystem.cpp)
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 

@@ -15,11 +15,11 @@
 
 namespace Component {
     struct Scroll : public Engine::BaseComponent<Scroll> {
-        Scroll(float maxPosition): maxPosition(maxPosition) {};
+        Scroll(float width): width(width) {};
         Scroll() = default;
         virtual ~Scroll() = default;
 
-        float maxPosition{0};
+        float width{0}; // 2 x the window width
     };
 }
 
