@@ -71,7 +71,6 @@ set(SRC_SERVER ${SRC_DIR}server/)
 
 set(SERVER_SRCS
     ${SRC_DIR}NetworkException.cpp
-    ${SRC_DIR}DataWrapper.cpp
     )
 
 add_executable(${SERVER}

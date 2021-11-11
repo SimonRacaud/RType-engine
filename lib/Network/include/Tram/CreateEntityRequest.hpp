@@ -12,9 +12,9 @@
 #define CREATEENTITYREQUEST_HPP
 
 #include <inttypes.h>
-#include "timeDef.hpp"
 #include <stddef.h>
 #include <string>
+#include "utils/timeDef.hpp"
 
 namespace Tram {
     struct CreateEntityRequest {

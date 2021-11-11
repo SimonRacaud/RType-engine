@@ -11,8 +11,8 @@
 #ifndef JOINCREATEROOMREPLY_HPP
 #define JOINCREATEROOMREPLY_HPP
 
-#include "timeDef.hpp"
 #include <stddef.h>
+#include "utils/timeDef.hpp"
 
 namespace Tram {
     struct JoinCreateRoomReply {

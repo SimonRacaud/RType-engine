@@ -13,7 +13,7 @@
 
 #include <inttypes.h>
 #include <stddef.h>
-#include "timeDef.hpp"
+#include "utils/timeDef.hpp"
 
 namespace Tram {
     struct ComponentSync {
