@@ -7,8 +7,8 @@
 
 cmake_minimum_required(VERSION 3.17)
 
-set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(NAME_CLIENT r-type_client)
@@ -40,12 +40,12 @@ set(CLIENT_SRCS
         both/GameStage/GameStage.cpp
         )
 
-add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
+add_executable(${NAME_CLIENT} ${CLIENT_SRCS} "both/DLLoader/DLLoader.hpp")
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include both)
 
-if (MSVC)
-    target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
+if (WIN32)
+    target_compile_options(${NAME_CLIENT} PRIVATE)
 else ()
     target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
@@ -63,12 +63,17 @@ set(SERVER_SRCS
         both/GameStage/GameStage.cpp
         )
 
-add_executable(${NAME_SERVER} ${SERVER_SRCS})
+add_executable(${NAME_SERVER} ${SERVER_SRCS} "both/DLLoader/DLLoader.hpp")
 
 target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include both)
 
-if (MSVC)
-    target_compile_options(${NAME_SERVER} PRIVATE /W4 /WX)
+if(MSVC)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+    set(BUILD_SHARED_LIBS TRUE)
+endif()
+
+if (WIN32)
+    target_compile_options(${NAME_SERVER} PRIVATE)
 else ()
     target_compile_options(${NAME_SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
@@ -80,9 +85,9 @@ set_target_properties(${NAME_SERVER}
 
 ## GAME-ENGINE (client & server)
 set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
-add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
+add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/ ${PROJECT_SOURCE_DIR}/build/lib)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
-link_libraries(gameEngine)
+target_link_libraries(${NAME_CLIENT} gameEngine)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)

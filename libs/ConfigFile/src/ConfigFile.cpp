@@ -6,6 +6,7 @@
 */
 
 #include <fstream>
+#include <string>
 #include "ConfigFile.hpp"
 #include "ConfigFileTools/ConfigFileTools.hpp"
 
@@ -37,7 +38,7 @@ std::vector<std::string> ConfigFile::loadFileContent(const std::string &filepath
 
     if (myfile.is_open()) {
         fileContent.clear();
-        while (getline(myfile, line))
+        while (std::getline(myfile, line))
             fileContent.push_back(line);
     } else
         throw std::invalid_argument("Fail to open file: " + filepath);

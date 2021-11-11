@@ -221,7 +221,7 @@ namespace Engine
         }
         if (this->hasComponent<ComponentType>(entity)) {
             std::cerr << "ComponentManager::addComponent : Entity "
-                      << (uint)entity << " => Component " <<
+                      << entity << " => Component " <<
                       ComponentType::getIndex() << std::endl;
             throw FatalErrorException("ComponentManager::addComponent, Same "
                                         "component added several time"
