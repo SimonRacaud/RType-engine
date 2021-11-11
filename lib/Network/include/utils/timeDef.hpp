@@ -15,7 +15,7 @@
 
 using Time = std::chrono::milliseconds;
 using DurationCast = std::chrono::duration<Time>;
-using Clock = std::chrono::steady_clock;
-using TimePoint = std::chrono::time_point<Clock>;
+using steadyClock = std::chrono::steady_clock;
+using TimePoint = std::chrono::time_point<steadyClock>;
 
 #endif // TIME_HPP
