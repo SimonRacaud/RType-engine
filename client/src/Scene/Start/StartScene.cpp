@@ -58,7 +58,7 @@ void StartScene::open()
 
     // other
     entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
-    componentManager.add<Engine::Position>(entity, 200, 200);
+    componentManager.add<Engine::Position>(entity, 20, 20);
     std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
     componentManager.add<Engine::Render>(entity, tmp2);
 
