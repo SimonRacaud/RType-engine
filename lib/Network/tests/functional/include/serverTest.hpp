@@ -8,5 +8,6 @@
 #define R_TYPE_SERVERTEST_HPP
 
 int testServerAcceptReceive();
+int testServerAcceptReceiveDataWrapper();
 
 #endif // R_TYPE_SERVERTEST_HPP

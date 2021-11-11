@@ -7,6 +7,7 @@
 
 #include <cstring>
 #include "AsioServerTCP.hpp"
+#include "DataWrapper.hpp"
 #include <unordered_map>
 
 using namespace Network;
@@ -52,7 +53,6 @@ int testServerAcceptReceive()
     while (true) {
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
-            //            std::cout.write(std::get<0>(recvData).getVal(), std::get<1>(recvData));
             my_var = std::get<0>(recvData);
             std::cout << "my_var.getVal() : " << my_var.getVal() << std::endl;
             std::cout << "my_var.getOhterVal() : " << my_var.getOtherVal() << std::endl;

@@ -37,6 +37,7 @@ set(CLIENT_DIR ${SRC_DIR}${CLIENT}/)
 ## SOURCES
 set(SRCS_CLIENT
     ${CLIENT_DIR}testClientTCP.cpp
+    ${CLIENT_DIR}testClientTCPdataWrapper.cpp
     ../../src/NetworkException.cpp
     )
 
@@ -73,6 +74,7 @@ set(SERVER_DIR ${SRC_DIR}${SERVER}/)
 ## SOURCES
 set(SRCS_SERVER
     ${SERVER_DIR}testServerTCP.cpp
+    ${SERVER_DIR}testServerTCPdataWrapper.cpp
     ../../src/NetworkException.cpp
     )
 
@@ -125,4 +127,6 @@ add_test(NAME ${TEST}
          COMMAND ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh -c ./bin/server 1 -c ./bin/client 1)
 set_tests_properties(${TEST}
                      PROPERTIES
-                     PASS_REGULAR_EXPRESSION "client connection, send, disconnection")
+                     PASS_REGULAR_EXPRESSION "client connection, send, disconnection") ## todo change
+
+## todo add new tests

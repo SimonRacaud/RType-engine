@@ -94,7 +94,7 @@ namespace Network
          */
         std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override
         {
-            std::pair<Data, std::size_t> buf({0}, 0);
+            std::pair<Data, std::size_t> buf({}, 0);
             auto connection(getConnection(ip, port));
 
             if (!connection)
@@ -209,8 +209,7 @@ namespace Network
                     connection));
         }
 
-        void asyncReceiving(
-            const asio::error_code &err, const std::size_t &lenRecvBuf, std::shared_ptr<tcp::socket> &connection)
+        void asyncReceiving(const asio::error_code &err, const std::size_t &, std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {

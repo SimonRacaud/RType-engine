@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2021
-** mainTestNetwork.cpp
+** testClientTCPdataWrapper.cpp
 ** File description:
-** TODO: add description
+** test network TCP connection with data wrapper client side
 */
 
 #include <cstring>
@@ -11,40 +11,23 @@
 
 using namespace Network;
 
-class intWrapper {
-  public:
-    intWrapper() = default;
-    intWrapper(int val) : _val(val){};
-    ~intWrapper() = default;
-
-    std::size_t size() const
-    {
-        return sizeof(intWrapper);
-    }
-
-    int getVal() const
-    {
-        return _val + _otherVal;
-    }
-
-  private:
-    int _val{111};
-    int _otherVal{333};
-};
-
 /**
  * @brief Test
  *  AsioClientTCP::connect()
  *  AsioClientTCP::send()
  *  AsioClientTCP::disconnect()
+ *  // todo add datawrapper
  * @return 0 if test succeeded
  */
-int testClientConnectSendDisconnect()
+int testClientConnectSendDisconnectDataWrapper()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    intWrapper myData(888);
-    AsioClientTCP<intWrapper> client;
+    my_structData my_data{56};
+
+    DataWrapper myData;
+    myData.setData<my_structData>(my_data);
+    AsioClientTCP<DataWrapper> client;
     bool connected = client.connect(ipServer, portServer);
 
     if (!connected)

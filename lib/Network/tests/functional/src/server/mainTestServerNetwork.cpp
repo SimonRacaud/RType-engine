@@ -7,10 +7,10 @@
 
 #include <cstring>
 #include <functional>
+#include <stdexcept>
 #include <string>
 #include "serverTest.hpp"
 #include <unordered_map>
-#include <stdexcept>
 
 /**
  * @brief A sample test function to be copied for other tests
@@ -24,7 +24,7 @@ int testFunction()
 }
 
 static const std::unordered_map<int, std::function<int(void)>> testFunctions{
-    {0, testFunction}, {1, testServerAcceptReceive}};
+    {0, testFunction}, {1, testServerAcceptReceive}, {2, testServerAcceptReceiveDataWrapper}};
 
 int main(int ac, char **av)
 {

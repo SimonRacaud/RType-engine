@@ -23,7 +23,7 @@ int testFunction()
 }
 
 static const std::unordered_map<int, std::function<int(void)>> testFunctions{
-    {0, testFunction}, {1, testClientConnectSendDisconnect}};
+    {0, testFunction}, {1, testClientConnectSendDisconnect}, {2, testClientConnectSendDisconnectDataWrapper}};
 
 int main(int ac, char **av)
 {
