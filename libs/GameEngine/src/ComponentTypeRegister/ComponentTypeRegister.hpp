@@ -129,7 +129,7 @@ namespace Engine
             throw InvalidParameterException("ComponentTypeRegister::remove Component doesn't exist");
         }
         signature[ComponentType::getIndex()] = false;
-        Index index = _entityToComponent[entity];
+        Index index = (Index)_entityToComponent[entity];
         // update _components slot
         _components[index] = std::move(_components.back());
         _components.pop_back();

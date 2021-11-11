@@ -23,7 +23,7 @@ namespace Engine
     template <class SystemType> class AbstractSystem : public IAbstractSystem {
       public:
         AbstractSystem(Time runningFreq = (Time) DEF_SYSTEM_RUN_FREQ,
-            SystemPriority priority = SystemPriority::MEDIUM);
+            SystemPriority systemPriority = SystemPriority::MEDIUM);
 
         virtual ~AbstractSystem() = default;
 
@@ -83,8 +83,8 @@ namespace Engine
 
     template <class SystemType>
     AbstractSystem<SystemType>::AbstractSystem(
-        Time runningFreq, SystemPriority priority)
-        : _runningFrequency(runningFreq), _priority(priority)
+        Time runningFreq, SystemPriority systemPriority)
+        : _runningFrequency(runningFreq), _priority(systemPriority)
     {
     }
 

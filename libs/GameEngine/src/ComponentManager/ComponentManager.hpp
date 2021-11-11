@@ -11,6 +11,7 @@
 #include <memory>
 #include <algorithm>
 #include <vector>
+#include <array>
 #include "BaseComponent/BaseComponent.hpp"
 #include "ComponentTypeRegister/ComponentTypeRegister.hpp"
 #include "EntityName.hpp"
