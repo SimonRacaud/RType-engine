@@ -18,6 +18,7 @@
 
 namespace Engine {
     using std::unordered_map;
+    using std::string;
 
     struct EntityLinkComponent {
         EntityLinkComponent() = default;

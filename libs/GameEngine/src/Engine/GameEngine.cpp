@@ -43,6 +43,7 @@ void GameEngine::exec()
     while (_loop && securityCounter < MAX_THROW_EXIT) {
         try {
             this->_sceneManager->run();
+            this->_eventRegister.execQueue();
         } catch (BasicException const &e) {
             std::cerr << "[Engine] " << e.what() << std::endl;
             securityCounter++;

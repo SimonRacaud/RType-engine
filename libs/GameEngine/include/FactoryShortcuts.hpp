@@ -13,8 +13,8 @@
 
 #include "SystemManager/SystemManager.hpp"
 namespace Engine {
-    #define GET_SYS_M    EngineFactory::getInstance().getSystemManager()
-    #define GET_EVENT_REG EngineFactory::getInstance().getEventRegister()
+    #define GET_SYS_M    Engine::EngineFactory::getInstance().getSystemManager()
+    #define GET_EVENT_REG Engine::EngineFactory::getInstance().getEventRegister()
 
 }
 

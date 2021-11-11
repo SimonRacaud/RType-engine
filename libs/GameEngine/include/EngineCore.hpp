@@ -18,9 +18,15 @@
 
 #include "Systems/PhysicsSystem/PhysicsSystem.hpp"
 #include "Systems/TimerSystem/TimerSystem.hpp"
-#include "Components/Position.hpp"
+#include "Systems/ColliderSystem/ColliderSystem.hpp"
+
 #include "Components/Position.hpp"
 #include "Components/Timer.hpp"
+#include "Components/Hitbox.hpp"
+#include "Components/EntityLinkComponent.hpp"
+#include "Components/NumberComponent.hpp"
+#include "Components/ScoreComponent.hpp"
+#include "Components/Velocity.hpp"
 
 #include "Utils/display.hpp"
 

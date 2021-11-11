@@ -20,7 +20,7 @@
 
 namespace Engine
 {
-    #define GET_COMP_M   EngineFactory::getInstance().getComponentManager()
+    #define GET_COMP_M   Engine::EngineFactory::getInstance().getComponentManager()
 
     /**
      * @brief Management of the entities
