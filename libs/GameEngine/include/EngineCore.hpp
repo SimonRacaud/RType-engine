@@ -27,6 +27,7 @@
 #include "Components/NumberComponent.hpp"
 #include "Components/ScoreComponent.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/SizeComponent.hpp"
 
 #include "Utils/display.hpp"
 

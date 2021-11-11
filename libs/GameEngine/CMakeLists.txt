@@ -55,7 +55,7 @@ set(SRCS
         src/Components/ScoreComponent.hpp
         src/Components/NumberComponent.hpp
         src/Components/EntityLinkComponent.hpp
-        )
+        src/Components/SizeComponent.hpp)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
