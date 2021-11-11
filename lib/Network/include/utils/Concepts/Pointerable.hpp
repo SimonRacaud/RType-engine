@@ -16,14 +16,29 @@ template <typename T>
  * @brief When this concept is applied to a template variable, this variable must be pointer friendly
  * @tparam T The class to be templated with this concept
  * @note Pointerable is the concept,
- *          what's after the '=' operator is the constraint, meaning that the class must respect what's specified in it
+ *          what's after the '=' operator are the constraints,
+ *          meaning that the class must respect what's specified in it (implement the methods)
  */
 concept Pointerable = requires(T a, T *b)
 {
+    /**
+     * @brief Constraint to have an operator& in order to get raw data of the class
+     */
     {
         &a
         } -> std::convertible_to<T *>;
 
+    /**
+     * @brief Constraint to have an operator* in order to dereference a pointer
+     */
+    {
+        *b
+        } -> std::convertible_to<T>;
+
+    /**
+     * @brief Constraint to have a size method, in order to get the size of the variable in bytes
+     * @attention Size in bytes
+     */
     {
         // todo realy necessary ?
         //  the receive is automatic
@@ -31,9 +46,6 @@ concept Pointerable = requires(T a, T *b)
         a.size() // todo find a way to make that viable with dynamic size variables (arrays ...)
                  //        } -> std::convertible_to<std::size_t>;
         } -> std::integral;
-    {
-        *b
-        } -> std::convertible_to<T>;
 };
 
 //#endif // __cplusplus
