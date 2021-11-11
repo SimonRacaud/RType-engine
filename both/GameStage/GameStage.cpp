@@ -47,22 +47,44 @@ std::string GameStage::getStageBackground() const
 
 bool GameStage::isStageEnd() const
 {
-    return false;
+    return this->_pos >= this->_step.size();
 }
 
 StageStep GameStage::getStageStep(bool move)
 {
-    return StageStep(EntityType::MAX_VALUE, 0, "", {0, 0});
+    size_t pos = this->_pos;
+
+    if (this->isStageEnd())
+        throw std::invalid_argument("No more step");
+    if (move)
+        this->_pos++;
+    return this->_step[pos];
 }
 
 std::queue<StageStep> GameStage::getStagePrevious(std::size_t nb) const
 {
-    return std::queue<StageStep>();
+    std::queue<StageStep> queue;
+    int value = this->_pos - nb;
+
+    if (value < 0)
+        value = 0;
+    for (size_t i = value; i < this->_pos; i++) {
+        queue.push(this->_step[i]);
+    }
+    return queue;
 }
 
 std::queue<StageStep> GameStage::getStageStepAt(std::size_t time, bool move)
 {
-    return std::queue<StageStep>();
+    size_t i = 0;
+    std::queue<StageStep> queue;
+
+    for (i = this->_pos; i < this->_step.size() && this->_step[i]._time <= time; i++) {
+        queue.push(this->_step[i]);
+    }
+    if (move)
+        this->_pos = i;
+    return queue;
 }
 
 std::string GameStage::getStageNext() const

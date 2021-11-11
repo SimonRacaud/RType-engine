@@ -50,6 +50,7 @@ class GameStage : public IGameStage
         std::vector<StageStep> _step;
         HeaderData _header;
         EndedData _ended;
+        size_t _pos;
         const std::vector<std::pair<std::string, EntityType>> _link = {
             {"BONUS_HP", EntityType::BONUS_HP},
             {"BONUS_SPEED", EntityType::BONUS_SPEED},
