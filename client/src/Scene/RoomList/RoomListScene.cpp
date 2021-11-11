@@ -1,26 +1,25 @@
 /*
 ** EPITECH PROJECT , 2021
-** SettingsScene
+** RoomListScene
 ** File description:
-** \file SettingsScene.cpp
+** \file RoomListScene.cpp
 ** \author simon
 ** \brief
 ** \date 11/11/2021
 */
 
-#include "SettingsScene.hpp"
+#include "RoomListScene.hpp"
 #include "GameCore/GameCore.hpp"
 
 using namespace Scene;
 using namespace Engine;
 using namespace std;
 
-SettingsScene::SettingsScene()
-    : Engine::AbstractScene<SettingsScene>(ClusterName::SETTINGS)
-{
-}
+RoomListScene::RoomListScene()
+    : Engine::AbstractScene<RoomListScene>(ClusterName::ROOM_LIST)
+{}
 
-void SettingsScene::open()
+void RoomListScene::open()
 {
     // <== create entities
 

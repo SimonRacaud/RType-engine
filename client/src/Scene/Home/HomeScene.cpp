@@ -24,7 +24,6 @@ void HomeScene::open()
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<
-        Engine::PhysicsSystem,
         System::RenderSystem,
         System::InputEventSystem>();
 }

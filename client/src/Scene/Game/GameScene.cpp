@@ -1,31 +1,31 @@
 /*
 ** EPITECH PROJECT , 2021
-** SettingsScene
+** GameScene
 ** File description:
-** \file SettingsScene.cpp
+** \file GameScene.cpp
 ** \author simon
 ** \brief
 ** \date 11/11/2021
 */
 
-#include "SettingsScene.hpp"
+#include "GameScene.hpp"
 #include "GameCore/GameCore.hpp"
 
 using namespace Scene;
 using namespace Engine;
 using namespace std;
 
-SettingsScene::SettingsScene()
-    : Engine::AbstractScene<SettingsScene>(ClusterName::SETTINGS)
-{
-}
+GameScene::GameScene()
+    : Engine::AbstractScene<GameScene>(ClusterName::GAME)
+{}
 
-void SettingsScene::open()
+void GameScene::open()
 {
     // <== create entities
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<
+        Engine::PhysicsSystem,
         System::RenderSystem,
         System::InputEventSystem>();
 }
