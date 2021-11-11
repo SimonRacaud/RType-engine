@@ -108,8 +108,6 @@ namespace Network
                     return false;
                 }));
             if (my_recvData != AAsioConnection<Data>::_recvData.end()) {
-                std::cout << "received" << std::endl;
-
                 buf = std::make_pair(my_recvData->second.first, my_recvData->second.second);
                 AAsioConnection<Data>::_recvData.erase(my_recvData);
                 return buf;
@@ -224,8 +222,7 @@ namespace Network
             }
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
                                                          connection->remote_endpoint().port()),
-                std::make_pair(AAsioConnection<Data>::_recvBuf.first,
-                    AAsioConnection<Data>::_recvBuf.first.size() /*lenRecvBuf*/));
+                std::make_pair(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.first.size()));
             asyncReceive(connection);
         }
 

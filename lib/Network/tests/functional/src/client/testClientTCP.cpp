@@ -44,7 +44,7 @@ int testClientConnectSendDisconnect()
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
     intWrapper myData(888);
-    AsioClientTCP<intWrapper> client; // TODO DATA replace by type
+    AsioClientTCP<intWrapper> client;
     bool connected = client.connect(ipServer, portServer);
 
     if (!connected)
