@@ -1,25 +1,26 @@
 /*
 ** PERSONAL PROJECT, 2021
-** SoundManager
+** MusicManager
 ** File description:
-** SoundManager.hpp
+** MusicManager.hpp
 */
 
-#ifndef SOUNDMANAGER_HPP
-#define SOUNDMANAGER_HPP
+#ifndef MUSICMANAGER_HPP
+#define MUSICMANAGER_HPP
 
 #include <memory>
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include "Interface/IAudioManager.hpp"
 
-class SoundManager: public IAudioManager
+class MusicManager: public IAudioManager
 {
     public:
-        SoundManager();
-        SoundManager(const SoundManager &);
-        ~SoundManager();
+        MusicManager();
+        MusicManager(const MusicManager &);
+        ~MusicManager();
         void play();
+        void stop();
         void pause();
         void restart();
         size_t getVolume();
@@ -30,8 +31,7 @@ class SoundManager: public IAudioManager
         void loadAudio(const std::string &);
 
     private:
-        std::shared_ptr<sf::SoundBuffer> _manager;
-        std::shared_ptr<sf::Sound> _sound;
+        std::shared_ptr<sf::Music> _manager;
         std::string _path;
         size_t _volume;
         bool _pause;

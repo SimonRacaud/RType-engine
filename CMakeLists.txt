@@ -30,19 +30,24 @@ include_directories(./include)
 set(CLIENT_SRCS
         client/src/main.cpp
         client/src/Scene/Start/StartScene.cpp
+        client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
+        client/src/System/InputEventSystem/InputEventSystem.cpp
+        client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
+        client/src/GameCore/GameCore.cpp
+        both/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
-target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
+target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include both)
 
 if (MSVC)
     target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
 else ()
-    target_compile_options(${NAME_CLIENT} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
+    target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
 
 set_target_properties(${NAME_CLIENT}
@@ -55,11 +60,12 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
+        both/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include)
+target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include both)
 
 if (MSVC)
     target_compile_options(${NAME_SERVER} PRIVATE /W4 /WX)
@@ -79,7 +85,7 @@ include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 link_libraries(gameEngine)
 
 ## CONFIG_FILE (client & server)
-set(ConfigFileDir ${PROJECT_SOURCE_DIR}/lib/ConfigFile)
+set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)
 add_subdirectory(${ConfigFileDir})
 include_directories(${ConfigFileDir}/include)
 include_directories(${ConfigFileDir}/src/ConfigFileTools)
@@ -87,7 +93,7 @@ target_link_libraries(${NAME_CLIENT} ConfigFile)
 target_link_libraries(${NAME_SERVER} ConfigFile)
 
 ## SFML (client)
-set(SfmlDir ${PROJECT_SOURCE_DIR}/lib/Sfml)
+set(SfmlDir ${PROJECT_SOURCE_DIR}/libs/Sfml)
 add_subdirectory(${SfmlDir})
 include_directories(${SfmlDir}/include)
 include_directories(${SfmlDir}/src)

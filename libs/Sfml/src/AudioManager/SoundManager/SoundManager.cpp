@@ -35,6 +35,13 @@ void SoundManager::play()
     this->_sound->play();
 }
 
+void SoundManager::stop()
+{
+    if (!this->_manager)
+        throw std::invalid_argument("Audio must be play");
+    this->_sound->stop();
+}
+
 void SoundManager::pause()
 {
     if (!this->_manager || !this->_sound)

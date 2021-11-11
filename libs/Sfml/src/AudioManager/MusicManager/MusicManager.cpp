@@ -33,6 +33,13 @@ void MusicManager::play()
     this->_manager->play();
 }
 
+void MusicManager::stop()
+{
+    if (!this->_manager)
+        throw std::invalid_argument("Audio must be play");
+    this->_manager->stop();
+}
+
 void MusicManager::pause()
 {
     if (!this->_manager)

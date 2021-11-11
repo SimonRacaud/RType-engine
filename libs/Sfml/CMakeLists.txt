@@ -23,7 +23,6 @@ include_directories(
 
 ## SOURCES
 set(SRCS
-    src/SfmlModule.cpp
     src/TextManager/TextManager.cpp
     src/EventManager/EventManager.cpp
     src/SpriteManager/SpriteManager.cpp
@@ -37,6 +36,12 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_library(${NAME} SHARED ${SRCS})
+
+if (MSVC)
+    target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
+else ()
+    target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
+endif ()
 
 ## LIB
 target_link_libraries(${NAME} ${CONAN_LIBS})
