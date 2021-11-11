@@ -13,10 +13,15 @@
 
 #include <stddef.h>
 
-namespace Tram {
+namespace Tram
+{
     struct JoinRoom {
         size_t roomId;
+        static inline std::size_t size()
+        {
+            return sizeof(JoinRoom);
+        }
     };
-}
+} // namespace Tram
 
 #endif // JOINROOMREPLY_HPP
