@@ -14,6 +14,7 @@ class IDrawable
     public:
         ~IDrawable() = default;
 
+        virtual void refresh() = 0;
         virtual void draw(renderTool &render) = 0;
 };
 

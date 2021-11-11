@@ -37,7 +37,7 @@ Button::Button(
     renderList.push_back(std::make_unique<SpriteManager>(position, size, none));
     renderList.push_back(std::make_unique<SpriteManager>(position, size, isOn));
     renderList.push_back(std::make_unique<SpriteManager>(position, size, isClick));
-    renderList.push_back(std::make_unique<TextManager>(vector2D(position.x + 73 * 0.1, position.y + 30 * 0.1), size, ITextManager<renderToolSfml>::color_e::WHITE, text, "asset/font/Code-Bold.ttf"));
+    renderList.push_back(std::make_unique<TextManager>(vector2D(position.x + 73 * 0.1, position.y + 30 * 0.1), size, color_e::WHITE, text, "asset/font/Code-Bold.ttf"));
     pos.push_back(3);
     pos.push_back(0);
 

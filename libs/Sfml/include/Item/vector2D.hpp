@@ -24,6 +24,16 @@ class vector2D
         }
         ~vector2D() = default;
 
+        bool operator==(const vector2D &b) const
+        {
+            return this->x == b.x && this->y == b.y;
+        }
+
+        bool operator!=(const vector2D &b) const
+        {
+            return !(*this == b);
+        }
+
     public:
         size_t x;
         size_t y;
