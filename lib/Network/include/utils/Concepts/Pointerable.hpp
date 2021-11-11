@@ -34,7 +34,7 @@ concept Pointerable = requires(T a, T *b)
                  //        } -> std::convertible_to<std::size_t>;
         } -> std::integral;
     {
-        a.getVal() // remove after debug
+        a.getVal() // todo remove after debug
         } -> std::integral;
     {
         *b

@@ -67,7 +67,7 @@ namespace Network
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             for (auto i = first; ++i != last;)
                 if (!(*i == value))
-                    (void) std::move(*i); // todo test
+                    (void) std::move(*i);
         }
 
         void disconnectAll() override
@@ -117,9 +117,9 @@ namespace Network
         {
             while (_thread.joinable() && !AAsioConnection<Data>::_ioContext.stopped()) {
                 std::cout << "thread running" << std::endl;
-                //                _ioContext.run_one_for(std::chrono::seconds(1));
+                //                _ioContext.run_one_for(std::chrono::seconds(1)); // todo might not work for big
+                //                packets
                 _ioContext.run_one();
-                // todo might not work for big packets
             }
         }
 
@@ -164,9 +164,6 @@ namespace Network
          *  asynchronous operations
          * @note std::atomic ensures thread safety over this variable
          */
-        //        std::unordered_multimap<std::pair<const std::string, const std::size_t>,
-        //            std::pair<Data, std::size_t>, hash_pair>
-        //            _recvData;
         ThreadSafety::LockedUnorderedMultimap<std::pair<const std::string, const std::size_t>,
             std::pair<Data, std::size_t>, hash_pair>
             _recvData;

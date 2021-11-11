@@ -30,7 +30,6 @@ class intWrapper {
     intWrapper *data() const
     {
         intWrapper *my_new = new intWrapper;
-        std::cout << "sizeof(intWrapper)" << sizeof(intWrapper) << std::endl;
 
         *my_new = _val;
         *(my_new + sizeof(int)) = _otherVal;
@@ -38,16 +37,7 @@ class intWrapper {
     }
     intWrapper &operator=(const intWrapper &rhs)
     {
-        //        std::cout << "operator is called" << std::endl;
         this->_val = rhs.getVal();
-        if (_val != 222)
-            std::cout << std::endl
-                      << std::endl
-                      << std::endl
-                      << std::endl
-                      << std::endl
-                      << std::endl
-                      << "operator= is called, val = " << _val << std::endl;
         return *this;
     }
 

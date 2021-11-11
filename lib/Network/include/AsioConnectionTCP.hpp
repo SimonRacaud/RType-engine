@@ -146,12 +146,12 @@ namespace Network
                 throw Network::invalidConnection();
             //            char *my_array = new char(buf.size());
 
-            std::cout << "sending : size(" << buf.size() << ")" << std::endl;     // todo remove
-            std::cout << "sending : getVal(" << buf.getVal() << ")" << std::endl; // todo remove
+            //            std::cout << "sending : size(" << buf.size() << ")" << std::endl;     // todo remove
+            //            std::cout << "sending : getVal(" << buf.getVal() << ")" << std::endl; // todo remove
             //            memcpy(my_array, &buf, buf.size());
-            int *my_array = (int *) buf.data();
-            printf("%i.\n", (int) (*my_array));
-            printf("%i.\n", (int) (my_array[1]));
+            //            int *my_array = (int *) buf.data();
+            //            printf("%i.\n", (int) (*my_array));
+            //            printf("%i.\n", (int) (my_array[1]));
             //            std::cout << my_array << std::endl;
             //            std::cout.write(my_array, buf.size());
             //            std::cout << std::endl << "end of sending prints" << std::endl;
@@ -227,26 +227,14 @@ namespace Network
         void asyncReceiving(
             const asio::error_code &err, const std::size_t &lenRecvBuf, std::shared_ptr<tcp::socket> &connection)
         {
-            std::cout << __PRETTY_FUNCTION__ << std::endl;
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
                     return;
                 }
             }
-            std::cout << "no error" << std::endl;
-            std::cout << "received size(" << AAsioConnection<Data>::_recvBuf.first.size() << ")" << std::endl;
-            //            if (!lenRecvBuf) {
-            //                return;
-            //            }
             if (!AAsioConnection<Data>::_recvBuf.first.size()) {
                 return;
             }
-
-            std::cout << "length exists" << std::endl;
-
-            //            if (!AAsioConnection<Data>::_recvBuf.data()) {
-            //                return;
-            //        }
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
                                                          connection->remote_endpoint().port()),
                 std::make_pair(AAsioConnection<Data>::_recvBuf.first,
