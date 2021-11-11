@@ -52,6 +52,9 @@ set(SRCS
 
         src/Utils/display.cpp
         src/Utils/SignalManager.cpp
+        src/Components/ScoreComponent.hpp
+        src/Components/NumberComponent.hpp
+        src/Components/EntityLinkComponent.hpp
         )
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
