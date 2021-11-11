@@ -21,8 +21,7 @@ template <typename T>
 concept Pointerable = requires(T a, T *b)
 {
     {
-        //        &a
-        a.data()
+        &a
         } -> std::convertible_to<T *>;
 
     {

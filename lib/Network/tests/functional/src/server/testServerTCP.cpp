@@ -31,15 +31,6 @@ class intWrapper {
         return _otherVal;
     }
 
-    intWrapper *data() const
-    {
-        intWrapper *my_new = new intWrapper;
-
-        *my_new = _val;
-        *(my_new + sizeof(int)) = _otherVal;
-        return my_new;
-    }
-
   private:
     int _val{222};
     int _otherVal{444};

@@ -21,15 +21,6 @@ class intWrapper {
     {
         return sizeof(intWrapper);
     }
-    intWrapper *data() const
-    {
-        intWrapper *my_new = new intWrapper;
-        //        std::cout << "sizeof(intWrapper)" << sizeof(intWrapper) << std::endl;
-
-        *my_new = _val;
-        *(my_new + sizeof(int)) = _otherVal;
-        return my_new;
-    }
 
     int getVal() const
     {

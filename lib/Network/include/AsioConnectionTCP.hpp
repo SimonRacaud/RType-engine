@@ -144,7 +144,7 @@ namespace Network
         {
             if (!connection)
                 throw Network::invalidConnection();
-            connection->send(asio::buffer(buf.data(), buf.size()));
+            connection->send(asio::buffer(&buf /*buf.data()*/, buf.size()));
         }
 
         [[nodiscard]] bool isConnection(const std::shared_ptr<tcp::socket> &connection, const std::string &otherIp,
