@@ -181,8 +181,6 @@ namespace Network
             AAsioConnection<Data>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
             _socketConnections.push_back(newConnection);
-            //            newConnection->set_option(_receiveBufferSizeOption); // TODO refactor PACKETSIZE
-            //            newConnection->set_option(_sendBufferSizeOption);
             asyncReceive(newConnection);
         }
 
@@ -236,17 +234,6 @@ namespace Network
          * @brief deque of connected sockets
          */
         ThreadSafety::LockedDeque<std::shared_ptr<tcp::socket>> _socketConnections;
-
-        /**
-         * @brief Option (to be set) to buffer data when receiving it
-         */
-        //        asio::socket_base::receive_buffer_size _receiveBufferSizeOption{PACKETSIZE};
-
-        /**
-         * @brief Option (to be set) to buffer data when sending it
-         */
-        //        asio::socket_base::send_buffer_size
-        //        _sendBufferSizeOption{PACKETSIZE};
     };
 
 } // namespace Network

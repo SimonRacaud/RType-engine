@@ -60,7 +60,6 @@ namespace Network
         {
             //            std::cout << std::endl << std::endl << "receive()" << std::endl;
             std::pair<Data, std::size_t> buf({0}, 0);
-            //            _socket.set_option(_receiveBufferSizeOption); // TODO refactor PACKETSIZE
 
             auto my_recvData(std::find_if(AAsioConnection<Data>::_recvData.begin(),
                 AAsioConnection<Data>::_recvData.end(), [&](const auto &recvData) {
@@ -160,8 +159,6 @@ namespace Network
       private:
         udp::endpoint _endpoint;
         udp::socket _socket;
-
-        //        asio::socket_base::receive_buffer_size _receiveBufferSizeOption{PACKETSIZE};
     };
 
 } // namespace Network
