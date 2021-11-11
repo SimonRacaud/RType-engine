@@ -109,3 +109,4 @@ flycheck_*.el
 *.gcda
 *.gcno
 .vscode
+vgcore.*

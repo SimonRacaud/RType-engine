@@ -37,12 +37,11 @@ set(CLIENT_SRCS
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
-        both/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
-target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include both)
+target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
 
 if (MSVC)
     target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
@@ -60,12 +59,12 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
-        both/GameStage/GameStage.cpp
+        ./server/src/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include both)
+target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include)
 
 if (MSVC)
     target_compile_options(${NAME_SERVER} PRIVATE /W4 /WX)
