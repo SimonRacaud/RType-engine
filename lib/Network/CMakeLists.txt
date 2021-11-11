@@ -45,7 +45,6 @@ set(CLIENT_SRCS
 ## TARGET
 add_executable(${CLIENT}
                ${CLIENT_SRCS}
-               ${SRC_CLIENT}/mainTestNetwork.cpp
                )
 
 ## INCLUDES
@@ -76,7 +75,6 @@ set(SERVER_SRCS
 
 add_executable(${SERVER}
                ${SERVER_SRCS}
-               ${SRC_SERVER}/mainTestNetwork.cpp
                )
 
 ## INCLUDES
