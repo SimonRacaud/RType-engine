@@ -26,6 +26,7 @@ set(SRCS
     src/ColorLink/ColorLink.cpp
     src/TextManager/TextManager.cpp
     src/EventManager/EventManager.cpp
+    src/ShapeManager/ShapeManager.cpp
     src/SpriteManager/SpriteManager.cpp
     src/WindowManager/WindowManager.cpp
     src/AnimationManager/AnimationManager.cpp

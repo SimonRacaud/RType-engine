@@ -15,6 +15,7 @@
 #include "Component/Render.hpp"
 #include "Component/InputEvent.hpp"
 #include "TextManager/TextManager.hpp"
+#include "ShapeManager/ShapeManager.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
@@ -54,6 +55,12 @@ void StartScene::open()
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
     GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
     Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+
+    // other
+    entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    componentManager.add<Engine::Position>(entity, 200, 200);
+    std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
+    componentManager.add<Engine::Render>(entity, tmp2);
 
     /// Select needed systems
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
