@@ -9,22 +9,24 @@
 #include "AudioEventManager.hpp"
 #include "AudioManager/SoundManager/SoundManager.hpp"
 #include "AudioManager/MusicManager/MusicManager.hpp"
+#include "EngineCore.hpp"
 
 AudioEventManager::AudioEventManager()
 {
-    GameCore::reg->registerCallback<AudioEventLoad>([this] (const Engine::Event::IEvent *e) {
+    Engine::Event::EventCallbackRegister &reg = Engine::EngineFactory::getInstance().getEventRegister();
+    reg.registerCallback<AudioEventLoad>([this] (const Engine::Event::IEvent *e) {
         this->loadAudio(static_cast<const AudioEventLoad *>(e));
     });
-    GameCore::reg->registerCallback<AudioEventPlay>([this] (const Engine::Event::IEvent *e) {
+    reg.registerCallback<AudioEventPlay>([this] (const Engine::Event::IEvent *e) {
         this->playAudio(static_cast<const AudioEventPlay *>(e));
     });
-    GameCore::reg->registerCallback<AudioEventStop>([this] (const Engine::Event::IEvent *e) {
+    reg.registerCallback<AudioEventStop>([this] (const Engine::Event::IEvent *e) {
         this->stopAudio(static_cast<const AudioEventStop *>(e));
     });
-    GameCore::reg->registerCallback<AudioEventPause>([this] (const Engine::Event::IEvent *e) {
+    reg.registerCallback<AudioEventPause>([this] (const Engine::Event::IEvent *e) {
         this->pauseAudio(static_cast<const AudioEventPause *>(e));
     });
-    GameCore::reg->registerCallback<AudioEventVolume>([this] (const Engine::Event::IEvent *e) {
+    reg.registerCallback<AudioEventVolume>([this] (const Engine::Event::IEvent *e) {
         this->volumeAudio(static_cast<const AudioEventVolume *>(e));
     });
 }

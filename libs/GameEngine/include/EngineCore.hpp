@@ -14,6 +14,7 @@
 #include "Engine/EngineFactory.hpp"
 #include "AbstractScene/AbstractScene.hpp"
 #include "SceneManager/SceneManager.hpp"
+#include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 
 #include "Systems/PhysicsSystem/PhysicsSystem.hpp"
 #include "Systems/TimerSystem/TimerSystem.hpp"

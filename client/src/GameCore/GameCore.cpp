@@ -25,7 +25,6 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
-Engine::Event::EventCallbackRegister *GameCore::reg = new Engine::Event::EventCallbackRegister();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager<renderToolSfml>> GameCore::event = std::make_unique<EventManager>();
 
@@ -43,9 +42,9 @@ GameCore::~GameCore()
 
 void GameCore::run()
 {
-    reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
-    reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
-    reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
+//    reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
+//    reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
+//    reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Render>();
@@ -66,6 +65,5 @@ void GameCore::run()
     sceneManager.registerScene<Scene::DebugScene>("Mon paramètre de test");
     sceneManager.select<Scene::StartScene>();
 
-    reg->execQueue();
     engine.exec();
 }
