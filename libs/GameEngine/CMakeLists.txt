@@ -48,6 +48,7 @@ set(SRCS
 
         src/Systems/PhysicsSystem/PhysicsSystem.cpp
         src/Systems/TimerSystem/TimerSystem.cpp
+        src/Systems/ColliderSystem/ColliderSystem.cpp
 
         src/Utils/display.cpp
         src/Utils/SignalManager.cpp

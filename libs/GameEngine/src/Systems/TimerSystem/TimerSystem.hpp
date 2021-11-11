@@ -21,11 +21,6 @@ namespace Engine {
 			TimerSystem();
 			~TimerSystem();
 
-			/**
-			 * @brief Updates all active timers by a time
-			 * 
-			 * @param ms Time to update each timer with
-			 */
 			void run(const vector<Entity> &entities) override;
 
 			/**
