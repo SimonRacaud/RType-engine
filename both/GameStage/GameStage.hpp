@@ -24,6 +24,7 @@ class GameStage : public IGameStage
         std::string getStageBackground() const;
 
         // STEP DATA
+        bool isStageEnd() const;
         StageStep getStageStep(bool move = true);
         std::queue<StageStep> getStagePrevious(std::size_t nb) const;
         std::queue<StageStep> getStageStepAt(std::size_t time, bool move = true);
@@ -32,10 +33,12 @@ class GameStage : public IGameStage
         std::string getStageNext() const;
 
     protected:
+        void sort();
         void extract();
         void applyFormat();
         void checkFormat() const;
         std::vector<std::string> readFile(const std::string &) const;
+        static bool matchWithRegex(const std::string &sample, const std::string &regex);
 
     private:
         std::vector<std::string> _content;

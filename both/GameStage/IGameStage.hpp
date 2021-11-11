@@ -22,6 +22,7 @@ class IGameStage
         virtual std::string getStageBackground() const = 0;
 
         // STEP DATA
+        virtual bool isStageEnd() const = 0;
         virtual StageStep getStageStep(bool move = true) = 0;
         virtual std::queue<StageStep> getStagePrevious(std::size_t nb) const = 0;
         virtual std::queue<StageStep> getStageStepAt(std::size_t time, bool move = true) = 0;
