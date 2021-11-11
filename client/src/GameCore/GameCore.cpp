@@ -25,7 +25,6 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
-Engine::Event::EventCallbackRegister *GameCore::reg = new Engine::Event::EventCallbackRegister();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager<renderToolSfml>> GameCore::event = std::make_unique<EventManager>();
 
@@ -66,6 +65,5 @@ void GameCore::run()
     sceneManager.registerScene<Scene::DebugScene>("Mon paramètre de test");
     sceneManager.select<Scene::StartScene>();
 
-    reg->execQueue();
     engine.exec();
 }

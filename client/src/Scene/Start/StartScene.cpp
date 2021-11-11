@@ -51,8 +51,8 @@ void StartScene::open()
         std::cout << "Mouse pos -> {" << pos.x << ", " << pos.y << "}" << std::endl;
     });
 
-    GameCore::reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
-    GameCore::reg->registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
+    GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
     Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
 
     /// Select needed systems

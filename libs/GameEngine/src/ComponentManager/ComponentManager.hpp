@@ -24,7 +24,7 @@
 
 namespace Engine
 {
-    #define GET_ENTITY_M EngineFactory::getInstance().getEntityManager()
+    #define GET_ENTITY_M Engine::EngineFactory::getInstance().getEntityManager()
 
     using std::array;
     using std::size_t;

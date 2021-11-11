@@ -29,7 +29,6 @@ class GameCore
 
     public:
         static Engine::IGameEngine &engine;
-        static Engine::Event::EventCallbackRegister *reg;
         static std::shared_ptr<IWindowManager> window;
         static std::unique_ptr<IEventManager<renderToolSfml>> event;
 

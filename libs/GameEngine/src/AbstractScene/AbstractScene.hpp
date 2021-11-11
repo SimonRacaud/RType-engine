@@ -13,7 +13,7 @@
 
 namespace Engine
 {
-    #define GET_ENTITY_M EngineFactory::getInstance().getEntityManager()
+    #define GET_ENTITY_M Engine::EngineFactory::getInstance().getEntityManager()
 
     template <class SceneType>
     class AbstractScene : public IScene {
