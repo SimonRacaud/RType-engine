@@ -41,10 +41,10 @@ void func()
     animation.setFocus(surface(vector2D(267, 17), vector2D(33, 34)));
     animation.setNbMember(4);
 
-    music.setAudio("asset/music/song.ogg");
+    music.setAudio("asset/music/R-Type-01_theme.ogg");
     music.play();
 
-    sound.setAudio("asset/sound/ActiveBomb.ogg");
+    sound.setAudio("asset/sound/shoot.ogg");
 
     while (window->isOpen()) {
         window->clear();
