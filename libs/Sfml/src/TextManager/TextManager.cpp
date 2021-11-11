@@ -84,7 +84,7 @@ void TextManager::refresh()
     if (this->_size.x && this->_size.y)
         this->_text->setCharacterSize((this->_size.x + this->_size.y) * 8);
     try {
-        this->_text->setFillColor(this->_colorLink.at(this->_color));
+        this->_text->setFillColor(ColorLink::getColor(this->_color));
     } catch(...) {
         throw std::invalid_argument("Invalid color");
     }

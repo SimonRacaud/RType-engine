@@ -23,6 +23,7 @@ include_directories(
 
 ## SOURCES
 set(SRCS
+    src/ColorLink/ColorLink.cpp
     src/TextManager/TextManager.cpp
     src/EventManager/EventManager.cpp
     src/SpriteManager/SpriteManager.cpp

@@ -9,7 +9,7 @@
 #define TEXTMANAGER_HPP
 
 #include <unordered_map>
-#include "build.hpp"
+#include "ColorLink/ColorLink.hpp"
 #include "Interface/ITextManager.hpp"
 
 class TextManager: public ITextManager<renderToolSfml>
@@ -38,13 +38,6 @@ class TextManager: public ITextManager<renderToolSfml>
         std::string _fontPath;
         std::shared_ptr<sf::Font> _font;
         std::shared_ptr<sf::Text> _text;
-        const std::unordered_map<ITextManager::color_e, sf::Color> _colorLink = {
-            {ITextManager::color_e::RED, sf::Color::Red},
-            {ITextManager::color_e::BLUE, sf::Color::Blue},
-            {ITextManager::color_e::GREEN, sf::Color::Green},
-            {ITextManager::color_e::BLACK, sf::Color::Black},
-            {ITextManager::color_e::WHITE, sf::Color::White},
-        };
 };
 
 #endif

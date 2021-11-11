@@ -41,7 +41,7 @@ void StartScene::open()
     componentManager.add<Engine::Velocity>(entity, 1, 0);
 
     std::shared_ptr<TextManager> tmp = std::make_shared<TextManager>();
-    tmp->setColor(ITextManager<renderToolSfml>::color_e::RED);
+    tmp->setColor(color_e::RED);
     tmp->setContent("mdr");
     tmp->setFont("asset/font/Code-Bold.ttf");
     componentManager.add<Engine::Render>(entity, tmp);
