@@ -16,6 +16,7 @@ class TextManager: public ITextManager<renderToolSfml>
 {
     public:
         TextManager();
+        TextManager(vector2D pos, vector2D size, color_e color, std::string content, std::string fontPath);
         TextManager(const TextManager &);
         ~TextManager();
 

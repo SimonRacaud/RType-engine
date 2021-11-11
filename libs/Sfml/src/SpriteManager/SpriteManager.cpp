@@ -12,6 +12,10 @@ SpriteManager::SpriteManager(): _pos(), _size(), _path(), _sprite(nullptr), _tex
 {
 }
 
+SpriteManager::SpriteManager(vector2D pos, vector2D size, std::string path) : _pos(pos), _size(size), _path(path), _sprite(nullptr), _texture(nullptr)
+{
+}
+
 SpriteManager::SpriteManager(const SpriteManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture)
 {
 }

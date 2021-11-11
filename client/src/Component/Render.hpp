@@ -21,6 +21,16 @@ namespace Engine
         Render() = delete;
         virtual ~Render() = default;
 
+        void replaceLastRender(size_t newV)
+        {
+            this->_pos[this->_pos.size() - 1] = newV;
+        }
+
+        void replaceRender(size_t old, size_t newV)
+        {
+            std::replace(this->_pos.begin(), this->_pos.end(), old, newV);
+        }
+
         void setRender(size_t pos)
         {
             if (pos < _src.size())

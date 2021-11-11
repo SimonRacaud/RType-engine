@@ -68,6 +68,10 @@ namespace Engine {
 					_queue.push(e);
 				}
 
+				void registerEvent(std::shared_ptr<Engine::Event::IEvent> e) {
+					_queue.push(e);
+				}
+
 			private:
 				template<class EventType>
 				void checkType() {

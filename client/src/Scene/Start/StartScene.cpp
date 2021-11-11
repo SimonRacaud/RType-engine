@@ -9,6 +9,7 @@
 */
 
 #include "GameCore/GameCore.hpp"
+#include "Entities/Button/Button.hpp"
 
 #include "StartScene.hpp"
 #include "Component/Render.hpp"
@@ -49,6 +50,10 @@ void StartScene::open()
         auto pos = GameCore::event->getMousePos();
         std::cout << "Mouse pos -> {" << pos.x << ", " << pos.y << "}" << std::endl;
     });
+
+    GameCore::reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
+    GameCore::reg->registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
+    Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
 
     /// Select needed systems
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();

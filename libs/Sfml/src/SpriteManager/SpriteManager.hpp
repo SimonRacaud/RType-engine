@@ -15,6 +15,7 @@ class SpriteManager: public ISpriteManager<renderToolSfml>
 {
     public:
         SpriteManager();
+        SpriteManager(vector2D pos, vector2D size, std::string path);
         SpriteManager(const SpriteManager &);
         ~SpriteManager();
 
