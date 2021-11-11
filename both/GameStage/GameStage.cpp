@@ -17,6 +17,7 @@ GameStage::GameStage(const std::string &path) : _content(this->readFile(path))
     this->checkFormat();
     this->extract();
     this->sort();
+    this->_content.clear();
 }
 
 GameStage::GameStage(std::vector<std::string> file) : _content(file)
@@ -27,6 +28,7 @@ GameStage::GameStage(std::vector<std::string> file) : _content(file)
     this->checkFormat();
     this->extract();
     this->sort();
+    this->_content.clear();
 }
 
 GameStage::~GameStage()
@@ -70,10 +72,73 @@ std::string GameStage::getStageNext() const
 
 void GameStage::sort()
 {
+    std::sort(this->_step.begin(), this->_step.end(), [](StageStep a, StageStep b) {
+        return a._time > b._time;
+    });
 }
 
 void GameStage::extract()
 {
+    this->extractHeader();
+    this->extractStep();
+    this->extractEnded();
+}
+
+void GameStage::extractStep()
+{
+    EntityType type;
+    std::size_t time;
+    std::string aiPath;
+    std::pair<std::size_t, std::size_t> pos;
+    std::vector<std::string> split;
+
+    for (size_t y = 1; y < this->_content.size() - 1; y++) {
+        split = this->splitToken(this->_content[y], ' ');
+        if (split.size() != 5)
+            throw std::invalid_argument("Invalid split length");
+        type = this->extractEntityType(split[1]);
+        aiPath = split[4].substr(1, split[4].size() - 2);
+        try {
+            time = std::stoi(split[0]);
+            pos.first = std::stoi(split[2].substr(1, split[2].size() - 2));
+            pos.second = std::stoi(split[3].substr(0, split[3].size() - 2));
+        } catch (...) {
+            throw std::invalid_argument("Invalid integer");
+        }
+        this->_step.push_back(StageStep(type, time, aiPath, pos));
+    }
+}
+
+void GameStage::extractEnded()
+{
+    std::vector<std::string> split = this->splitToken(this->_content[this->_content.size() - 1], ' ');
+
+    if (split.size() != 2)
+        throw std::invalid_argument("Invalid split length");
+    this->_ended.nextStage = split[1].substr(1, split[1].size() - 2);
+}
+
+void GameStage::extractHeader()
+{
+    std::vector<std::string> split = this->splitToken(this->_content[0], ' ');
+
+    if (split.size() != 3)
+        throw std::invalid_argument("Invalid split length");
+    this->_header.background = split[1].substr(1, split[1].size() - 2);
+    try {
+        this->_header.lvl = std::stoi(split[2]);
+    } catch (...) {
+        throw std::invalid_argument("Invalid lvl");
+    }
+}
+
+EntityType GameStage::extractEntityType(const std::string &str) const
+{
+    for (auto &it : this->_link) {
+        if (it.first == str)
+            return it.second;
+    }
+    throw std::invalid_argument("Invalid enum value");
 }
 
 void GameStage::applyFormat()
@@ -109,6 +174,17 @@ void GameStage::checkFormat() const
     // Orignial regex -> ^XXXX "[0-9a-zA-Z\/_\-\.]*"$
     if (GameStage::matchWithRegex(this->_content[this->_content.size() - 1], "^XXXX \"[0-9a-zA-Z\\/_\\-\\.]*\"$"))
         throw std::invalid_argument("Invalid line Ended (l. " + std::to_string(this->_content.size() - 1) + ")");
+}
+
+std::vector<std::string> GameStage::splitToken(const std::string &line, char token) const
+{
+    std::vector<std::string> output;
+    std::stringstream ss(line);
+    std::string splited;
+
+    while (std::getline(ss, splited, token))
+        output.push_back(splited);
+    return output;
 }
 
 std::vector<std::string> GameStage::readFile(const std::string &filepath) const

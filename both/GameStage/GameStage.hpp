@@ -37,6 +37,11 @@ class GameStage : public IGameStage
         void extract();
         void applyFormat();
         void checkFormat() const;
+        void extractStep();
+        void extractEnded();
+        void extractHeader();
+        EntityType extractEntityType(const std::string &) const;
+        std::vector<std::string> splitToken(const std::string &, char) const;
         std::vector<std::string> readFile(const std::string &) const;
         static bool matchWithRegex(const std::string &sample, const std::string &regex);
 
@@ -45,6 +50,14 @@ class GameStage : public IGameStage
         std::vector<StageStep> _step;
         HeaderData _header;
         EndedData _ended;
+        const std::vector<std::pair<std::string, EntityType>> _link = {
+            {"BONUS_HP", EntityType::BONUS_HP},
+            {"BONUS_SPEED", EntityType::BONUS_SPEED},
+            {"ENEMY_PLANE_1", EntityType::ENEMY_PLANE_1},
+            {"ENEMY_PLANE_2", EntityType::ENEMY_PLANE_2},
+            {"ENEMY_ALIEN_EASY", EntityType::ENEMY_ALIEN_EASY},
+            {"ENEMY_ALIEN_HARD", EntityType::ENEMY_ALIEN_HARD},
+        };
 };
 
 #endif
