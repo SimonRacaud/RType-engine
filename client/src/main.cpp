@@ -5,13 +5,16 @@
 ** simon
 */
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
+#include "GameCore/GameCore.hpp"
 
-void func();
-
-int main()
+int main(void)
 {
-    func();
-    return 0;
+    try {
+        GameCore core;
+
+        core.run();
+    } catch (...) {
+        std::cout << "ERROR: Invalid exit status" << std::endl;
+    }
+    return EXIT_SUCCESS;
 }

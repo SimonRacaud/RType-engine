@@ -7,8 +7,8 @@
 
 cmake_minimum_required(VERSION 3.17)
 
-#set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(NAME_CLIENT r-type_client)
@@ -29,7 +29,18 @@ include_directories(./include)
 ## SOURCES
 set(CLIENT_SRCS
         client/src/main.cpp
-        )
+        client/src/Scene/Start/StartScene.cpp
+        client/src/System/RenderSystem/RenderSystem.cpp
+        client/src/System/LogPosition/LogPositionSystem.cpp
+        client/src/System/InputEventSystem/InputEventSystem.cpp
+        client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
+        client/src/Scene/Debug/DebugScene.cpp
+        client/src/Events/TimerEvent.hpp
+        client/src/GameCore/GameCore.cpp
+        client/src/Entities/Button/Button.cpp
+        client/src/Component/Scroll.hpp
+        client/src/System/ScrollSystem/ScrollSystem.cpp
+        client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp)
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
@@ -38,7 +49,7 @@ target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
 if (MSVC)
     target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
 else ()
-    target_compile_options(${NAME_CLIENT} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
+    target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
 
 set_target_properties(${NAME_CLIENT}
@@ -51,6 +62,7 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
+        ./server/src/GameStage/GameStage.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
@@ -69,14 +81,13 @@ set_target_properties(${NAME_SERVER}
         )
 
 ## GAME-ENGINE (client & server)
-##set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
-##add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
-##include_directories(${GAME_ENGINE_DIR}/include)
-##include_directories(${GAME_ENGINE_DIR}/src)
-##link_libraries(gameEngine)
+set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
+add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
+include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
+link_libraries(gameEngine)
 
 ## CONFIG_FILE (client & server)
-set(ConfigFileDir ${PROJECT_SOURCE_DIR}/lib/ConfigFile)
+set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)
 add_subdirectory(${ConfigFileDir})
 include_directories(${ConfigFileDir}/include)
 include_directories(${ConfigFileDir}/src/ConfigFileTools)
@@ -84,7 +95,7 @@ target_link_libraries(${NAME_CLIENT} ConfigFile)
 target_link_libraries(${NAME_SERVER} ConfigFile)
 
 ## SFML (client)
-set(SfmlDir ${PROJECT_SOURCE_DIR}/lib/Sfml)
+set(SfmlDir ${PROJECT_SOURCE_DIR}/libs/Sfml)
 add_subdirectory(${SfmlDir})
 include_directories(${SfmlDir}/include)
 include_directories(${SfmlDir}/src)
