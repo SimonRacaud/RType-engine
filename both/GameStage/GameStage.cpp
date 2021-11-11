@@ -95,7 +95,7 @@ std::string GameStage::getStageNext() const
 void GameStage::sort()
 {
     std::sort(this->_step.begin(), this->_step.end(), [](StageStep a, StageStep b) {
-        return a._time > b._time;
+        return a._time < b._time;
     });
 }
 
@@ -123,7 +123,7 @@ void GameStage::extractStep()
         try {
             time = std::stoi(split[0]);
             pos.first = std::stoi(split[2].substr(1, split[2].size() - 2));
-            pos.second = std::stoi(split[3].substr(0, split[3].size() - 2));
+            pos.second = std::stoi(split[3].substr(0, split[3].size() - 1));
         } catch (...) {
             throw std::invalid_argument("Invalid integer");
         }
@@ -185,16 +185,16 @@ void GameStage::applyFormat()
 void GameStage::checkFormat() const
 {
     // Orignial regex -> ^XXXX "[0-9a-zA-Z\/_\-\.]*" [0-9]*$
-    if (GameStage::matchWithRegex(this->_content[0], "^XXXX \"[0-9a-zA-Z\\/_\\-\\.]*\" [0-9]*$"))
+    if (!GameStage::matchWithRegex(this->_content[0], "^XXXX \"[0-9a-zA-Z\\/_\\-\\.]*\" [0-9]*$"))
         throw std::invalid_argument("Invalid line header (l. 0)");
     for (size_t y = 1; y < this->_content.size() - 1; y++) {
-        // Original regex -> ^[0-9]{4} [0-9a-zA-Z]* {[0-9]*, [0-9]*} "[0-9a-zA-Z\/_\-\.]*"$
-        if (GameStage::matchWithRegex(this->_content[y], "^[0-9]{4} [0-9a-zA-Z]* {[0-9]*, [0-9]*} \"[0-9a-zA-Z\\/_\\-\\.]*\"$")) {
-            throw std::invalid_argument("Invalid line " + y);
+        // Original regex -> ^[0-9]{4} [0-9a-zA-Z_]* {[0-9]*, [0-9]*} "[0-9a-zA-Z\/_\-\.]*"$
+        if (!GameStage::matchWithRegex(this->_content[y], "^[0-9]{4} [0-9a-zA-Z_]* \\{[0-9]*, [0-9]*\\} \"[0-9a-zA-Z\\/_\\-\\.]*\"$")) {
+            throw std::invalid_argument("Invalid line " + std::to_string(y));
         }
     }
     // Orignial regex -> ^XXXX "[0-9a-zA-Z\/_\-\.]*"$
-    if (GameStage::matchWithRegex(this->_content[this->_content.size() - 1], "^XXXX \"[0-9a-zA-Z\\/_\\-\\.]*\"$"))
+    if (!GameStage::matchWithRegex(this->_content[this->_content.size() - 1], "^XXXX \"[0-9a-zA-Z\\/_\\-\\.]*\"$"))
         throw std::invalid_argument("Invalid line Ended (l. " + std::to_string(this->_content.size() - 1) + ")");
 }
 

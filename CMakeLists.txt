@@ -42,7 +42,7 @@ set(CLIENT_SRCS
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
-target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
+target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include both)
 
 if (MSVC)
     target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
@@ -65,7 +65,7 @@ set(SERVER_SRCS
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include)
+target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include both)
 
 if (MSVC)
     target_compile_options(${NAME_SERVER} PRIVATE /W4 /WX)
