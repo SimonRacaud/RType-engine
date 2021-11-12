@@ -24,6 +24,7 @@ namespace Network
     {
         class GetRoomList : public ISerializable<GetRoomList> {
           public:
+            GetRoomList() = default;
             GetRoomList(std::vector<size_t> const &roomIdList);
             virtual ~GetRoomList();
 
@@ -41,12 +42,13 @@ namespace Network
             for (size_t i = 0; i < roomIdList.size(); i++) {
                 this->list[i] = roomIdList[i];
             }
+            this->nbItem = roomIdList.size();
         }
 
         GetRoomList::~GetRoomList()
         {
-            if (list) {
-                delete[] list;
+            if (this->list != nullptr) {
+                delete[] this->list;
             }
         }
 
@@ -57,10 +59,14 @@ namespace Network
             GetRoomList *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
             // nb item
-            std::memcpy(buffer, (void*)this, sizeof(size_t));
+            std::memcpy(buffer, (void*)this, sizeof(GetRoomList));
             // list
-            ptr->list = reinterpret_cast<size_t *>(buffer + (sizeof(size_t) + sizeof(size_t *)));
-            std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
+            ptr->list = reinterpret_cast<size_t *>(buffer + sizeof(GetRoomList));
+            if (this->list != nullptr) {
+                std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
+            } else {
+                ptr->list = nullptr;
+            }
             return buffer;
         }
 
@@ -69,7 +75,7 @@ namespace Network
             GetRoomList *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
             this->nbItem = ptr->nbItem;
-            if (this->list == nullptr) {
+            if (ptr->list == nullptr) {
                 this->list = nullptr;
             } else {
                 this->list = new size_t[this->nbItem];
@@ -79,7 +85,7 @@ namespace Network
 
         size_t GetRoomList::length() const
         {
-            return sizeof(size_t) * (this->nbItem + 1) + sizeof(size_t *);
+            return sizeof(GetRoomList) + (sizeof(size_t) * this->nbItem);
         }
     }
 }
