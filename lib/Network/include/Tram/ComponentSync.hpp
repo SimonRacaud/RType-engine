@@ -14,6 +14,7 @@
 #include <inttypes.h>
 #include <stddef.h>
 #include "utils/timeDef.hpp"
+#include <typeindex>
 
 namespace Tram {
     struct ComponentSync {
@@ -25,6 +26,10 @@ namespace Tram {
          * @brief action timestamp (rollback)
          */
         Time timestamp;
+        /**
+         * @brief Component type
+         */
+        size_t componentType;
         /**
          * @brief size of the component
          */
