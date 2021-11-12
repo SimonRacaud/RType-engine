@@ -27,6 +27,7 @@ include_directories(
 set(SRCS
         src/NetworkException.cpp
         src/Tram/ComponentSync.cpp
+        src/Tram/CreateEntityReply.cpp
         )
 
 ## TARGET

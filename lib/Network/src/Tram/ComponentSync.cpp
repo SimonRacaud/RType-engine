@@ -12,6 +12,12 @@
 
 using namespace Network::Tram;
 
+ComponentSync::ComponentSync(uint32_t networkId, Time timestamp, const std::type_index &componentType,
+    size_t componentSize, void *component)
+    : networkId(networkId), timestamp(timestamp), componentType(componentType.hash_code()),
+      componentSize(componentSize), component(component)
+{}
+
 ComponentSync::~ComponentSync()
 {
     if (component != nullptr) {

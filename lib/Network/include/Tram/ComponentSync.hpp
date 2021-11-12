@@ -28,7 +28,8 @@ namespace Network
 
         class ComponentSync : public ISerializable<ComponentSync> {
           public:
-            ComponentSync() = default;
+            ComponentSync(uint32_t networkId, Time timestamp, std::type_index const &componentType,
+                size_t componentSize, void *component);
             virtual ~ComponentSync();
 
             /**
