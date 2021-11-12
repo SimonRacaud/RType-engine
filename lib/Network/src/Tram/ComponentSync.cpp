@@ -28,15 +28,15 @@ ComponentSync::~ComponentSync()
 
 uint8_t *ComponentSync::deserialize()
 {
-    this->size = COMP_SYNC_HEAD_SIZE + this->componentSize;
+    this->size = this->length() + this->componentSize;
     if (this->component == nullptr) {
         throw std::logic_error("ComponentSync::deserialize null component");
     }
     uint8_t *buffer = new uint8_t[this->size];
     ComponentSync *ptr = reinterpret_cast<ComponentSync *>(buffer);
 
-    std::memcpy(buffer, this, COMP_SYNC_HEAD_SIZE); // copy header
-    ptr->component = static_cast<void *>(buffer + COMP_SYNC_HEAD_SIZE); // update header ptr
+    std::memcpy(buffer, this, sizeof(ComponentSync)); // copy header
+    ptr->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header ptr
     std::memcpy(ptr->component, this->component, this->componentSize); // copy body
     return buffer;
 }
@@ -65,3 +65,7 @@ ComponentSync &ComponentSync::operator=(ComponentSync &other)
     return *this;
 }
 
+size_t ComponentSync::length()
+{
+    return sizeof(ComponentSync) + this->componentSize;
+}
