@@ -7,6 +7,7 @@
 
 #include <regex>
 #include <fstream>
+#include <sstream>
 #include "GameStage.hpp"
 
 GameStage::GameStage(const std::string &path) : _content(this->readFile(path))

@@ -32,15 +32,16 @@ set(SRCS
     src/AnimationManager/AnimationManager.cpp
     src/AudioManager/MusicManager/MusicManager.cpp
     src/AudioManager/SoundManager/SoundManager.cpp
+    src/SfmlApiManager/SfmlApiManager.cpp
     )
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
+#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 add_library(${NAME} SHARED ${SRCS})
 
-if (MSVC)
-    target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
+if (WIN32)
+    target_compile_options(${NAME_CLIENT} PRIVATE)
 else ()
     target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
