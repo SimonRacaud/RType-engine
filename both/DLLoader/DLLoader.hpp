@@ -32,7 +32,7 @@ template <typename T> class DLLoader {
     static T *getEntryPoint(std::string filePath)
     {
         LIBTYPE handle = NULL;
-        T *(*instance)(void);
+        T *(*instance)(void) = nullptr;
         T *ptr = NULL;
         // const char *error = NULL;
 
