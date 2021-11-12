@@ -27,7 +27,6 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
-#include "DLLoader/DLLoader.hpp"
 
 //SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();

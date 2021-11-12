@@ -22,6 +22,7 @@ conan_basic_setup()
 
 ## GLOBAL INCLUDES
 include_directories(./include)
+include_directories(./server/src/DLLoader)
 
 ##
 ## CLIENT
@@ -38,18 +39,14 @@ set(CLIENT_SRCS
         client/src/Scene/Debug/DebugScene.cpp
         client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
-<<<<<<< HEAD
         client/src/Entities/Button/Button.cpp
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
-        client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp)
-=======
-        both/GameStage/GameStage.cpp
-        both/DLLoader/DLLoader.hpp
+        client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp
+        server/src/DLLoader/DLLoader.hpp
         )
->>>>>>> debug/windows-compilation
 
-add_executable(${NAME_CLIENT} ${CLIENT_SRCS} "both/DLLoader/DLLoader.hpp")
+add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
 
@@ -70,9 +67,10 @@ set_target_properties(${NAME_CLIENT}
 set(SERVER_SRCS
         ./server/src/main.cpp
         ./server/src/GameStage/GameStage.cpp
+        ./server/src/DLLoader/DLLoader.hpp
         )
 
-add_executable(${NAME_SERVER} ${SERVER_SRCS} "both/DLLoader/DLLoader.hpp")
+add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
 target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include)
 
