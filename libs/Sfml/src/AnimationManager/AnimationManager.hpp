@@ -11,6 +11,7 @@
 #include "build.hpp"
 #include "FrameRateLimiter.hpp"
 #include "Interface/IAnimationManager.hpp"
+#include "Item/vector2f.hpp"
 
 class AnimationManager: public IAnimationManager<renderToolSfml>
 {
@@ -19,9 +20,9 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         AnimationManager(const AnimationManager &);
         ~AnimationManager();
 
-        const vector2D &getSize();
+        const vector2f &getScale();
         const vector2D &getPosition();
-        void setSize(const vector2D &);
+        void setScale(const vector2f &);
         void setPosition(const vector2D &);
         void setSrcPath(const std::string &);
         void draw(renderToolSfml &render);
@@ -39,7 +40,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
 
     private:
         vector2D _pos;
-        vector2D _size;
+        vector2f _size;
         std::string _path;
         std::shared_ptr<sf::Sprite> _sprite;
         std::shared_ptr<sf::Texture> _texture;

@@ -8,15 +8,19 @@
 #include "SpriteManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-SpriteManager::SpriteManager(): _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr)
+SpriteManager::SpriteManager()
+    : _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr)
 {
 }
 
-SpriteManager::SpriteManager(vector2D pos, vector2D size, std::string path) : _pos(pos), _size(size), _path(path), _sprite(nullptr), _texture(nullptr)
+SpriteManager::SpriteManager(vector2D pos, vector2f scale, std::string path)
+    : _pos(pos), _size(scale), _path(path), _sprite(nullptr), _texture(nullptr)
 {
 }
 
-SpriteManager::SpriteManager(const SpriteManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture)
+SpriteManager::SpriteManager(const SpriteManager &src)
+    : _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite),
+      _texture(src._texture)
 {
 }
 
@@ -28,7 +32,7 @@ SpriteManager::~SpriteManager()
         this->_sprite.reset();
 }
 
-const vector2D &SpriteManager::getSize()
+const vector2f &SpriteManager::getScale()
 {
     return this->_size;
 }
@@ -38,9 +42,9 @@ const vector2D &SpriteManager::getPosition()
     return this->_pos;
 }
 
-void SpriteManager::setSize(const vector2D &size)
+void SpriteManager::setScale(const vector2f &scale)
 {
-    this->_size = size;
+    this->_size = scale;
 }
 
 void SpriteManager::setPosition(const vector2D &pos)
