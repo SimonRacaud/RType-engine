@@ -19,7 +19,7 @@ namespace Singly
         public:
             FrameRateLimiter(float frameRate, std::function<functionType> func) : _billion(1000000000), _frameRate(frameRate), _func(func)
             {
-                _lastReference = std::chrono::high_resolution_clock::now();
+                _lastReference = std::chrono::steady_clock::now();
             }
             ~FrameRateLimiter() = default;
 
@@ -35,7 +35,7 @@ namespace Singly
                 size_t nb_it = 0;
                 size_t nb_sec = 0;
                 long double nb_nsec = 0;
-                auto start = std::chrono::high_resolution_clock::now();
+                auto start = std::chrono::steady_clock::now();
 
                 //nb_sec = std::chrono::time_point_cast<std::chrono::seconds>(
                     //start - _lastReference);
@@ -46,7 +46,7 @@ namespace Singly
                     start.time_since_epoch() - _lastReference.time_since_epoch()).count();
                 nb_it = (nb_sec + (nb_nsec / this->_billion)) * this->_frameRate;
                 if (nb_it != 0)
-                    _lastReference = std::chrono::high_resolution_clock::now();
+                    _lastReference = std::chrono::steady_clock::now();
                 return nb_it;
             }
 

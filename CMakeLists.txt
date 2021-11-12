@@ -85,7 +85,7 @@ set_target_properties(${NAME_SERVER}
 
 ## GAME-ENGINE (client & server)
 set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
-add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/ ${PROJECT_SOURCE_DIR}/build/lib)
+add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 target_link_libraries(${NAME_CLIENT} gameEngine)
 

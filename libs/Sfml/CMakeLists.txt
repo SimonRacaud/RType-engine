@@ -30,6 +30,7 @@ set(SRCS
     src/AnimationManager/AnimationManager.cpp
     src/AudioManager/MusicManager/MusicManager.cpp
     src/AudioManager/SoundManager/SoundManager.cpp
+    src/SfmlApiManager/SfmlApiManager.cpp
     )
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
