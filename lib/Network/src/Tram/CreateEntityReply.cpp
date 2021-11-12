@@ -29,3 +29,8 @@ void CreateEntityReply::serialize(uint8_t *buffer)
     this->entityId = ptr->entityId;
     this->networkId = ptr->networkId;
 }
+
+size_t CreateEntityReply::length() const
+{
+    return sizeof(CreateEntityReply);
+}

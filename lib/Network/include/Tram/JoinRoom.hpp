@@ -23,9 +23,10 @@ namespace Network
     {
         class JoinRoom : public ISerializable<JoinRoom> {
           public:
+            JoinRoom() = default;
             JoinRoom(size_t roomId) : roomId(roomId) {};
 
-            size_t roomId;
+            size_t roomId{0};
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);

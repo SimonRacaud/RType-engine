@@ -33,7 +33,7 @@ namespace Network {
          * @brief Tram data size
          * @return
          */
-        virtual size_t length() = 0;
+        virtual size_t length() const = 0;
     };
 }
 

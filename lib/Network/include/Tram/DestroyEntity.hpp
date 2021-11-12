@@ -22,11 +22,12 @@ namespace Network
     {
         class DestroyEntity : public ISerializable<DestroyEntity> {
           public:
+            DestroyEntity() = default;
             DestroyEntity(uint32_t networkId) : networkId(networkId) {}
             /**
              * @brief Network id of the entity
              */
-            uint32_t networkId;
+            uint32_t networkId{0};
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);

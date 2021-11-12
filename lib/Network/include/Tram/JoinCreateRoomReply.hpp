@@ -24,11 +24,12 @@ namespace Network
     {
         class JoinCreateRoomReply : public ISerializable<JoinCreateRoomReply> {
           public:
+            JoinCreateRoomReply() = default;
             JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp);
 
             bool accept{false};
-            size_t roomId;
-            Time startTimestamp;
+            size_t roomId{0};
+            Time startTimestamp{0};
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);

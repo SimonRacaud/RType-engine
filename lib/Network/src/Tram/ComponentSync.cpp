@@ -65,7 +65,7 @@ ComponentSync &ComponentSync::operator=(ComponentSync &other)
     return *this;
 }
 
-size_t ComponentSync::length()
+size_t ComponentSync::length() const
 {
     return sizeof(ComponentSync) + this->componentSize;
 }

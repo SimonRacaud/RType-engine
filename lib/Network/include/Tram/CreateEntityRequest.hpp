@@ -26,13 +26,14 @@ namespace Network
 
         class CreateEntityRequest : public ISerializable<CreateEntityRequest> {
           public:
+            CreateEntityRequest() = default;
             CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp)
                 : entityId(entityId), entityType(entityType), timestamp(timestamp) {}
 
             /**
              * @brief private id of the entity
              */
-            uint32_t entityId;
+            uint32_t entityId{0};
             /**
              * @brief type of the entity factory ex: "player", "enemy"
              * @brief a confirmer

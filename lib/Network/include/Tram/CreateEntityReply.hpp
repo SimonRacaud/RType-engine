@@ -22,30 +22,26 @@ namespace Network
     {
         class CreateEntityReply : public ISerializable<CreateEntityReply> {
           public:
+            CreateEntityReply() = default;
             CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId)
                 : accept(accept), entityId(entityId), networkId(networkId) {}
             /**
              * @brief if the request was accepted
              */
-            bool accept;
+            bool accept{false};
             /**
              * @brief private id of the local entity
              */
-            uint32_t entityId;
+            uint32_t entityId{0};
             /**
              * @brief new network id of the entity
              */
-            uint32_t networkId;
+            uint32_t networkId{0};
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
             virtual size_t length() const;
         };
-
-        size_t CreateEntityReply::length() const
-        {
-            return sizeof(CreateEntityReply);
-        }
     }
 }
 

@@ -63,7 +63,7 @@ namespace Network
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
             ComponentSync &operator=(ComponentSync &other);
-            virtual size_t length();
+            virtual size_t length() const;
         };
     }
 }
