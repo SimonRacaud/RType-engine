@@ -16,6 +16,6 @@ std::string PathGetter::getPath(std::string &str)
 		windows = true;
 	#endif
 
-	
+		
 
 }

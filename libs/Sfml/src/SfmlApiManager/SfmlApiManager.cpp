@@ -7,7 +7,8 @@
 
 #include "SfmlApiManager.hpp"
 
-SfmlApiManager::SfmlApiManager() : _windowManager(std::make_shared<WindowManager>())
+SfmlApiManager::SfmlApiManager() 
+	: _windowManager(std::make_shared<WindowManager>()), _animationManager(std::make_shared<AnimationManager>()), _musicManager(std::make_shared<MusicManager>()), _soundManager(std::make_shared<SoundManager>())
 {
 }
 
