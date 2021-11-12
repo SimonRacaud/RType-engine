@@ -39,4 +39,11 @@ struct MoveDown : public Engine::Event::AbstractEvent<MoveDown> {
 	Engine::Entity _entityId;
 };
 
+struct NotMoving : public Engine::Event::AbstractEvent<NotMoving> {
+	NotMoving(Engine::Entity entity) : _entityId(entity) {}
+	~NotMoving() = default;
+
+	Engine::Entity _entityId;
+};
+
 #endif /* !MOVEEVENTS_HPP_ */

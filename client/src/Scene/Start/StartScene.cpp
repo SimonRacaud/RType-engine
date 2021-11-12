@@ -20,6 +20,7 @@
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
 
 using namespace Scene;
 
@@ -34,7 +35,6 @@ void StartScene::open()
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
 
     // Create entities here...
@@ -50,7 +50,7 @@ void StartScene::open()
 
     componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &) {
         auto pos = GameCore::event->getMousePos();
-        std::cout << "Mouse pos -> {" << pos.x << ", " << pos.y << "}" << std::endl;
+        //std::cout << "Mouse pos -> {" << pos.x << ", " << pos.y << "}" << std::endl;
     });
 
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
