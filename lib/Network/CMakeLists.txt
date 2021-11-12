@@ -41,5 +41,15 @@ else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
 
+##
+## CRITERION
+##
+set(NAME_TESTS unit_tests)
+add_executable(${NAME_TESTS}
+        ${SRCS}
+        tests/test_serializer.cpp
+        )
+target_link_libraries(${NAME_TESTS} criterion)
+
 ## CONAN
 target_link_libraries(${NAME} PUBLIC ${CONAN_LIBS})
