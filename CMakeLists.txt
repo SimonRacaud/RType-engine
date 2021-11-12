@@ -41,6 +41,7 @@ set(CLIENT_SRCS
         client/src/GameCore/GameCore.cpp
         client/src/Entities/Button/Button.cpp
         client/src/Entities/Bullet/Bullet.cpp
+        client/src/Entities/ScrollingBackground/ScrollingBackground.cpp
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
         client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp

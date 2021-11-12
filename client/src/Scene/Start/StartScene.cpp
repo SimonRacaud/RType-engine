@@ -11,6 +11,7 @@
 #include "GameCore/GameCore.hpp"
 #include "Entities/Button/Button.hpp"
 #include "Entities/Bullet/Bullet.hpp"
+#include "Entities/ScrollingBackground/ScrollingBackground.hpp"
 
 #include "StartScene.hpp"
 #include "Component/Render.hpp"
@@ -20,6 +21,7 @@
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/ScrollSystem/ScrollSystem.hpp"
 #include "Entities/ImageView/ImageView.hpp"
 #include "Entities/Label/Label.hpp"
 #include "Item/vector2D.hpp"
@@ -49,7 +51,7 @@ void StartScene::open()
         System::RenderSystem,
         System::InputEventSystem>();*/
 
-    Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
+    /*Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
 
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
@@ -83,5 +85,14 @@ void StartScene::open()
 
     /// Select needed systems
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem, Engine::ColliderSystem>();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem, Engine::ColliderSystem>();*/
+
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
+    GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
+
+    ScrollingBackground background(this->getCluster());
+    Button test("button", {110, 110}, {1, 1}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+
+    Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem, System::ScrollSystem>();
 }

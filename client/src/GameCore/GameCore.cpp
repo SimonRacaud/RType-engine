@@ -22,8 +22,10 @@
 #include "Event/AudioEvent/AudioEventPlay.hpp"
 #include "Event/AudioEvent/AudioEventVolume.hpp"
 #include "Component/Render.hpp"
+#include "Component/Scroll.hpp"
 #include "Component/InputEvent.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
+#include "System/ScrollSystem/ScrollSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
@@ -60,6 +62,7 @@ void GameCore::run()
     componentManager.registerComponent<Engine::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
     componentManager.registerComponent<Engine::Timer>();
+    componentManager.registerComponent<Component::Scroll>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
@@ -68,6 +71,7 @@ void GameCore::run()
     systemManager.registerSystem<System::LogPositionSystem>();
     systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
+    systemManager.registerSystem<System::ScrollSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

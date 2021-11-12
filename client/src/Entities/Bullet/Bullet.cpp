@@ -27,7 +27,7 @@ Bullet::Bullet(const vector2D &pos, const vector2D &velocity, const vector2D &si
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
-    std::shared_ptr<AnimationManager> bullet = std::make_unique<AnimationManager>();
+    std::shared_ptr<AnimationManager> bullet = std::make_shared<AnimationManager>();
 
     bullet->setPosition(pos);
     bullet->setFocus(surface(GameCore::config->getVar<vector2D>("BULLET_DEFAULT_ANIMATION_FOCUS_POS"), GameCore::config->getVar<vector2D>("BULLET_DEFAULT_ANIMATION_FOCUS_SIZE")));
