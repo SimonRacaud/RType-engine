@@ -38,6 +38,7 @@ set(CLIENT_SRCS
         client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
         both/GameStage/GameStage.cpp
+        both/DLLoader/DLLoader.hpp
         )
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS} "both/DLLoader/DLLoader.hpp")

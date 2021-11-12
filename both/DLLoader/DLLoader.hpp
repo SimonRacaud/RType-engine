@@ -29,11 +29,11 @@
 
 template <typename T> class DLLoader {
   public:
-    static std::shared_ptr<T> getEntryPoint(std::string filePath)
+    static T *getEntryPoint(std::string filePath)
     {
         LIBTYPE handle = NULL;
-        std::shared_ptr<T> (*instance)(void);
-        std::shared_ptr<T> ptr = NULL;
+        T *(*instance)(void);
+        T *ptr = NULL;
         // const char *error = NULL;
 
         handle = OPENLIB(filePath.c_str());
@@ -43,7 +43,7 @@ template <typename T> class DLLoader {
         //    filePath << std::endl << "Error is : " << error << std::endl;
         //    return nullptr;
         //}
-        *(void **) &instance = LIBFUNC(handle, "entryPoint");
+        *(void **) &instance = LIBFUNC(handle, "initApi");
         // error = dlerror();
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"

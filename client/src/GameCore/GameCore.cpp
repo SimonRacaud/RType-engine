@@ -23,10 +23,14 @@
 #include "Component/InputEvent.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "SfmlApiManager/SfmlApiManager.hpp"
+#include "SfmlApiManager/SfmlApiManager.cpp"
+#include "DLLoader/DLLoader.hpp"
 
+SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
 Engine::Event::EventCallbackRegister *GameCore::reg = new Engine::Event::EventCallbackRegister();
-std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
+std::shared_ptr<IWindowManager> GameCore::window = sfmlManagerEntry->_windowManager;
 std::unique_ptr<IEventManager<renderToolSfml>> GameCore::event = std::make_unique<EventManager>();
 
 GameCore::GameCore()
