@@ -10,6 +10,7 @@
 
 #include "GameCore/GameCore.hpp"
 #include "Entities/Button/Button.hpp"
+#include "Entities/Player/Player.hpp"
 
 #include "StartScene.hpp"
 #include "Component/Render.hpp"
@@ -55,6 +56,7 @@ void StartScene::open()
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
     GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
     Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+    Player popo({40, 40}, {40, 40}, {40, 40}, "asset/gui/button_pressed.png");
 
     // other
     entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);

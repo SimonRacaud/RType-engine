@@ -13,6 +13,7 @@
 #include "Components/EntityLinkComponent.hpp"
 #include "Components/ScoreComponent.hpp"
 #include "Component/InputEvent.hpp"
+#include "AnimationManager/AnimationManager.hpp"
 
 #include "GameCore/GameCore.hpp"
 #include "SpriteManager/SpriteManager.hpp"
@@ -27,16 +28,26 @@ Player::Player(const vector2D &position, const vector2D &size, const vector2D &h
 
 	std::vector<size_t> ps;
 	std::vector<Engine::DrawableObj> renderList;
+	std::shared_ptr<AnimationManager> anim = std::make_shared<AnimationManager>();
 
-	componentManager.add<Engine::Render>(entity, std::make_unique<SpriteManager>(position, size, sprite));
+	anim->setFocus(surface(vector2D(100, 2), vector2D(34, 16)));
+	anim->setNbMember(2);
+	anim->setPosition(position);
+	anim->setSrcPath("asset/sprites/r-typesheet1.gif");
+
+	renderList.push_back(anim);
+	renderList.push_back(std::make_shared<SpriteManager>(position, size, "asset/sprites/r-typesheet1.gif"));
+	ps.push_back(3);
+	ps.push_back(0);
+	componentManager.add<Engine::Render>(entity, renderList, ps);
 	componentManager.add<Engine::Position>(entity, 30, 30);
 	componentManager.add<Engine::Velocity>(entity, 1, 1);
-	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, [](Engine::Entity, Engine::Entity) {
-		std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
-	});
+	// componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, [](Engine::Entity, Engine::Entity) {
+	// 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
+	// });
 	//componentManager.add<Engine::EntityLinkComponent>();
-	componentManager.add<Engine::ScoreComponent>(entity);
-	componentManager.add<Engine::InputEvent>(entity, [position, size](const Engine::Entity &local) {
+	//componentManager.add<Engine::ScoreComponent>(entity);
+	/*componentManager.add<Engine::InputEvent>(entity, [position, size](const Engine::Entity &local) {
 		//TODO when adding keybindings change it here with GameCore setting
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT)) {
 			GET_EVENT_REG.registerEvent<MoveUp>(local);
@@ -47,7 +58,7 @@ Player::Player(const vector2D &position, const vector2D &size, const vector2D &h
 		} else if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN)) {
 			GET_EVENT_REG.registerEvent<MoveDown>(local);
 		}
-	});
+	});*/
 }
 
 Player::~Player()

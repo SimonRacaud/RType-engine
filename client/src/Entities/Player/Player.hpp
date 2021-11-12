@@ -12,7 +12,7 @@
 #include "Event/IEvent.hpp"
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
-#include "vector2D.hpp"
+#include "Item/vector2D.hpp"
 
 class Player {
 	public:
