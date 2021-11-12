@@ -56,16 +56,16 @@ Player::Player(const vector2D &position, const vector2D &size, const vector2D &h
 	componentManager.add<Engine::InputEvent>(entity, [position, size](const Engine::Entity &local) {
 		//TODO when adding keybindings change it here with GameCore setting
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP)) {
-			GET_EVENT_REG.registerEvent<MoveUp>(local);
+			GET_EVENT_REG.registerEvent<MoveUp>(local, 10);
 		}
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_LEFT)) {
-			GET_EVENT_REG.registerEvent<MoveLeft>(local);
+			GET_EVENT_REG.registerEvent<MoveLeft>(local, 10);
 		}
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT)) {
-			GET_EVENT_REG.registerEvent<MoveRight>(local);
+			GET_EVENT_REG.registerEvent<MoveRight>(local, 10);
 		}
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN)) {
-			GET_EVENT_REG.registerEvent<MoveDown>(local);
+			GET_EVENT_REG.registerEvent<MoveDown>(local, 10);
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
 	});

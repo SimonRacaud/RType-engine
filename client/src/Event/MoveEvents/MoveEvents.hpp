@@ -12,31 +12,35 @@
 #include "Event/AbstractEvent/AbstractEvent.hpp"
 
 struct MoveUp : public Engine::Event::AbstractEvent<MoveUp> {
-	MoveUp(Engine::Entity entity) : _entityId(entity) {}
+	MoveUp(Engine::Entity entity, float speed) : _entityId(entity), _speed(speed) {}
 	~MoveUp() = default;
 
 	Engine::Entity _entityId;
+	float _speed;
 };
 
 struct MoveLeft : public Engine::Event::AbstractEvent<MoveLeft> {
-	MoveLeft(Engine::Entity entity) : _entityId(entity) {}
+	MoveLeft(Engine::Entity entity, float speed) : _entityId(entity), _speed(speed) {}
 	~MoveLeft() = default;
 
 	Engine::Entity _entityId;
+	float _speed;
 };
 
 struct MoveRight : public Engine::Event::AbstractEvent<MoveRight> {
-	MoveRight(Engine::Entity entity) : _entityId(entity) {}
+	MoveRight(Engine::Entity entity, float speed) : _entityId(entity), _speed(speed) {}
 	~MoveRight() = default;
 
 	Engine::Entity _entityId;
+	float _speed;
 };
 
 struct MoveDown : public Engine::Event::AbstractEvent<MoveDown> {
-	MoveDown(Engine::Entity entity) : _entityId(entity) {}
+	MoveDown(Engine::Entity entity, float speed) : _entityId(entity), _speed(speed) {}
 	~MoveDown() = default;
 
 	Engine::Entity _entityId;
+	float _speed;
 };
 
 struct NotMoving : public Engine::Event::AbstractEvent<NotMoving> {

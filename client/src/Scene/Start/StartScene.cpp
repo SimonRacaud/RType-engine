@@ -21,6 +21,7 @@
 #include "System/LogPosition/LogPositionSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
+#include "Systems/ColliderSystem/ColliderSystem.hpp"
 
 using namespace Scene;
 
@@ -35,7 +36,7 @@ void StartScene::open()
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::GAME, Engine::EntityName::TEST);
 
     // Create entities here...
 
@@ -47,6 +48,9 @@ void StartScene::open()
     tmp->setContent("mdr");
     tmp->setFont("asset/font/Code-Bold.ttf");
     componentManager.add<Engine::Render>(entity, tmp);
+    componentManager.add<Engine::Hitbox>(entity, 40, 40, [](Engine::Entity, Engine::Entity) {
+        std::cout << "other system hit\n";
+    });
 
     componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &) {
         auto pos = GameCore::event->getMousePos();
@@ -66,5 +70,5 @@ void StartScene::open()
 
     /// Select needed systems
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem>();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem, Engine::ColliderSystem>();
 }

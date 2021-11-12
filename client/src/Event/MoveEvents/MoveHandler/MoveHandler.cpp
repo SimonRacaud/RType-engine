@@ -9,7 +9,6 @@
 
 MoveHandler::MoveHandler()
 {
-	std::cout << "REGISTERING CALLBACKS FOR MOVE\n";
 	GET_EVENT_REG.registerCallback(std::function<void(const MoveUp *)>(moveUp));
 	GET_EVENT_REG.registerCallback(std::function<void(const MoveDown *)>(moveDown));
 	GET_EVENT_REG.registerCallback(std::function<void(const MoveLeft *)>(moveLeft));
@@ -20,26 +19,25 @@ MoveHandler::MoveHandler()
 void moveUp(const MoveUp *e)
 {
 	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
-	velocity.y = -10;
+	velocity.y = -e->_speed;
 }
 
 void moveDown(const MoveDown *e)
 {
 	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
-	std::cout << "SETTING Y VELOCITY TO 1\n";
-	velocity.y = 10;
+	velocity.y = e->_speed;
 }
 
 void moveLeft(const MoveLeft *e)
 {
 	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
-	velocity.x = -10;
+	velocity.x = -e->_speed;
 }
 
 void moveRight(const MoveRight *e)
 {
 	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
-	velocity.x = 10;
+	velocity.x = e->_speed;
 }
 
 void notMoving(const NotMoving *e)
