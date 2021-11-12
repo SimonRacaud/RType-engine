@@ -20,6 +20,7 @@
 #include "System/LogPosition/LogPositionSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "Entities/ImageView/ImageView.hpp"
+#include "Entities/Label/Label.hpp"
 #include "Item/vector2D.hpp"
 
 using namespace Scene;
@@ -35,6 +36,9 @@ void StartScene::open()
 {
     ImageView image("asset/sprites/r-typesheet1.gif",
         vector2D(100, 100), vector2f(0.5, 0.5), this->getCluster());
+
+    Label label(this->getCluster(), 42424242, vector2D(100, 10),
+        vector2D(5, 5), color_e::GREEN);
 
     /// Select needed systems
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
