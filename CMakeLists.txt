@@ -45,7 +45,8 @@ set(CLIENT_SRCS
         client/src/System/ScrollSystem/ScrollSystem.cpp
         client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp
         server/src/DLLoader/DLLoader.hpp
-        )
+        client/src/Entities/ImageView/ImageView.cpp
+        client/src/Entities/Label/Label.cpp)
 
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 

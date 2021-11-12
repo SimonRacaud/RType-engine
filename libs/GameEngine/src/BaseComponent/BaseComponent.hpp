@@ -55,7 +55,7 @@ namespace Engine
     Index BaseComponent<ComponentType>::getIndex()
     {
         if (BaseComponent<ComponentType>::_index == InvalidIndex) {
-            throw NotRegisteredException("Component");
+            throw NotRegisteredException("Component not registered");
         }
         return BaseComponent<ComponentType>::_index;
     }

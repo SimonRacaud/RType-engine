@@ -8,11 +8,18 @@
 #include "AnimationManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-AnimationManager::AnimationManager(): _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr), _offset(), _focus(), _nb(0), _limiter(10, AnimationManager::stepManager), _func(AnimationManager::defaultMove)
+AnimationManager::AnimationManager()
+    : _pos(), _size(), _path(), _sprite(nullptr), _texture(nullptr),
+      _offset(), _focus(), _nb(0), _limiter(10, AnimationManager::stepManager),
+      _func(AnimationManager::defaultMove)
 {
 }
 
-AnimationManager::AnimationManager(const AnimationManager &src): _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite), _texture(src._texture), _offset(src._offset), _focus(src._focus), _nb(src._nb), _limiter(10, AnimationManager::stepManager), _func(AnimationManager::defaultMove)
+AnimationManager::AnimationManager(const AnimationManager &src)
+    : _pos(src._pos), _size(src._size), _path(src._path), _sprite(src._sprite),
+      _texture(src._texture), _offset(src._offset), _focus(src._focus),
+      _nb(src._nb), _limiter(10, AnimationManager::stepManager),
+      _func(AnimationManager::defaultMove)
 {
 }
 
@@ -24,7 +31,7 @@ AnimationManager::~AnimationManager()
         this->_sprite.reset();
 }
 
-const vector2D &AnimationManager::getSize()
+const vector2f &AnimationManager::getScale()
 {
     return this->_size;
 }
@@ -34,9 +41,9 @@ const vector2D &AnimationManager::getPosition()
     return this->_pos;
 }
 
-void AnimationManager::setSize(const vector2D &size)
+void AnimationManager::setScale(const vector2f &scale)
 {
-    this->_size = size;
+    this->_size = scale;
 }
 
 void AnimationManager::setPosition(const vector2D &pos)

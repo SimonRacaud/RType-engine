@@ -15,16 +15,17 @@
 #include "Item/vector2D.hpp"
 #include <string>
 #include <functional>
+#include "Item/vector2f.hpp"
 
 template <typename renderTool>
-class IAnimationManager: public IMovable, public IResizable, public IDrawable<renderTool>
+class IAnimationManager: public IMovable, public IDrawable<renderTool>
 {
     public:
         ~IAnimationManager() = default;
 
-        virtual const vector2D &getSize() = 0;
+        virtual const vector2f &getScale() = 0;
         virtual const vector2D &getPosition() = 0;
-        virtual void setSize(const vector2D &) = 0;
+        virtual void setScale(const vector2f &) = 0;
         virtual void setPosition(const vector2D &) = 0;
         virtual void setSrcPath(const std::string &) = 0;
 

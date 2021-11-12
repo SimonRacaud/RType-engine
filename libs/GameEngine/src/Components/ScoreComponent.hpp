@@ -15,6 +15,7 @@
 
 namespace Engine {
     struct ScoreComponent : public BaseComponent<ScoreComponent> {
+      public:
         ScoreComponent() = default;
         virtual ~ScoreComponent() = default;
 

@@ -20,6 +20,9 @@
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "Entities/ImageView/ImageView.hpp"
+#include "Entities/Label/Label.hpp"
+#include "Item/vector2D.hpp"
 
 using namespace Scene;
 
@@ -32,6 +35,20 @@ StartScene::StartScene()
 
 void StartScene::open()
 {
+    /*ImageView image("asset/sprites/r-typesheet1.gif",
+        vector2D(100, 100), vector2f(0.5, 0.5), this->getCluster());
+
+    Label label(this->getCluster(), 42424242, vector2D(100, 10),
+        vector2D(5, 5), color_e::GREEN);
+
+    /// Select needed systems
+    Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
+    systemManager.selectSystems<
+        Engine::PhysicsSystem,
+        System::LogPositionSystem,
+        System::RenderSystem,
+        System::InputEventSystem>();*/
+
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
 
@@ -56,7 +73,7 @@ void StartScene::open()
 
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
     GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
-    Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+    Button test("button", {110, 110}, {1, 1}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
 
     // other
     entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);

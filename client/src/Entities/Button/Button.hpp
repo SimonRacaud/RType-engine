@@ -11,6 +11,7 @@
 #include <string>
 #include <memory>
 #include "Item/surface.hpp"
+#include "Item/vector2f.hpp"
 #include "Event/IEvent.hpp"
 
 class Button
@@ -20,6 +21,7 @@ class Button
             const std::string &text,
             const vector2D &position,
             const vector2D &size,
+            const vector2f &scale,
             std::shared_ptr<Engine::Event::IEvent> event,
             const std::string &none = "asset/gui/button_pressed.png",
             const std::string &isOn = "asset/gui/button_over.png",
