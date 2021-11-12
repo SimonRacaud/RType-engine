@@ -12,22 +12,37 @@
 #define CREATEENTITYREPLY_HPP
 
 #include <inttypes.h>
+#include <stddef.h>
+#include <cstring>
+#include "ISerializable.hpp"
 
-namespace Tram {
-    struct CreateEntityReply {
-        /**
-         * @brief if the request was accepted
-         */
-        bool accept;
-        /**
-         * @brief private id of the local entity
-         */
-        uint32_t entityPrivate;
-        /**
-         * @brief new network id of the entity
-         */
-        uint32_t networkId;
-    };
+namespace Network
+{
+    namespace Tram
+    {
+        class CreateEntityReply : public ISerializable<CreateEntityReply> {
+          public:
+            CreateEntityReply() = default;
+            CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId)
+                : accept(accept), entityId(entityId), networkId(networkId) {}
+            /**
+             * @brief if the request was accepted
+             */
+            bool accept{false};
+            /**
+             * @brief private id of the local entity
+             */
+            uint32_t entityId{0};
+            /**
+             * @brief new network id of the entity
+             */
+            uint32_t networkId{0};
+
+            virtual uint8_t *deserialize();
+            virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
+        };
+    }
 }
 
 #endif // CREATEENTITYREPLY_HPP
