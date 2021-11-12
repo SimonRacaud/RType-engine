@@ -19,7 +19,7 @@ namespace Engine {
 				AbstractEvent() = default;
 				~AbstractEvent() = default;
 				
-				inline std::type_index getType() const override {
+				virtual std::type_index getType() const override {
 					return type;
 				}
 				static const TypeIdx type;
