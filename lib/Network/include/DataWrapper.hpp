@@ -10,6 +10,7 @@
 
 #include <variant>
 #include "IDataWrapper.hpp"
+#include <type_traits>
 
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
@@ -21,9 +22,16 @@
 #include "Tram/header.hpp"
 
 class DataWrapper : public IDataWrapper {
-    using DataType =
-        std::variant<Tram::ComponentSync, Tram::CreateEntityReply, Tram::CreateEntityRequest, Tram::JoinCreateRoomReply,
-            Tram::DestroyEntity, Tram::GetRoomList, Tram::header, Tram::JoinCreateRoomReply, Tram::JoinRoom>;
+    // todo union ?
+    //  more optimized in memory
+    //  less safe
+
+    // https://www.youtube.com/watch?v=AFsALrqFy_Q]
+    // min 9'40
+
+    // std::monostate
+    using DataType = std::variant<std::monostate, Tram::ComponentSync, Tram::CreateEntityReply,
+        Tram::CreateEntityRequest, Tram::DestroyEntity, Tram::GetRoomList, Tram::JoinCreateRoomReply, Tram::JoinRoom>;
 
   public:
     DataWrapper() = default;
@@ -35,7 +43,8 @@ class DataWrapper : public IDataWrapper {
 
     template <Pointerable Data> void setData(Data &dataToSet);
 
-    template <Pointerable Data> Data getData() const;
+    [[nodiscard]] Tram::TramType getDataType() const;
+    template <Pointerable Data> Data getData();
 
   private:
     DataType _data;
@@ -59,9 +68,36 @@ template <Pointerable Data> void DataWrapper::setData(Data &dataToSet)
     _data = std::forward<Data>(dataToSet);
 }
 
-template <Pointerable Data> [[nodiscard]] Data DataWrapper::getData() const
+template <Pointerable Data> [[nodiscard]] Data DataWrapper::getData()
 {
     return std::get<Data>(_data);
+}
+
+[[nodiscard]] inline Tram::TramType DataWrapper::getDataType() const
+{
+    std::visit(
+        [](const auto &actData) {
+            using T = std::decay_t<decltype(actData)>;
+
+            if constexpr (std::is_same_v<T, Tram::ComponentSync>) {
+                return Tram::TramType::SYNC_COMPONENT;
+            } else if constexpr (std::is_same_v<T, Tram::CreateEntityReply>) {
+                return Tram::TramType::CREATE_ENTITY_REPLY;
+            } else if constexpr (std::is_same_v<T, Tram::CreateEntityRequest>) {
+                return Tram::TramType::CREATE_ENTITY;
+            } else if constexpr (std::is_same_v<T, Tram::JoinCreateRoomReply>) {
+                return Tram::TramType::JOIN_ROOM_REPLY;
+            } else if constexpr (std::is_same_v<T, Tram::DestroyEntity>) {
+                return Tram::TramType::DESTROY_ENTITY;
+            } else if constexpr (std::is_same_v<T, Tram::GetRoomList>) {
+                return Tram::TramType::GET_ROOM_LIST;
+            } else if constexpr (std::is_same_v<T, Tram::JoinRoom>) {
+                return Tram::TramType::JOIN_ROOM;
+            }
+            return Tram::TramType::NONE;
+        },
+        _data);
+    return Tram::TramType::JOIN_ROOM_REPLY;
 }
 
 #endif // R_TYPE_DATAWRAPPER_HPP
