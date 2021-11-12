@@ -30,11 +30,12 @@ namespace Network
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
 
         uint8_t *DestroyEntity::deserialize()
         {
-            size_t size = sizeof(DestroyEntity);
+            size_t size = this->length();
             uint8_t *buffer = new uint8_t[size];
 
             std::memcpy(buffer, (void*)this, size);
@@ -46,6 +47,11 @@ namespace Network
             DestroyEntity *ptr = reinterpret_cast<DestroyEntity *>(buffer);
 
             this->networkId = ptr->networkId;
+        }
+
+        size_t DestroyEntity::length() const
+        {
+            return sizeof(DestroyEntity);
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Network
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
 
         GetRoomList::GetRoomList(const std::vector<size_t> &roomIdList)
@@ -51,7 +52,7 @@ namespace Network
 
         uint8_t *GetRoomList::deserialize()
         {
-            size_t size = sizeof(size_t) * (this->nbItem + 1) + sizeof(size_t *);
+            size_t size = this->length();
             uint8_t *buffer = new uint8_t[size];
             GetRoomList *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
@@ -74,6 +75,11 @@ namespace Network
                 this->list = new size_t[this->nbItem];
                 std::memcpy(this->list, ptr->list, sizeof(size_t) * nbItem);
             }
+        }
+
+        size_t GetRoomList::length() const
+        {
+            return sizeof(size_t) * (this->nbItem + 1) + sizeof(size_t *);
         }
     }
 }

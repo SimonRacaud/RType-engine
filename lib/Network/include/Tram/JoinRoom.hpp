@@ -29,6 +29,7 @@ namespace Network
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
 
         uint8_t *JoinRoom::deserialize()
@@ -45,6 +46,11 @@ namespace Network
             JoinRoom *ptr = reinterpret_cast<JoinRoom *>(buffer);
 
             this->roomId = ptr->roomId;
+        }
+
+        size_t JoinRoom::length() const
+        {
+            return sizeof(JoinRoom);
         }
     } // namespace Tram
 }

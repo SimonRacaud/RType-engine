@@ -45,6 +45,7 @@ namespace Network
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
 
         uint8_t *CreateEntityRequest::deserialize()
@@ -63,6 +64,11 @@ namespace Network
             this->entityId = ptr->entityId;
             this->entityType = ptr->entityType;
             this->timestamp = ptr->timestamp;
+        }
+
+        size_t CreateEntityRequest::length() const
+        {
+            return sizeof(CreateEntityRequest);
         }
     } // namespace Tram
 }

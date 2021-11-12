@@ -60,6 +60,7 @@ namespace Network
              * @param buffer
              */
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
 
         header::header(TramType type, size_t size)
@@ -68,9 +69,10 @@ namespace Network
 
         uint8_t *header::deserialize()
         {
-            uint8_t *buffer = new uint8_t[sizeof(header)];
+            size_t length = this->length();
+            uint8_t *buffer = new uint8_t[length];
 
-            std::memcpy(buffer, (void*)this, sizeof(header));
+            std::memcpy(buffer, (void*)this, length);
             return buffer;
         }
 
@@ -83,6 +85,11 @@ namespace Network
             }
             this->size = ptr->size;
             this->type = ptr->type;
+        }
+
+        size_t header::length() const
+        {
+            return sizeof(header);
         }
     } // namespace Tram
 }

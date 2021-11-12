@@ -19,8 +19,21 @@ namespace Network {
       public:
         virtual ~ISerializable() = default;
 
+        /**
+         * @brief compile data in a buffer
+         * @return
+         */
         virtual uint8_t *deserialize() = 0;
+        /**
+         * @brief extract data from the buffer
+         * @param buffer
+         */
         virtual void serialize(uint8_t *buffer) = 0;
+        /**
+         * @brief Tram data size
+         * @return
+         */
+        virtual size_t length() = 0;
     };
 }
 

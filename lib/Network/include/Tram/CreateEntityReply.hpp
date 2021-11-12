@@ -39,7 +39,13 @@ namespace Network
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
+
+        size_t CreateEntityReply::length() const
+        {
+            return sizeof(CreateEntityReply);
+        }
     }
 }
 

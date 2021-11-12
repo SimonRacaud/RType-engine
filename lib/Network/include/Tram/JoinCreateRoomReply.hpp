@@ -32,6 +32,7 @@ namespace Network
 
             virtual uint8_t *deserialize();
             virtual void serialize(uint8_t *buffer);
+            virtual size_t length() const;
         };
 
         JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp)
@@ -54,6 +55,11 @@ namespace Network
             this->roomId = ptr->roomId;
             this->accept = ptr->accept;
             this->startTimestamp = ptr->startTimestamp;
+        }
+
+        size_t JoinCreateRoomReply::length() const
+        {
+            return sizeof(JoinCreateRoomReply);
         }
     }
 }
