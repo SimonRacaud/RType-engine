@@ -6,6 +6,7 @@
 */
 
 #include "GameCore/GameCore.hpp"
+#include <stdexcept>
 
 int main(void)
 {
@@ -13,8 +14,8 @@ int main(void)
         GameCore core;
 
         core.run();
-    } catch (...) {
-        std::cout << "ERROR: Invalid exit status" << std::endl;
+    } catch (std::exception const &e) {
+        std::cout << "ERROR: Invalid exit status : " << e.what() << std::endl;
     }
     return EXIT_SUCCESS;
 }
