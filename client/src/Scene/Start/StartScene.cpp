@@ -10,6 +10,7 @@
 
 #include "GameCore/GameCore.hpp"
 #include "Entities/Button/Button.hpp"
+#include "Entities/Bullet/Bullet.hpp"
 
 #include "StartScene.hpp"
 #include "Component/Render.hpp"
@@ -38,6 +39,7 @@ void StartScene::open()
 
     // Create entities here...
 
+    Bullet(vector2D(100, 100));
     componentManager.add<Engine::Position>(entity, 10, 10);
     componentManager.add<Engine::Velocity>(entity, 1, 0);
 
@@ -64,5 +66,5 @@ void StartScene::open()
 
     /// Select needed systems
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem>();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem, Engine::ColliderSystem>();
 }
