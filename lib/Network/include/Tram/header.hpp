@@ -18,6 +18,7 @@
 namespace Tram
 {
     enum class TramType {
+        NONE,
         GET_ROOM_LIST,
         ROOM_LIST,
         CREATE_ROOM,
@@ -35,6 +36,7 @@ namespace Tram
         size_t size;
         TramType type;
     };
+
 } // namespace Tram
 
 #endif // HEADER_HPP
