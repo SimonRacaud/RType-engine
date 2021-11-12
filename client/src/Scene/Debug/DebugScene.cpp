@@ -57,6 +57,34 @@ void DebugScene::open()
     //        std::cerr << "En error occurred\n";
     //    }
 
+    //    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    //
+    //    // Create entities here...
+    //
+    //    componentManager.add<Engine::Position>(entity, 10, 10);
+    //    componentManager.add<Engine::Velocity>(entity, 1, 0);
+    //
+    //    std::shared_ptr<TextManager> tmp = std::make_shared<TextManager>();
+    //    tmp->setColor(color_e::RED);
+    //    tmp->setContent("mdr");
+    //    tmp->setFont("asset/font/Code-Bold.ttf");
+    //    componentManager.add<Engine::Render>(entity, tmp);
+    //
+    //    componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &) {
+    //        auto pos = GameCore::event->getMousePos();
+    //        std::cout << "Mouse pos -> {" << pos.x << ", " << pos.y << "}" << std::endl;
+    //    });
+    //
+    //    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/R_Type-01_theme.ogg");
+    //    GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
+    //    Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+    //
+    //    // other
+    //    entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    //    componentManager.add<Engine::Position>(entity, 20, 20);
+    //    std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
+    //    componentManager.add<Engine::Render>(entity, tmp2);
+
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
