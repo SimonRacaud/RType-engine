@@ -16,11 +16,13 @@ SfmlApiManager::~SfmlApiManager()
 }
 
 extern "C" {
-	EXPORTED SfmlApiManager *initApi() {
+    EXPORTED SfmlApiManager *initApi();
+	SfmlApiManager *initApi() {
 		return new SfmlApiManager();
 	}
 
-	EXPORTED void closeApi(SfmlApiManager *ptr) {
+	EXPORTED void closeApi(SfmlApiManager *ptr);
+	void closeApi(SfmlApiManager *ptr) {
 		delete ptr;
 	}
 }
