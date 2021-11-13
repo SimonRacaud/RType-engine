@@ -85,6 +85,7 @@ set(SERVER_SRCS
         ./server/src/ServerCore/ServerCore.cpp
         ./server/src/GameRoomManager/GameRoomManager.cpp
         ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
+        ./server/src/GameRoomManager/PortManager/PortManager.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})

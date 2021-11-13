@@ -9,11 +9,12 @@
 #define GAMEROOMMANAGER_HPP
 
 #include "GameRoom/GameRoom.hpp"
+#include "PortManager/PortManager.hpp"
 
 class GameRoomManager
 {
     public:
-        GameRoomManager(GameRoom::ServerTypeTcp &tcp, GameRoom::ServerTypeUdp &udp);
+        GameRoomManager();
         ~GameRoomManager();
 
         GameRoom::Id createRoom(GameRoom::PlayerList &);
@@ -22,8 +23,7 @@ class GameRoomManager
     private:
         GameRoom::Id _idReference;
         std::vector<GameRoom> _rooms;
-        GameRoom::ServerTypeTcp &_tcp;
-        GameRoom::ServerTypeUdp &_udp;
+        PortManager _port;
 };
 
 #endif
