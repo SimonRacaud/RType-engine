@@ -29,7 +29,7 @@ include_directories(
 
 set(SRC_DIR src/)
 set(COMMON_PROJECT_SRC
-    ../../src/NetworkException.cpp
+    ../../src/Exceptions/NetworkException.cpp
     ../../src/Tram/CreateEntityReply.cpp
     ../../src/Tram/ComponentSync.cpp
     ../../src/Tram/TramBuffer.cpp)
