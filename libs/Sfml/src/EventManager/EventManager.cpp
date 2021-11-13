@@ -87,7 +87,8 @@ void EventManager::fetchEvent(renderToolSfml &render)
         {
             case sf::Event::Event::Closed: tmp->close(); break;
             case sf::Event::MouseMoved: this->mouseFetch(event); break;
-            case sf::Event::EventType::KeyPressed: this->keyboardFetch(event); break;
+            case sf::Event::EventType::KeyPressed: this->keyboardPressedFetch(event); break;
+            case sf::Event::EventType::KeyReleased: this->keyboardReleasedFetch(event); break;
             case sf::Event::EventType::MouseButtonPressed: this->mouseKeyFetch(event); break;
             default: break;
         }
@@ -109,10 +110,18 @@ void EventManager::mouseKeyFetch(const sf::Event &event)
     }
 }
 
-void EventManager::keyboardFetch(const sf::Event &event)
+void EventManager::keyboardPressedFetch(const sf::Event &event)
 {
     try {
         this->_keyStackPressed.push_back(this->_keyLink.at(event.key.code));
+    } catch(...) {
+    }
+}
+
+void EventManager::keyboardReleasedFetch(const sf::Event &event)
+{
+    try {
+        this->_keyStackReleased.push_back(this->_keyLink.at(event.key.code));
     } catch(...) {
     }
 }

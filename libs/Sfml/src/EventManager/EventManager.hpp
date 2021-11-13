@@ -35,7 +35,8 @@ class EventManager: public IEventManager<renderToolSfml>
 
         void mouseFetch(const sf::Event &);
         void mouseKeyFetch(const sf::Event &);
-        void keyboardFetch(const sf::Event &);
+        void keyboardPressedFetch(const sf::Event &);
+        void keyboardReleasedFetch(const sf::Event &);
 
     private:
         vector2D _mouse;
