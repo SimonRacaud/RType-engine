@@ -10,8 +10,8 @@
 #include <functional>
 #include <iostream>
 #include <thread>
+#include "Exceptions/NetworkException.hpp"
 #include "INetwork.hpp"
-#include "NetworkException.hpp"
 #include "utils/ThreadSafety/LockedDeque.hpp"
 #include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
@@ -95,9 +95,8 @@ namespace Network
             return false;
         }
 
-        // Asynchronous operations
-
       private:
+        // Asynchronous operations
         /**
          * @brief Create a thread, which will execute asynchronous actions on
          *  network (accept connections and receive data)
@@ -155,6 +154,12 @@ namespace Network
          * @property _server True if a server, false if a client
          */
         bool _server;
+
+        /**
+         * @property _packetSize The size that is read from the socket when receiving
+         */
+        std::size_t _receivePacketSize;
+        // todo setters, getters and use it
 
         ThreadSafety::LockedDeque<std::pair<const std::string, const std::size_t>> _connections;
 
