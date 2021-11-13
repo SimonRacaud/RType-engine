@@ -9,22 +9,22 @@
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-EventManager::EventManager(): _mouse(), _keyStack()
+EventManager::EventManager(): _mouse(), _keyStackPressed()
 {
 }
 
-EventManager::EventManager(const EventManager &src): _mouse(src._mouse), _keyStack(src._keyStack)
+EventManager::EventManager(const EventManager &src): _mouse(src._mouse), _keyStackPressed(src._keyStackPressed)
 {
 }
 
 EventManager::~EventManager()
 {
-    this->_keyStack.clear();
+    this->_keyStackPressed.clear();
 }
 
 void EventManager::refresh(renderToolSfml &render)
 {
-    this->_keyStack.clear();
+    this->_keyStackPressed.clear();
     this->fetchEvent(render);
 }
 
@@ -33,9 +33,9 @@ bool EventManager::isKeyPressed(const IEventManager::keyEvent_e &key) const
     if (!this->isValideEnum(key))
         throw std::invalid_argument("Invalid key type");
 
-    auto pos = std::find(this->_keyStack.begin(), this->_keyStack.end(), key);
+    auto pos = std::find(this->_keyStackPressed.begin(), this->_keyStackPressed.end(), key);
 
-    return pos != this->_keyStack.end();
+    return pos != this->_keyStackPressed.end();
 }
 
 vector2D EventManager::getMousePos() const
@@ -94,7 +94,7 @@ void EventManager::mouseFetch(const sf::Event &event)
 void EventManager::mouseKeyFetch(const sf::Event &event)
 {
     try {
-        this->_keyStack.push_back(this->_mouseLink.at(event.mouseButton.button));
+        this->_keyStackPressed.push_back(this->_mouseLink.at(event.mouseButton.button));
     } catch(...) {
     }
 }
@@ -102,7 +102,7 @@ void EventManager::mouseKeyFetch(const sf::Event &event)
 void EventManager::keyboardFetch(const sf::Event &event)
 {
     try {
-        this->_keyStack.push_back(this->_keyLink.at(event.key.code));
+        this->_keyStackPressed.push_back(this->_keyLink.at(event.key.code));
     } catch(...) {
     }
 }

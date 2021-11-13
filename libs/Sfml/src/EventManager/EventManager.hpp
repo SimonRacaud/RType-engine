@@ -23,14 +23,15 @@ class EventManager: public IEventManager<renderToolSfml>
         ~EventManager();
 
         void refresh(renderToolSfml &);
-        bool isKeyPressed(const IEventManager<renderToolSfml>::keyEvent_e &) const;
+        bool isKeyPressed(const keyEvent_e &) const;
+        bool isKeyReleased(const keyEvent_e &) const;
         vector2D getMousePos() const;
         bool mouseIsOn(const surface &) const;
-        bool mouseIsOnClick(const surface &, const IEventManager<renderToolSfml>::keyEvent_e &) const;
+        bool mouseIsOnClick(const surface &, const keyEvent_e &) const;
 
     private:
         void fetchEvent(renderToolSfml &);
-        bool isValideEnum(const IEventManager<renderToolSfml>::keyEvent_e &) const;
+        bool isValideEnum(const keyEvent_e &) const;
 
         void mouseFetch(const sf::Event &);
         void mouseKeyFetch(const sf::Event &);
@@ -38,17 +39,17 @@ class EventManager: public IEventManager<renderToolSfml>
 
     private:
         vector2D _mouse;
-        std::vector<IEventManager<renderToolSfml>::keyEvent_e> _keyStack;
-        const std::unordered_map<sf::Keyboard::Key, IEventManager<renderToolSfml>::keyEvent_e> _keyLink = {
-            {sf::Keyboard::Up, IEventManager<renderToolSfml>::keyEvent_e::KEY_UP},
-            {sf::Keyboard::Down, IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN},
-            {sf::Keyboard::Left, IEventManager<renderToolSfml>::keyEvent_e::KEY_LEFT},
-            {sf::Keyboard::Right, IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT},
+        std::vector<keyEvent_e> _keyStackPressed;
+        const std::unordered_map<sf::Keyboard::Key, keyEvent_e> _keyLink = {
+            {sf::Keyboard::Up, keyEvent_e::KEY_UP},
+            {sf::Keyboard::Down, keyEvent_e::KEY_DOWN},
+            {sf::Keyboard::Left, keyEvent_e::KEY_LEFT},
+            {sf::Keyboard::Right, keyEvent_e::KEY_RIGHT},
         };
-        const std::unordered_map<sf::Mouse::Button, IEventManager<renderToolSfml>::keyEvent_e> _mouseLink = {
-            {sf::Mouse::Left, IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_LEFT},
-            {sf::Mouse::Right, IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_RIGHT},
-            {sf::Mouse::Middle, IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_MIDDLE},
+        const std::unordered_map<sf::Mouse::Button, keyEvent_e> _mouseLink = {
+            {sf::Mouse::Left, keyEvent_e::MOUSE_CLICK_LEFT},
+            {sf::Mouse::Right, keyEvent_e::MOUSE_CLICK_RIGHT},
+            {sf::Mouse::Middle, keyEvent_e::MOUSE_CLICK_MIDDLE},
         };
 };
 
