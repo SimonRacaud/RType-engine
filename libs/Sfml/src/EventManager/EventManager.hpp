@@ -44,6 +44,7 @@ class EventManager: public IEventManager<renderToolSfml>
             {sf::Keyboard::Down, IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN},
             {sf::Keyboard::Left, IEventManager<renderToolSfml>::keyEvent_e::KEY_LEFT},
             {sf::Keyboard::Right, IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT},
+            {sf::Keyboard::Space, IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE}
         };
         const std::unordered_map<sf::Mouse::Button, IEventManager<renderToolSfml>::keyEvent_e> _mouseLink = {
             {sf::Mouse::Left, IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_LEFT},
