@@ -26,7 +26,7 @@ concept Pointerable = requires(T a, uint8_t *b)
      */
     {
         a.serialize()
-        } -> std::convertible_to<T *>;
+        } -> std::convertible_to<uint8_t *>;
     //    {
     //        T::serialize(a)
     //        } -> std::convertible_to<uint8_t *>;
