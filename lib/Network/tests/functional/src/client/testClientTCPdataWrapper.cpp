@@ -25,15 +25,14 @@ int testClientConnectSendDisconnectDataWrapper()
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
     Tram::JoinRoom my_data{56};
+    DataWrapper myDataWrapper(my_data.serialize(), my_data.length());
 
-    DataWrapper myData;
-    myData.setData<Tram::JoinRoom>(my_data);
     AsioClientTCP<DataWrapper> client;
     bool connected = client.connect(ipServer, portServer);
 
     if (!connected)
         return 84;
-    client.send(myData, ipServer, portServer);
+    client.send(myDataWrapper, ipServer, portServer);
     client.disconnect(ipServer, portServer);
     return 0;
 }
