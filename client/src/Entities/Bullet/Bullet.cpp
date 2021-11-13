@@ -36,10 +36,10 @@ Bullet::Bullet(const vector2D &pos, const vector2D &velocity, const vector2D &si
 
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
-    componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
+    /*componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
         GameCore::engine.getEntityManager().remove(a);
         GameCore::engine.getEntityManager().remove(b);
         // ADD EXPLOSION ANIMATION
-    });
+    });*/
     componentManager.add<Engine::Render>(entity, bullet);
 }
