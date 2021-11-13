@@ -10,6 +10,11 @@
 
 #define CUSTOM_ENTITY_NAME  \
     TEST,                   \
+    BEAM_PROGRESS,          \
+    NB_PLAYER,              \
+    SCORE,                  \
+    H_SCORE,                \
+
 
 #include "EntityName.hpp"
 

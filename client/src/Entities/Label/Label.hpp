@@ -15,16 +15,19 @@
 #include "Item/vector2D.hpp"
 #include "ColorLink/ColorLink.hpp"
 #include "CustomCluster.hpp"
+#include "EntityName.hpp"
 
 using std::string;
 
 class Label {
   public:
     Label(Engine::ClusterName cluster, string const& content,
-        vector2D const& position, vector2D const& size, color_e color);
+        vector2D const& position, vector2D const& size, color_e color,
+        Engine::EntityName name = Engine::EntityName::EMPTY);
 
     Label(Engine::ClusterName cluster, size_t content,
-        vector2D const& position, vector2D const& size, color_e color);
+        vector2D const& position, vector2D const& size, color_e color,
+        Engine::EntityName name = Engine::EntityName::EMPTY);
     virtual ~Label() = default;
 };
 

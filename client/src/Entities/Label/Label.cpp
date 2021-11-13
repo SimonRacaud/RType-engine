@@ -15,11 +15,12 @@
 #include "TextManager/TextManager.hpp"
 
 Label::Label(Engine::ClusterName cluster, const string &content,
-    const vector2D &position, vector2D const &size, color_e color)
+    const vector2D &position, vector2D const &size, color_e color,
+    Engine::EntityName name)
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
+    Engine::Entity entity = entityManager.create(nullptr, cluster, name);
     string font = GameCore::config->getVar<string>("FONT");
 
     componentManager.add<Engine::Render>(entity,
@@ -28,7 +29,8 @@ Label::Label(Engine::ClusterName cluster, const string &content,
 }
 
 Label::Label(Engine::ClusterName cluster, size_t content,
-    const vector2D &position, vector2D const &size, color_e color)
+    const vector2D &position, vector2D const &size, color_e color,
+    Engine::EntityName name)
 {
-    Label(cluster, std::to_string(content), position, size, color);
+    Label(cluster, std::to_string(content), position, size, color, name);
 }
