@@ -18,7 +18,7 @@ uint8_t *CreateEntityReply::serialize()
     size_t size = sizeof(CreateEntityReply);
     uint8_t *buffer = new uint8_t[size];
 
-    std::memcpy(buffer, this, size);
+    std::memcpy(buffer, (uint8_t *)this, size);
     return buffer;
 }
 

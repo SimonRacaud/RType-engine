@@ -36,7 +36,7 @@ uint8_t *ComponentSync::serialize()
     uint8_t *buffer = new uint8_t[this->size];
     ComponentSync *ptr = reinterpret_cast<ComponentSync *>(buffer);
 
-    std::memcpy(buffer, this, sizeof(ComponentSync));                     // copy header
+    std::memcpy(buffer, (uint8_t *) this, sizeof(ComponentSync));                     // copy header
     ptr->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header ptr
     std::memcpy(ptr->component, this->component, this->componentSize);    // copy body
     return buffer;
