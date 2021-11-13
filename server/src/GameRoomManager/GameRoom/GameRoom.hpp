@@ -21,6 +21,7 @@ class GameRoom
 
     public:
         GameRoom(PlayerList &player, Id id, ServerTypeTcp &tcp, ServerTypeUdp &udp);
+        GameRoom(const GameRoom &) = delete;
         ~GameRoom();
 
         Id getId() const;
@@ -28,6 +29,8 @@ class GameRoom
         void create();
         void run();
         void destroy();
+
+        GameRoom &operator=(const GameRoom &);
 
     private:
         Id _id;
