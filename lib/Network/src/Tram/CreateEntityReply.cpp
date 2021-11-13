@@ -9,10 +9,11 @@
 */
 
 #include "Tram/CreateEntityReply.hpp"
+#include <utility>
 
-using namespace Network::Tram;
+using namespace Tram;
 
-uint8_t *CreateEntityReply::deserialize()
+uint8_t *CreateEntityReply::serialize()
 {
     size_t size = sizeof(CreateEntityReply);
     uint8_t *buffer = new uint8_t[size];
@@ -21,7 +22,7 @@ uint8_t *CreateEntityReply::deserialize()
     return buffer;
 }
 
-void CreateEntityReply::serialize(uint8_t *buffer)
+void CreateEntityReply::deserialize(uint8_t *buffer)
 {
     CreateEntityReply *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
 
@@ -34,3 +35,35 @@ size_t CreateEntityReply::length() const
 {
     return sizeof(CreateEntityReply);
 }
+CreateEntityReply::CreateEntityReply(uint8_t *buffer)
+{
+    auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
+
+    this->accept = ptr->accept;
+    this->entityId = ptr->entityId;
+    this->networkId = ptr->networkId;
+}
+uint8_t *CreateEntityReply::serialize(CreateEntityReply &toSerialize)
+{
+    size_t size = sizeof(CreateEntityReply);
+    auto *buffer = new uint8_t[size];
+
+    std::memcpy(buffer, (void *) &toSerialize, size);
+    return buffer;
+}
+/*
+ CreateEntityReply::CreateEntityReply(CreateEntityReply &&rhs) noexcept
+ {
+     this->accept = std::forward<size_t>(rhs.accept);
+     this->entityId = std::forward<uint32_t>(rhs.entityId);
+     this->networkId = std::forward<uint32_t>(rhs.networkId);
+     //    rhs.accept = false;
+     //    rhs.entityId = 0;
+     //    rhs.networkId = 0;
+ }
+ CreateEntityReply::CreateEntityReply(CreateEntityReply &rhs)
+ {
+     this->accept = rhs.accept;
+     this->entityId = rhs.entityId;
+     this->networkId = rhs.networkId;
+ }*/

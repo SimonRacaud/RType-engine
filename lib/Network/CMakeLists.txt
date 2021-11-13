@@ -25,10 +25,10 @@ include_directories(
 
 ## SOURCES
 set(SRCS
-        src/NetworkException.cpp
-        src/Tram/ComponentSync.cpp
-        src/Tram/CreateEntityReply.cpp
-        )
+    src/NetworkException.cpp
+    src/Tram/ComponentSync.cpp
+    src/Tram/CreateEntityReply.cpp
+    )
 
 ## TARGET
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
@@ -43,12 +43,12 @@ endif ()
 
 ##
 ## CRITERION
-##
+## (c++17)
 set(NAME_TESTS unit_tests)
 add_executable(${NAME_TESTS}
-        ${SRCS}
-        tests/test_serializer.cpp
-        )
+               ${SRCS}
+               tests/test_serializer.cpp
+               )
 target_link_libraries(${NAME_TESTS} criterion)
 
 ## CONAN

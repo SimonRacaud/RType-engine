@@ -174,7 +174,8 @@ namespace Network
         /**
          * @note std::atomic ensures thread safety over this variable
          */
-        std::pair<Data, std::size_t> _recvBuf;
+        //        std::pair<Data, std::size_t> _recvBuf;
+        std::pair<uint8_t *, std::size_t> _recvBuf;
     };
 } // namespace Network
 

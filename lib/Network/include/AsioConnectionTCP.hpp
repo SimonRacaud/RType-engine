@@ -82,7 +82,8 @@ namespace Network
                  */
             }
 
-            return std::make_tuple(Data(), 0, "", 0);
+            //            return std::make_tuple(Data(), 0, "", 0);
+            return {Data(), 0, "", 0};
         }
 
         /**
@@ -142,7 +143,52 @@ namespace Network
         {
             if (!connection)
                 throw Network::invalidConnection();
-            connection->send(asio::buffer(&buf /*buf.data()*/, buf.size()));
+            connection->send(asio::buffer(buf.serialize(), buf.length()));
+        }
+
+        /**
+         * @brief Initialize asynchronous data acceptance from every
+         * connection
+         */
+        void asyncReceiveAny()
+        {
+            for (auto &connection : _socketConnections) {
+                asyncReceive(connection);
+            }
+        }
+
+        /**
+         * @brief Initialize asynchronous data acceptance from this
+         * connection
+         * @param connection The socket, where the data can come from
+         */
+        void asyncReceive(std::shared_ptr<tcp::socket> &connection)
+        {
+            if (!connection)
+                return;
+
+            connection->async_receive(
+                asio::buffer(AAsioConnection<Data>::_recvBuf.first, 300/*AAsioConnection<Data>::_recvBuf.first.length()
+ * */),
+                std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
+                    connection));
+        }
+
+        void asyncReceiving(const asio::error_code &err, const std::size_t &, std::shared_ptr<tcp::socket> &connection)
+        {
+            if (err) {
+                if (err.value() == asio::error::misc_errors::eof) {
+                    return;
+                }
+            }
+            //            if (!AAsioConnection<Data>::_recvBuf.first.length()) {
+            //                return;
+            //            }
+            AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
+                                                         connection->remote_endpoint().port()),
+                std::make_pair(AAsioConnection<Data>::_recvBuf.first, 500/*AAsioConnection<Data>::_recvBuf.first.length
+ * ()*/));
+            asyncReceive(connection);
         }
 
         [[nodiscard]] bool isConnection(const std::shared_ptr<tcp::socket> &connection, const std::string &otherIp,
@@ -180,49 +226,6 @@ namespace Network
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
             _socketConnections.push_back(newConnection);
             asyncReceive(newConnection);
-        }
-
-        /**
-         * @brief Initialize asynchronous data acceptance from every
-         * connection
-         */
-        void asyncReceiveAny()
-        {
-            for (auto &connection : _socketConnections) {
-                asyncReceive(connection);
-            }
-        }
-
-        /**
-         * @brief Initialize asynchronous data acceptance from this
-         * connection
-         * @param connection The socket, where the data can come from
-         */
-        void asyncReceive(std::shared_ptr<tcp::socket> &connection)
-        {
-            if (!connection)
-                return;
-
-            connection->async_receive(
-                asio::buffer(&AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.first.size()),
-                std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
-                    connection));
-        }
-
-        void asyncReceiving(const asio::error_code &err, const std::size_t &, std::shared_ptr<tcp::socket> &connection)
-        {
-            if (err) {
-                if (err.value() == asio::error::misc_errors::eof) {
-                    return;
-                }
-            }
-            if (!AAsioConnection<Data>::_recvBuf.first.size()) {
-                return;
-            }
-            AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
-                                                         connection->remote_endpoint().port()),
-                std::make_pair(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.first.size()));
-            asyncReceive(connection);
         }
 
       private:

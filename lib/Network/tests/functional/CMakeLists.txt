@@ -39,6 +39,8 @@ set(SRCS_CLIENT
     ${CLIENT_DIR}testClientTCP.cpp
     ${CLIENT_DIR}testClientTCPdataWrapper.cpp
     ../../src/NetworkException.cpp
+    ../../src/Tram/CreateEntityReply.cpp
+    ../../src/Tram/ComponentSync.cpp
     )
 
 ## TARGET
@@ -76,6 +78,8 @@ set(SRCS_SERVER
     ${SERVER_DIR}testServerTCP.cpp
     ${SERVER_DIR}testServerTCPdataWrapper.cpp
     ../../src/NetworkException.cpp
+    ../../src/Tram/CreateEntityReply.cpp
+    ../../src/Tram/ComponentSync.cpp
     )
 
 add_executable(${SERVER}

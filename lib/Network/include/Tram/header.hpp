@@ -11,88 +11,98 @@
 #ifndef HEADER_HPP
 #define HEADER_HPP
 
+#include <cstring>
 #include <inttypes.h>
 #include <stddef.h>
-#include <string>
 #include <stdexcept>
-#include <cstring>
+#include <string>
 #include "ISerializable.hpp"
 
 #define MAGIC 4242424242
 
-namespace Network
+namespace Tram
 {
-    namespace Tram
+    enum class TramType {
+        NONE,
+        GET_ROOM_LIST,
+        ROOM_LIST,
+        CREATE_ROOM,
+        JOIN_ROOM,
+        JOIN_ROOM_REPLY,
+        QUIT_ROOM,
+        CREATE_ENTITY,
+        CREATE_ENTITY_REPLY,
+        DESTROY_ENTITY,
+        SYNC_COMPONENT
+    };
+
+    //    std::unordered_map<TramType, >
+
+    class header : public Network::ISerializable<TramType> {
+      public:
+        header(TramType type, size_t size = 0);
+        explicit header(uint8_t *data);
+
+        /**
+         * @brief magic number to check the data type
+         */
+        size_t magic{MAGIC};
+        /**
+         * @brief Tram total size
+         */
+        size_t size{0};
+        /**
+         * @brief Tram type
+         */
+        TramType type;
+
+        virtual uint8_t *serialize();
+        /**
+         * @throws InvalidArgument : invalid magic number
+         * @param buffer
+         */
+        virtual void deserialize(uint8_t *buffer);
+        virtual size_t length() const;
+    };
+
+    header::header(TramType type, size_t size) : size(size), type(type)
     {
-        enum class TramType {
-            NONE,
-            GET_ROOM_LIST,
-            ROOM_LIST,
-            CREATE_ROOM,
-            JOIN_ROOM,
-            JOIN_ROOM_REPLY,
-            QUIT_ROOM,
-            CREATE_ENTITY,
-            CREATE_ENTITY_REPLY,
-            DESTROY_ENTITY,
-            SYNC_COMPONENT
-        };
+    }
 
-        class header : public ISerializable<TramType> {
-          public:
-            header(TramType type, size_t size = 0);
+    uint8_t *header::serialize()
+    {
+        size_t length = this->length();
+        uint8_t *buffer = new uint8_t[length];
 
-            /**
-             * @brief magic number to check the data type
-             */
-            size_t magic{MAGIC};
-            /**
-             * @brief Tram total size
-             */
-            size_t size{0};
-            /**
-             * @brief Tram type
-             */
-            TramType type;
+        std::memcpy(buffer, (void *) this, length);
+        return buffer;
+    }
 
-            virtual uint8_t *deserialize();
-            /**
-             * @throws InvalidArgument : invalid magic number
-             * @param buffer
-             */
-            virtual void serialize(uint8_t *buffer);
-            virtual size_t length() const;
-        };
+    void header::deserialize(uint8_t *buffer)
+    {
+        header *ptr = reinterpret_cast<header *>(buffer);
 
-        header::header(TramType type, size_t size)
-            : size(size), type(type)
-        {}
-
-        uint8_t *header::deserialize()
-        {
-            size_t length = this->length();
-            uint8_t *buffer = new uint8_t[length];
-
-            std::memcpy(buffer, (void*)this, length);
-            return buffer;
+        if (this->magic != ptr->magic) {
+            throw std::invalid_argument("header::deserialize invalid magic number");
         }
+        this->size = ptr->size;
+        this->type = ptr->type;
+    }
 
-        void header::serialize(uint8_t *buffer)
-        {
-            header *ptr = reinterpret_cast<header *>(buffer);
+    size_t header::length() const
+    {
+        return sizeof(header);
+    }
+    header::header(uint8_t *data)
+    {
+        auto *ptr = reinterpret_cast<header *>(data);
 
-            if (this->magic != ptr->magic) {
-                throw std::invalid_argument("header::serialize invalid magic number");
-            }
-            this->size = ptr->size;
-            this->type = ptr->type;
+        if (this->magic != ptr->magic) {
+            throw std::invalid_argument("header::deserialize invalid magic number");
         }
-
-        size_t header::length() const
-        {
-            return sizeof(header);
-        }
-    } // namespace Tram
-}
+        this->size = ptr->size;
+        this->type = ptr->type;
+    }
+} // namespace Tram
 
 #endif // HEADER_HPP

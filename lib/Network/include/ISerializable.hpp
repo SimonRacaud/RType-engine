@@ -13,9 +13,9 @@
 
 #include <stdint.h>
 
-namespace Network {
-    template <class Model>
-    class ISerializable {
+namespace Network
+{
+    template <class Model> class ISerializable {
       public:
         virtual ~ISerializable() = default;
 
@@ -23,18 +23,18 @@ namespace Network {
          * @brief compile data in a buffer
          * @return
          */
-        virtual uint8_t *deserialize() = 0;
+        virtual uint8_t *serialize() = 0;
         /**
          * @brief extract data from the buffer
          * @param buffer
          */
-        virtual void serialize(uint8_t *buffer) = 0;
+        virtual void deserialize(uint8_t *buffer) = 0;
         /**
          * @brief Tram data size
          * @return
          */
         virtual size_t length() const = 0;
     };
-}
+} // namespace Network
 
 #endif // ISERIALIZABLE_HPP

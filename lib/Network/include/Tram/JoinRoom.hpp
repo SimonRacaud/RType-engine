@@ -11,49 +11,46 @@
 #ifndef JOINROOMREPLY_HPP
 #define JOINROOMREPLY_HPP
 
+#include <cstring>
 #include <inttypes.h>
 #include <stddef.h>
 #include <string>
-#include <cstring>
 #include "ISerializable.hpp"
 
-namespace Network
+namespace Tram
 {
-    namespace Tram
+    class JoinRoom : public Network::ISerializable<JoinRoom> {
+      public:
+        JoinRoom() = default;
+        JoinRoom(size_t roomId) : roomId(roomId){};
+
+        size_t roomId{0};
+
+        virtual uint8_t *serialize();
+        virtual void deserialize(uint8_t *buffer);
+        virtual size_t length() const;
+    };
+
+    uint8_t *JoinRoom::serialize()
     {
-        class JoinRoom : public ISerializable<JoinRoom> {
-          public:
-            JoinRoom() = default;
-            JoinRoom(size_t roomId) : roomId(roomId) {};
+        size_t size = sizeof(JoinRoom);
+        uint8_t *buffer = new uint8_t[size];
 
-            size_t roomId{0};
+        std::memcpy(buffer, (void *) this, size);
+        return buffer;
+    }
 
-            virtual uint8_t *deserialize();
-            virtual void serialize(uint8_t *buffer);
-            virtual size_t length() const;
-        };
+    void JoinRoom::deserialize(uint8_t *buffer)
+    {
+        JoinRoom *ptr = reinterpret_cast<JoinRoom *>(buffer);
 
-        uint8_t *JoinRoom::deserialize()
-        {
-            size_t size = sizeof(JoinRoom);
-            uint8_t *buffer = new uint8_t[size];
+        this->roomId = ptr->roomId;
+    }
 
-            std::memcpy(buffer, (void*)this, size);
-            return buffer;
-        }
-
-        void JoinRoom::serialize(uint8_t *buffer)
-        {
-            JoinRoom *ptr = reinterpret_cast<JoinRoom *>(buffer);
-
-            this->roomId = ptr->roomId;
-        }
-
-        size_t JoinRoom::length() const
-        {
-            return sizeof(JoinRoom);
-        }
-    } // namespace Tram
-}
+    size_t JoinRoom::length() const
+    {
+        return sizeof(JoinRoom);
+    }
+} // namespace Tram
 
 #endif // JOINROOMREPLY_HPP

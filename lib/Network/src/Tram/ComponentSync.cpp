@@ -10,13 +10,14 @@
 
 #include "Tram/ComponentSync.hpp"
 
-using namespace Network::Tram;
+using namespace Tram;
 
-ComponentSync::ComponentSync(uint32_t networkId, Time timestamp, const std::type_index &componentType,
-    size_t componentSize, void *component)
+ComponentSync::ComponentSync(
+    uint32_t networkId, Time timestamp, const std::type_index &componentType, size_t componentSize, void *component)
     : networkId(networkId), timestamp(timestamp), componentType(componentType.hash_code()),
       componentSize(componentSize), component(component)
-{}
+{
+}
 
 ComponentSync::~ComponentSync()
 {
@@ -26,22 +27,22 @@ ComponentSync::~ComponentSync()
     }
 }
 
-uint8_t *ComponentSync::deserialize()
+uint8_t *ComponentSync::serialize()
 {
     this->size = this->length() + this->componentSize;
     if (this->component == nullptr) {
-        throw std::logic_error("ComponentSync::deserialize null component");
+        throw std::logic_error("ComponentSync::serialize null component");
     }
     uint8_t *buffer = new uint8_t[this->size];
     ComponentSync *ptr = reinterpret_cast<ComponentSync *>(buffer);
 
-    std::memcpy(buffer, this, sizeof(ComponentSync)); // copy header
+    std::memcpy(buffer, this, sizeof(ComponentSync));                     // copy header
     ptr->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header ptr
-    std::memcpy(ptr->component, this->component, this->componentSize); // copy body
+    std::memcpy(ptr->component, this->component, this->componentSize);    // copy body
     return buffer;
 }
 
-void ComponentSync::serialize(uint8_t *buffer)
+void ComponentSync::deserialize(uint8_t *buffer)
 {
     ComponentSync *ptr = reinterpret_cast<ComponentSync *>(buffer);
 
@@ -59,7 +60,7 @@ ComponentSync &ComponentSync::operator=(ComponentSync &other)
     if (other.component == nullptr) {
         this->component = nullptr;
     } else {
-        this->component = new uint8_t[this->componentSize]; // alloc body
+        this->component = new uint8_t[this->componentSize];                 // alloc body
         std::memcpy(this->component, other.component, this->componentSize); // copy body
     }
     return *this;

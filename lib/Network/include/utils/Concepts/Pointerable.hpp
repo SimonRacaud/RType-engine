@@ -19,28 +19,31 @@ template <typename T>
  *          what's after the '=' operator are the constraints,
  *          meaning that the class must respect what's specified in it (implement the methods)
  */
-concept Pointerable = requires(T a, T *b)
+concept Pointerable = requires(T a, uint8_t *b)
 {
     /**
      * @brief Constraint to have an operator& in order to get raw data of the class
      */
     {
-        &a
+        a.serialize()
         } -> std::convertible_to<T *>;
+    //    {
+    //        T::serialize(a)
+    //        } -> std::convertible_to<uint8_t *>;
 
     /**
      * @brief Constraint to have an operator* in order to dereference a pointer
      */
-    {
-        *b
-        } -> std::convertible_to<T>;
+    //    {
+    //        T(b)
+    //        } -> std::convertible_to<T>;
 
     /**
      * @brief Constraint to have a size method, in order to get the size of the variable in bytes
      * @attention Size in bytes
      */
     {
-        a.size()
+        a.length()
         } -> std::integral;
 };
 
