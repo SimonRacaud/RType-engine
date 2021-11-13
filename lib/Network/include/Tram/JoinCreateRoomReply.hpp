@@ -20,7 +20,7 @@
 
 namespace Tram
 {
-    class JoinCreateRoomReply : public Network::ISerializable<JoinCreateRoomReply> {
+    class JoinCreateRoomReply : public Network::ISerializable {
       public:
         JoinCreateRoomReply() = default;
         JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp);

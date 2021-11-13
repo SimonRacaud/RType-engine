@@ -38,7 +38,7 @@ namespace Tram
 
     //    std::unordered_map<TramType, >
 
-    class header : public Network::ISerializable<TramType> {
+    class header : public Network::ISerializable {
       public:
         header(TramType type, size_t size = 0);
         explicit header(uint8_t *data);

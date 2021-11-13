@@ -22,7 +22,7 @@ namespace Tram
 {
     using std::string;
 
-    class CreateEntityRequest : public Network::ISerializable<CreateEntityRequest> {
+    class CreateEntityRequest : public Network::ISerializable {
       public:
         CreateEntityRequest() = default;
         CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp)

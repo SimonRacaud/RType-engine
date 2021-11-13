@@ -19,7 +19,7 @@
 
 namespace Tram
 {
-    class JoinRoom : public Network::ISerializable<JoinRoom> {
+    class JoinRoom : public Network::ISerializable {
       public:
         JoinRoom() = default;
         JoinRoom(size_t roomId) : roomId(roomId){};

@@ -18,7 +18,7 @@
 
 namespace Tram
 {
-    class DestroyEntity : public Network::ISerializable<DestroyEntity> {
+    class DestroyEntity : public Network::ISerializable {
       public:
         DestroyEntity() = default;
         DestroyEntity(uint32_t networkId) : networkId(networkId)

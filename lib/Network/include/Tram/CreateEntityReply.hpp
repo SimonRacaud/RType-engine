@@ -18,7 +18,7 @@
 
 namespace Tram
 {
-    class CreateEntityReply : public Network::ISerializable<CreateEntityReply> {
+    class CreateEntityReply : public Network::ISerializable {
       public:
         CreateEntityReply() = default;
         CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId)

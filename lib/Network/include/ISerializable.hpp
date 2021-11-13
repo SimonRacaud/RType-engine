@@ -11,11 +11,11 @@
 #ifndef ISERIALIZABLE_HPP
 #define ISERIALIZABLE_HPP
 
-#include <stdint.h>
+#include <cstdint>
 
 namespace Network
 {
-    template <class Model> class ISerializable {
+    class ISerializable {
       public:
         virtual ~ISerializable() = default;
 
@@ -33,7 +33,7 @@ namespace Network
          * @brief Tram data size
          * @return
          */
-        virtual size_t length() const = 0;
+        [[nodiscard]] virtual size_t length() const = 0;
     };
 } // namespace Network
 

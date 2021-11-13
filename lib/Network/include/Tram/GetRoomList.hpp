@@ -20,7 +20,7 @@
 
 namespace Tram
 {
-    class GetRoomList : public Network::ISerializable<GetRoomList> {
+    class GetRoomList : public Network::ISerializable {
       public:
         GetRoomList() = default;
         GetRoomList(std::vector<size_t> const &roomIdList);

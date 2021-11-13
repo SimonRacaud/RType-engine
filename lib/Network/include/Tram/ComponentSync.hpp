@@ -25,7 +25,7 @@ namespace Tram
 #define COMP_SYNC_HEAD_SIZE \
     (sizeof(size_t) + sizeof(uint32_t) + sizeof(Time) + sizeof(size_t) + sizeof(size_t) + sizeof(void *))
 
-    class ComponentSync : public Network::ISerializable<ComponentSync> {
+    class ComponentSync : public Network::ISerializable {
       public:
         ComponentSync() = default;
         ComponentSync(uint32_t networkId, Time timestamp, std::type_index const &componentType, size_t componentSize,
@@ -53,7 +53,7 @@ namespace Tram
          */
         size_t componentSize{0};
         /**
-         * @brief component deserialized struct
+         * @brief component serialized struct
          */
         void *component{nullptr};
         // <- after deserializing, the component is after in memory
