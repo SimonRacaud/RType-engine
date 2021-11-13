@@ -8,8 +8,8 @@
 #define R_TYPE_ITRAMBUFFER_HPP
 
 #include <memory>
-#include "Concepts/Pointerable.hpp"
 #include "INetwork.hpp"
+#include "utils/Concepts/Pointerable.hpp"
 
 namespace Network
 {

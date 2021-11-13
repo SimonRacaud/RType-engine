@@ -10,7 +10,6 @@
 #include <iostream>
 #include "ITramBuffer.hpp"
 #include "Tram/header.hpp"
-#include "utils/Concepts/Pointerable.hpp"
 
 namespace Tram
 {

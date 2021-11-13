@@ -10,6 +10,7 @@
 //#if __cplusplus > 201703L && __cpp_concepts >= 201907L
 
 #include <concepts>
+#include <cstdint>
 
 template <typename T>
 /**

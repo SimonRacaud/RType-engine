@@ -5,20 +5,19 @@
 ** just triing
 */
 
+#include <iostream>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
-#include <iostream>
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
 #include "Tram/CreateEntityRequest.hpp"
 #include "Tram/DestroyEntity.hpp"
 #include "Tram/GetRoomList.hpp"
-#include "Tram/header.hpp"
 #include "Tram/JoinCreateRoomReply.hpp"
 #include "Tram/JoinRoom.hpp"
-#include <iostream>
+#include "Tram/header.hpp"
 
-using namespace Network::Tram;
+using namespace Tram;
 
 class TestComponent {
   public:
@@ -35,8 +34,8 @@ Test(component_sync, serialize, .timeout = my_timeout)
     TestComponent *ptr = new TestComponent;
     auto type = std::type_index(typeid(TestComponent));
     const size_t compSize = sizeof(TestComponent);
-    Time time = (Time)424242;
-    ComponentSync sync(42, time, type, compSize, (void *)ptr);
+    Time time = (Time) 424242;
+    ComponentSync sync(42, time, type, compSize, (void *) ptr);
     uint8_t *buffer = sync.deserialize();
 
     sync.serialize(buffer);
