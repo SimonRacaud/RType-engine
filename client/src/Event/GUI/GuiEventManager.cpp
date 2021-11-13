@@ -79,6 +79,9 @@ void GuiEventManager::selectScene(const SelectScene *evt)
         case Engine::ClusterName::GAME:
             GameCore::engine.getSceneManager().select<Scene::GameScene>(evt->getCloseCurrent());
             break;
+        case Engine::ClusterName::GLOBAL:
+            GameCore::engine.quit();
+            break;
         default:
             std::cerr << "GuiEventManager::selectScene : scene not handled" << std::endl;
     }

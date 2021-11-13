@@ -45,8 +45,10 @@ void HomeScene::open()
 
     Button playButton(this->getCluster(), playBtn, vector2D(280, 350), vector2f(3, 3),
         std::make_shared<SelectScene>(ClusterName::ROOM_LIST));
-    Button OptionButton(this->getCluster(), optionBtn, vector2D(280, 500), vector2f(3, 3),
+    Button OptionButton(this->getCluster(), optionBtn, vector2D(280, 475), vector2f(3, 3),
         std::make_shared<SelectScene>(ClusterName::SETTINGS));
+    Button QuitButton(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3),
+        std::make_shared<SelectScene>(ClusterName::GLOBAL));
 
     /// SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
