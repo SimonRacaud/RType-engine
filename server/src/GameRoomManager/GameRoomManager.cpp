@@ -34,8 +34,11 @@ void GameRoomManager::deleteRoom(GameRoom::Id id)
     throw std::invalid_argument("Invalid id, no room remove");
 }
 
-GameRoom::Id GameRoomManager::createRoom(GameRoom::PlayerList &)
+GameRoom::Id GameRoomManager::createRoom(GameRoom::PlayerList &list)
 {
-    // TODO
-    return _idReference;
+    GameRoom::Id id = _idReference;
+
+    _idReference++;
+    this->_rooms.push_back(std::move(GameRoom(list, id, GameRoom::ServerTypeTcp(_port.getPort()), GameRoom::ServerTypeUdp(_port.getPort()))));
+    return id;
 }

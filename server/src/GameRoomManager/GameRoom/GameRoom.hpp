@@ -19,12 +19,12 @@ class GameRoom
     public:
         using Id = size_t;
         using PlayerList = std::vector<int>;    // TODO CHANGE JUSt UNKNOWN FOR THE MOMENT
-        using ServerTypeTcp = int;              // TODO CHANGE JUSt UNKNOWN FOR THE MOMENT
-        using ServerTypeUdp = int;              // TODO CHANGE JUSt UNKNOWN FOR THE MOMENT
+        using ServerTypeTcp = Network::AsioServerTCP<1>;
+        using ServerTypeUdp = Network::AsioConnectionUDP<1>;
 
     public:
-        GameRoom(PlayerList &player, Id id, ServerTypeTcp &tcp, ServerTypeUdp &udp);
-        GameRoom(const GameRoom &) = delete;
+        GameRoom(PlayerList &player, Id id, ServerTypeTcp tcp, ServerTypeUdp udp);
+        GameRoom(const GameRoom &);
         ~GameRoom();
 
         Id getId() const;
@@ -38,8 +38,8 @@ class GameRoom
     private:
         Id _id;
         PlayerList _playerList;
-        ServerTypeTcp &_tcp;
-        ServerTypeUdp &_udp;
+        ServerTypeTcp _tcp;
+        ServerTypeUdp _udp;
 };
 
 #endif
