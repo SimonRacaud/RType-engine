@@ -21,9 +21,6 @@ class MoveHandler {
 	public:
 		MoveHandler();
 		~MoveHandler() = default;
-		
-	protected:
-	private:
 };
 
 #endif /* !MoveHandler_HPP_ */
