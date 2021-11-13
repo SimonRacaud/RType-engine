@@ -18,6 +18,7 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 
 Button::Button(
+    ClusterName cluster,
     const std::string &text,
     const vector2D &position,
     const vector2f &scale,
@@ -29,8 +30,9 @@ Button::Button(
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
-    const vector2D size(scale.x, scale.y);
+    Engine::Entity entity = entityManager.create(nullptr, cluster,
+        Engine::EntityName::EMPTY);
+    const vector2D size((scale.x), (scale.y * 0.95));
 
     std::vector<size_t> pos;
     std::vector<Engine::DrawableObj> renderList;
