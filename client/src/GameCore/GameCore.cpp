@@ -65,6 +65,7 @@ void GameCore::run()
     componentManager.registerComponent<Engine::ScoreComponent>();
     componentManager.registerComponent<Engine::Hitbox>();
     componentManager.registerComponent<Component::Scroll>();
+    componentManager.registerComponent<Engine::NumberComponent>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
