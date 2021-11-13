@@ -97,7 +97,7 @@ namespace Engine
          * @param cluster
          * @return
          */
-        [[nodiscard]] bool exist(EntityName name, ClusterName cluster = ClusterName::GLOBAL) const;
+        [[nodiscard]] bool exist(EntityName name) const;
         /**
          * @brief Get the entity id linked the entity name
          * @throws NotFoundException

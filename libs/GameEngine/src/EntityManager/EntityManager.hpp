@@ -75,7 +75,7 @@ namespace Engine
          * @param cluster
          * @return
          */
-        bool exist(EntityName name, ClusterName cluster = ClusterName::GLOBAL);
+        bool exist(EntityName name);
 
         /**
          * @brief Get the entity id linked to that name
