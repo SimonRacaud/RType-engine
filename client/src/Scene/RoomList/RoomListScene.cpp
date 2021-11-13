@@ -44,10 +44,16 @@ void RoomListScene::open()
         vector2D(2, 2), color_e::GREEN);
     // body
     Button newGame(this->getCluster(), "NEW GAME", vector2D(20, 80),
-        vector2f(2, 2), std::make_shared<SelectScene>(ClusterName::ROOM_LIST));
+        vector2f(2, 2), std::make_shared<SelectScene>(ClusterName::GAME)); // TODO button event
+    // body - list
     ImageView listBack(listBackgroundPath, vector2D(50, 170), vector2f(1, 1),
         this->getCluster());
 
+    std::vector<size_t> roomList = {0, 1, 2, 3, 42, 5}; // TODO get through the network
+    this->reloadRoomList(roomList);
+
+    Button refresh(this->getCluster(), "REFRESH", vector2D(320, 600),
+        vector2f(2, 2), nullptr); // TODO button event
     // footer
     Label mentionLabel(this->getCluster(), mention, vector2D(290, 780),
         vector2D(1, 1), color_e::GREEN);
@@ -58,4 +64,29 @@ void RoomListScene::open()
     systemManager.selectSystems<
         System::RenderSystem,
         System::InputEventSystem>();
+}
+
+void RoomListScene::reloadRoomList(std::vector<size_t> const &roomIdList)
+{
+    // Clear the list
+    GameCore::engine.getEntityManager().remove(ClusterName::ROOM_LIST_ITEMS);
+    //
+    size_t positionY = 180;
+    size_t counter = 0;
+    for (size_t id : roomIdList) {
+        Button room(ClusterName::ROOM_LIST_ITEMS, "Room " + std::to_string(id),
+            vector2D(320, positionY), vector2f(2, 2), nullptr); // TODO button event
+        positionY += 60;
+        counter++;
+        if (counter == 7) {
+            break; // too much to display
+        }
+    }
+}
+
+void RoomListScene::close()
+{
+    AbstractScene<RoomListScene>::close();
+    // destroy room list
+    GameCore::engine.getEntityManager().remove(ClusterName::ROOM_LIST_ITEMS);
 }

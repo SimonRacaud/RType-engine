@@ -25,6 +25,11 @@ namespace Scene
         virtual ~RoomListScene() = default;
 
         virtual void open();
+
+        virtual void close() override;
+
+      private:
+        void reloadRoomList(std::vector<size_t> const &roomIdList);
     };
 }
 
