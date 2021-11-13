@@ -13,6 +13,10 @@
 #include "EngineCore.hpp"
 #include "Component/Render.hpp"
 #include "Interface/IShapeManager.hpp"
+#include "Scene/Home/HomeScene.hpp"
+#include "Scene/Settings/SettingsScene.hpp"
+#include "Scene/RoomList/RoomListScene.hpp"
+#include "Scene/Game/GameScene.hpp"
 
 GuiEventManager::GuiEventManager()
 {
@@ -20,6 +24,12 @@ GuiEventManager::GuiEventManager()
 
     reg.registerCallback<SetProgressBarValue>([this] (const Engine::Event::IEvent *e) {
         this->setProgressBarValue(static_cast<const SetProgressBarValue *>(e));
+    });
+    reg.registerCallback<SelectPreviousScene>([this] (const Engine::Event::IEvent *e) {
+        this->selectPreviousScene(static_cast<const SelectPreviousScene *>(e));
+    });
+    reg.registerCallback<SelectScene>([this] (const Engine::Event::IEvent *e) {
+        this->selectScene(static_cast<const SelectScene *>(e));
     });
 }
 
@@ -52,4 +62,29 @@ void GuiEventManager::setProgressBarValue(const SetProgressBarValue *evt)
     } catch (std::exception const &e) {
         std::cerr << "GuiEventManager::setProgressBarValue : " << e.what() << std::endl;
     }
+}
+
+void GuiEventManager::selectScene(const SelectScene *evt)
+{
+    switch (evt->getCluster()) {
+        case Engine::ClusterName::HOME:
+            GameCore::engine.getSceneManager().select<Scene::HomeScene>(evt->getCloseCurrent());
+            break;
+        case Engine::ClusterName::ROOM_LIST:
+            GameCore::engine.getSceneManager().select<Scene::RoomListScene>(evt->getCloseCurrent());
+            break;
+        case Engine::ClusterName::SETTINGS:
+            GameCore::engine.getSceneManager().select<Scene::SettingsScene>(evt->getCloseCurrent());
+            break;
+        case Engine::ClusterName::GAME:
+            GameCore::engine.getSceneManager().select<Scene::GameScene>(evt->getCloseCurrent());
+            break;
+        default:
+            std::cerr << "GuiEventManager::selectScene : scene not handled" << std::endl;
+    }
+}
+
+void GuiEventManager::selectPreviousScene(const SelectPreviousScene *)
+{
+    GameCore::engine.getSceneManager().selectPrevious();
 }
