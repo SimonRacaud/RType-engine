@@ -16,6 +16,11 @@
 
 #include "Scene/Start/StartScene.hpp"
 #include "Scene/Debug/DebugScene.hpp"
+#include "Scene/Game/GameScene.hpp"
+#include "Scene/Home/HomeScene.hpp"
+#include "Scene/RoomList/RoomListScene.hpp"
+#include "Scene/Settings/SettingsScene.hpp"
+
 #include "System/LogPosition/LogPositionSystem.hpp"
 
 #include "Event/AudioEvent/AudioEventLoad.hpp"
@@ -79,8 +84,12 @@ void GameCore::run()
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
-    sceneManager.registerScene<Scene::DebugScene>("Mon paramètre de test");
-    sceneManager.select<Scene::StartScene>();
+    sceneManager.registerScene<Scene::HomeScene>();
+    sceneManager.registerScene<Scene::SettingsScene>();
+    sceneManager.registerScene<Scene::RoomListScene>();
+    sceneManager.registerScene<Scene::GameScene>();
+    sceneManager.registerScene<Scene::DebugScene>("Test");
+    sceneManager.select<Scene::HomeScene>();
 
     engine.exec();
 }
