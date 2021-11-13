@@ -10,6 +10,7 @@
 
 #include "GameCore/GameCore.hpp"
 #include "Entities/Button/Button.hpp"
+#include "Entities/Player/Player.hpp"
 
 #include "StartScene.hpp"
 #include "Component/Render.hpp"
@@ -22,6 +23,8 @@
 #include "Entities/ImageView/ImageView.hpp"
 #include "Entities/Label/Label.hpp"
 #include "Item/vector2D.hpp"
+#include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
+#include "Systems/ColliderSystem/ColliderSystem.hpp"
 
 using namespace Scene;
 

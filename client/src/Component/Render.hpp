@@ -17,7 +17,11 @@ namespace Engine
     using DrawableObj = std::shared_ptr<IDrawable<renderToolSfml>>;
     struct Render : public BaseComponent<Render> {
         Render(DrawableObj src) : _pos({0}), _src({src}) {}
-        Render(std::vector<DrawableObj> &src, const std::vector<size_t> &pos = {}) : _pos(pos), _src(std::move(src)) {}
+        Render(std::vector<DrawableObj> &src, const std::vector<size_t> &pos = {}) : _pos({}), _src(std::move(src))
+        {
+            for (auto &it : pos)
+                this->setRender(it);
+        }
         Render() = delete;
         virtual ~Render() = default;
 

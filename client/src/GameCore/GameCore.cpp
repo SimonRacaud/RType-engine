@@ -59,6 +59,8 @@ void GameCore::run()
     componentManager.registerComponent<Engine::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
     componentManager.registerComponent<Engine::Timer>();
+    componentManager.registerComponent<Engine::ScoreComponent>();
+    componentManager.registerComponent<Engine::Hitbox>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
@@ -66,6 +68,7 @@ void GameCore::run()
     systemManager.registerSystem<System::InputEventSystem>();
     systemManager.registerSystem<System::LogPositionSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
+    systemManager.registerSystem<Engine::ColliderSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

@@ -17,7 +17,7 @@
 namespace Engine {
 	class Timer : public BaseComponent<Timer> {
 		public:
-			Timer(Time time, const std::shared_ptr<std::function<void(Entity)>> factory, bool countdown = true)
+			Timer(Time time, const std::function<void(Entity)> factory, bool countdown = true)
 				: _countdown(countdown), _maxTime(time), _currentTime(time), _startTime(Clock::now()), _eventFactory(factory) {}
 			virtual ~Timer() = default;
 
@@ -25,7 +25,7 @@ namespace Engine {
 			Time _maxTime;
 			Time _currentTime;
 			TimePoint _startTime;
-			std::shared_ptr<std::function<void(Entity)>> _eventFactory;
+			std::function<void(Entity)> _eventFactory;
 	};
 }
 
