@@ -8,6 +8,7 @@
 #ifndef GAMEROOM_HPP
 #define GAMEROOM_HPP
 
+#include <thread>
 #include <vector>
 #include <cstddef>
 
@@ -19,8 +20,8 @@ class GameRoom
     public:
         using Id = size_t;
         using PlayerList = std::vector<int>;    // TODO CHANGE JUSt UNKNOWN FOR THE MOMENT
-        using ServerTypeTcp = Network::AsioServerTCP<1>;
-        using ServerTypeUdp = Network::AsioConnectionUDP<1>;
+        using ServerTypeTcp = int;              // Network::AsioServerTCP<1>;
+        using ServerTypeUdp = int;              // Network::AsioConnectionUDP<1>;
 
     public:
         GameRoom(PlayerList &player, Id id, ServerTypeTcp tcp, ServerTypeUdp udp);
@@ -40,6 +41,7 @@ class GameRoom
         PlayerList _playerList;
         ServerTypeTcp _tcp;
         ServerTypeUdp _udp;
+        std::thread _thread;
 };
 
 #endif

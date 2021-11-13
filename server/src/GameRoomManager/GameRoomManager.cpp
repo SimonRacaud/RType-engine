@@ -37,8 +37,11 @@ void GameRoomManager::deleteRoom(GameRoom::Id id)
 GameRoom::Id GameRoomManager::createRoom(GameRoom::PlayerList &list)
 {
     GameRoom::Id id = _idReference;
+    GameRoom room(list, id, GameRoom::ServerTypeTcp(_port.getPort()), GameRoom::ServerTypeUdp(_port.getPort()));
 
     _idReference++;
-    this->_rooms.push_back(std::move(GameRoom(list, id, GameRoom::ServerTypeTcp(_port.getPort()), GameRoom::ServerTypeUdp(_port.getPort()))));
+    room.create();
+    room.run();
+    this->_rooms.push_back(std::move(room));
     return id;
 }
