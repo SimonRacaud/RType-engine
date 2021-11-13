@@ -80,6 +80,7 @@ set(SERVER_SRCS
         ./server/src/DLLoader/DLLoader.hpp
         ./server/src/Entities/Bullet/BulletServer.cpp
         ./server/src/Entities/Enemy/EnemyServer.cpp
+        ./server/src/ServerCore/ServerCore.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
@@ -107,6 +108,7 @@ set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 target_link_libraries(${NAME_CLIENT} gameEngine)
+target_link_libraries(${NAME_SERVER} gameEngine)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)

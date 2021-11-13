@@ -5,6 +5,16 @@
 ** simon
 */
 
+#include "ServerCore/ServerCore.hpp"
+
 int main(void) {
-  return 0;
+    try {
+        ServerCore core;
+
+        core.run();
+    } catch(const std::exception &e) {
+        std::cout << "ERROR: Invalid exit status -> " << e.what() << std::endl;
+    } catch(...) {
+        std::cout << "ERROR: Invalid exit status" << std::endl;
+    }
 }
