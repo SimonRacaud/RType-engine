@@ -85,7 +85,7 @@ set(SERVER_SRCS
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include)
+target_include_directories(${NAME_SERVER} PUBLIC server/src server/include)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

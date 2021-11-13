@@ -7,6 +7,11 @@
 
 #include "ServerCore.hpp"
 
+#include <iostream>
+#include "global.hpp"
+#include "CustomCluster.hpp"
+#include "CustomEntityName.hpp"
+
 Engine::IGameEngine &ServerCore::engine = Engine::EngineFactory::getInstance();
 std::unique_ptr<ConfigFile> ServerCore::config = std::make_unique<ConfigFile>("server.config");
 

@@ -16,7 +16,7 @@
 class EnemyServer
 {
     public:
-        EnemyServer(Engine::ClusterName clusterName, const vector2D &pos, const vector2D &velocity);
+        EnemyServer(Engine::ClusterName clusterName, const vector2D &pos, const vector2D &velocity, const vector2D &size);
         ~EnemyServer() = default;
 };
 
