@@ -15,6 +15,8 @@
 #include "Entities/Label/Label.hpp"
 #include "Entities/ImageView/ImageView.hpp"
 
+#include "Event/GUI/SelectScene.hpp"
+
 using namespace Scene;
 using namespace Engine;
 using namespace std;
@@ -41,10 +43,10 @@ void HomeScene::open()
     Label mentionLabel(this->getCluster(), mention, vector2D(290, 780),
         vector2D(1, 1), color_e::GREEN);
 
-    Button playeButton(this->getCluster(), playBtn, vector2D(280, 350), vector2f(3, 3),
-        std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+    Button playButton(this->getCluster(), playBtn, vector2D(280, 350), vector2f(3, 3),
+        std::make_shared<SelectScene>(ClusterName::ROOM_LIST));
     Button OptionButton(this->getCluster(), optionBtn, vector2D(280, 500), vector2f(3, 3),
-        std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+        std::make_shared<SelectScene>(ClusterName::SETTINGS));
 
     /// SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
