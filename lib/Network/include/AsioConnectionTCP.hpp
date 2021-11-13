@@ -23,7 +23,7 @@ namespace Network
 {
     using asio::ip::tcp;
 
-    template <Pointerable Data> class AsioConnectionTCP : public AAsioConnection<Data> {
+    template <PointerableUnknownLen Data> class AsioConnectionTCP : public AAsioConnection<Data> {
       public:
         explicit AsioConnectionTCP(const bool server = false) : AAsioConnection<Data>(server)
         {
@@ -168,13 +168,14 @@ namespace Network
                 return;
 
             connection->async_receive(
-                asio::buffer(AAsioConnection<Data>::_recvBuf.first, 300/*AAsioConnection<Data>::_recvBuf.first.length()
- * */),
+                asio::buffer(AAsioConnection<Data>::_recvBuf.first, 500 /*todo change by property prepared*/
+                    /*AAsioConnection<Data>::_recvBuf.first.length()*/),
                 std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
                     connection));
         }
 
-        void asyncReceiving(const asio::error_code &err, const std::size_t &, std::shared_ptr<tcp::socket> &connection)
+        void asyncReceiving(const asio::error_code &err, const std::size_t & /*todo use size received*/,
+            std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
@@ -186,7 +187,9 @@ namespace Network
             //            }
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
                                                          connection->remote_endpoint().port()),
-                std::make_pair(AAsioConnection<Data>::_recvBuf.first, 500/*AAsioConnection<Data>::_recvBuf.first.length
+                std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, 500), 500 /*todo change by property
+ * prepared*/
+                    /*AAsioConnection<Data>::_recvBuf.first.length
  * ()*/));
             asyncReceive(connection);
         }

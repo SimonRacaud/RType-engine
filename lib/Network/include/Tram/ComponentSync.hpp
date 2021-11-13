@@ -11,10 +11,10 @@
 #ifndef COMPONENTSYNC_HPP
 #define COMPONENTSYNC_HPP
 
+#include <cinttypes>
+#include <cstddef>
 #include <cstring>
-#include <inttypes.h>
 #include <iostream>
-#include <stddef.h>
 #include <stdexcept>
 #include <typeindex>
 #include "ISerializable.hpp"
@@ -30,7 +30,7 @@ namespace Tram
         ComponentSync() = default;
         ComponentSync(uint32_t networkId, Time timestamp, std::type_index const &componentType, size_t componentSize,
             void *component);
-        virtual ~ComponentSync();
+        ~ComponentSync() override;
 
         /**
          * @brief total size
@@ -58,10 +58,10 @@ namespace Tram
         void *component{nullptr};
         // <- after deserializing, the component is after in memory
 
-        virtual uint8_t *serialize();
-        virtual void deserialize(uint8_t *buffer);
-        ComponentSync &operator=(ComponentSync &other);
-        virtual size_t length() const;
+        [[nodiscard]] uint8_t *serialize() const override;
+        void deserialize(uint8_t *buffer) override;
+        explicit ComponentSync(uint8_t *buffer);
+        [[nodiscard]] std::size_t length() const override;
     };
 } // namespace Tram
 

@@ -15,7 +15,7 @@ namespace Network
 {
     static const double ConnectionPingInterval(3);
 
-    template <Pointerable Data> class AsioClientTCP : public AsioConnectionTCP<Data> {
+    template <PointerableUnknownLen Data> class AsioClientTCP : public AsioConnectionTCP<Data> {
       public:
         AsioClientTCP() = default;
 

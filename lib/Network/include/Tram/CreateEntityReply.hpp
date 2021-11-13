@@ -25,9 +25,6 @@ namespace Tram
             : accept(accept), entityId(entityId), networkId(networkId)
         {
         }
-        explicit CreateEntityReply(uint8_t *buffer);
-        //        CreateEntityReply(CreateEntityReply &rhs);
-        //        CreateEntityReply(CreateEntityReply &&rhs) noexcept;
         /**
          * @brief if the request was accepted
          */
@@ -41,10 +38,10 @@ namespace Tram
          */
         uint32_t networkId{0};
 
-        virtual uint8_t *serialize();
-        static uint8_t *serialize(CreateEntityReply &toSerialize);
-        virtual void deserialize(uint8_t *buffer);
-        virtual size_t length() const;
+        [[nodiscard]] uint8_t *serialize() const override;
+        void deserialize(uint8_t *buffer) override;
+        explicit CreateEntityReply(uint8_t *buffer);
+        [[nodiscard]] size_t length() const override;
     };
 } // namespace Tram
 

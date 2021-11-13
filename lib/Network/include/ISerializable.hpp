@@ -23,7 +23,7 @@ namespace Network
          * @brief compile data in a buffer
          * @return
          */
-        virtual uint8_t *serialize() = 0;
+        [[nodiscard]] virtual uint8_t *serialize() const = 0;
         /**
          * @brief extract data from the buffer
          * @param buffer
