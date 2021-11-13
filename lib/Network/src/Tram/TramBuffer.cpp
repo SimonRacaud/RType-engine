@@ -7,7 +7,6 @@
 
 #include "Tram/TramBuffer.hpp"
 #include <exception>
-#include "Tram/header.hpp"
 
 void Tram::TramBuffer::SetData(uint8_t *data, size_t size)
 {
@@ -29,7 +28,7 @@ std::size_t Tram::TramBuffer::getTramSize()
 
 bool Tram::TramBuffer::isTramComplete()
 {
-    if (getTramSize() <= _dataSize)
+    if (sizeof(Tram::header) + getTramSize() <= _dataSize)
         return true;
     return false;
 }
@@ -41,8 +40,8 @@ uint8_t *Tram::TramBuffer::receiveTram()
     auto tramSize(getTramSize());
     auto tmp(new uint8_t[tramSize]);
 
-    memmove(tmp, _data, tramSize);
-    _dataSize -= tramSize;
-    memmove(_data, _data + tramSize, _dataSize);
+    memmove(tmp, _data + sizeof(Tram::header), tramSize);
+    _dataSize -= sizeof(Tram::header) + tramSize;
+    memmove(_data, _data + (sizeof(Tram::header) + tramSize), _dataSize);
     return tmp;
 }

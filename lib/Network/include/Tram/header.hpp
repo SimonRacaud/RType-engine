@@ -56,13 +56,13 @@ namespace Tram
          */
         TramType type;
 
-        virtual uint8_t *serialize();
+        uint8_t *serialize() override;
         /**
          * @throws InvalidArgument : invalid magic number
          * @param buffer
          */
-        virtual void deserialize(uint8_t *buffer);
-        virtual size_t length() const;
+        void deserialize(uint8_t *buffer) override;
+        [[nodiscard]] size_t length() const override;
     };
 
     header::header(TramType type, size_t size) : size(size), type(type)
@@ -72,7 +72,7 @@ namespace Tram
     uint8_t *header::serialize()
     {
         size_t length = this->length();
-        uint8_t *buffer = new uint8_t[length];
+        auto *buffer = new uint8_t[length];
 
         std::memcpy(buffer, (void *) this, length);
         return buffer;
@@ -80,7 +80,7 @@ namespace Tram
 
     void header::deserialize(uint8_t *buffer)
     {
-        header *ptr = reinterpret_cast<header *>(buffer);
+        auto *ptr = reinterpret_cast<header *>(buffer);
 
         if (this->magic != ptr->magic) {
             throw std::invalid_argument("header::deserialize invalid magic number");
