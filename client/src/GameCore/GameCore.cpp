@@ -22,8 +22,10 @@
 #include "Event/AudioEvent/AudioEventPlay.hpp"
 #include "Event/AudioEvent/AudioEventVolume.hpp"
 #include "Component/Render.hpp"
+#include "Component/Scroll.hpp"
 #include "Component/InputEvent.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
+#include "System/ScrollSystem/ScrollSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
@@ -55,20 +57,24 @@ void GameCore::run()
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Render>();
+    componentManager.registerComponent<Engine::Hitbox>();
     componentManager.registerComponent<Engine::Position>();
     componentManager.registerComponent<Engine::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
     componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::ScoreComponent>();
     componentManager.registerComponent<Engine::Hitbox>();
+    componentManager.registerComponent<Component::Scroll>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
     systemManager.registerSystem<Engine::PhysicsSystem>();
     systemManager.registerSystem<System::InputEventSystem>();
     systemManager.registerSystem<System::LogPositionSystem>();
+    systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
     systemManager.registerSystem<Engine::ColliderSystem>();
+    systemManager.registerSystem<System::ScrollSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

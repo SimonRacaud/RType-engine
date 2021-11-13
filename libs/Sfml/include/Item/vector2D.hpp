@@ -19,7 +19,7 @@ class vector2D
         vector2D(const vector2D &src): x(src.x), y(src.y)
         {
         }
-        vector2D(size_t srcX, size_t srcY): x(srcX), y(srcY)
+        vector2D(int srcX, int srcY): x(srcX), y(srcY)
         {
         }
         ~vector2D() = default;
@@ -35,8 +35,8 @@ class vector2D
         }
 
     public:
-        size_t x;
-        size_t y;
+        int x;
+        int y;
 };
 
 #endif

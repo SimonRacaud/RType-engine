@@ -14,8 +14,10 @@ int main(void)
         GameCore core;
 
         core.run();
-    } catch (std::exception const &e) {
+    } catch (const std::exception &e) {
         std::cout << "ERROR: Invalid exit status : " << e.what() << std::endl;
+    } catch (...) {
+        std::cout << "ERROR: Invalid exit status" << std::endl;
     }
     return EXIT_SUCCESS;
 }
