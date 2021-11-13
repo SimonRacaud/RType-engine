@@ -10,6 +10,8 @@
 
 PortManager::PortManager(PortPageType page) : _current(page.first), _page(page)
 {
+    if (page.first >= page.second)
+        throw std::invalid_argument("Invalid port page");
 }
 
 PortManager::PortType PortManager::getPort()
