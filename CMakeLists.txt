@@ -108,6 +108,14 @@ set_target_properties(${NAME_SERVER}
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
         )
 
+## NETWORK (client & server)
+set(NetworkDir ${PROJECT_SOURCE_DIR}/libs/Network)
+add_subdirectory(${NetworkDir})
+include_directories(${NetworkDir}/include)
+include_directories(${NetworkDir}/src)
+target_link_libraries(${NAME_CLIENT} Network)
+target_link_libraries(${NAME_SERVER} Network)
+
 ## GAME-ENGINE (client & server)
 set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)

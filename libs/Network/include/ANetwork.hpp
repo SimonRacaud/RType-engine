@@ -10,6 +10,7 @@
 #include <functional>
 #include <mutex>
 #include "INetwork.hpp"
+#include <iostream>
 
 #ifndef MY_MAP
     #define MY_MAP

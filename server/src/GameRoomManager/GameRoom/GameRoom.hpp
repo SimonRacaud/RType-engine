@@ -11,6 +11,9 @@
 #include <vector>
 #include <cstddef>
 
+#include "AsioServerTCP.hpp"
+#include "AsioConnectionUDP.hpp"
+
 class GameRoom
 {
     public:

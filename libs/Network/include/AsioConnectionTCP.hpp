@@ -8,6 +8,7 @@
 #ifndef BABEL_ASIOCONNECTIONTCP_HPP
 #define BABEL_ASIOCONNECTIONTCP_HPP
 
+#include <iostream>
 #include <functional>
 #include <unordered_map>
 
