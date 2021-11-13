@@ -25,6 +25,7 @@
 #include "System/ScrollSystem/ScrollSystem.hpp"
 #include "Entities/ImageView/ImageView.hpp"
 #include "Entities/Label/Label.hpp"
+#include "Entities/Enemy/Enemy.hpp"
 #include "Item/vector2D.hpp"
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
 #include "Systems/ColliderSystem/ColliderSystem.hpp"
@@ -95,6 +96,8 @@ void StartScene::open()
 
     ScrollingBackground background(this->getCluster());
     Button test("button", {110, 110}, {1, 1}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+
+    Enemy enemy(this->getCluster(), vector2D(200, 200), vector2D(1, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3, surface(vector2D(33, 18), vector2D(33, 18)));
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem, System::RenderSystem, System::InputEventSystem, System::ScrollSystem>();
