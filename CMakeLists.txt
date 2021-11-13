@@ -83,6 +83,8 @@ set(SERVER_SRCS
         ./server/src/Entities/Bullet/BulletServer.cpp
         ./server/src/Entities/Enemy/EnemyServer.cpp
         ./server/src/ServerCore/ServerCore.cpp
+        ./server/src/GameRoomManager/GameRoomManager.cpp
+        ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
