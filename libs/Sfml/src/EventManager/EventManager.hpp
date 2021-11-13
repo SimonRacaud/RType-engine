@@ -40,6 +40,7 @@ class EventManager: public IEventManager<renderToolSfml>
     private:
         vector2D _mouse;
         std::vector<keyEvent_e> _keyStackPressed;
+        std::vector<keyEvent_e> _keyStackReleased;
         const std::unordered_map<sf::Keyboard::Key, keyEvent_e> _keyLink = {
             {sf::Keyboard::Up, keyEvent_e::KEY_UP},
             {sf::Keyboard::Down, keyEvent_e::KEY_DOWN},

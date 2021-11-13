@@ -38,6 +38,16 @@ bool EventManager::isKeyPressed(const IEventManager::keyEvent_e &key) const
     return pos != this->_keyStackPressed.end();
 }
 
+bool EventManager::isKeyReleased(const keyEvent_e &key) const
+{
+    if (!this->isValideEnum(key))
+        throw std::invalid_argument("Invalid key type");
+
+    auto pos = std::find(this->_keyStackReleased.begin(), this->_keyStackReleased.end(), key);
+
+    return pos != this->_keyStackReleased.end();
+}
+
 vector2D EventManager::getMousePos() const
 {
     return this->_mouse;
