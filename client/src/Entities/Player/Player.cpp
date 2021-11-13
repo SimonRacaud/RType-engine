@@ -53,7 +53,7 @@ Player::Player(const vector2D &position, const vector2D &size, const vector2D &h
 	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
 	componentManager.add<Engine::ScoreComponent>(entity);
 	//componentManager.add<Engine::EntityLinkComponent>();
-	componentManager.add<Engine::InputEvent>(entity, [position, size](const Engine::Entity &local) {
+	componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &local) {
 		//TODO when adding keybindings change it here with GameCore setting
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP)) {
 			GET_EVENT_REG.registerEvent<MoveUp>(local, 10);

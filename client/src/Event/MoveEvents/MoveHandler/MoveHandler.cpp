@@ -44,13 +44,13 @@ void notMoving(const NotMoving *e)
 {
 	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
 	if (velocity.x > 0) {
-		velocity.x -= 0.4f;
+		velocity.x -= 0.3f;
 	} else if (velocity.x < 0) {
-		velocity.x += 0.4f;
+		velocity.x += 0.3f;
 	}
 	if (velocity.y > 0) {
-		velocity.y -= 0.4f;
+		velocity.y -= 0.3f;
 	} else if (velocity.y < 0) {
-		velocity.y += 0.4f;
+		velocity.y += 0.3f;
 	}
 }
