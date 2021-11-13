@@ -20,7 +20,6 @@
 Button::Button(
     const std::string &text,
     const vector2D &position,
-    const vector2D &size,
     const vector2f &scale,
     std::shared_ptr<Engine::Event::IEvent> event,
     const std::string &none,
@@ -31,6 +30,7 @@ Button::Button(
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    const vector2D size(scale.x, scale.y);
 
     std::vector<size_t> pos;
     std::vector<Engine::DrawableObj> renderList;
@@ -38,7 +38,9 @@ Button::Button(
     renderList.push_back(std::make_unique<SpriteManager>(position, scale, none));
     renderList.push_back(std::make_unique<SpriteManager>(position, scale, isOn));
     renderList.push_back(std::make_unique<SpriteManager>(position, scale, isClick));
-    renderList.push_back(std::make_unique<TextManager>(vector2D(position.x + 73 * 0.1, position.y + 30 * 0.1), size, color_e::WHITE, text, "asset/font/Code-Bold.ttf"));
+    renderList.push_back(std::make_unique<TextManager>(
+        vector2D(position.x + 73 * (0.1 * scale.x), position.y + 30 * (0.1 * scale.y)),
+        size, color_e::WHITE, text, "asset/font/Code-Pro.otf"));
     pos.push_back(3);
     pos.push_back(0);
 

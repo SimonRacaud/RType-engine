@@ -95,7 +95,7 @@ void StartScene::open()
     GET_EVENT_REG.registerEvent<AudioEventVolume>("asset/music/R_Type-01_theme.ogg", 100);
 
     ScrollingBackground background(this->getCluster());
-    Button test("button", {110, 110}, {1, 1}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
+    Button test("button", {110, 110}, {1, 1}, std::make_shared<AudioEventPlay>("asset/music/R_Type-01_theme.ogg"));
 
     Enemy enemy(this->getCluster(), vector2D(200, 200), vector2D(1, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3, surface(vector2D(33, 18), vector2D(33, 18)));
 

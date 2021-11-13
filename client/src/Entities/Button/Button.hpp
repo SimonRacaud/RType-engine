@@ -20,7 +20,6 @@ class Button
         Button(
             const std::string &text,
             const vector2D &position,
-            const vector2D &size,
             const vector2f &scale,
             std::shared_ptr<Engine::Event::IEvent> event,
             const std::string &none = "asset/gui/button_pressed.png",
