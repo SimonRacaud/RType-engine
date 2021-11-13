@@ -15,6 +15,7 @@
 
 namespace Engine {
     struct NumberComponent : public BaseComponent<NumberComponent> {
+        NumberComponent(size_t value): value(value) {};
         NumberComponent() = default;
         virtual ~NumberComponent() = default;
 
