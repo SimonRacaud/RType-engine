@@ -12,6 +12,7 @@
 #include "FrameRateLimiter.hpp"
 #include "Interface/IAnimationManager.hpp"
 #include "Item/vector2f.hpp"
+#include "WindowManager/WindowManager.hpp"
 
 class AnimationManager: public IAnimationManager<renderToolSfml>
 {
@@ -47,6 +48,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         size_t _offset;
         surface _focus;
         size_t _nb;
+        WindowManager *_windowTmp = nullptr;
         Singly::FrameRateLimiter<void (size_t &)> _limiter;
         std::function<surface (surface, size_t)> _func;
 };

@@ -35,7 +35,7 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	ShootEventsManager shootEventsManager;
 	Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 	Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-	Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::GAME, Engine::EntityName::TEST);
+	Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::GAME, Engine::EntityName::EMPTY);
 
 	std::vector<size_t> ps;
 	std::vector<Engine::DrawableObj> renderList;
