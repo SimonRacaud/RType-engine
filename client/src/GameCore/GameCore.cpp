@@ -74,6 +74,7 @@ void GameCore::run()
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Engine::NumberComponent>();
     componentManager.registerComponent<Component::Shooting>();
+    componentManager.registerComponent<Engine::EquipmentComponent>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
