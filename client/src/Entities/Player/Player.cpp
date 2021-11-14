@@ -41,16 +41,20 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	std::vector<Engine::DrawableObj> renderList;
 	std::shared_ptr<AnimationManager> anim = std::make_shared<AnimationManager>();
 
-	anim->setFocus(surface(vector2D(100, 2), vector2D(34, 16)));
+	vector2D playerEntitySize(34, 16);
+
+	anim->setFocus(surface(vector2D(100, 2), playerEntitySize));
 	anim->setNbMember(2);
-	anim->setPosition(position); // vector2D(position.x + hitboxSize.x / 2, position.y + hitboxSize.y / 2)
+	anim->setPosition(position);
 	anim->setSrcPath("asset/sprites/r-typesheet1.gif");
 
 	std::shared_ptr<AnimationManager> chargeShot = std::make_shared<AnimationManager>();
+	vector2D shotEntitySize(30, 32);
 
-	chargeShot->setFocus(surface(vector2D(1, 51), vector2D(34, 32)));
+	chargeShot->setFocus(surface(vector2D(1, 51), shotEntitySize));
 	chargeShot->setNbMember(8);
 	chargeShot->setPosition(position);
+	chargeShot-> setOffsetPosition(vector2D(playerEntitySize.x - shotEntitySize.x / 2, playerEntitySize.y / 2 - shotEntitySize.y / 2));
 	chargeShot->setSrcPath("asset/sprites/r-typesheet1.gif");
 
 	renderList.push_back(anim);

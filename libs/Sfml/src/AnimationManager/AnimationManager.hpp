@@ -24,6 +24,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         const vector2D &getPosition();
         void setScale(const vector2f &);
         void setPosition(const vector2D &);
+        void setOffsetPosition(const vector2D &);
         void setSrcPath(const std::string &);
         void draw(renderToolSfml &render);
         void refresh();
@@ -49,6 +50,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         size_t _nb;
         Singly::FrameRateLimiter<void (size_t &)> _limiter;
         std::function<surface (surface, size_t)> _func;
+        vector2D _offsetPos;
 };
 
 #endif
