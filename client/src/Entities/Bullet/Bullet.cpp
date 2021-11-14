@@ -14,15 +14,15 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
-Bullet::Bullet(const vector2D &pos)
+Bullet::Bullet(size_t charge, const vector2D &pos)
 {
     vector2D size = GameCore::config->getVar<vector2D>("BULLET_DEFAULT_SIZE");
     vector2D velocity = GameCore::config->getVar<vector2D>("BULLET_DEFAULT_VELOCITY");
 
-    *this = Bullet(pos, velocity, size);
+    *this = Bullet(charge, pos, velocity, size);
 }
 
-Bullet::Bullet(const vector2D &pos, const vector2D &velocity, const vector2D &size)
+Bullet::Bullet(size_t charge, const vector2D &pos, const vector2D &velocity, const vector2D &size)
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();

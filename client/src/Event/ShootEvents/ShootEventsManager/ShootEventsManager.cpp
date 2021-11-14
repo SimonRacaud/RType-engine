@@ -40,7 +40,7 @@ void releaseShot(const ReleaseChargedShot *e)
 	auto nb_sec = std::chrono::duration_cast<std::chrono::seconds>(
 		now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
 	if (nb_sec < 1) {
-		Bullet b(vector2D(pos.x, pos.y));
+		Bullet b(1, vector2D(pos.x, pos.y));
 	} else {
 		//TODO RELEASE CHARGED SHOT
 		std::cout << "release shot\n";
