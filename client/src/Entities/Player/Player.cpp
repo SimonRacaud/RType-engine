@@ -41,13 +41,41 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	std::vector<Engine::DrawableObj> renderList;
 	std::shared_ptr<AnimationManager> anim = std::make_shared<AnimationManager>();
 
-	anim->setFocus(surface(vector2D(100, 2), vector2D(34, 16)));
+	vector2D playerEntitySize(34, 16);
+
+	anim->setFocus(surface(vector2D(100, 2), playerEntitySize));
 	anim->setNbMember(2);
 	anim->setPosition(position);
 	anim->setSrcPath("asset/sprites/r-typesheet1.gif");
 
+
+	// CHARGE SHOT START
+	std::shared_ptr<AnimationManager> chargeShot = std::make_shared<AnimationManager>();
+	vector2D shotEntitySize(30, 32);
+
+	chargeShot->setFocus(surface(vector2D(1, 51), shotEntitySize));
+	chargeShot->setNbMember(8);
+	chargeShot->setPosition(position);
+	chargeShot-> setOffsetPosition(vector2D(playerEntitySize.x - shotEntitySize.x / 2, playerEntitySize.y / 2 - shotEntitySize.y / 2));
+	chargeShot->setSrcPath("asset/sprites/r-typesheet1.gif");
+	// END
+
+	// PROPULSOR START
+	std::shared_ptr<AnimationManager> propulsor = std::make_shared<AnimationManager>();
+	vector2D propEntitySize(34, 29);
+
+	propulsor->setFocus(surface(vector2D(199, 18), propEntitySize));
+	propulsor->setNbMember(2);
+	propulsor->setPosition(position);
+	propulsor-> setOffsetPosition(vector2D(-propEntitySize.x, playerEntitySize.y / 2 - propEntitySize.y / 2));
+	propulsor->setSrcPath("asset/sprites/r-typesheet1.gif");
+	// END
+
 	renderList.push_back(anim);
+	renderList.push_back(propulsor);
+	renderList.push_back(chargeShot);
 	ps.push_back(0);
+	ps.push_back(1);
 
 	componentManager.add<Engine::Render>(entity, renderList, ps);
 	componentManager.add<Engine::Position>(entity, 30, 30);
@@ -58,6 +86,7 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	//componentManager.add<Engine::EntityLinkComponent>();
 	componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &local) {
 		auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
+		auto &render = GET_COMP_M.get<Engine::Render>(local);
 
 		//TODO when adding keybindings change it here with GameCore setting
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP)) {
@@ -74,9 +103,11 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 		}
 		if (!GameCore::event->isStateChange(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
 			shooting._isCharging = true;
+			render.setRender(2);
 			GET_EVENT_REG.registerEvent<ChargeShot>(local);
 		} else if (GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
 			shooting._isCharging = false;
+			render.removeRender(2);
 			GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
