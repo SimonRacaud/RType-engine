@@ -15,9 +15,9 @@ class IEnemyApi {
 	public:
 		virtual ~IEnemyApi() = 0;
 		
-		virtual void idle(const Engine::Entity e) = 0;
-		virtual void move(const Engine::Entity e) = 0;
-		virtual void attack(const Engine::Entity e) = 0;
+		virtual void idle(const IEnemyApi *ptr) = 0;
+		virtual void move(const IEnemyApi *ptr) = 0;
+		virtual void attack(const IEnemyApi *ptr) = 0;
 		virtual float getMoveSpeed() const = 0;
 		virtual float getShootingSpeed() const = 0;
 		virtual int getHealth() const = 0;

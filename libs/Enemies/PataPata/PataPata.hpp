@@ -37,9 +37,9 @@ class PataPata : public IEnemyApi {
 		PataPata();
 		~PataPata();
 
-		virtual void idle(const Engine::Entity e);
-		virtual void move(const Engine::Entity e);
-		virtual void attack(const Engine::Entity e);
+		virtual void idle(const PataPata *ptr);
+		virtual void move(const PataPata *ptr);
+		virtual void attack(const PataPata *ptr);
 		virtual float getMoveSpeed() const;
 		virtual float getShootingSpeed() const;
 		virtual int getHealth() const;

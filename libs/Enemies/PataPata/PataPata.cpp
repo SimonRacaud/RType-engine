@@ -15,17 +15,17 @@ PataPata::~PataPata()
 {
 }
 
-void PataPata::idle(const Engine::Entity e) 
+void PataPata::idle(const PataPata *ptr) 
 {
 	std::cout << "PataPata idle\n";
 }
 
-void PataPata::move(const Engine::Entity e) 
+void PataPata::move(const PataPata *ptr) 
 {
 	std::cout << "PataPata move\n";
 }
 
-void PataPata::attack(const Engine::Entity e) 
+void PataPata::attack(const PataPata *ptr) 
 {
 	std::cout << "PataPata attack\n";
 }
