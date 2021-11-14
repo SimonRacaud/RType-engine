@@ -54,6 +54,8 @@ void AnimationManager::setOffsetPosition(const vector2D &offset)
 void AnimationManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_sprite && _texture)
+        this->_sprite->setPosition(sf::Vector2f(this->_pos.x + _offsetPos.x, this->_pos.y + _offsetPos.y));
 }
 
 void AnimationManager::setSrcPath(const std::string &path)

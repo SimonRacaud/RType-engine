@@ -39,6 +39,8 @@ void ShapeManager::setSize(const vector2D &size)
 void ShapeManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_shape)
+        this->_shape->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
 }
 
 void ShapeManager::setColors(const color_e &color)
