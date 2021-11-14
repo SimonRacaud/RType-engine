@@ -27,8 +27,8 @@ void ScrollSystem::run(const vector<Engine::Entity> &entities)
     for (const Engine::Entity entity : entities) {
         auto [position, scroll] = GET_COMP_M.getList<Position, Component::Scroll>(entity);
 
-        if (position.x >= 0) {
-            position.x = (scroll.width / 2) * (-1);
+        if (position.x <= -(scroll.width / 2)) {
+            position.x = 0;
         }
     }
 }
