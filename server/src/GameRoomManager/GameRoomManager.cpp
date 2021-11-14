@@ -37,6 +37,7 @@ void GameRoomManager::deleteRoom(GameRoom::Id id)
 GameRoom::Id GameRoomManager::createRoom(GameRoom::PlayerList &list)
 {
     GameRoom::Id id = _idReference;
+    // TODO IF INSTANCE WAS DUPLICATE MAKE A PTR HERE
     GameRoom room(list, id, GameRoom::ServerTypeTcp(_port.getPort()), GameRoom::ServerTypeUdp(_port.getPort()));
 
     _idReference++;

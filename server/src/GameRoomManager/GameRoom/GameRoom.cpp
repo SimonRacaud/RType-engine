@@ -9,6 +9,7 @@
 
 GameRoom::GameRoom(PlayerList &player, Id id, ServerTypeTcp tcp, ServerTypeUdp udp) : _id(id), _playerList(player), _tcp(std::move(tcp)), _udp(std::move(udp))
 {
+    // TODO START SERVER TCP && UDP
 }
 
 GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _playerList(src._playerList), _tcp(std::move(src._tcp)), _udp(std::move(src._udp))
@@ -45,7 +46,7 @@ void GameRoom::run()
     bool loop = true;
 
     while (loop) {
-        // TODO RUN GAME
+        // TODO RUN GAME && SERVER
     }
 }
 
