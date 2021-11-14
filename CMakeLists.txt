@@ -41,7 +41,6 @@ set(CLIENT_SRCS
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
         
         client/src/Scene/Debug/DebugScene.cpp
-        client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
         
         client/src/Entities/Button/Button.cpp
@@ -83,6 +82,8 @@ set(SERVER_SRCS
         ./server/src/Entities/Bullet/BulletServer.cpp
         ./server/src/Entities/Enemy/EnemyServer.cpp
         ./server/src/ServerCore/ServerCore.cpp
+        ./server/src/EnemyLoader/EnemyLoader.cpp
+        ./server/src/StateMachine/StateMachine.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
@@ -105,6 +106,8 @@ set_target_properties(${NAME_SERVER}
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
         )
 
+target_link_libraries(${NAME_SERVER} ${CMAKE_DL_LIBS})
+
 ## GAME-ENGINE (client & server)
 set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
@@ -126,3 +129,11 @@ add_subdirectory(${SfmlDir})
 include_directories(${SfmlDir}/include)
 include_directories(${SfmlDir}/src)
 target_link_libraries(${NAME_CLIENT} Sfml)
+
+## Enemy Lib
+set(EnemyDir ${PROJECT_SOURCE_DIR}/libs/Enemies)
+
+## PataPata Lib
+add_subdirectory(${EnemyDir}/PataPata)
+include_directories(${EnemyDir}/PataPata)
+target_link_libraries(${NAME_SERVER} PataPata)

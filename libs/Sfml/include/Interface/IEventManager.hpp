@@ -23,6 +23,7 @@ class IEventManager
             KEY_DOWN,
             KEY_LEFT,
             KEY_RIGHT,
+            KEY_SPACE,
             MOUSE_EVENT,
             MOUSE_CLICK_LEFT,
             MOUSE_CLICK_RIGHT,

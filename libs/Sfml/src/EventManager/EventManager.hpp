@@ -43,10 +43,11 @@ class EventManager: public IEventManager<renderToolSfml>
         std::vector<keyEvent_e> _keyStackPressed;
         std::vector<keyEvent_e> _keyStackReleased;
         const std::unordered_map<sf::Keyboard::Key, keyEvent_e> _keyLink = {
-            {sf::Keyboard::Up, keyEvent_e::KEY_UP},
-            {sf::Keyboard::Down, keyEvent_e::KEY_DOWN},
-            {sf::Keyboard::Left, keyEvent_e::KEY_LEFT},
-            {sf::Keyboard::Right, keyEvent_e::KEY_RIGHT},
+            {sf::Keyboard::Up, IEventManager<renderToolSfml>::keyEvent_e::KEY_UP},
+            {sf::Keyboard::Down, IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN},
+            {sf::Keyboard::Left, IEventManager<renderToolSfml>::keyEvent_e::KEY_LEFT},
+            {sf::Keyboard::Right, IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT},
+            {sf::Keyboard::Space, IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE}
         };
         const std::unordered_map<sf::Mouse::Button, keyEvent_e> _mouseLink = {
             {sf::Mouse::Left, keyEvent_e::MOUSE_CLICK_LEFT},
