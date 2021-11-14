@@ -14,7 +14,7 @@ class Bullet
 {
     public:
         Bullet(size_t charge, const vector2D &pos);
-        Bullet(size_t charge, const vector2D &pos, const vector2D &velocity, const vector2D &size);
+        Bullet(size_t charge, const vector2D &pos, const vector2D &velocity);
         ~Bullet() = default;
 };
 

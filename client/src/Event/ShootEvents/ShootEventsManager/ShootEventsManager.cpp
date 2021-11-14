@@ -20,7 +20,7 @@ void shootOnce(const ShootOnce *e)
 {
 	auto pos = GET_COMP_M.get<Engine::Position>(e->_entity);
 	
-	Bullet b(vector2D(pos.x, pos.y));
+	Bullet b(0, vector2D(pos.x, pos.y));
 }
 
 void chargeShot(const ChargeShot *e)
