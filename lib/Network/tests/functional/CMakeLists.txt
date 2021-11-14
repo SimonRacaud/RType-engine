@@ -156,26 +156,28 @@ target_link_libraries(${INDEPENDENT} PUBLIC ${CONAN_LIBS})
 include(CTest)
 enable_testing()
 
-##### WORKING TEST
-#enable_testing()
-#add_test(usage_test bin/client 1)
-#set_tests_properties(usage_test PROPERTIES WILL_FAIL TRUE)
+set(CLIENT_TEST_BIN bin/client)
+set(SERVER_TEST_BIN bin/server)
+set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
+set(SH_ADD_CMD -c)
 
-##### NOT WORKING TEST
-#set(TEST_NUMBER 1)
-#set(TEST noArg)
-#add_test(NAME ${TEST}
-#                           COMMAND ${CLIENT} 1)
-#         COMMAND bin/server 1
-#         COMMAND bin/client 1)
-#set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+##### TEST THAT TESTS WORK
+add_test(TestTheTest bin/client 0)
+set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
 
-set(TEST_NUMBER 1)
-set(TEST noArg)
+##### REAL TESTS
+set(TEST_NB 1)
+set(TEST simpleSendReceive)
 add_test(NAME ${TEST}
-         COMMAND ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh -c ./bin/server 1 -c ./bin/client 1)
-set_tests_properties(${TEST}
-                     PROPERTIES
-                     PASS_REGULAR_EXPRESSION "client connection, send, disconnection") ## todo change
+         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+         ${TEST_NB})
 
-## todo add new tests
+##### TESTS IN LOOP
+#set(TEST_NBS 0;1)
+
+#foreach (num IN ZIP_LISTS TEST_NBS)
+#    set(TEST_NB ${num_0})
+#    add_test(NAME test_${TEST_NB}
+#             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+#             ${TEST_NB})
+#endforeach ()
