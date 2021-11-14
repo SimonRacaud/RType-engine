@@ -41,6 +41,7 @@ set(COMMON_PROJECT_SRC
     ../../src/Tram/JoinCreateRoomReply.cpp
     ../../src/Tram/JoinRoom.cpp
     ../../src/Tram/TramBuffer.cpp
+    ../../src/Tram/Serializable.cpp
     )
 
 ############## EXECUTABLES
@@ -172,6 +173,19 @@ set(TEST simpleSendReceive)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
+set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
+
+
+set(TEST_NB 2)
+set(TEST sendReceiveTramThroughDataWrapper)
+add_test(NAME ${TEST}
+         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+         ${TEST_NB})
+set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
+#set_tests_properties(sendReceiveTramThroughDataWrapper PROPERTIES WILL_FAIL FALSE)
+#message(${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+#        ${TEST_NB})
+
 
 ##### TESTS IN LOOP
 #set(TEST_NBS 0;1)
