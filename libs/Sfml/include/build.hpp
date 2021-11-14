@@ -12,6 +12,4 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-using renderToolSfml = std::shared_ptr<IWindowManager>;
-
 #endif
