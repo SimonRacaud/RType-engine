@@ -35,7 +35,7 @@
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
 
-//SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so");
+//SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager<renderToolSfml>> GameCore::event = std::make_unique<EventManager>();

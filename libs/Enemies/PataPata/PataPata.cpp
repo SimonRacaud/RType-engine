@@ -6,6 +6,14 @@
 */
 
 #include "PataPata.hpp"
+#include "exported.h"
+
+extern "C" {
+	EXPORTED PataPata *initApi();
+	PataPata *initApi() {
+		return new PataPata();
+	}
+}
 
 PataPata::PataPata()
 	: _position(0, 0), _velocity(10, 10), _health(1)
