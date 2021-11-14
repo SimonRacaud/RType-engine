@@ -9,12 +9,15 @@
 #define BULLET_HPP
 
 #include "Item/vector2D.hpp"
+#include "CustomCluster.hpp"
+
+using Engine::ClusterName;
 
 class Bullet
 {
     public:
-        Bullet(size_t charge, const vector2D &pos);
-        Bullet(size_t charge, const vector2D &pos, const vector2D &velocity);
+        Bullet(ClusterName cluster, size_t charge, const vector2D &pos);
+        Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const vector2D &velocity);
         ~Bullet() = default;
 };
 

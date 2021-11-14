@@ -14,7 +14,7 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
-Bullet::Bullet(size_t charge, const vector2D &pos)
+Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos)
 {
     std::vector<vector2D> velocity = GameCore::config->getVectorOf<vector2D>("BULLET_DEFAULT_VELOCITY");
 
@@ -22,14 +22,14 @@ Bullet::Bullet(size_t charge, const vector2D &pos)
         throw std::invalid_argument("Velocity must have 5 values");
     if (charge > 4)
         charge = 4;
-    *this = Bullet(charge, pos, velocity[charge]);
+    *this = Bullet(cluster, charge, pos, velocity[charge]);
 }
 
-Bullet::Bullet(size_t charge, const vector2D &pos, const vector2D &velocity)
+Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const vector2D &velocity)
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::EMPTY);
+    Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
     std::shared_ptr<AnimationManager> bullet = std::make_shared<AnimationManager>();
     std::vector<vector2D> focusPos = GameCore::config->getVectorOf<vector2D>("BULLET_DEFAULT_ANIMATION_FOCUS_POS");
     std::vector<vector2D> focusSize = GameCore::config->getVectorOf<vector2D>("BULLET_DEFAULT_ANIMATION_FOCUS_SIZE");
