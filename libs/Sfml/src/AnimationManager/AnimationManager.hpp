@@ -33,6 +33,8 @@ class AnimationManager: public IAnimationManager
         void forceOffset(size_t);
         void setFocus(const surface &);
         void setStepMovement(std::function<surface (surface, size_t)>);
+        void setSize(const vector2D &);
+        const vector2D &getSize();
 
     private:
         void nextStep();

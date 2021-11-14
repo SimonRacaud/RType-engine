@@ -136,3 +136,13 @@ surface AnimationManager::defaultMove(surface focus, size_t offset)
 
     return surface(vector2D(x, y), vector2D(size_x, size_y));
 }
+
+void AnimationManager::setSize(const vector2D &)
+{
+    throw std::invalid_argument("Not already dev");
+}
+
+const vector2D &AnimationManager::getSize()
+{
+    throw std::invalid_argument("Not already dev");
+}

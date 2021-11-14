@@ -9,9 +9,7 @@
 #define ISPRITEMANAGER_HPP
 
 #include <string>
-#include "IMovable.hpp"
 #include "IDrawable.hpp"
-#include "IResizable.hpp"
 #include "Item/surface.hpp"
 #include "Item/vector2f.hpp"
 

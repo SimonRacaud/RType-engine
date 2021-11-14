@@ -9,12 +9,10 @@
 #define ISHAPEMANAGER_HPP
 
 #include "color.hpp"
-#include "IMovable.hpp"
 #include "IDrawable.hpp"
-#include "IResizable.hpp"
 #include "Item/surface.hpp"
 
-class IShapeManager: public IResizable, public IDrawable
+class IShapeManager: public IDrawable
 {
     public:
         ~IShapeManager() = default;

@@ -10,12 +10,10 @@
 
 #include <string>
 #include "color.hpp"
-#include "IMovable.hpp"
 #include "IDrawable.hpp"
-#include "IResizable.hpp"
 #include "Item/vector2D.hpp"
 
-class ITextManager: public IResizable, public IDrawable
+class ITextManager: public IDrawable
 {
     public:
         ~ITextManager() = default;

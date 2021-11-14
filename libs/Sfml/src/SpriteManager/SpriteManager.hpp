@@ -27,6 +27,8 @@ class SpriteManager: public ISpriteManager
         void setSrcFilepath(const std::string &);
         void draw();
         void refresh();
+        void setSize(const vector2D &);
+        const vector2D &getSize();
     
     private:
         vector2D _pos;

@@ -47,17 +47,11 @@ void GuiEventManager::setProgressBarValue(const SetProgressBarValue *evt)
 
         if (render._src.size() == 2) {
             value.value = evt->getValue();
-            IShapeManager *shapeFor = dynamic_cast<IShapeManager *>(render._src[0].get());
-            IShapeManager *shapeBack = dynamic_cast<IShapeManager *>(render._src[1].get());
-            if (shapeFor != nullptr && shapeBack != nullptr) {
-                size_t maxWidth = shapeBack->getSize().x;
-                size_t newWidth = static_cast<int>((float)maxWidth * ((float)evt->getValue() / 100.0f));
+            size_t maxWidth = render._src[1]->getSize().x;
+            size_t newWidth = static_cast<int>((float)maxWidth * ((float)evt->getValue() / 100.0f));
 
-                shapeFor->setSize(vector2D(newWidth, shapeFor->getSize().y));
-                shapeFor->refresh();
-            } else {
-                throw std::invalid_argument("Render layers are not shape");
-            }
+            render._src[0]->setSize(vector2D(newWidth, render._src[0]->getSize().y));
+            render._src[0]->refresh();
         }
     } catch (std::exception const &e) {
         std::cerr << "GuiEventManager::setProgressBarValue : " << e.what() << std::endl;

@@ -77,3 +77,13 @@ void SpriteManager::refresh()
     if (this->_size.x && this->_size.y)
         this->_sprite->setScale(sf::Vector2f(this->_size.x, this->_size.y));
 }
+
+void SpriteManager::setSize(const vector2D &)
+{
+    throw std::invalid_argument("Not already dev");
+}
+
+const vector2D &SpriteManager::getSize()
+{
+    throw std::invalid_argument("Not already dev");
+}

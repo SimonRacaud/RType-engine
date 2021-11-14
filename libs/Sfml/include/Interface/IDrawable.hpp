@@ -9,8 +9,9 @@
 #define IDRAWABLE_HPP
 
 #include "IMovable.hpp"
+#include "IResizable.hpp"
 
-class IDrawable : public IMovable
+class IDrawable : public IMovable, public IResizable
 {
     public:
         ~IDrawable() = default;
