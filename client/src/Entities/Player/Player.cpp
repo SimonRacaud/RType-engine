@@ -43,10 +43,18 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 
 	anim->setFocus(surface(vector2D(100, 2), vector2D(34, 16)));
 	anim->setNbMember(2);
-	anim->setPosition(position);
+	anim->setPosition(position); // vector2D(position.x + hitboxSize.x / 2, position.y + hitboxSize.y / 2)
 	anim->setSrcPath("asset/sprites/r-typesheet1.gif");
 
+	std::shared_ptr<AnimationManager> chargeShot = std::make_shared<AnimationManager>();
+
+	chargeShot->setFocus(surface(vector2D(1, 51), vector2D(34, 32)));
+	chargeShot->setNbMember(8);
+	chargeShot->setPosition(position);
+	chargeShot->setSrcPath("asset/sprites/r-typesheet1.gif");
+
 	renderList.push_back(anim);
+	renderList.push_back(chargeShot);
 	ps.push_back(0);
 
 	componentManager.add<Engine::Render>(entity, renderList, ps);
@@ -58,6 +66,7 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	//componentManager.add<Engine::EntityLinkComponent>();
 	componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &local) {
 		auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
+		auto &render = GET_COMP_M.get<Engine::Render>(local);
 
 		//TODO when adding keybindings change it here with GameCore setting
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP)) {
@@ -74,9 +83,11 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 		}
 		if (!GameCore::event->isStateChange(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
 			shooting._isCharging = true;
+			render.setRender(1);
 			GET_EVENT_REG.registerEvent<ChargeShot>(local);
 		} else if (GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
 			shooting._isCharging = false;
+			render.removeRender(1);
 			GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
