@@ -28,6 +28,15 @@ set(SRCS
     src/Exceptions/NetworkException.cpp
     src/Tram/ComponentSync.cpp
     src/Tram/CreateEntityReply.cpp
+    src/Tram/CreateEntityRequest.cpp
+    src/Tram/DestroyEntity.cpp
+    src/Tram/GetRoomList.cpp
+    src/Tram/header.cpp
+    src/Tram/JoinCreateRoomReply.cpp
+    src/Tram/JoinRoom.cpp
+    src/Tram/TramBuffer.cpp
+    src/NetworkManager.cpp
+    src/DataWrapper.cpp
     )
 
 ## TARGET

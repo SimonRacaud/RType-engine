@@ -15,6 +15,7 @@
 #include <inttypes.h>
 #include <stddef.h>
 #include <string>
+#include <utility>
 #include "ISerializable.hpp"
 #include "utils/timeDef.hpp"
 
@@ -23,7 +24,7 @@ namespace Tram
     using std::string;
     #define ENTITY_TYPE_LEN 10
 
-    class CreateEntityRequest : public Network::ISerializable<CreateEntityRequest> {
+    class CreateEntityRequest : public Network::ISerializable {
       public:
         CreateEntityRequest();
         CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp)
@@ -48,40 +49,13 @@ namespace Tram
         /**
          * @brief timestamp de creation de l'entité (rollback)
          */
-        Time timestamp;
+        Time timestamp{};
 
-        virtual uint8_t *serialize();
-        virtual void deserialize(uint8_t *buffer);
-        virtual size_t length() const;
+        [[nodiscard]] uint8_t *serialize() const override;
+        void deserialize(uint8_t *buffer) override;
+        explicit CreateEntityRequest(uint8_t *buffer);
+        [[nodiscard]] size_t length() const override;
     };
-
-    CreateEntityRequest::CreateEntityRequest()
-    {
-        this->entityType[0] = '\0';
-    }
-
-    uint8_t *CreateEntityRequest::serialize()
-    {
-        size_t size = sizeof(CreateEntityRequest);
-        uint8_t *buffer = new uint8_t[size];
-
-        std::memcpy(buffer, (void *) this, size);
-        return buffer;
-    }
-
-    void CreateEntityRequest::deserialize(uint8_t *buffer)
-    {
-        CreateEntityRequest *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
-
-        this->entityId = ptr->entityId;
-        this->entityType = ptr->entityType;
-        this->timestamp = ptr->timestamp;
-    }
-
-    size_t CreateEntityRequest::length() const
-    {
-        return sizeof(CreateEntityRequest);
-    }
 } // namespace Tram
 
 #endif // CREATEENTITYREQUEST_HPP

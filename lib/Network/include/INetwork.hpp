@@ -23,7 +23,7 @@ namespace Network
 {
     enum protocol { TCP, UDP };
 
-    template <Pointerable Data> class IConnection {
+    template <PointerableUnknownLen Data> class IConnection {
       public:
         /**
          * @brief Connect to a remote INetwork class

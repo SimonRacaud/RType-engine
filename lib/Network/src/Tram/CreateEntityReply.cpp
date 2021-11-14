@@ -13,18 +13,18 @@
 
 using namespace Tram;
 
-uint8_t *CreateEntityReply::serialize()
+uint8_t *CreateEntityReply::serialize() const
 {
     size_t size = sizeof(CreateEntityReply);
-    uint8_t *buffer = new uint8_t[size];
+    auto *buffer = new uint8_t[size];
 
-    std::memcpy(buffer, this, size);
+    std::memcpy(buffer, (uint8_t *) this, size);
     return buffer;
 }
 
 void CreateEntityReply::deserialize(uint8_t *buffer)
 {
-    CreateEntityReply *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
+    auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
 
     this->accept = ptr->accept;
     this->entityId = ptr->entityId;
@@ -42,14 +42,6 @@ CreateEntityReply::CreateEntityReply(uint8_t *buffer)
     this->accept = ptr->accept;
     this->entityId = ptr->entityId;
     this->networkId = ptr->networkId;
-}
-uint8_t *CreateEntityReply::serialize(CreateEntityReply &toSerialize)
-{
-    size_t size = sizeof(CreateEntityReply);
-    auto *buffer = new uint8_t[size];
-
-    std::memcpy(buffer, (void *) &toSerialize, size);
-    return buffer;
 }
 /*
  CreateEntityReply::CreateEntityReply(CreateEntityReply &&rhs) noexcept

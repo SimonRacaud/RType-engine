@@ -11,9 +11,9 @@
 #ifndef HEADER_HPP
 #define HEADER_HPP
 
+#include <cinttypes>
+#include <cstddef>
 #include <cstring>
-#include <inttypes.h>
-#include <stddef.h>
 #include <stdexcept>
 #include <string>
 #include "ISerializable.hpp"
@@ -38,9 +38,10 @@ namespace Tram
 
     //    std::unordered_map<TramType, >
 
-    class header : public Network::ISerializable<TramType> {
+    class header : public Network::ISerializable {
       public:
-        header(TramType type, size_t size = 0);
+        explicit header() = default;
+        explicit header(TramType type, size_t size = 0);
         explicit header(uint8_t *data);
 
         /**
@@ -54,9 +55,9 @@ namespace Tram
         /**
          * @brief Tram type
          */
-        TramType type;
+        TramType type{Tram::TramType::NONE};
 
-        uint8_t *serialize() override;
+        [[nodiscard]] uint8_t *serialize() const override;
         /**
          * @throws InvalidArgument : invalid magic number
          * @param buffer
@@ -65,44 +66,6 @@ namespace Tram
         [[nodiscard]] size_t length() const override;
     };
 
-    header::header(TramType type, size_t size) : size(size), type(type)
-    {
-    }
-
-    uint8_t *header::serialize()
-    {
-        size_t length = this->length();
-        auto *buffer = new uint8_t[length];
-
-        std::memcpy(buffer, (void *) this, length);
-        return buffer;
-    }
-
-    void header::deserialize(uint8_t *buffer)
-    {
-        auto *ptr = reinterpret_cast<header *>(buffer);
-
-        if (this->magic != ptr->magic) {
-            throw std::invalid_argument("header::deserialize invalid magic number");
-        }
-        this->size = ptr->size;
-        this->type = ptr->type;
-    }
-
-    size_t header::length() const
-    {
-        return sizeof(header);
-    }
-    header::header(uint8_t *data)
-    {
-        auto *ptr = reinterpret_cast<header *>(data);
-
-        if (this->magic != ptr->magic) {
-            throw std::invalid_argument("header::deserialize invalid magic number");
-        }
-        this->size = ptr->size;
-        this->type = ptr->type;
-    }
 } // namespace Tram
 
 #endif // HEADER_HPP

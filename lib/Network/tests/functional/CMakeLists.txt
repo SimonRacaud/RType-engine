@@ -30,9 +30,18 @@ include_directories(
 set(SRC_DIR src/)
 set(COMMON_PROJECT_SRC
     ../../src/Exceptions/NetworkException.cpp
-    ../../src/Tram/CreateEntityReply.cpp
+    ../../src/NetworkManager.cpp
+    ../../src/DataWrapper.cpp
     ../../src/Tram/ComponentSync.cpp
-    ../../src/Tram/TramBuffer.cpp)
+    ../../src/Tram/CreateEntityReply.cpp
+    ../../src/Tram/CreateEntityRequest.cpp
+    ../../src/Tram/DestroyEntity.cpp
+    ../../src/Tram/GetRoomList.cpp
+    ../../src/Tram/header.cpp
+    ../../src/Tram/JoinCreateRoomReply.cpp
+    ../../src/Tram/JoinRoom.cpp
+    ../../src/Tram/TramBuffer.cpp
+    )
 
 ############## EXECUTABLES
 ####### Server
@@ -60,7 +69,8 @@ target_include_directories(${SERVER} BEFORE PUBLIC ${CMAKE_HOME_DIRECTORY}/../..
 if (MSVC)
     target_compile_options(${SERVER} PRIVATE /W4 /WX)
 else ()
-    target_compile_options(${SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
+    target_compile_options(${SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers
+                           -ftemplate-backtrace-limit=0) ## todo remove -ftemplate-backtrace-limit=0
 endif ()
 
 ## DESTINATION

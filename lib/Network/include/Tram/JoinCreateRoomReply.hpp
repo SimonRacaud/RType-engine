@@ -11,16 +11,16 @@
 #ifndef JOINCREATEROOMREPLY_HPP
 #define JOINCREATEROOMREPLY_HPP
 
+#include <cinttypes>
+#include <cstddef>
 #include <cstring>
-#include <inttypes.h>
-#include <stddef.h>
 #include <string>
 #include "ISerializable.hpp"
 #include "utils/timeDef.hpp"
 
 namespace Tram
 {
-    class JoinCreateRoomReply : public Network::ISerializable<JoinCreateRoomReply> {
+    class JoinCreateRoomReply : public Network::ISerializable {
       public:
         JoinCreateRoomReply() = default;
         JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp);
@@ -29,38 +29,12 @@ namespace Tram
         size_t roomId{0};
         Time startTimestamp{0};
 
-        virtual uint8_t *serialize();
-        virtual void deserialize(uint8_t *buffer);
-        virtual size_t length() const;
+        [[nodiscard]] uint8_t *serialize() const override;
+        void deserialize(uint8_t *buffer) override;
+        explicit JoinCreateRoomReply(uint8_t *buffer);
+        [[nodiscard]] size_t length() const override;
     };
 
-    JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp)
-        : accept(accept), roomId(roomId), startTimestamp(timestamp)
-    {
-    }
-
-    uint8_t *JoinCreateRoomReply::serialize()
-    {
-        size_t size = sizeof(JoinCreateRoomReply);
-        uint8_t *buffer = new uint8_t[size];
-
-        std::memcpy(buffer, (void *) this, size);
-        return buffer;
-    }
-
-    void JoinCreateRoomReply::deserialize(uint8_t *buffer)
-    {
-        JoinCreateRoomReply *ptr = reinterpret_cast<JoinCreateRoomReply *>(buffer);
-
-        this->roomId = ptr->roomId;
-        this->accept = ptr->accept;
-        this->startTimestamp = ptr->startTimestamp;
-    }
-
-    size_t JoinCreateRoomReply::length() const
-    {
-        return sizeof(JoinCreateRoomReply);
-    }
 } // namespace Tram
 
 #endif // JOINCREATEROOMREPLY_HPP

@@ -11,7 +11,7 @@
 
 namespace Network
 {
-    template <Pointerable Data> class AsioServerTCP : public AsioConnectionTCP<Data> {
+    template <PointerableUnknownLen Data> class AsioServerTCP : public AsioConnectionTCP<Data> {
       public:
         /**
          * @brief

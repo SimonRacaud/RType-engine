@@ -5,20 +5,19 @@
 ** just triing
 */
 
+#include <iostream>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
-#include <iostream>
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
 #include "Tram/CreateEntityRequest.hpp"
 #include "Tram/DestroyEntity.hpp"
 #include "Tram/GetRoomList.hpp"
-#include "Tram/header.hpp"
 #include "Tram/JoinCreateRoomReply.hpp"
 #include "Tram/JoinRoom.hpp"
-#include <iostream>
+#include "Tram/header.hpp"
 
-using namespace Network::Tram;
+using namespace Tram;
 
 class TestComponent {
   public:
@@ -30,16 +29,16 @@ class TestComponent {
 
 static const char my_timeout = 2;
 
-Test(component_sync, serialize, .timeout = my_timeout)
+Test(component_sync, deserialize, .timeout = my_timeout)
 {
     TestComponent *ptr = new TestComponent;
     auto type = std::type_index(typeid(TestComponent));
     const size_t compSize = sizeof(TestComponent);
-    Time time = (Time)424242;
-    ComponentSync sync(42, time, type, compSize, (void *)ptr);
-    uint8_t *buffer = sync.deserialize();
+    Time time = (Time) 424242;
+    ComponentSync sync(42, time, type, compSize, (void *) ptr);
+    uint8_t *buffer = sync.serialize();
 
-    sync.serialize(buffer);
+    sync.deserialize(buffer);
     cr_assert_eq(sync.networkId, 42);
     cr_assert_eq(sync.timestamp, time);
     cr_assert_eq(sync.componentType, type.hash_code());
@@ -49,26 +48,26 @@ Test(component_sync, serialize, .timeout = my_timeout)
     delete[] buffer;
 }
 
-Test(create_entity_reply, serialize, .timeout = my_timeout)
+Test(create_entity_reply, deserialize, .timeout = my_timeout)
 {
     CreateEntityReply a(true, 42, 44);
     CreateEntityReply b(false, 0, 0);
 
-    uint8_t *buffer = a.deserialize();
-    b.serialize(buffer);
+    uint8_t *buffer = a.serialize();
+    b.deserialize(buffer);
     cr_assert_eq(b.accept, a.accept);
     cr_assert_eq(b.entityId, a.entityId);
     cr_assert_eq(b.networkId, a.networkId);
 }
 
-Test(GetRoomList, serialize, .timeout = my_timeout)
+Test(GetRoomList, deserialize, .timeout = my_timeout)
 {
     const std::vector<size_t> list = {0, 1, 2, 3, 4, 5};
     GetRoomList a(list);
     GetRoomList b;
 
-    uint8_t *buffer = a.deserialize();
-    b.serialize(buffer);
+    uint8_t *buffer = a.serialize();
+    b.deserialize(buffer);
     cr_assert_eq(b.nbItem, a.nbItem);
     for (size_t i = 0; i < list.size(); i++) {
         cr_assert_eq(b.list[i], a.list[i]);

@@ -27,16 +27,16 @@ ComponentSync::~ComponentSync()
     }
 }
 
-uint8_t *ComponentSync::serialize()
+uint8_t *ComponentSync::serialize() const
 {
-    this->size = this->length() + this->componentSize;
+    //    this->size = this->length() + this->componentSize; // todo ask simon why this
     if (this->component == nullptr) {
         throw std::logic_error("ComponentSync::serialize null component");
     }
-    uint8_t *buffer = new uint8_t[this->size];
-    ComponentSync *ptr = reinterpret_cast<ComponentSync *>(buffer);
+    auto *buffer = new uint8_t[this->length() + this->componentSize];
+    auto ptr = reinterpret_cast<ComponentSync *>(buffer);
 
-    std::memcpy(buffer, this, sizeof(ComponentSync));                     // copy header
+    std::memcpy(buffer, (uint8_t *) this, sizeof(ComponentSync));         // copy header
     ptr->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header ptr
     std::memcpy(ptr->component, this->component, this->componentSize);    // copy body
     return buffer;
@@ -44,29 +44,36 @@ uint8_t *ComponentSync::serialize()
 
 void ComponentSync::deserialize(uint8_t *buffer)
 {
-    ComponentSync *ptr = reinterpret_cast<ComponentSync *>(buffer);
+    auto ptr = reinterpret_cast<ComponentSync *>(buffer);
 
     *this = *ptr;
 }
-
-ComponentSync &ComponentSync::operator=(ComponentSync &other)
-{
-    // copy header
-    this->size = other.size;
-    this->networkId = other.networkId;
-    this->timestamp = other.timestamp;
-    this->componentType = other.componentType;
-    this->componentSize = other.componentSize;
-    if (other.component == nullptr) {
-        this->component = nullptr;
-    } else {
-        this->component = new uint8_t[this->componentSize];                 // alloc body
-        std::memcpy(this->component, other.component, this->componentSize); // copy body
-    }
-    return *this;
-}
+//
+// ComponentSync &ComponentSync::operator=(ComponentSync &other)
+//{
+//    // copy header
+//    this->size = other.size;
+//    this->networkId = other.networkId;
+//    this->timestamp = other.timestamp;
+//    this->componentType = other.componentType;
+//    this->componentSize = other.componentSize;
+//    if (other.component == nullptr) {
+//        this->component = nullptr;
+//    } else {
+//        this->component = new uint8_t[this->componentSize];                 // alloc body
+//        std::memcpy(this->component, other.component, this->componentSize); // copy body
+//    }
+//    return *this;
+//}
 
 size_t ComponentSync::length() const
 {
     return sizeof(ComponentSync) + this->componentSize;
+}
+
+ComponentSync::ComponentSync(uint8_t *buffer)
+{
+    auto *ptr = reinterpret_cast<ComponentSync *>(buffer);
+
+    *this = *ptr;
 }

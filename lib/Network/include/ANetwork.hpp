@@ -30,7 +30,7 @@ struct hash_pair {
 
 namespace Network
 {
-    template <Pointerable Data> class AAsioConnection : public IConnection<Data> {
+    template <PointerableUnknownLen Data> class AAsioConnection : public IConnection<Data> {
       public:
         explicit AAsioConnection(const bool server = false) : _server(server)
         {
@@ -180,7 +180,7 @@ namespace Network
          * @note std::atomic ensures thread safety over this variable
          */
         //        std::pair<Data, std::size_t> _recvBuf;
-        std::pair<uint8_t *, std::size_t> _recvBuf;
+        std::pair<uint8_t *, std::size_t> _recvBuf{nullptr, 0};
     };
 } // namespace Network
 
