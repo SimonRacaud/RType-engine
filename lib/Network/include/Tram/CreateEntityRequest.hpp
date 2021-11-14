@@ -21,13 +21,19 @@
 namespace Tram
 {
     using std::string;
+    #define ENTITY_TYPE_LEN 10
 
     class CreateEntityRequest : public Network::ISerializable<CreateEntityRequest> {
       public:
-        CreateEntityRequest() = default;
+        CreateEntityRequest();
         CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp)
-            : entityId(entityId), entityType(entityType), timestamp(timestamp)
+            : entityId(entityId), entityType(), timestamp(timestamp)
         {
+            if (entityType.empty()) {
+                this->entityType[0] = '\0';
+            } else {
+                std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
+            }
         }
 
         /**
@@ -38,7 +44,7 @@ namespace Tram
          * @brief type of the entity factory ex: "player", "enemy"
          * @brief a confirmer
          */
-        string entityType;
+        char entityType[ENTITY_TYPE_LEN];
         /**
          * @brief timestamp de creation de l'entité (rollback)
          */
@@ -48,6 +54,11 @@ namespace Tram
         virtual void deserialize(uint8_t *buffer);
         virtual size_t length() const;
     };
+
+    CreateEntityRequest::CreateEntityRequest()
+    {
+        this->entityType[0] = '\0';
+    }
 
     uint8_t *CreateEntityRequest::serialize()
     {
