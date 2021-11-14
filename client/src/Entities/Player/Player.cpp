@@ -67,6 +67,9 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN)) {
 			GET_EVENT_REG.registerEvent<MoveDown>(local, 10);
 		}
+		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE)) {
+			
+		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
 	});
 }
