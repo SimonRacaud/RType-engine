@@ -29,13 +29,14 @@ void hit(Engine::Entity, Engine::Entity)
 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
 }
 
-Player::Player(const vector2D &position, const vector2f &size, const vector2D &hitboxSize, const std::string &sprite)
+Player::Player(ClusterName cluster,
+    const vector2D &position, const vector2f &size, const vector2D &hitboxSize, const std::string &sprite)
 {
 	MoveHandler handler;
 	ShootEventsManager shootEventsManager;
 	Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 	Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-	Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::GAME, Engine::EntityName::EMPTY);
+	Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
 
 	std::vector<size_t> ps;
 	std::vector<Engine::DrawableObj> renderList;
@@ -78,7 +79,7 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	ps.push_back(1);
 
 	componentManager.add<Engine::Render>(entity, renderList, ps);
-	componentManager.add<Engine::Position>(entity, 30, 30);
+	componentManager.add<Engine::Position>(entity, position.x, position.y);
 	componentManager.add<Engine::Velocity>(entity, 0, 0);
 	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
 	componentManager.add<Engine::ScoreComponent>(entity);
