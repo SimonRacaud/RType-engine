@@ -17,9 +17,12 @@ CreateEntityReply::CreateEntityReply()
 {
 }
 
-CreateEntityReply::CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId)
-    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply)), accept(accept),
-      entityId(entityId), networkId(networkId)
+CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId)
+    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply)),
+      roomId(roomId),
+      accept(accept),
+      entityId(entityId),
+      networkId(networkId)
 {
 }
 
@@ -36,6 +39,7 @@ void CreateEntityReply::deserialize(uint8_t *buffer)
 {
     auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
 
+    this->roomId = ptr->roomId;
     this->accept = ptr->accept;
     this->entityId = ptr->entityId;
     this->networkId = ptr->networkId;
@@ -45,11 +49,13 @@ size_t CreateEntityReply::length() const
 {
     return sizeof(CreateEntityReply);
 }
+
 CreateEntityReply::CreateEntityReply(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply))
 {
     auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
 
+    this->roomId = ptr->roomId;
     this->accept = ptr->accept;
     this->entityId = ptr->entityId;
     this->networkId = ptr->networkId;

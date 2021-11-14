@@ -27,8 +27,9 @@ namespace Tram
     class CreateEntityRequest : public Serializable {
       public:
         CreateEntityRequest();
-        CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp);
+        CreateEntityRequest(size_t roomId, uint32_t entityId, string entityType, Time timestamp);
 
+        size_t roomId{0};
         /**
          * @brief private id of the entity
          */

@@ -16,10 +16,15 @@ ComponentSync::ComponentSync() : Tram::Serializable(Tram::TramType::SYNC_COMPONE
 {
 }
 
-ComponentSync::ComponentSync(
-    uint32_t networkId, Time timestamp, const std::type_index &componentType, size_t componentSize, void *component)
-    : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync) + componentSize), networkId(networkId),
-      timestamp(timestamp), componentType(componentType.hash_code()), componentSize(componentSize), component(component)
+ComponentSync::ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, const std::type_index &componentType,
+    size_t componentSize, void *component)
+    : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync) + componentSize),
+      roomId(roomId),
+      networkId(networkId),
+      timestamp(timestamp),
+      componentType(componentType.hash_code()),
+      componentSize(componentSize),
+      component(component)
 {
 }
 
@@ -33,7 +38,6 @@ ComponentSync::~ComponentSync()
 
 uint8_t *ComponentSync::serialize() const
 {
-    //    this->size = this->length() + this->componentSize; // todo ask simon why this
     if (this->component == nullptr) {
         throw std::logic_error("ComponentSync::serialize null component");
     }
@@ -56,6 +60,7 @@ void ComponentSync::deserialize(uint8_t *buffer)
 ComponentSync &ComponentSync::operator=(const ComponentSync &other)
 {
     // copy header
+    this->roomId = other.roomId;
     this->size = other.size;
     this->networkId = other.networkId;
     this->timestamp = other.timestamp;

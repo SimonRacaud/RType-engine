@@ -21,7 +21,9 @@ namespace Tram
     class CreateEntityReply : public Tram::Serializable {
       public:
         CreateEntityReply();
-        CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId);
+        CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId);
+
+        size_t roomId{0};
         /**
          * @brief if the request was accepted
          */

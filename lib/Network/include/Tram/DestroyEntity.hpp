@@ -21,7 +21,9 @@ namespace Tram
     class DestroyEntity : public Tram::Serializable {
       public:
         DestroyEntity();
-        explicit DestroyEntity(uint32_t networkId);
+        explicit DestroyEntity(size_t roomId, uint32_t networkId);
+        
+        size_t roomId{0};
         /**
          * @brief Network id of the entity
          */

@@ -22,18 +22,16 @@
 
 namespace Tram
 {
-#define COMP_SYNC_HEAD_SIZE \
-    (sizeof(size_t) + sizeof(uint32_t) + sizeof(Time) + sizeof(size_t) + sizeof(size_t) + sizeof(void *))
-
     class ComponentSync : public Tram::Serializable {
       public:
         ComponentSync();
-        ComponentSync(uint32_t networkId, Time timestamp, std::type_index const &componentType, size_t componentSize,
+        ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, std::type_index const &componentType, size_t componentSize,
             void *component);
         ComponentSync &operator=(const ComponentSync &other);
 
         ~ComponentSync() override;
 
+        size_t roomId{0};
         /**
          * @brief total size
          */
