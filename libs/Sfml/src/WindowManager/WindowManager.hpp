@@ -29,7 +29,7 @@ class WindowManager: public IWindowManager
         void close();
     
     public:
-        std::shared_ptr<sf::RenderWindow> _window;
+        static std::shared_ptr<sf::RenderWindow> _window;
 
     private:
         size_t _fps;

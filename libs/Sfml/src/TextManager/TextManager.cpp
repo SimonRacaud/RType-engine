@@ -67,7 +67,7 @@ void TextManager::draw(renderToolSfml &render)
 {
     if (!this->_text || !this->_font)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_text.get()));
+    WindowManager::_window->draw(*(this->_text.get()));
 }
 
 void TextManager::refresh()

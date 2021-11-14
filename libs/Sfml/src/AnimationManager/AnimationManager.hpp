@@ -49,7 +49,6 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         size_t _offset;
         surface _focus;
         size_t _nb;
-        WindowManager *_windowTmp = nullptr;
         Singly::FrameRateLimiter<void (size_t &)> _limiter;
         std::function<surface (surface, size_t)> _func;
         vector2D _offsetPos;

@@ -101,13 +101,12 @@ bool EventManager::isValideEnum(const IEventManager::keyEvent_e &key) const
 
 void EventManager::fetchEvent(renderToolSfml &render)
 {
-    auto tmp = dynamic_cast<WindowManager *>(render.get());
     sf::Event event;
     
-    while (tmp->_window->pollEvent(event)) {
+    while (WindowManager::_window->pollEvent(event)) {
         switch (event.type)
         {
-            case sf::Event::Event::Closed: tmp->close(); break;
+            case sf::Event::Event::Closed: WindowManager::_window->close(); break;
             case sf::Event::MouseMoved: this->mouseFetch(event); break;
             case sf::Event::EventType::KeyPressed: this->keyboardPressedFetch(event); break;
             case sf::Event::EventType::KeyReleased: this->keyboardReleasedFetch(event); break;

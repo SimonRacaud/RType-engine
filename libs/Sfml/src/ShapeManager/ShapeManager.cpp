@@ -50,7 +50,7 @@ void ShapeManager::draw(renderToolSfml &render)
 {
     if (!this->_shape)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_shape.get()));
+    WindowManager::_window->draw(*(this->_shape.get()));
 }
 
 void ShapeManager::refresh()

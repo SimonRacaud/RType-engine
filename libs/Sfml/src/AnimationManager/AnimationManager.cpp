@@ -65,9 +65,7 @@ void AnimationManager::draw(renderToolSfml &render)
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();
-    if (_windowTmp == nullptr)
-        _windowTmp = dynamic_cast<WindowManager *>(render.get());
-    _windowTmp->_window->draw(this->getNextSprite());
+    WindowManager::_window->draw(this->getNextSprite());
 }
 
 void AnimationManager::refresh()

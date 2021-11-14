@@ -61,7 +61,7 @@ void SpriteManager::draw(renderToolSfml &render)
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_sprite.get()));
+    WindowManager::_window->draw(*(this->_sprite.get()));
 }
 
 void SpriteManager::refresh()
