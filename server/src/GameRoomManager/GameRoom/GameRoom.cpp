@@ -18,6 +18,7 @@ GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _playerList(src._playerL
 
 GameRoom::~GameRoom()
 {
+    this->destroy();
     // TODO CLOSE SERVER TCP && UDP
 }
 
@@ -45,6 +46,7 @@ void GameRoom::run()
 {
     bool loop = true;
 
+    this->waitConnection();
     while (loop) {
         // TODO RUN GAME && SERVER
     }
@@ -54,6 +56,13 @@ void GameRoom::destroy()
 {
     if (this->_thread.joinable())
         this->_thread.join();
+}
+
+void GameRoom::waitConnection()
+{
+    for (auto &it : this->_playerList) {
+        // TODO ACCEPT USER CONECTION (UDP - TCP)
+    }
 }
 
 GameRoom &GameRoom::operator=(const GameRoom &src)

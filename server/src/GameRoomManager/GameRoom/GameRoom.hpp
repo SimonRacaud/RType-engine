@@ -37,6 +37,9 @@ class GameRoom
         GameRoom &operator=(const GameRoom &);
 
     private:
+        void waitConnection();
+
+    private:
         Id _id;
         PlayerList _playerList;
         ServerTypeTcp _tcp;
