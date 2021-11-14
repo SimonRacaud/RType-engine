@@ -34,6 +34,12 @@ void NetworkManager::send(Tram::Serializable &data, const std::string &ip, const
     _connector->send(_dataWrapper, ip, port);
 }
 
+void NetworkManager::sendAll(Tram::Serializable &data)
+{
+    _dataWrapper.deserialize(data.serialize(), data.length());
+    _connector->sendAll(_dataWrapper);
+}
+
 std::tuple<uint8_t *, std::pair<std::string, std::size_t>> NetworkManager::receive()
 {
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> receivedPacket(_connector->receiveAny());
