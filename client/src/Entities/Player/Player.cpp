@@ -46,7 +46,7 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	anim->setSrcPath("asset/sprites/r-typesheet1.gif");
 
 	renderList.push_back(anim);
-	renderList.push_back(std::make_shared<SpriteManager>(position, size, "asset/sprites/r-typesheet1.gif"));
+	renderList.push_back(std::make_shared<SpriteManager>(position, vector2f(1, 1), "asset/sprites/r-typesheet1.gif"));
 	ps.push_back(1);
 	ps.push_back(0);
 
