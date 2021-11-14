@@ -18,11 +18,11 @@ static void hit(Engine::Entity self, Engine::Entity other)
 {
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
 
-    std::cout << "Equipment HITBOX HAS BEEN HIT" << std::endl; // TODO DEBUG
     if (componentManager.hasComponent<Engine::ScoreComponent>(other)) {
         // other is a player
         auto &equip = componentManager.get<Engine::EquipmentComponent>(other);
         equip.counter++;
+        GameCore::engine.getEntityManager().remove(self);
     }
 }
 
