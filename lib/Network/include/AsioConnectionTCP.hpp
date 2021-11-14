@@ -168,13 +168,12 @@ namespace Network
                 return;
 
             connection->async_receive(
-                asio::buffer(AAsioConnection<Data>::_recvBuf.first, 500 /*todo change by property prepared*/
-                    /*AAsioConnection<Data>::_recvBuf.first.length()*/),
+                asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
                 std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
                     connection));
         }
 
-        void asyncReceiving(const asio::error_code &err, const std::size_t & /*todo use size received*/,
+        void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize,
             std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
@@ -182,15 +181,12 @@ namespace Network
                     return;
                 }
             }
-            //            if (!AAsioConnection<Data>::_recvBuf.first.length()) {
-            //                return;
-            //            }
+            if (!receivedPacketSize) {
+                return;
+            }
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
                                                          connection->remote_endpoint().port()),
-                std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, 500), 500 /*todo change by property
- * prepared*/
-                    /*AAsioConnection<Data>::_recvBuf.first.length
- * ()*/));
+                std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
             asyncReceive(connection);
         }
 

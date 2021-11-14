@@ -39,6 +39,7 @@ namespace Network
 
         ~AAsioConnection()
         {
+            delete _recvBuf.first;
             stopRunAsync();
             disconnectAll();
         }
@@ -158,8 +159,8 @@ namespace Network
         /**
          * @property _packetSize The size that is read from the socket when receiving
          */
-        std::size_t _receivePacketSize;
-        // todo setters, getters and use it
+        std::size_t _receivePacketSize{500};
+        // todo change
 
         ThreadSafety::LockedDeque<std::pair<const std::string, const std::size_t>> _connections;
 
@@ -180,7 +181,7 @@ namespace Network
          * @note std::atomic ensures thread safety over this variable
          */
         //        std::pair<Data, std::size_t> _recvBuf;
-        std::pair<uint8_t *, std::size_t> _recvBuf{nullptr, 0};
+        std::pair<uint8_t *, std::size_t> _recvBuf{new uint8_t[_receivePacketSize], _receivePacketSize};
     };
 } // namespace Network
 
