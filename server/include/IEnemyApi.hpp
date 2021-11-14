@@ -13,7 +13,7 @@
 
 class IEnemyApi {
 	public:
-		virtual ~IEnemyApi() = 0;
+		~IEnemyApi() = default;
 		
 		virtual void idle(const IEnemyApi *ptr) = 0;
 		virtual void move(const IEnemyApi *ptr) = 0;
