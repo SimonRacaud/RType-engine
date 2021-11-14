@@ -14,6 +14,7 @@
     NB_PLAYER,              \
     SCORE,                  \
     H_SCORE,                \
+    BULLET
 
 
 #include "EntityName.hpp"

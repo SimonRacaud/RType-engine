@@ -9,6 +9,7 @@
 
 ShootEventsManager::ShootEventsManager()
 {
+	GET_EVENT_REG.registerCallback(std::function<void(const ShootOnce *e)>(shootOnce));
 }
 
 void shootOnce(const ShootOnce *e)
