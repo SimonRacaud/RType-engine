@@ -61,13 +61,11 @@ void AnimationManager::setSrcPath(const std::string &path)
     this->_path = path;
 }
 
-void AnimationManager::draw(renderToolSfml &render)
+void AnimationManager::draw()
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();
-    if (_windowTmp == nullptr)
-        _windowTmp = dynamic_cast<WindowManager *>(render.get());
-    _windowTmp->_window->draw(this->getNextSprite());
+    WindowManager::_window->draw(this->getNextSprite());
 }
 
 void AnimationManager::refresh()
@@ -137,4 +135,14 @@ surface AnimationManager::defaultMove(surface focus, size_t offset)
     size_t y = focus.pos.y;
 
     return surface(vector2D(x, y), vector2D(size_x, size_y));
+}
+
+void AnimationManager::setSize(const vector2D &)
+{
+    throw std::invalid_argument("Not already dev");
+}
+
+const vector2D &AnimationManager::getSize()
+{
+    throw std::invalid_argument("Not already dev");
 }

@@ -26,14 +26,14 @@ void System::RenderSystem::run(const std::vector<Engine::Entity> &entities)
             if (Engine::EngineFactory::getInstance().getComponentManager().hasComponent<Engine::Position>(entity)) {
                 auto [position] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Position>(entity);
                 for (auto &itr : render._src) {
-                    if ((itr.get())->getPosition() != vector2D(position.x, position.y)) {
-                        (itr.get())->setPosition(vector2D(position.x, position.y));
+                    if (itr->getPosition() != vector2D(position.x, position.y)) {
+                        itr->setPosition(vector2D(position.x, position.y));
                         itr->refresh();
                     }
                 }
             }
             for (int it = render._pos.size() - 1; it >= 0; it--)
-                render._src[render._pos[it]]->draw(GameCore::window);
+                render._src[render._pos[it]]->draw();
         }
         GameCore::window->refresh();
     } else {

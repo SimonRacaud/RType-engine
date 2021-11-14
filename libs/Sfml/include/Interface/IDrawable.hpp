@@ -9,15 +9,15 @@
 #define IDRAWABLE_HPP
 
 #include "IMovable.hpp"
+#include "IResizable.hpp"
 
-template <typename renderTool>
-class IDrawable : public IMovable
+class IDrawable : public IMovable, public IResizable
 {
     public:
         ~IDrawable() = default;
 
         virtual void refresh() = 0;
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
 };
 
 #endif

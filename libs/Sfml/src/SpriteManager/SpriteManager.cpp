@@ -57,11 +57,11 @@ void SpriteManager::setSrcFilepath(const std::string &path)
     this->_path = path;
 }
 
-void SpriteManager::draw(renderToolSfml &render)
+void SpriteManager::draw()
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_sprite.get()));
+    WindowManager::_window->draw(*(this->_sprite.get()));
 }
 
 void SpriteManager::refresh()
@@ -76,4 +76,14 @@ void SpriteManager::refresh()
     this->_sprite->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
     if (this->_size.x && this->_size.y)
         this->_sprite->setScale(sf::Vector2f(this->_size.x, this->_size.y));
+}
+
+void SpriteManager::setSize(const vector2D &)
+{
+    throw std::invalid_argument("Not already dev");
+}
+
+const vector2D &SpriteManager::getSize()
+{
+    throw std::invalid_argument("Not already dev");
 }

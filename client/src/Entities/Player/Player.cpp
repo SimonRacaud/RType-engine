@@ -89,23 +89,23 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 		auto &render = GET_COMP_M.get<Engine::Render>(local);
 
 		//TODO when adding keybindings change it here with GameCore setting
-		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP)) {
+		if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_UP)) {
 			GET_EVENT_REG.registerEvent<MoveUp>(local, 10);
 		}
-		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_LEFT)) {
+		if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
 			GET_EVENT_REG.registerEvent<MoveLeft>(local, 10);
 		}
-		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT)) {
+		if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT)) {
 			GET_EVENT_REG.registerEvent<MoveRight>(local, 10);
 		}
-		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN)) {
+		if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
 			GET_EVENT_REG.registerEvent<MoveDown>(local, 10);
 		}
-		if (!GameCore::event->isStateChange(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
+		if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
 			shooting._isCharging = true;
 			render.setRender(2);
 			GET_EVENT_REG.registerEvent<ChargeShot>(local);
-		} else if (GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
+		} else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
 			shooting._isCharging = false;
 			render.removeRender(2);
 			GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);

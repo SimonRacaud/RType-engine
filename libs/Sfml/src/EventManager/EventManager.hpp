@@ -15,14 +15,14 @@
 #include "build.hpp"
 #include "Interface/IEventManager.hpp"
 
-class EventManager: public IEventManager<renderToolSfml>
+class EventManager: public IEventManager
 {
     public:
         EventManager();
         EventManager(const EventManager &);
         ~EventManager();
 
-        void refresh(renderToolSfml &);
+        void refresh();
         bool isKeyPressed(const keyEvent_e &) const;
         bool isKeyReleased(const keyEvent_e &) const;
         bool isStateChange(const keyEvent_e &) const;
@@ -31,7 +31,7 @@ class EventManager: public IEventManager<renderToolSfml>
         bool mouseIsOnClick(const surface &, const keyEvent_e &) const;
 
     private:
-        void fetchEvent(renderToolSfml &);
+        void fetchEvent();
         bool isValideEnum(const keyEvent_e &) const;
 
         void mouseFetch(const sf::Event &);
@@ -47,11 +47,11 @@ class EventManager: public IEventManager<renderToolSfml>
         std::vector<keyEvent_e> _prevKeyStackPressed;
         std::vector<keyEvent_e> _prevKeyStackReleased;
         const std::unordered_map<sf::Keyboard::Key, keyEvent_e> _keyLink = {
-            {sf::Keyboard::Up, IEventManager<renderToolSfml>::keyEvent_e::KEY_UP},
-            {sf::Keyboard::Down, IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN},
-            {sf::Keyboard::Left, IEventManager<renderToolSfml>::keyEvent_e::KEY_LEFT},
-            {sf::Keyboard::Right, IEventManager<renderToolSfml>::keyEvent_e::KEY_RIGHT},
-            {sf::Keyboard::Space, IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE}
+            {sf::Keyboard::Up, keyEvent_e::KEY_UP},
+            {sf::Keyboard::Down, keyEvent_e::KEY_DOWN},
+            {sf::Keyboard::Left, keyEvent_e::KEY_LEFT},
+            {sf::Keyboard::Right, keyEvent_e::KEY_RIGHT},
+            {sf::Keyboard::Space, keyEvent_e::KEY_SPACE}
         };
         const std::unordered_map<sf::Mouse::Button, keyEvent_e> _mouseLink = {
             {sf::Mouse::Left, keyEvent_e::MOUSE_CLICK_LEFT},

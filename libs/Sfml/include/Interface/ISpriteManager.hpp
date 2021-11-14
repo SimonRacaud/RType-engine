@@ -9,14 +9,11 @@
 #define ISPRITEMANAGER_HPP
 
 #include <string>
-#include "IMovable.hpp"
 #include "IDrawable.hpp"
-#include "IResizable.hpp"
 #include "Item/surface.hpp"
 #include "Item/vector2f.hpp"
 
-template <typename renderTool>
-class ISpriteManager: public IDrawable<renderTool>
+class ISpriteManager: public IDrawable
 {
     public:
         ~ISpriteManager() = default;
@@ -27,7 +24,7 @@ class ISpriteManager: public IDrawable<renderTool>
         virtual void setPosition(const vector2D &) = 0;
         virtual void setSrcFilepath(const std::string &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
         // TOOLS
         virtual void refresh() = 0;
 };

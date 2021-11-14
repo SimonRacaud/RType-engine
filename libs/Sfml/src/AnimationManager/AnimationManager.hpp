@@ -14,7 +14,7 @@
 #include "Item/vector2f.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-class AnimationManager: public IAnimationManager<renderToolSfml>
+class AnimationManager: public IAnimationManager
 {
     public:
         AnimationManager();
@@ -27,12 +27,14 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         void setPosition(const vector2D &);
         void setOffsetPosition(const vector2D &);
         void setSrcPath(const std::string &);
-        void draw(renderToolSfml &render);
+        void draw();
         void refresh();
         void setNbMember(size_t);
         void forceOffset(size_t);
         void setFocus(const surface &);
         void setStepMovement(std::function<surface (surface, size_t)>);
+        void setSize(const vector2D &);
+        const vector2D &getSize();
 
     private:
         void nextStep();
@@ -49,7 +51,6 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         size_t _offset;
         surface _focus;
         size_t _nb;
-        WindowManager *_windowTmp = nullptr;
         Singly::FrameRateLimiter<void (size_t &)> _limiter;
         std::function<surface (surface, size_t)> _func;
         vector2D _offsetPos;

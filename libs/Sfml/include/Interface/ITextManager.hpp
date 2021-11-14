@@ -10,13 +10,10 @@
 
 #include <string>
 #include "color.hpp"
-#include "IMovable.hpp"
 #include "IDrawable.hpp"
-#include "IResizable.hpp"
 #include "Item/vector2D.hpp"
 
-template <typename renderTool>
-class ITextManager: public IResizable, public IDrawable<renderTool>
+class ITextManager: public IDrawable
 {
     public:
         ~ITextManager() = default;
@@ -29,7 +26,7 @@ class ITextManager: public IResizable, public IDrawable<renderTool>
         virtual void setContent(const std::string &) = 0;
         virtual void setFont(const std::string &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
         // TOOLS
         virtual void refresh() = 0;
 };

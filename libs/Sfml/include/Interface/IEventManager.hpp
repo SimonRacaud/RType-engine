@@ -12,7 +12,6 @@
 #include "Item/vector2D.hpp"
 #include "Item/surface.hpp"
 
-template<typename renderTool>
 class IEventManager
 {
     public:
@@ -34,7 +33,7 @@ class IEventManager
     public:
         ~IEventManager() = default;
         // GLOBAL
-        virtual void refresh(renderTool &) = 0;
+        virtual void refresh() = 0;
 
         // KEY
         virtual bool isKeyPressed(const keyEvent_e &) const = 0;

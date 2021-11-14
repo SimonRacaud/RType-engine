@@ -12,7 +12,7 @@
 #include "Interface/ISpriteManager.hpp"
 #include "Item/vector2f.hpp"
 
-class SpriteManager: public ISpriteManager<renderToolSfml>
+class SpriteManager: public ISpriteManager
 {
     public:
         SpriteManager();
@@ -25,8 +25,10 @@ class SpriteManager: public ISpriteManager<renderToolSfml>
         void setScale(const vector2f &scale);
         void setPosition(const vector2D &);
         void setSrcFilepath(const std::string &);
-        void draw(renderToolSfml &render);
+        void draw();
         void refresh();
+        void setSize(const vector2D &);
+        const vector2D &getSize();
     
     private:
         vector2D _pos;

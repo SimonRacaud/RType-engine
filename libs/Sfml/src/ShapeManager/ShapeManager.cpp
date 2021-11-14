@@ -46,11 +46,11 @@ void ShapeManager::setColors(const color_e &color)
     this->_color = color;
 }
 
-void ShapeManager::draw(renderToolSfml &render)
+void ShapeManager::draw()
 {
     if (!this->_shape)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_shape.get()));
+    WindowManager::_window->draw(*(this->_shape.get()));
 }
 
 void ShapeManager::refresh()
