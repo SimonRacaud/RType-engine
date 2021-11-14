@@ -12,7 +12,6 @@
 #include "Item/vector2D.hpp"
 #include "Item/surface.hpp"
 
-template<typename renderTool>
 class IEventManager
 {
     public:

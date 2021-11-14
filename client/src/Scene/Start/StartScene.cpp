@@ -27,7 +27,7 @@ using namespace std;
 using namespace Engine;
 
 extern Engine::IGameEngine &engine;
-extern std::unique_ptr<IEventManager<renderToolSfml>> event;
+extern std::unique_ptr<IEventManager> event;
 
 StartScene::StartScene(): AbstractScene<StartScene>(ClusterName::START)
 {}

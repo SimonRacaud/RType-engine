@@ -11,7 +11,7 @@
 #include "build.hpp"
 #include "Interface/IShapeManager.hpp"
 
-class ShapeManager: public IShapeManager<renderToolSfml>
+class ShapeManager: public IShapeManager
 {
     public:
         ShapeManager();

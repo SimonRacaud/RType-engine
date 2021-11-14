@@ -15,8 +15,7 @@
 #include "Item/surface.hpp"
 #include "Item/vector2f.hpp"
 
-template <typename renderTool>
-class ISpriteManager: public IDrawable<renderTool>
+class ISpriteManager: public IDrawable
 {
     public:
         ~ISpriteManager() = default;

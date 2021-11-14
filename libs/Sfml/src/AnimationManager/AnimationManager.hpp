@@ -14,7 +14,7 @@
 #include "Item/vector2f.hpp"
 #include "WindowManager/WindowManager.hpp"
 
-class AnimationManager: public IAnimationManager<renderToolSfml>
+class AnimationManager: public IAnimationManager
 {
     public:
         AnimationManager();

@@ -12,7 +12,7 @@
 #include "Interface/ISpriteManager.hpp"
 #include "Item/vector2f.hpp"
 
-class SpriteManager: public ISpriteManager<renderToolSfml>
+class SpriteManager: public ISpriteManager
 {
     public:
         SpriteManager();

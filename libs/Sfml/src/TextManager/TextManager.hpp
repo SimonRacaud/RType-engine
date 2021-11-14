@@ -12,7 +12,7 @@
 #include "ColorLink/ColorLink.hpp"
 #include "Interface/ITextManager.hpp"
 
-class TextManager: public ITextManager<renderToolSfml>
+class TextManager: public ITextManager
 {
     public:
         TextManager();

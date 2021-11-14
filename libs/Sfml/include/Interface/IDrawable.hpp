@@ -10,7 +10,6 @@
 
 #include "IMovable.hpp"
 
-template <typename renderTool>
 class IDrawable : public IMovable
 {
     public:

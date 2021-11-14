@@ -17,8 +17,7 @@
 #include <functional>
 #include "Item/vector2f.hpp"
 
-template <typename renderTool>
-class IAnimationManager: public IDrawable<renderTool>
+class IAnimationManager: public IDrawable
 {
     public:
         ~IAnimationManager() = default;

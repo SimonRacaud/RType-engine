@@ -15,8 +15,7 @@
 #include "IResizable.hpp"
 #include "Item/vector2D.hpp"
 
-template <typename renderTool>
-class ITextManager: public IResizable, public IDrawable<renderTool>
+class ITextManager: public IResizable, public IDrawable
 {
     public:
         ~ITextManager() = default;

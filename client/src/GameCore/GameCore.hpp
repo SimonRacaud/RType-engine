@@ -33,7 +33,7 @@ class GameCore
     public:
         static Engine::IGameEngine &engine;
         static std::shared_ptr<IWindowManager> window;
-        static std::unique_ptr<IEventManager<renderToolSfml>> event;
+        static std::unique_ptr<IEventManager> event;
         static std::unique_ptr<ConfigFile> config;
 
     private:

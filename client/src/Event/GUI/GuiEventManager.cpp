@@ -47,8 +47,8 @@ void GuiEventManager::setProgressBarValue(const SetProgressBarValue *evt)
 
         if (render._src.size() == 2) {
             value.value = evt->getValue();
-            IShapeManager<renderToolSfml> *shapeFor = dynamic_cast<IShapeManager<renderToolSfml> *>(render._src[0].get());
-            IShapeManager<renderToolSfml> *shapeBack = dynamic_cast<IShapeManager<renderToolSfml> *>(render._src[1].get());
+            IShapeManager *shapeFor = dynamic_cast<IShapeManager *>(render._src[0].get());
+            IShapeManager *shapeBack = dynamic_cast<IShapeManager *>(render._src[1].get());
             if (shapeFor != nullptr && shapeBack != nullptr) {
                 size_t maxWidth = shapeBack->getSize().x;
                 size_t newWidth = static_cast<int>((float)maxWidth * ((float)evt->getValue() / 100.0f));

@@ -14,8 +14,7 @@
 #include "IResizable.hpp"
 #include "Item/surface.hpp"
 
-template <typename renderTool>
-class IShapeManager: public IResizable, public IDrawable<renderTool>
+class IShapeManager: public IResizable, public IDrawable
 {
     public:
         ~IShapeManager() = default;
