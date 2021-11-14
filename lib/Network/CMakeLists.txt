@@ -15,12 +15,10 @@ set(NAME Network)
 
 project(R-Type VERSION 0.0.0 LANGUAGES CXX)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
 include_directories(
         ${CMAKE_INCLUDE_PATH}
         ./include/
+        ./include/Tram
 )
 
 ## SOURCES
@@ -53,12 +51,9 @@ endif ()
 ##
 ## CRITERION
 ## (c++17)
-set(NAME_TESTS unit_tests)
-add_executable(${NAME_TESTS}
-               ${SRCS}
-               tests/test_serializer.cpp
-               )
-target_link_libraries(${NAME_TESTS} criterion)
-
-## CONAN
-target_link_libraries(${NAME} PUBLIC ${CONAN_LIBS})
+#set(NAME_TESTS unit_tests)
+#add_executable(${NAME_TESTS}
+#        ${SRCS}
+#        tests/test_serializer.cpp
+#        )
+#target_link_libraries(${NAME_TESTS} criterion)

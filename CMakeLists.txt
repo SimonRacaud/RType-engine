@@ -7,9 +7,11 @@
 
 cmake_minimum_required(VERSION 3.17)
 
+set(CONAN_DISABLE_CHECK_COMPILER True)
+
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(NAME_CLIENT r-type_client)
 set(NAME_SERVER r-type_server)
@@ -74,6 +76,13 @@ set_target_properties(${NAME_SERVER}
 ##include_directories(${GAME_ENGINE_DIR}/include)
 ##include_directories(${GAME_ENGINE_DIR}/src)
 ##link_libraries(gameEngine)
+
+## Network
+set(NetworkDir ${PROJECT_SOURCE_DIR}/lib/Network)
+add_subdirectory(${NetworkDir})
+include_directories(${NetworkDir}/include)
+target_link_libraries(${NAME_CLIENT} Network)
+target_link_libraries(${NAME_SERVER} Network)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/lib/ConfigFile)
