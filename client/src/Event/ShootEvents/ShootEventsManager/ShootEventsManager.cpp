@@ -33,5 +33,6 @@ void releaseShot(const ReleaseChargedShot *e)
 		now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
 	if (nb_sec >= 1)
 		nb_sec += 1;
-	Bullet b(nb_sec, vector2D(pos.x, pos.y));
+	Bullet b(GameCore::engine.getEntityManager().getCluster(e->_entity),
+        nb_sec, vector2D(pos.x, pos.y));
 }

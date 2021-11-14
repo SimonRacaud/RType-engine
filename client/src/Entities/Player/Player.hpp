@@ -15,9 +15,13 @@
 #include "Item/vector2D.hpp"
 #include "Item/vector2f.hpp"
 
+using Engine::ClusterName;
+
 class Player {
 	public:
-		Player(const vector2D &position, const vector2f &size, const vector2D &hitboxSize, const std::string &sprite);
+		Player(ClusterName cluster, const vector2D &position,
+          const vector2f &size, const vector2D &hitboxSize,
+          const std::string &sprite);
 		~Player();
 
 	protected:

@@ -9,8 +9,10 @@
 */
 
 #include "DebugScene.hpp"
+#include "Entities/Equipment/Equipment.hpp"
 #include "GameCore/GameCore.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
+#include "System/RenderSystem/RenderSystem.hpp"
 #include "Entities/Player/Player.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
@@ -36,9 +38,8 @@ void DebugScene::open()
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 
-    Player p({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
-    // Player p1({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
-    // Player p2({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    //Player p({40, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+     Player p2(this->getCluster(), {120, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     // Player p3({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     // Player p4({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     // Player p5({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
@@ -72,7 +73,7 @@ void DebugScene::open()
      * Entities (must be in an entity's factory)
      */
     Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
-    
+
     // entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
     // Engine::Entity entity2 = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
 
@@ -123,9 +124,12 @@ void DebugScene::open()
     //    componentManager.add<Engine::Position>(entity, 20, 20);
     //    std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
     //    componentManager.add<Engine::Render>(entity, tmp2);
+    Equipment(this->getCluster(), vector2D(700, 100));
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<Engine::PhysicsSystem, System::RenderSystem, System::InputEventSystem, Engine::ColliderSystem>();
-    //systemManager.unregisterSystem<Engine::PhysicsSystem>();
-    //systemManager.unregisterSystem<Engine::PhysicsSystem>();
+    systemManager.selectSystems<
+        Engine::PhysicsSystem,
+        System::RenderSystem,
+        System::InputEventSystem,
+        Engine::ColliderSystem>();
 }

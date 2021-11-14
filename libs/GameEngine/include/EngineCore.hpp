@@ -21,6 +21,7 @@
 #include "Systems/ColliderSystem/ColliderSystem.hpp"
 
 #include "Components/Position.hpp"
+#include "Components/EquipmentComponent.hpp"
 #include "Components/Timer.hpp"
 #include "Components/Hitbox.hpp"
 #include "Components/EntityLinkComponent.hpp"
