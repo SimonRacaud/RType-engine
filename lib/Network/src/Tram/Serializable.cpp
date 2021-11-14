@@ -9,6 +9,12 @@
 
 using namespace Tram;
 
+std::ostream &Tram::operator<<(std::ostream &stream, const Tram::TramType tram)
+{
+    stream << TramTypeString.at(tram);
+    return stream;
+}
+
 Serializable::Serializable(TramType type, size_t size) : size(size), type(type)
 {
 }

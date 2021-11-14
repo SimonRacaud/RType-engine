@@ -17,6 +17,7 @@
 #include <stdexcept>
 #include <string>
 #include "ISerializable.hpp"
+#include <unordered_map>
 
 #define MAGIC 4242424242
 
@@ -35,6 +36,14 @@ namespace Tram
         DESTROY_ENTITY,
         SYNC_COMPONENT
     };
+
+    const std::unordered_map<TramType, std::string> TramTypeString{{TramType::NONE, "NONE"},
+        {TramType::GET_ROOM_LIST, "GET_ROOM_LIST"}, {TramType::ROOM_LIST, "ROOM_LIST"},
+        {TramType::CREATE_ROOM, "CREATE_ROOM"}, {TramType::JOIN_ROOM, "JOIN_ROOM"},
+        {TramType::JOIN_ROOM_REPLY, "JOIN_ROOM_REPLY"}, {TramType::QUIT_ROOM, "QUIT_ROOM"},
+        {TramType::CREATE_ENTITY, "CREATE_ENTITY"}, {TramType::CREATE_ENTITY_REPLY, "CREATE_ENTITY_REPLY"},
+        {TramType::DESTROY_ENTITY, "DESTROY_ENTITY"}, {TramType::SYNC_COMPONENT, "SYNC_COMPONENT"}};
+    std::ostream &operator<<(std::ostream &stream, const Tram::TramType tram);
 
     // todo passer à travers tout les types pour init le header
     class Serializable : public Network::ISerializable {
