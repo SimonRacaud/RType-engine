@@ -25,6 +25,7 @@ EventManager::~EventManager()
 void EventManager::refresh(renderToolSfml &render)
 {
     this->_keyStackPressed.clear();
+    this->_keyStackReleased.clear();
     this->fetchEvent(render);
 }
 
