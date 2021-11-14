@@ -44,13 +44,14 @@ class NetworkManager {
         std::shared_ptr<Network::IConnection<DataWrapper>> connector);
 
     void send(Tram::Serializable &data, const std::string &ip, std::size_t port);
+    void sendAll(Tram::Serializable &data);
 
     /**
      * @brief Get data from the received data queue
      * @return The data raw data (to be converted to the good class with tramConverter class), the sender
      * todo tramConverter class
      */
-    std::tuple<uint8_t *, std::pair<std::string, std::size_t>> receive();
+    [[nodiscard]] std::tuple<uint8_t *, std::pair<std::string, std::size_t>> receive();
 
   private:
     std::unordered_map<std::pair<std::string, std::size_t>, Tram::TramBuffer, hash_pair> _tramBuffers;

@@ -50,7 +50,7 @@ template <typename T>
  *          what's after the '=' operator are the constraints,
  *          meaning that the class must respect what's specified in it (implement the methods)
  */
-concept PointerableUnknownLen = requires(const T a, uint8_t *b, std::size_t len)
+concept PointerableUnknownLen = requires(const T a, uint8_t *b, const std::size_t len)
 {
     /**
      * @brief Constraint to have an operator& in order to get raw data of the class
