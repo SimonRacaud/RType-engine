@@ -27,7 +27,7 @@ class TextManager: public ITextManager<renderToolSfml>
         void setPosition(const vector2D &);
         void setContent(const std::string &);
         void setFont(const std::string &);
-        void draw(renderToolSfml &render);
+        void draw();
         void refresh();
 
     private:

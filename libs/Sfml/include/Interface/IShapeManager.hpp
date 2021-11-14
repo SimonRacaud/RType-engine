@@ -27,7 +27,7 @@ class IShapeManager: public IResizable, public IDrawable<renderTool>
 
         virtual void setColors(const color_e &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
         // TOOLS
         virtual void refresh() = 0;
 };

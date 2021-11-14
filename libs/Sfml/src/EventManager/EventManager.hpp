@@ -22,7 +22,7 @@ class EventManager: public IEventManager<renderToolSfml>
         EventManager(const EventManager &);
         ~EventManager();
 
-        void refresh(renderToolSfml &);
+        void refresh();
         bool isKeyPressed(const keyEvent_e &) const;
         bool isKeyReleased(const keyEvent_e &) const;
         bool isStateChange(const keyEvent_e &) const;
@@ -31,7 +31,7 @@ class EventManager: public IEventManager<renderToolSfml>
         bool mouseIsOnClick(const surface &, const keyEvent_e &) const;
 
     private:
-        void fetchEvent(renderToolSfml &);
+        void fetchEvent();
         bool isValideEnum(const keyEvent_e &) const;
 
         void mouseFetch(const sf::Event &);

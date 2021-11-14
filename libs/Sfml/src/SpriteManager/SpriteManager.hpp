@@ -25,7 +25,7 @@ class SpriteManager: public ISpriteManager<renderToolSfml>
         void setScale(const vector2f &scale);
         void setPosition(const vector2D &);
         void setSrcFilepath(const std::string &);
-        void draw(renderToolSfml &render);
+        void draw();
         void refresh();
     
     private:

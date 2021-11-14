@@ -27,7 +27,7 @@ class ISpriteManager: public IDrawable<renderTool>
         virtual void setPosition(const vector2D &) = 0;
         virtual void setSrcFilepath(const std::string &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
         // TOOLS
         virtual void refresh() = 0;
 };

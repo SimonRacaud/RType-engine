@@ -26,7 +26,7 @@ class ShapeManager: public IShapeManager<renderToolSfml>
 
         void setColors(const color_e &);
 
-        void draw(renderToolSfml &render);
+        void draw();
         // TOOLS
         void refresh();
 

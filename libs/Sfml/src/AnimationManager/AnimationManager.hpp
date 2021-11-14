@@ -27,7 +27,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         void setPosition(const vector2D &);
         void setOffsetPosition(const vector2D &);
         void setSrcPath(const std::string &);
-        void draw(renderToolSfml &render);
+        void draw();
         void refresh();
         void setNbMember(size_t);
         void forceOffset(size_t);

@@ -23,13 +23,13 @@ EventManager::~EventManager()
     this->_keyStackReleased.clear();
 }
 
-void EventManager::refresh(renderToolSfml &render)
+void EventManager::refresh()
 {
     this->_prevKeyStackPressed = this->_keyStackPressed;
     this->_prevKeyStackReleased = this->_keyStackReleased;
     this->_keyStackPressed.clear();
     this->_keyStackReleased.clear();
-    this->fetchEvent(render);
+    this->fetchEvent();
 }
 
 bool EventManager::isKeyPressed(const IEventManager::keyEvent_e &key) const
@@ -99,7 +99,7 @@ bool EventManager::isValideEnum(const IEventManager::keyEvent_e &key) const
     return active && !invalid;
 }
 
-void EventManager::fetchEvent(renderToolSfml &render)
+void EventManager::fetchEvent()
 {
     sf::Event event;
     

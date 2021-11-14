@@ -61,7 +61,7 @@ void AnimationManager::setSrcPath(const std::string &path)
     this->_path = path;
 }
 
-void AnimationManager::draw(renderToolSfml &render)
+void AnimationManager::draw()
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();

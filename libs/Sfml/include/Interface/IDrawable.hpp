@@ -17,7 +17,7 @@ class IDrawable : public IMovable
         ~IDrawable() = default;
 
         virtual void refresh() = 0;
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
 };
 
 #endif

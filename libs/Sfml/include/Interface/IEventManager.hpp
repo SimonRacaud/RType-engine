@@ -34,7 +34,7 @@ class IEventManager
     public:
         ~IEventManager() = default;
         // GLOBAL
-        virtual void refresh(renderTool &) = 0;
+        virtual void refresh() = 0;
 
         // KEY
         virtual bool isKeyPressed(const keyEvent_e &) const = 0;

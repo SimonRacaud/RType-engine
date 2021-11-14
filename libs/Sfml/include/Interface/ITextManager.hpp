@@ -29,7 +29,7 @@ class ITextManager: public IResizable, public IDrawable<renderTool>
         virtual void setContent(const std::string &) = 0;
         virtual void setFont(const std::string &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
         // TOOLS
         virtual void refresh() = 0;
 };
