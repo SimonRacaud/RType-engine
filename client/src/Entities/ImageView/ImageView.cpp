@@ -23,5 +23,5 @@ ImageView::ImageView(const std::string &path, const vector2D &position,
 
     componentManager.add<Engine::Render>(entity,
         std::make_unique<SpriteManager>(position, scale, path));
-    componentManager.add<Engine::Position>(entity, (float)position.x, (float)position.y);
+    componentManager.add<Component::Position>(entity, (float)position.x, (float)position.y);
 }

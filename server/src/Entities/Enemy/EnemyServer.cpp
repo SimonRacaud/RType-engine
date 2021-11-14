@@ -14,9 +14,9 @@ EnemyServer::EnemyServer(Engine::ClusterName clusterName, const vector2D &pos, c
     Engine::ComponentManager &componentManager = ServerCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, clusterName, Engine::EntityName::EMPTY);
 
-    componentManager.add<Engine::Position>(entity, pos.x, pos.y);
-    componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
-    componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
+    componentManager.add<Component::Position>(entity, pos.x, pos.y);
+    componentManager.add<Component::Velocity>(entity, velocity.x, velocity.y);
+    componentManager.add<Component::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
         ServerCore::engine.getEntityManager().remove(a);
         ServerCore::engine.getEntityManager().remove(b);
         // ADD EXPLOSION ANIMATION

@@ -23,8 +23,8 @@ void System::RenderSystem::run(const std::vector<Engine::Entity> &entities)
         for (const Engine::Entity &entity : entities) {
             auto [render] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Render>(entity);
 
-            if (Engine::EngineFactory::getInstance().getComponentManager().hasComponent<Engine::Position>(entity)) {
-                auto [position] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Position>(entity);
+            if (Engine::EngineFactory::getInstance().getComponentManager().hasComponent<Component::Position>(entity)) {
+                auto [position] = Engine::EngineFactory::getInstance().getComponentManager().getList<Component::Position>(entity);
                 for (auto &itr : render._src) {
                     if (dynamic_cast<IMovable *>(itr.get())->getPosition() != vector2D(position.x, position.y)) {
                         dynamic_cast<IMovable *>(itr.get())->setPosition(vector2D(position.x, position.y));

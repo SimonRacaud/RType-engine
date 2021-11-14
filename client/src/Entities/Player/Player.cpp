@@ -48,9 +48,9 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	ps.push_back(0);
 
 	componentManager.add<Engine::Render>(entity, renderList, ps);
-	componentManager.add<Engine::Position>(entity, 30, 30);
-	componentManager.add<Engine::Velocity>(entity, 0, 0);
-	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
+	componentManager.add<Component::Position>(entity, 30, 30);
+	componentManager.add<Component::Velocity>(entity, 0, 0);
+	componentManager.add<Component::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
 	componentManager.add<Engine::ScoreComponent>(entity);
 	//componentManager.add<Engine::EntityLinkComponent>();
 	componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &local) {

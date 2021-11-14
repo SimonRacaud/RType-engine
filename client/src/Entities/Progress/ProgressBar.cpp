@@ -35,5 +35,5 @@ ProgressBar::ProgressBar(
 
     componentManager.add<Engine::Render>(entity, layers, selectedLayer);
     componentManager.add<Engine::NumberComponent>(entity, 0);
-    componentManager.add<Engine::Position>(entity, (float)position.x, (float)position.y);
+    componentManager.add<Component::Position>(entity, (float)position.x, (float)position.y);
 }

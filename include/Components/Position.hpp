@@ -10,9 +10,9 @@
 
 #include "BaseComponent/BaseComponent.hpp"
 
-namespace Engine
+namespace Component
 {
-    struct Position : public BaseComponent<Position> {
+    struct Position : public Engine::BaseComponent<Position> {
         Position(float x, float y) : x(x), y(y) {}
         Position() = default;
         virtual ~Position() = default;

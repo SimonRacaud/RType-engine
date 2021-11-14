@@ -40,17 +40,16 @@ class PataPata : public IEnemyApi {
 		virtual void idle(const PataPata *ptr);
 		virtual void move(const PataPata *ptr);
 		virtual void attack(const PataPata *ptr);
-		virtual float getMoveSpeed() const;
+		virtual Component::Position &getPosition();
+		virtual Component::Velocity &getVelocity();
 		virtual float getShootingSpeed() const;
-		virtual int getHealth() const;
-		virtual std::string getSpriteSheet() const;
-		virtual int getAnimationNbFrames() const;
-		virtual vector2D getIdleAnimPos() const;
-		virtual vector2D getMoveAnimPos() const;
-		virtual vector2D getAttackAnimPos() const;
-
-	protected:
-	private:
+		virtual Component::Health &getHealth();
+		virtual Component::AnimationInfo getAnimInfo() const;
+	
+		private:
+			Component::Position _position;
+			Component::Velocity _velocity;
+			Component::Health _health;
 };
 
 #endif /* !PATAPATA_HPP_ */

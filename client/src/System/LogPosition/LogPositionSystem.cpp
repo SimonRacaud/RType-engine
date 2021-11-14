@@ -19,7 +19,7 @@ static const Engine::Time freq = static_cast<Engine::Time>(1000);
 
 LogPositionSystem::LogPositionSystem() : Engine::AbstractSystem<LogPositionSystem>(freq, SystemPriority::LOW)
 {
-    this->setRequirements<Engine::Position, Engine::Velocity>();
+    this->setRequirements<Component::Position, Component::Velocity>();
 }
 
 void LogPositionSystem::run(const vector<Entity> &entities)

@@ -18,31 +18,31 @@ MoveHandler::MoveHandler()
 
 void moveUp(const MoveUp *e)
 {
-	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
+	Component::Velocity &velocity = GET_COMP_M.get<Component::Velocity>(e->_entityId);
 	velocity.y = -e->_speed;
 }
 
 void moveDown(const MoveDown *e)
 {
-	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
+	Component::Velocity &velocity = GET_COMP_M.get<Component::Velocity>(e->_entityId);
 	velocity.y = e->_speed;
 }
 
 void moveLeft(const MoveLeft *e)
 {
-	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
+	Component::Velocity &velocity = GET_COMP_M.get<Component::Velocity>(e->_entityId);
 	velocity.x = -e->_speed;
 }
 
 void moveRight(const MoveRight *e)
 {
-	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
+	Component::Velocity &velocity = GET_COMP_M.get<Component::Velocity>(e->_entityId);
 	velocity.x = e->_speed;
 }
 
 void notMoving(const NotMoving *e)
 {
-	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
+	Component::Velocity &velocity = GET_COMP_M.get<Component::Velocity>(e->_entityId);
 	if (velocity.x > 0) {
 		velocity.x -= 0.3f;
 	} else if (velocity.x < 0) {

@@ -15,8 +15,8 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
-std::ostream& operator<<(std::ostream& os, const Engine::Position& comp);
+std::ostream& operator<<(std::ostream& os, const Component::Position& comp);
 
-std::ostream& operator<<(std::ostream& os, const Engine::Velocity& comp);
+std::ostream& operator<<(std::ostream& os, const Component::Velocity& comp);
 
 #endif // DISPLAY_HPP
