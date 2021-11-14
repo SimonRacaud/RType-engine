@@ -20,10 +20,13 @@ EventManager::EventManager(const EventManager &src): _mouse(src._mouse), _keySta
 EventManager::~EventManager()
 {
     this->_keyStackPressed.clear();
+    this->_keyStackReleased.clear();
 }
 
 void EventManager::refresh(renderToolSfml &render)
 {
+    this->_prevKeyStackPressed = this->_keyStackPressed;
+    this->_prevKeyStackReleased = this->_keyStackReleased;
     this->_keyStackPressed.clear();
     this->_keyStackReleased.clear();
     this->fetchEvent(render);
@@ -47,6 +50,24 @@ bool EventManager::isKeyReleased(const keyEvent_e &key) const
     auto pos = std::find(this->_keyStackReleased.begin(), this->_keyStackReleased.end(), key);
 
     return pos != this->_keyStackReleased.end();
+}
+
+bool EventManager::isStateChange(const keyEvent_e &key) const
+{
+    bool pressed = this->isKeyPressed(key);
+    bool released = this->isKeyReleased(key);
+    bool status = false;
+
+    if (pressed) {
+        auto pos = std::find(this->_prevKeyStackReleased.begin(), this->_prevKeyStackReleased.end(), key);
+
+        status = pos != this->_prevKeyStackReleased.end();
+    } else if (released) {
+        auto pos = std::find(this->_prevKeyStackPressed.begin(), this->_prevKeyStackPressed.end(), key);
+
+        status = pos != this->_prevKeyStackPressed.end();
+    }
+    return status;
 }
 
 vector2D EventManager::getMousePos() const

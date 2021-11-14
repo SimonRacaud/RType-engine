@@ -39,6 +39,7 @@ class IEventManager
         // KEY
         virtual bool isKeyPressed(const keyEvent_e &) const = 0;
         virtual bool isKeyReleased(const keyEvent_e &) const = 0;
+        virtual bool isStateChange(const keyEvent_e &) const = 0;
 
         // MOUSE
         virtual vector2D getMousePos() const = 0;
