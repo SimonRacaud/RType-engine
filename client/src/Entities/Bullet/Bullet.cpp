@@ -16,11 +16,13 @@
 
 Bullet::Bullet(size_t charge, const vector2D &pos)
 {
-    vector2D velocity = GameCore::config->getVar<vector2D>("BULLET_DEFAULT_VELOCITY");
+    std::vector<vector2D> velocity = GameCore::config->getVectorOf<vector2D>("BULLET_DEFAULT_VELOCITY");
 
+    if (velocity.size() != 5)
+        throw std::invalid_argument("Velocity must have 5 values");
     if (charge > 4)
         charge = 4;
-    *this = Bullet(charge, pos, velocity);
+    *this = Bullet(charge, pos, velocity[charge]);
 }
 
 Bullet::Bullet(size_t charge, const vector2D &pos, const vector2D &velocity)
