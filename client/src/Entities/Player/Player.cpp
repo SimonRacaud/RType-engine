@@ -13,6 +13,7 @@
 #include "Components/EntityLinkComponent.hpp"
 #include "Components/ScoreComponent.hpp"
 #include "Component/InputEvent.hpp"
+#include "Component/Shooting.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
 #include "GameCore/GameCore.hpp"
@@ -46,8 +47,6 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	anim->setSrcPath("asset/sprites/r-typesheet1.gif");
 
 	renderList.push_back(anim);
-	renderList.push_back(std::make_shared<SpriteManager>(position, size, "asset/sprites/r-typesheet1.gif"));
-	ps.push_back(1);
 	ps.push_back(0);
 
 	componentManager.add<Engine::Render>(entity, renderList, ps);
@@ -55,8 +54,10 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 	componentManager.add<Engine::Velocity>(entity, 0, 0);
 	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
 	componentManager.add<Engine::ScoreComponent>(entity);
+	componentManager.add<Component::Shooting>(entity);
 	//componentManager.add<Engine::EntityLinkComponent>();
 	componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &local) {
+		auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
 		//TODO when adding keybindings change it here with GameCore setting
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_UP)) {
 			GET_EVENT_REG.registerEvent<MoveUp>(local, 10);
@@ -70,8 +71,16 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN)) {
 			GET_EVENT_REG.registerEvent<MoveDown>(local, 10);
 		}
-		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE)) {
+		if ((GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && !shooting._isCharging)) {
 			GET_EVENT_REG.registerEvent<ShootOnce>(local);
+			shooting._hasShot = true;
+		} else if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
+			shooting._isCharging = true;
+			GET_EVENT_REG.registerEvent<ChargeShot>(local);
+		}
+		if (GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
+			shooting._isCharging = false;
+			GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
 	});

@@ -18,4 +18,18 @@ struct ShootOnce : public Engine::Event::AbstractEvent<ShootOnce> {
 	Engine::Entity _entity;
 };
 
+struct ChargeShot : public Engine::Event::AbstractEvent<ChargeShot> {
+	ChargeShot(Engine::Entity e) : _entity(e) {}
+	virtual ~ChargeShot() = default;
+
+	Engine::Entity _entity;
+};
+
+struct ReleaseChargedShot : public Engine::Event::AbstractEvent<ReleaseChargedShot> {
+	ReleaseChargedShot(Engine::Entity e) : _entity(e) {}
+	virtual ~ReleaseChargedShot() = default;
+
+	Engine::Entity _entity;
+};
+
 #endif /* !SHOOTEVENTS_HPP_ */
