@@ -36,19 +36,22 @@ void NetworkManager::send(Tram::Serializable &data, const std::string &ip, const
 
 std::tuple<uint8_t *, std::pair<std::string, std::size_t>> NetworkManager::receive()
 {
-    std::tuple<DataWrapper, std::size_t, std::string, std::size_t> receivedData(_connector->receiveAny());
-    auto sender(std::make_pair(std::get<2>(receivedData), std::get<3>(receivedData)));
+    std::tuple<DataWrapper, std::size_t, std::string, std::size_t> receivedPacket(_connector->receiveAny());
+    std::pair<DataWrapper, std::size_t> receivedData(std::get<0>(receivedPacket), std::get<1>(receivedPacket));
+    auto sender(std::make_pair(std::get<2>(receivedPacket), std::get<3>(receivedPacket)));
 
     if (_tramBuffers.find(sender) == _tramBuffers.end()) {
         _tramBuffers.emplace(sender, Tram::TramBuffer());
     }
     Tram::TramBuffer senderTramBuffer(_tramBuffers.at(sender));
-    senderTramBuffer.SetData(
-        std::get<0>(receivedData).serialize() /*todo ensure that this works*/, std::get<1>(receivedData));
 
-    if (senderTramBuffer.isTramComplete())
-        return std::make_tuple(senderTramBuffer.receiveTram(), sender);
+setDataBuffer:
+    senderTramBuffer.SetData(receivedData.first.serialize() /*todo ensure that this works*/, receivedData.second);
 
-    // if not full receive(ip, port)
-    return std::make_tuple(nullptr, sender);
+    if (!senderTramBuffer.isTramComplete()) {
+        receivedData = _connector->receive(sender.first, sender.second);
+        goto setDataBuffer;
+        // todo infinite loop handling ??
+    }
+    return std::make_tuple(senderTramBuffer.receiveTram(), sender);
 }
