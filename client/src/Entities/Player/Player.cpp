@@ -20,6 +20,8 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "Event/MoveEvents/MoveEvents.hpp"
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
+#include "Event/ShootEvents/ShootEvents.hpp"
+#include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 
 void hit(Engine::Entity, Engine::Entity)
 {
@@ -29,6 +31,7 @@ void hit(Engine::Entity, Engine::Entity)
 Player::Player(const vector2D &position, const vector2f &size, const vector2D &hitboxSize, const std::string &sprite)
 {
 	MoveHandler handler;
+	ShootEventsManager shootEventsManager;
 	Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 	Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
 	Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::GAME, Engine::EntityName::TEST);
@@ -67,8 +70,8 @@ Player::Player(const vector2D &position, const vector2f &size, const vector2D &h
 		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN)) {
 			GET_EVENT_REG.registerEvent<MoveDown>(local, 10);
 		}
-		if (GameCore::event->isKeyPressed(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE)) {
-			
+		if (GameCore::event->isKeyReleased(IEventManager<renderToolSfml>::keyEvent_e::KEY_SPACE)) {
+			GET_EVENT_REG.registerEvent<ShootOnce>(local);
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
 	});

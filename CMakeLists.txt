@@ -39,7 +39,8 @@ set(CLIENT_SRCS
         
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
-        
+        client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
+
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
         
@@ -48,6 +49,7 @@ set(CLIENT_SRCS
         client/src/Entities/Enemy/Enemy.cpp
         client/src/Entities/Bullet/Bullet.cpp
         client/src/Entities/ScrollingBackground/ScrollingBackground.cpp
+        
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
         client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp
