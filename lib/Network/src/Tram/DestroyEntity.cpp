@@ -13,8 +13,8 @@ DestroyEntity::DestroyEntity() : Tram::Serializable(Tram::TramType::DESTROY_ENTI
 {
 }
 
-DestroyEntity::DestroyEntity(uint32_t networkId)
-    : Tram::Serializable(Tram::TramType::DESTROY_ENTITY, sizeof(DestroyEntity)), networkId(networkId)
+DestroyEntity::DestroyEntity(size_t roomId, uint32_t networkId)
+    : Tram::Serializable(Tram::TramType::DESTROY_ENTITY, sizeof(DestroyEntity)), roomId(roomId), networkId(networkId)
 {
 }
 
@@ -30,6 +30,7 @@ void DestroyEntity::deserialize(uint8_t *buffer)
 {
     auto *ptr = reinterpret_cast<DestroyEntity *>(buffer);
 
+    this->roomId = ptr->roomId;
     this->networkId = ptr->networkId;
 }
 size_t DestroyEntity::length() const
@@ -41,5 +42,6 @@ DestroyEntity::DestroyEntity(uint8_t *buffer)
 {
     auto *ptr = reinterpret_cast<DestroyEntity *>(buffer);
 
+    this->roomId = ptr->roomId;
     this->networkId = ptr->networkId;
 }
