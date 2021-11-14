@@ -25,15 +25,14 @@ void System::RenderSystem::run(const std::vector<Engine::Entity> &entities)
 
             if (Engine::EngineFactory::getInstance().getComponentManager().hasComponent<Engine::Position>(entity)) {
                 auto [position] = Engine::EngineFactory::getInstance().getComponentManager().getList<Engine::Position>(entity);
-                for (auto &itr : render._src) {
-                    if (itr->getPosition() != vector2D(position.x, position.y)) {
-                        itr->setPosition(vector2D(position.x, position.y));
-                        itr->refresh();
+                for (int it = render._pos.size() - 1; it >= 0; it--) {
+                    if (render._src[render._pos[it]]->getPosition() != vector2D(position.x, position.y)) {
+                        render._src[render._pos[it]]->setPosition(vector2D(position.x, position.y));
+                        //render._src[render._pos[it]]->refresh(); CECI EST LE CANCER DE LA PLEB
                     }
+                    render._src[render._pos[it]]->draw();
                 }
             }
-            for (int it = render._pos.size() - 1; it >= 0; it--)
-                render._src[render._pos[it]]->draw();
         }
         GameCore::window->refresh();
     } else {

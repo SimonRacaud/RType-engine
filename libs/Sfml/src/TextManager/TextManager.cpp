@@ -51,6 +51,8 @@ void TextManager::setSize(const vector2D &size)
 void TextManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_text)
+        this->_text->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
 }
 
 void TextManager::setContent(const std::string &str)

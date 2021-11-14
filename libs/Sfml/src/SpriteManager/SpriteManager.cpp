@@ -50,6 +50,8 @@ void SpriteManager::setScale(const vector2f &scale)
 void SpriteManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_sprite && _texture)
+        this->_sprite->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
 }
 
 void SpriteManager::setSrcFilepath(const std::string &path)
