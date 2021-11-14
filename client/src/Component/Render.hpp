@@ -43,7 +43,9 @@ namespace Engine
 
         void removeRender(size_t pos)
         {
-            std::remove(this->_pos.begin(), this->_pos.end(), pos);
+            for (size_t i = 0; i < _pos.size(); i++)
+                if (_pos[i] == pos)
+                    _pos.erase(_pos.begin() + i);
         }
 
         std::vector<size_t> _pos;

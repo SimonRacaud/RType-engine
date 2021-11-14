@@ -46,6 +46,11 @@ void AnimationManager::setScale(const vector2f &scale)
     this->_size = scale;
 }
 
+void AnimationManager::setOffsetPosition(const vector2D &offset)
+{
+    _offsetPos = offset;
+}
+
 void AnimationManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
@@ -60,7 +65,9 @@ void AnimationManager::draw(renderToolSfml &render)
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(this->getNextSprite());
+    if (_windowTmp == nullptr)
+        _windowTmp = dynamic_cast<WindowManager *>(render.get());
+    _windowTmp->_window->draw(this->getNextSprite());
 }
 
 void AnimationManager::refresh()
@@ -72,7 +79,7 @@ void AnimationManager::refresh()
     if (!this->_texture->loadFromFile(this->_path))
         throw std::invalid_argument("Texture load failed " + this->_path);
     this->_sprite->setTexture(*(this->_texture.get()));
-    this->_sprite->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
+    this->_sprite->setPosition(sf::Vector2f(this->_pos.x + _offsetPos.x, this->_pos.y + _offsetPos.y));
     if (this->_size.x && this->_size.y)
         this->_sprite->setScale(sf::Vector2f(this->_size.x, this->_size.y));
 }

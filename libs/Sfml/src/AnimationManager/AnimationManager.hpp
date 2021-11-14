@@ -12,6 +12,7 @@
 #include "FrameRateLimiter.hpp"
 #include "Interface/IAnimationManager.hpp"
 #include "Item/vector2f.hpp"
+#include "WindowManager/WindowManager.hpp"
 
 class AnimationManager: public IAnimationManager<renderToolSfml>
 {
@@ -24,6 +25,7 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         const vector2D &getPosition();
         void setScale(const vector2f &);
         void setPosition(const vector2D &);
+        void setOffsetPosition(const vector2D &);
         void setSrcPath(const std::string &);
         void draw(renderToolSfml &render);
         void refresh();
@@ -47,8 +49,10 @@ class AnimationManager: public IAnimationManager<renderToolSfml>
         size_t _offset;
         surface _focus;
         size_t _nb;
+        WindowManager *_windowTmp = nullptr;
         Singly::FrameRateLimiter<void (size_t &)> _limiter;
         std::function<surface (surface, size_t)> _func;
+        vector2D _offsetPos;
 };
 
 #endif

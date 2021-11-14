@@ -8,8 +8,10 @@
 #ifndef IDRAWABLE_HPP
 #define IDRAWABLE_HPP
 
+#include "IMovable.hpp"
+
 template <typename renderTool>
-class IDrawable
+class IDrawable : public IMovable
 {
     public:
         ~IDrawable() = default;

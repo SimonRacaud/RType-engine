@@ -29,6 +29,8 @@
 #include "Component/Render.hpp"
 #include "Component/Scroll.hpp"
 #include "Component/InputEvent.hpp"
+#include "Component/Shooting.hpp"
+
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
@@ -71,6 +73,7 @@ void GameCore::run()
     componentManager.registerComponent<Engine::Hitbox>();
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Engine::NumberComponent>();
+    componentManager.registerComponent<Component::Shooting>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
@@ -89,7 +92,7 @@ void GameCore::run()
     sceneManager.registerScene<Scene::RoomListScene>();
     sceneManager.registerScene<Scene::GameScene>();
     sceneManager.registerScene<Scene::DebugScene>("Test");
-    sceneManager.select<Scene::StartScene>();
+    sceneManager.select<Scene::DebugScene>();
 
     engine.exec();
 }

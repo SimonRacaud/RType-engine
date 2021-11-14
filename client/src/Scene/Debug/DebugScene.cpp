@@ -11,6 +11,11 @@
 #include "DebugScene.hpp"
 #include "GameCore/GameCore.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
+#include "Entities/Player/Player.hpp"
+#include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/RenderSystem/RenderSystem.hpp"
+#include "Systems/ColliderSystem/ColliderSystem.hpp"
+#include "Components/Hitbox.hpp"
 
 using namespace Scene;
 
@@ -31,25 +36,59 @@ void DebugScene::open()
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 
+    Player p({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p1({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p2({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p3({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p4({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p5({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p6({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p7({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p8({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p9({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p10({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p11({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p12({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p13({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p14({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p15({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p16({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p17({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p18({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p19({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p20({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p21({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p22({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p23({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p24({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p25({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p26({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p28({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p29({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    // Player p30({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+
+
     /**
      * Entities (must be in an entity's factory)
      */
     Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
-    entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
-    Engine::Entity entity2 = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
+    
+    // entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
+    // Engine::Entity entity2 = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
 
     /**
      * Network ID
      */
     // entityManager.setNetworkId(entity, 42);
-    std::cerr << "Net Id = " << entityManager.getNetworkId(entity) << std::endl;
+//    std::cerr << "Net Id = " << entityManager.getNetworkId(entity) << std::endl;
 
     /**
      * Components (must be in an entity's factory)
      */
-    componentManager.add<Engine::Position>(entity, 10, 10);
-    componentManager.add<Engine::Position>(entity2, 10, 10);
-    componentManager.add<Engine::Velocity>(entity, 1, 0);
+    // componentManager.add<Engine::Position>(entity, 10, 10);
+    // componentManager.add<Engine::Position>(entity2, 10, 10);
+    // componentManager.add<Engine::Velocity>(entity, 1, 0);
+
 
     //    try {
     //        entityManager.remove(Engine::EntityName::TEST);
@@ -86,7 +125,7 @@ void DebugScene::open()
     //    componentManager.add<Engine::Render>(entity, tmp2);
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<Engine::PhysicsSystem, System::LogPositionSystem>();
+    systemManager.selectSystems<Engine::PhysicsSystem, System::RenderSystem, System::InputEventSystem, Engine::ColliderSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
     //systemManager.unregisterSystem<Engine::PhysicsSystem>();
 }

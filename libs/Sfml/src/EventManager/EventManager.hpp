@@ -25,6 +25,7 @@ class EventManager: public IEventManager<renderToolSfml>
         void refresh(renderToolSfml &);
         bool isKeyPressed(const keyEvent_e &) const;
         bool isKeyReleased(const keyEvent_e &) const;
+        bool isStateChange(const keyEvent_e &) const;
         vector2D getMousePos() const;
         bool mouseIsOn(const surface &) const;
         bool mouseIsOnClick(const surface &, const keyEvent_e &) const;
@@ -42,6 +43,9 @@ class EventManager: public IEventManager<renderToolSfml>
         vector2D _mouse;
         std::vector<keyEvent_e> _keyStackPressed;
         std::vector<keyEvent_e> _keyStackReleased;
+
+        std::vector<keyEvent_e> _prevKeyStackPressed;
+        std::vector<keyEvent_e> _prevKeyStackReleased;
         const std::unordered_map<sf::Keyboard::Key, keyEvent_e> _keyLink = {
             {sf::Keyboard::Up, IEventManager<renderToolSfml>::keyEvent_e::KEY_UP},
             {sf::Keyboard::Down, IEventManager<renderToolSfml>::keyEvent_e::KEY_DOWN},

@@ -16,7 +16,7 @@
 #include "Item/vector2f.hpp"
 
 template <typename renderTool>
-class ISpriteManager: public IMovable, public IDrawable<renderTool>
+class ISpriteManager: public IDrawable<renderTool>
 {
     public:
         ~ISpriteManager() = default;
