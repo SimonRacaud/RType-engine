@@ -9,7 +9,7 @@
 
 using namespace Engine;
 
-static const Engine::Time freq = static_cast<Engine::Time>(1000);
+static const Engine::Time freq = static_cast<Engine::Time>(500);
 
 ColliderSystem::ColliderSystem() : Engine::AbstractSystem<ColliderSystem>(freq)
 {
