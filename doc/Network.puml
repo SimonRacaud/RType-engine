@@ -1,0 +1,65 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class ClientNetworkCore {
+    + constructor(engine: GameEngine&)
+    - destructor()
+
+    + getRoomList(): void
+    + createRoom(): void
+    + joinRoom(id: size_t): void
+    + quitRoom(): void
+    + createEntity(entity: Entity, type: string): void
+    + destroyEntity(id: NetworkId): void
+    + syncComponent(id: NetworkId, componentType: size_t, componentSize: size_t, component: void *): void
+
+    # receiveRoomListReceive(client: InfoConnection&, data: GetRoomList): void
+    # receiveJoinRoomReply(client: InfoConnection&, data: JoinCreateRoomReply): void
+    # receiveCreateEntityReply(client: InfoConnection&, data: CreateEntityReply): void
+    # receiveCreateEntityRequest(client: InfoConnection&, data: CreateEntityRequest&): void
+    # receiveDestroyEntityRequest(client: InfoConnection&, data: DestroyEntity&): void
+    # receiveSyncComponentRequest(client: InfoConnection&, data: ComponentSync&): void
+
+    # receiveLoop(): void
+
+    - _currentRoomId: size_t
+    - _engine: GameEngine&
+    - _tcpNetwork: NetworkManager
+    - _udpNetwork: NetworkManager
+}
+
+class ServerNetworkCore {
+    # receiveGetRoomList(client: InfoConnection&): void
+    # receiveCreateRoom(client: InfoConnection&, req: CreateEntityRequest&): void
+    # receiveJoinRoom(client: InfoConnection&, req: JoinRoom&): void
+    # receiveQuitRoom(client: InfoConnection&): void
+    # receiveCreateEntity(client: InfoConnection&, req: CreateEntityRequest&): void
+    # receiveDestroyEntity(client: InfoConnection&, req: DestroyEntity&): void
+    # receiveSyncComponent(client: InfoConnection&, req: ComponentSync&): void
+
+    # receiveLoop(): void
+
+    + createEntity(entity: Entity, type: string): void
+    + destroyEntity(id: NetworkId): void
+    + syncComponent(id: NetworkId, componentType: size_t, componentSize: size_t, component: void *): void
+
+    - _rooms: vector<NetworkRoom>
+}
+ServerNetworkCore "1" -- "0..*" NetworkRoom
+
+class InfoConnection {
+    + ip: string
+    + port: size_t
+}
+InfoConnection "1" -- "0..*" ServerNetworkCore
+InfoConnection "1" -- "0..*" ClientNetworkCore
+
+class NetworkRoom {
+    + tcpServer: NetworkManager
+    + udpServer: NetworkManager
+    + tcpClient: NetworkManager
+    + udpClient: NetworkManager
+    + roomId: size_t
+}
+
+@enduml
