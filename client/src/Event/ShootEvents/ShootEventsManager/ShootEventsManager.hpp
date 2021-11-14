@@ -13,6 +13,8 @@
 #include "Entities/Bullet/Bullet.hpp"
 
 void shootOnce(const ShootOnce *e);
+void chargeShot(const ChargeShot *e);
+void releaseShot(const ReleaseChargedShot *e);
 
 class ShootEventsManager {
 	public:

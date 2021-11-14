@@ -18,6 +18,7 @@ namespace Component {
 
 			bool _isCharging = false;
 			bool _hasShot = false;
+			Engine::TimePoint _chargeStart;
 
 	};
 }
