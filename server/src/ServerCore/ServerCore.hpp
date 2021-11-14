@@ -10,6 +10,7 @@
 
 #include <memory>
 #include "ConfigFile.hpp"
+#include "GameRoomManager/GameRoomManager.hpp"
 
 class ServerCore
 {
@@ -22,6 +23,7 @@ class ServerCore
 
     private:
         bool _loop;
+        GameRoomManager _rooms;
 
     public:
         static std::unique_ptr<ConfigFile> config;

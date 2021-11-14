@@ -7,12 +7,8 @@
 
 #include "GameRoomManager.hpp"
 
-GameRoomManager::GameRoomManager() : _idReference(0), _rooms(), _port({0, 1})
+GameRoomManager::GameRoomManager(int portStart, int portEnd) : _idReference(0), _rooms(), _port({portStart, portEnd})
 {
-    int start = ServerCore::config->getVar<int>("PORT_PAGE_START");
-    int end = ServerCore::config->getVar<int>("PORT_PAGE_END");
-
-    _port = PortManager({start, end});
 }
 
 GameRoomManager::~GameRoomManager()
@@ -42,7 +38,6 @@ GameRoom::Id GameRoomManager::createRoom(GameRoom::PlayerList &list)
 
     _idReference++;
     room.create();
-    room.run();
     this->_rooms.push_back(std::move(room));
     return id;
 }

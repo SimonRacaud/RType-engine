@@ -9,13 +9,12 @@
 #define GAMEROOMMANAGER_HPP
 
 #include "GameRoom/GameRoom.hpp"
-#include "ServerCore/ServerCore.hpp"
 #include "PortManager/PortManager.hpp"
 
 class GameRoomManager
 {
     public:
-        GameRoomManager();
+        GameRoomManager(int, int);
         ~GameRoomManager();
 
         GameRoom::Id createRoom(GameRoom::PlayerList &);
