@@ -72,16 +72,3 @@ int testTramBuffer2Sets()
         return 84;
     return 0;
 }
-
-int testTramBufferCreateBuffer()
-{
-    Tram::JoinCreateRoomReply myData(true, 12, std::chrono::milliseconds(34));
-    Tram::TramBuffer myBuffer;
-    std::size_t myLength(0);
-    uint8_t *serializedData(myData.serialize());
-
-    myBuffer.SetData(serializedData, myLength);
-    if (!myBuffer.isTramComplete())
-        return 84;
-    return 0;
-}

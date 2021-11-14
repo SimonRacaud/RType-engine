@@ -12,6 +12,5 @@ int testTramBufferComplete();
 int testTramBufferIncomplete();
 int testTramBufferTruncatedSet();
 int testTramBuffer2Sets();
-int testTramBufferCreateBuffer();
 
 #endif // R_TYPE_INDEPENDENT_TEST_HPP

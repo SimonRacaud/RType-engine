@@ -158,6 +158,7 @@ enable_testing()
 
 set(CLIENT_TEST_BIN bin/client)
 set(SERVER_TEST_BIN bin/server)
+set(INDEPENDENT_TEST_BIN bin/independent)
 set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
 set(SH_ADD_CMD -c)
 
@@ -181,3 +182,13 @@ add_test(NAME ${TEST}
 #             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
 #             ${TEST_NB})
 #endforeach ()
+
+
+##### TESTS TRAM BUFFER
+set(TEST_NBS 1;2;3;4)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    add_test(NAME test_tram_buffer_${TEST_NB}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
+endforeach ()
