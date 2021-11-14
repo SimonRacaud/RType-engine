@@ -43,7 +43,6 @@ class intWrapper {
     intWrapper(uint8_t *data, const std::size_t len)
     {
         if (len != sizeof(intWrapper)) {
-            std::cout << "size not good" << std::endl;
             return;
         }
         memcpy(&_val, data, sizeof(int));
@@ -72,10 +71,11 @@ int testServerAcceptReceive()
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
             my_var = std::get<0>(recvData);
-            std::cout << "my_var.getVal() : " << my_var.getVal() << std::endl;
-            std::cout << "my_var.getOhterVal() : " << my_var.getOtherVal() << std::endl;
-            std::cout << std::endl;
-            return 0;
+            if (my_var.getVal() == 888 && my_var.getOtherVal() == 333)
+                return 0;
+            else {
+                break;
+            }
         }
         //  todo set clock to avoid infinite loop
         //     in shell script ?
