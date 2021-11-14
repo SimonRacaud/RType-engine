@@ -28,7 +28,7 @@ void CreateEntityRequest::deserialize(uint8_t *buffer)
     auto *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
 
     this->entityId = ptr->entityId;
-    this->entityType = ptr->entityType;
+    std::strcpy(this->entityType, ptr->entityType);
     this->timestamp = ptr->timestamp;
 }
 
@@ -41,6 +41,6 @@ CreateEntityRequest::CreateEntityRequest(uint8_t *buffer)
     auto *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
 
     this->entityId = ptr->entityId;
-    this->entityType = ptr->entityType;
+    std::strcpy(this->entityType, ptr->entityType);
     this->timestamp = ptr->timestamp;
 }
