@@ -12,11 +12,17 @@ using namespace Tram;
 CreateEntityRequest::CreateEntityRequest()
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY, sizeof(CreateEntityRequest))
 {
+    entityType[0] = '\0';
 }
 CreateEntityRequest::CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY, sizeof(CreateEntityRequest)), entityId(entityId),
-      entityType(std::move(entityType)), timestamp(timestamp)
+      timestamp(timestamp)
 {
+    if (entityType.empty()) {
+        this->entityType[0] = '\0';
+    } else {
+        std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
+    }
 }
 
 uint8_t *CreateEntityRequest::serialize() const
@@ -33,13 +39,15 @@ void CreateEntityRequest::deserialize(uint8_t *buffer)
     auto *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
 
     this->entityId = ptr->entityId;
-    this->entityType = ptr->entityType;
+    std::strcpy(this->entityType, ptr->entityType);
     this->timestamp = ptr->timestamp;
 }
+
 size_t CreateEntityRequest::length() const
 {
     return sizeof(CreateEntityRequest);
 }
+
 CreateEntityRequest::CreateEntityRequest(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY, sizeof(CreateEntityRequest))
 
@@ -47,6 +55,6 @@ CreateEntityRequest::CreateEntityRequest(uint8_t *buffer)
     auto *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
 
     this->entityId = ptr->entityId;
-    this->entityType = ptr->entityType;
+    std::strcpy(this->entityType, ptr->entityType);
     this->timestamp = ptr->timestamp;
 }

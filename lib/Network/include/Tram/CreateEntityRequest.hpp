@@ -11,9 +11,9 @@
 #ifndef CREATEENTITYREQUEST_HPP
 #define CREATEENTITYREQUEST_HPP
 
+#include <cinttypes>
+#include <cstddef>
 #include <cstring>
-#include <inttypes.h>
-#include <stddef.h>
 #include <string>
 #include <utility>
 #include "Tram/Serializable.hpp"
@@ -22,8 +22,9 @@
 namespace Tram
 {
     using std::string;
+#define ENTITY_TYPE_LEN 10
 
-    class CreateEntityRequest : public Tram::Serializable {
+    class CreateEntityRequest : public Serializable {
       public:
         CreateEntityRequest();
         CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp);
@@ -36,7 +37,7 @@ namespace Tram
          * @brief type of the entity factory ex: "player", "enemy"
          * @brief a confirmer
          */
-        string entityType;
+        char entityType[ENTITY_TYPE_LEN]{0};
         /**
          * @brief timestamp de creation de l'entité (rollback)
          */
@@ -47,7 +48,6 @@ namespace Tram
         explicit CreateEntityRequest(uint8_t *buffer);
         [[nodiscard]] size_t length() const override;
     };
-
 } // namespace Tram
 
 #endif // CREATEENTITYREQUEST_HPP
