@@ -80,8 +80,8 @@ set(SERVER_SRCS
         ./server/src/main.cpp
         ./server/src/GameStage/GameStage.cpp
         ./server/src/DLLoader/DLLoader.hpp
-        ./server/src/Entities/Bullet/BulletServer.cpp
-        ./server/src/Entities/Enemy/EnemyServer.cpp
+        ##./server/src/Entities/Bullet/BulletServer.cpp
+        ##./server/src/Entities/Enemy/EnemyServer.cpp
         ./server/src/ServerCore/ServerCore.cpp
         ./server/src/GameRoomManager/GameRoomManager.cpp
         ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
@@ -110,18 +110,18 @@ set_target_properties(${NAME_SERVER}
 
 ## NETWORK (client & server)
 set(NetworkDir ${PROJECT_SOURCE_DIR}/libs/Network)
-add_subdirectory(${NetworkDir})
+## add_subdirectory(${NetworkDir})
 include_directories(${NetworkDir}/include)
 include_directories(${NetworkDir}/src)
-target_link_libraries(${NAME_CLIENT} Network)
-target_link_libraries(${NAME_SERVER} Network)
+## target_link_libraries(${NAME_CLIENT} Network)
+## target_link_libraries(${NAME_SERVER} Network)
 
 ## GAME-ENGINE (client & server)
 set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 target_link_libraries(${NAME_CLIENT} gameEngine)
-target_link_libraries(${NAME_SERVER} gameEngine)
+# target_link_libraries(${NAME_SERVER} gameEngine)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)
