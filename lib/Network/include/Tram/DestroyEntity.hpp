@@ -14,16 +14,14 @@
 #include <cinttypes>
 #include <cstddef>
 #include <cstring>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 
 namespace Tram
 {
-    class DestroyEntity : public Network::ISerializable {
+    class DestroyEntity : public Tram::Serializable {
       public:
-        DestroyEntity() = default;
-        explicit DestroyEntity(uint32_t networkId) : networkId(networkId)
-        {
-        }
+        DestroyEntity();
+        explicit DestroyEntity(uint32_t networkId);
         /**
          * @brief Network id of the entity
          */

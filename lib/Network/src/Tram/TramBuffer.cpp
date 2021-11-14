@@ -10,11 +10,10 @@
 
 void Tram::TramBuffer::SetData(uint8_t *data, size_t length)
 {
-    if (!_dataLength)
-        throw std::invalid_argument("Size of data is 0");
     auto *tmp(new uint8_t[_dataLength + length]);
 
-    std::memcpy(tmp, _data, _dataLength);
+    if (_dataLength)
+        std::memcpy(tmp, _data, _dataLength);
     std::memcpy(tmp + _dataLength, data, length);
     _dataLength += length;
     delete _data;
@@ -23,12 +22,12 @@ void Tram::TramBuffer::SetData(uint8_t *data, size_t length)
 
 std::size_t Tram::TramBuffer::getTramSize()
 {
-    return Tram::header(_data).size;
+    return Tram::Serializable(_data).size;
 }
 
 bool Tram::TramBuffer::isTramComplete()
 {
-    if (sizeof(Tram::header) + getTramSize() <= _dataLength)
+    if (getTramSize() <= _dataLength)
         return true;
     return false;
 }
@@ -40,8 +39,10 @@ uint8_t *Tram::TramBuffer::receiveTram()
     auto tramSize(getTramSize());
     auto tmp(new uint8_t[tramSize]);
 
-    memmove(tmp, _data + sizeof(Tram::header), tramSize);
-    _dataLength -= sizeof(Tram::header) + tramSize;
-    memmove(_data, _data + (sizeof(Tram::header) + tramSize), _dataLength);
+    memmove(tmp, _data, tramSize);
+    _dataLength -= tramSize;
+    if (_dataLength) {
+        memmove(_data, (_data + tramSize), _dataLength);
+    }
     return tmp;
 }

@@ -9,13 +9,19 @@
 
 using namespace Tram;
 
+GetRoomList::GetRoomList() : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
+{
+}
+
 GetRoomList::GetRoomList(const std::vector<size_t> &roomIdList)
+    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
 {
     this->list = new size_t[roomIdList.size()];
     for (size_t i = 0; i < roomIdList.size(); i++) {
         this->list[i] = roomIdList[i];
     }
     this->nbItem = roomIdList.size();
+    Serializable::size += (sizeof(size_t) * this->nbItem);
 }
 
 GetRoomList::~GetRoomList()
@@ -53,12 +59,11 @@ void GetRoomList::deserialize(uint8_t *buffer)
         std::memcpy(this->list, ptr->list, sizeof(size_t) * nbItem);
     }
 }
-
 size_t GetRoomList::length() const
 {
     return sizeof(GetRoomList) + (sizeof(size_t) * this->nbItem);
 }
-GetRoomList::GetRoomList(uint8_t *buffer)
+GetRoomList::GetRoomList(uint8_t *buffer) : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
 {
     auto *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
@@ -69,4 +74,5 @@ GetRoomList::GetRoomList(uint8_t *buffer)
         this->list = new size_t[this->nbItem];
         std::memcpy(this->list, ptr->list, sizeof(size_t) * nbItem);
     }
+    Serializable::size += (sizeof(size_t) * this->nbItem);
 }

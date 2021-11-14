@@ -12,10 +12,14 @@
 
 using namespace Tram;
 
+ComponentSync::ComponentSync() : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync))
+{
+}
+
 ComponentSync::ComponentSync(
     uint32_t networkId, Time timestamp, const std::type_index &componentType, size_t componentSize, void *component)
-    : networkId(networkId), timestamp(timestamp), componentType(componentType.hash_code()),
-      componentSize(componentSize), component(component)
+    : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync) + componentSize), networkId(networkId),
+      timestamp(timestamp), componentType(componentType.hash_code()), componentSize(componentSize), component(component)
 {
 }
 
@@ -48,23 +52,23 @@ void ComponentSync::deserialize(uint8_t *buffer)
 
     *this = *ptr;
 }
-//
-// ComponentSync &ComponentSync::operator=(ComponentSync &other)
-//{
-//    // copy header
-//    this->size = other.size;
-//    this->networkId = other.networkId;
-//    this->timestamp = other.timestamp;
-//    this->componentType = other.componentType;
-//    this->componentSize = other.componentSize;
-//    if (other.component == nullptr) {
-//        this->component = nullptr;
-//    } else {
-//        this->component = new uint8_t[this->componentSize];                 // alloc body
-//        std::memcpy(this->component, other.component, this->componentSize); // copy body
-//    }
-//    return *this;
-//}
+
+ComponentSync &ComponentSync::operator=(const ComponentSync &other)
+{
+    // copy header
+    this->size = other.size;
+    this->networkId = other.networkId;
+    this->timestamp = other.timestamp;
+    this->componentType = other.componentType;
+    this->componentSize = other.componentSize;
+    if (other.component == nullptr) {
+        this->component = nullptr;
+    } else {
+        this->component = new uint8_t[this->componentSize];                 // alloc body
+        std::memcpy(this->component, other.component, this->componentSize); // copy body
+    }
+    return *this;
+}
 
 size_t ComponentSync::length() const
 {
@@ -72,8 +76,10 @@ size_t ComponentSync::length() const
 }
 
 ComponentSync::ComponentSync(uint8_t *buffer)
+    : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync))
 {
     auto *ptr = reinterpret_cast<ComponentSync *>(buffer);
 
     *this = *ptr;
+    // todo check if size in header (aka Tram::Serializable) is the good one
 }

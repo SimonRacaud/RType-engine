@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT , 2021
-** header
+** Serializable
 ** File description:
-** \file header.hpp
+** \file Serializable.hpp
 ** \author simon
 ** \brief
 ** \date 11/11/2021
@@ -36,18 +36,17 @@ namespace Tram
         SYNC_COMPONENT
     };
 
-    //    std::unordered_map<TramType, >
-
-    class header : public Network::ISerializable {
+    // todo passer à travers tout les types pour init le header
+    class Serializable : public Network::ISerializable {
       public:
-        explicit header() = default;
-        explicit header(TramType type, size_t size = 0);
-        explicit header(uint8_t *data);
+        explicit Serializable() = default;
+        explicit Serializable(TramType type, size_t size = 0);
+        explicit Serializable(uint8_t *data);
 
         /**
          * @brief magic number to check the data type
          */
-        size_t magic{MAGIC};
+        const size_t magic{MAGIC};
         /**
          * @brief Tram total size
          */

@@ -37,7 +37,7 @@ set(COMMON_PROJECT_SRC
     ../../src/Tram/CreateEntityRequest.cpp
     ../../src/Tram/DestroyEntity.cpp
     ../../src/Tram/GetRoomList.cpp
-    ../../src/Tram/header.cpp
+    ../../src/Tram/Serializable.cpp
     ../../src/Tram/JoinCreateRoomReply.cpp
     ../../src/Tram/JoinRoom.cpp
     ../../src/Tram/TramBuffer.cpp
@@ -69,8 +69,7 @@ target_include_directories(${SERVER} BEFORE PUBLIC ${CMAKE_HOME_DIRECTORY}/../..
 if (MSVC)
     target_compile_options(${SERVER} PRIVATE /W4 /WX)
 else ()
-    target_compile_options(${SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers
-                           -ftemplate-backtrace-limit=0) ## todo remove -ftemplate-backtrace-limit=0
+    target_compile_options(${SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
 
 ## DESTINATION

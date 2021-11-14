@@ -15,6 +15,7 @@
 
 namespace Network
 {
+    // todo add header things into that
     class ISerializable {
       public:
         virtual ~ISerializable() = default;

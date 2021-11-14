@@ -6,11 +6,16 @@
 */
 
 #include "Tram/JoinCreateRoomReply.hpp"
-
 using namespace Tram;
 
+JoinCreateRoomReply::JoinCreateRoomReply()
+    : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply))
+{
+}
+
 JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp)
-    : accept(accept), roomId(roomId), startTimestamp(timestamp)
+    : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply)), accept(accept), roomId(roomId),
+      startTimestamp(timestamp)
 {
 }
 
@@ -31,12 +36,12 @@ void JoinCreateRoomReply::deserialize(uint8_t *buffer)
     this->accept = ptr->accept;
     this->startTimestamp = ptr->startTimestamp;
 }
-
 size_t JoinCreateRoomReply::length() const
 {
     return sizeof(JoinCreateRoomReply);
 }
 JoinCreateRoomReply::JoinCreateRoomReply(uint8_t *buffer)
+    : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply))
 {
     auto *ptr = reinterpret_cast<JoinCreateRoomReply *>(buffer);
 

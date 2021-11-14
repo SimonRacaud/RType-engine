@@ -15,14 +15,14 @@
 #include <cstddef>
 #include <cstring>
 #include <string>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 #include "utils/timeDef.hpp"
 
 namespace Tram
 {
-    class JoinCreateRoomReply : public Network::ISerializable {
+    class JoinCreateRoomReply : public Tram::Serializable {
       public:
-        JoinCreateRoomReply() = default;
+        JoinCreateRoomReply();
         JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp);
 
         bool accept{false};

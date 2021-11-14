@@ -8,28 +8,57 @@
 #define R_TYPE_NETWORKMANAGER_HPP -
 
 #include <queue>
+#include <tuple>
 #include "DataWrapper.hpp"
 #include "INetwork.hpp"
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 #include "Tram/TramBuffer.hpp"
 #include "utils/Concepts/Pointerable.hpp"
+#include <unordered_map>
+
+#ifndef MY_MAP
+    #define MY_MAP
+struct hash_pair {
+    std::size_t operator()(const std::pair<std::string, std::size_t> &pair) const
+    {
+        std::size_t h1 = std::hash<std::string>{}(pair.first);
+        std::size_t h2 = std::hash<std::size_t>{}(pair.second);
+
+        return h1 ^ h2;
+    }
+};
+#endif
 
 class NetworkManager {
   public:
     NetworkManager() = default;
-    NetworkManager(const std::string &ip, const std::size_t port);
+    explicit NetworkManager(std::shared_ptr<Network::IConnection<DataWrapper>> connector);
     ~NetworkManager() = default;
-    void setConnector(std::shared_ptr<Network::IConnection<DataWrapper>> connector);
 
-    void send(Network::ISerializable &data);
-    Network::ISerializable &receive();
+    /**
+     * @brief Set the IConnection that will be used to send and receive through network
+     * @param connector The connector to be used
+     * @return The old connector, or nullptr if does not exist
+     */
+    std::shared_ptr<Network::IConnection<DataWrapper>> setConnector(
+        std::shared_ptr<Network::IConnection<DataWrapper>> connector);
+
+    void send(Tram::Serializable &data, const std::string &ip, std::size_t port);
+
+    /**
+     * @brief Get data from the received data queue
+     * @return The data raw data (to be converted to the good class with tramConverter class), the sender
+     * todo tramConverter class
+     */
+    std::tuple<uint8_t *, std::pair<std::string, std::size_t>> receive();
 
   private:
-    Tram::TramBuffer _tramBuffer;
-    std::shared_ptr<Network::IConnection<DataWrapper>> _network;
+    std::unordered_map<std::pair<std::string, std::size_t>, Tram::TramBuffer, hash_pair> _tramBuffers;
+    DataWrapper _dataWrapper;
+    std::shared_ptr<Network::IConnection<DataWrapper>> _connector;
 
-    std::queue<std::pair<Tram::TramType, Network::ISerializable>> _received;
-    std::queue<std::pair<Tram::TramType, Network::ISerializable>> _toSend;
+    std::queue<std::tuple<uint8_t *, std::pair<std::string, std::size_t>>> _received;
+    std::queue<std::tuple<Tram::Serializable, std::pair<std::string, std::size_t>>> _toSend;
 };
 
 #endif // R_TYPE_NETWORKMANAGER_HPP

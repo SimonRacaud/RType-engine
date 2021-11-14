@@ -11,20 +11,17 @@
 #ifndef CREATEENTITYREPLY_HPP
 #define CREATEENTITYREPLY_HPP
 
+#include <cinttypes>
+#include <cstddef>
 #include <cstring>
-#include <inttypes.h>
-#include <stddef.h>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 
 namespace Tram
 {
-    class CreateEntityReply : public Network::ISerializable {
+    class CreateEntityReply : public Tram::Serializable {
       public:
-        CreateEntityReply() = default;
-        CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId)
-            : accept(accept), entityId(entityId), networkId(networkId)
-        {
-        }
+        CreateEntityReply();
+        CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId);
         /**
          * @brief if the request was accepted
          */

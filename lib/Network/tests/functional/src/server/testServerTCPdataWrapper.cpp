@@ -26,13 +26,13 @@ int testServerAcceptReceiveDataWrapper()
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
     AsioServerTCP<DataWrapper> server(portServer);
     DataWrapper my_var;
-    Tram::JoinRoom my_data;
+    Tram::JoinRoom my_data(std::size_t(0));
 
     while (true) {
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
             my_var = std::get<0>(recvData);
-            my_data = Tram::JoinRoom(my_var.serialize());
+            //            my_data = Tram::JoinRoom(my_var.serialize());
             std::cout << my_data.roomId << std::endl;
             std::cout << std::endl;
             return 0;

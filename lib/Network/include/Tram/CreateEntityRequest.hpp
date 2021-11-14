@@ -16,20 +16,17 @@
 #include <stddef.h>
 #include <string>
 #include <utility>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 #include "utils/timeDef.hpp"
 
 namespace Tram
 {
     using std::string;
 
-    class CreateEntityRequest : public Network::ISerializable {
+    class CreateEntityRequest : public Tram::Serializable {
       public:
-        CreateEntityRequest() = default;
-        CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp)
-            : entityId(entityId), entityType(std::move(entityType)), timestamp(timestamp)
-        {
-        }
+        CreateEntityRequest();
+        CreateEntityRequest(uint32_t entityId, string entityType, Time timestamp);
 
         /**
          * @brief private id of the entity

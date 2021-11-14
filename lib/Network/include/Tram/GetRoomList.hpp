@@ -16,13 +16,13 @@
 #include <cstring>
 #include <string>
 #include <vector>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 
 namespace Tram
 {
-    class GetRoomList : public Network::ISerializable {
+    class GetRoomList : public Tram::Serializable {
       public:
-        GetRoomList() = default;
+        GetRoomList();
         explicit GetRoomList(std::vector<size_t> const &roomIdList);
         ~GetRoomList() override;
 

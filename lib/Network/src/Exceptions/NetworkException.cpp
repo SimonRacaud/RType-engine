@@ -20,3 +20,14 @@ const char *invalidConnection::what() const noexcept
 {
     return _message.c_str();
 }
+
+connectionFailed::connectionFailed(const std::string &message, const std::string &ip, std::size_t port)
+    : _message(formatString::format(message, port, ip))
+{
+    formatString::removeIdentifiers(_message);
+}
+
+const char *connectionFailed::what() const noexcept
+{
+    return _message.c_str();
+}

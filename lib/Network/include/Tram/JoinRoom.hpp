@@ -15,20 +15,19 @@
 #include <cstddef>
 #include <cstring>
 #include <string>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 
 namespace Tram
 {
-    class JoinRoom : public Network::ISerializable {
+    class JoinRoom : public Tram::Serializable {
       public:
-        JoinRoom() = default;
-        explicit JoinRoom(size_t roomId) : roomId(roomId){};
-        explicit JoinRoom(uint8_t *buffer);
-
+        JoinRoom();
+        explicit JoinRoom(size_t roomId);
         size_t roomId{0};
 
         [[nodiscard]] uint8_t *serialize() const override;
         void deserialize(uint8_t *buffer) override;
+        explicit JoinRoom(uint8_t *buffer);
         [[nodiscard]] size_t length() const override;
     };
 

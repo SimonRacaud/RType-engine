@@ -19,18 +19,18 @@
 #include "Tram/GetRoomList.hpp"
 #include "Tram/JoinCreateRoomReply.hpp"
 #include "Tram/JoinRoom.hpp"
-#include "Tram/header.hpp"
+#include "Tram/Serializable.hpp"
 
-class DataWrapper : public IDataWrapper {
+class DataWrapper {
   public:
     DataWrapper() = default;
     ~DataWrapper() = default;
 
     explicit DataWrapper(const uint8_t *data, std::size_t length);
 
-    virtual uint8_t *serialize() const;
-    virtual void deserialize(const uint8_t *data, std::size_t length);
-    [[nodiscard]] std::size_t length() const override;
+    [[nodiscard]] uint8_t *serialize() const;
+    void deserialize(const uint8_t *data, std::size_t length);
+    [[nodiscard]] std::size_t length() const;
 
   private:
     std::size_t _dataLength{0};

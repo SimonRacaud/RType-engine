@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include "ITramBuffer.hpp"
-#include "Tram/header.hpp"
+#include "Tram/Serializable.hpp"
 
 namespace Tram
 {
@@ -17,9 +17,6 @@ namespace Tram
       public:
         TramBuffer() = default;
         ~TramBuffer() = default;
-
-        template <Pointerable Data>
-        static uint8_t *createBuff(Tram::header &header, Data &data, std::size_t *bufferLength = nullptr);
 
         /**
          * @brief Set data to the buffer, in order to complete a tram's data
@@ -49,18 +46,5 @@ namespace Tram
         std::size_t _dataLength{0};
     };
 } // namespace Tram
-
-template <Pointerable Data>
-uint8_t *Tram::TramBuffer::createBuff(Tram::header &header, Data &data, std::size_t *bufferLength)
-{
-    std::size_t headerLength(header.length());
-    std::size_t dataLength(data.length());
-    *bufferLength = headerLength + dataLength;
-    auto buffer(new uint8_t[*bufferLength]);
-
-    memcpy(buffer, header.serialize(), headerLength);
-    memcpy(buffer + headerLength, data.serialize(), dataLength);
-    return buffer;
-}
 
 #endif // R_TYPE_TRAMBUFFER_HPP

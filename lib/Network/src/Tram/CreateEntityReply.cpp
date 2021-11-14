@@ -9,9 +9,19 @@
 */
 
 #include "Tram/CreateEntityReply.hpp"
-#include <utility>
 
 using namespace Tram;
+
+CreateEntityReply::CreateEntityReply()
+    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply))
+{
+}
+
+CreateEntityReply::CreateEntityReply(bool accept, uint32_t entityId, uint32_t networkId)
+    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply)), accept(accept),
+      entityId(entityId), networkId(networkId)
+{
+}
 
 uint8_t *CreateEntityReply::serialize() const
 {
@@ -36,6 +46,7 @@ size_t CreateEntityReply::length() const
     return sizeof(CreateEntityReply);
 }
 CreateEntityReply::CreateEntityReply(uint8_t *buffer)
+    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply))
 {
     auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
 

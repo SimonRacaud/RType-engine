@@ -31,7 +31,7 @@ set(SRCS
     src/Tram/CreateEntityRequest.cpp
     src/Tram/DestroyEntity.cpp
     src/Tram/GetRoomList.cpp
-    src/Tram/header.cpp
+    src/Tram/Serializable.cpp
     src/Tram/JoinCreateRoomReply.cpp
     src/Tram/JoinRoom.cpp
     src/Tram/TramBuffer.cpp
@@ -53,6 +53,7 @@ endif ()
 ##
 ## CRITERION
 ## (c++17)
+
 set(NAME_TESTS unit_tests)
 add_executable(${NAME_TESTS}
                ${SRCS}

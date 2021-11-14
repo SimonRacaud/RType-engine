@@ -17,7 +17,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <typeindex>
-#include "ISerializable.hpp"
+#include "Tram/Serializable.hpp"
 #include "utils/timeDef.hpp"
 
 namespace Tram
@@ -25,11 +25,13 @@ namespace Tram
 #define COMP_SYNC_HEAD_SIZE \
     (sizeof(size_t) + sizeof(uint32_t) + sizeof(Time) + sizeof(size_t) + sizeof(size_t) + sizeof(void *))
 
-    class ComponentSync : public Network::ISerializable {
+    class ComponentSync : public Tram::Serializable {
       public:
-        ComponentSync() = default;
+        ComponentSync();
         ComponentSync(uint32_t networkId, Time timestamp, std::type_index const &componentType, size_t componentSize,
             void *component);
+        ComponentSync &operator=(const ComponentSync &other);
+
         ~ComponentSync() override;
 
         /**
