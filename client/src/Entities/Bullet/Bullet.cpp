@@ -27,6 +27,12 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos)
 
 Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const vector2D &velocity)
 {
+    std::vector<std::string> sound(GameCore::config->getVectorOf<std::string>("SOUND_BULLET"));
+
+    if (sound.size() != 2)
+        throw std::invalid_argument("Need 2 sounds");
+    GET_EVENT_REG.registerEvent<AudioEventPlay>(sound[(!charge) ? 0 : 1]);
+
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);

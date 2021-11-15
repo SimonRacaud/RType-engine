@@ -29,6 +29,7 @@ AudioEventManager::AudioEventManager()
     reg.registerCallback<AudioEventVolume>([this] (const Engine::Event::IEvent *e) {
         this->volumeAudio(static_cast<const AudioEventVolume *>(e));
     });
+    AudioEventManager::initEvent();
 }
 
 void AudioEventManager::loadAudio(const AudioEventLoad *e)
@@ -79,5 +80,17 @@ void AudioEventManager::volumeAudio(const AudioEventVolume *e)
         this->_list.at(e->_path)->setVolume(e->_volume);
     } catch (...) {
         throw std::invalid_argument("Invalid sound to setVolume");
+    }
+}
+
+void AudioEventManager::initEvent()
+{
+    std::vector<std::string> sound(GameCore::config->getVectorOf<std::string>("SOUND_BULLET"));
+
+    if (sound.size() != 2)
+        throw std::invalid_argument("Need 2 sounds");
+    for (auto &it : sound) {
+        GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::SOUND, it);
+        GET_EVENT_REG.registerEvent<AudioEventVolume>(it, 100);
     }
 }
