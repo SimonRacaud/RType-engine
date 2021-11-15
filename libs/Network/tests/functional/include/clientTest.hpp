@@ -8,22 +8,22 @@
 #ifndef R_TYPE_CLIENTTEST_HPP
 #define R_TYPE_CLIENTTEST_HPP
 
-int testClientConnectSendDisconnect();
+int testTCPclientConnectSendDisconnect();
 
-int testClientDataWrapperJoinRoom();
-int testClientDataWrapperGetRoomList();
-int testClientDataWrapperCreateEntityReply();
-int testClientDataWrapperCreateEntityRequest();
-int testClientDataWrapperJoinCreateRoomReply();
-int testClientDataWrapperComponentSync();
-int testClientDataWrapperDestroyEntity();
+int testTCPclientDataWrapperJoinRoom();
+int testTCPclientDataWrapperGetRoomList();
+int testTCPclientDataWrapperCreateEntityReply();
+int testTCPclientDataWrapperCreateEntityRequest();
+int testTCPclientDataWrapperJoinCreateRoomReply();
+int testTCPclientDataWrapperComponentSync();
+int testTCPclientDataWrapperDestroyEntity();
 
-int testClientNetworkManagerJoinRoom();
-int testClientNetworkManagerGetRoomList();
-int testClientNetworkManagerCreateEntityReply();
-int testClientNetworkManagerCreateEntityRequest();
-int testClientNetworkManagerJoinCreateRoomReply();
-int testClientNetworkManagerComponentSync();
-int testClientNetworkManagerDestroyEntity();
+int testTCPclientNetworkManagerJoinRoom();
+int testTCPclientNetworkManagerGetRoomList();
+int testTCPclientNetworkManagerCreateEntityReply();
+int testTCPclientNetworkManagerCreateEntityRequest();
+int testTCPclientNetworkManagerJoinCreateRoomReply();
+int testTCPclientNetworkManagerComponentSync();
+int testTCPclientNetworkManagerDestroyEntity();
 
 #endif // R_TYPE_CLIENTTEST_HPP

@@ -35,14 +35,14 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testClientDataWrapperJoinRoom()
+int testTCPclientDataWrapperJoinRoom()
 {
     Tram::JoinRoom my_data{51};
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 
-int testClientDataWrapperGetRoomList()
+int testTCPclientDataWrapperGetRoomList()
 {
     std::vector<std::size_t> listOfRooms{222, 444};
     Tram::GetRoomList my_data{listOfRooms};
@@ -50,25 +50,25 @@ int testClientDataWrapperGetRoomList()
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 
-int testClientDataWrapperCreateEntityReply()
+int testTCPclientDataWrapperCreateEntityReply()
 {
     Tram::CreateEntityReply my_data{123, true, 456, 789};
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
-int testClientDataWrapperCreateEntityRequest()
+int testTCPclientDataWrapperCreateEntityRequest()
 {
     Tram::CreateEntityRequest my_data{123, 456, "789", std::chrono::milliseconds(321)};
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
-int testClientDataWrapperJoinCreateRoomReply()
+int testTCPclientDataWrapperJoinCreateRoomReply()
 {
     Tram::JoinCreateRoomReply my_data{true, 123456789, std::chrono::milliseconds(987)};
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
-int testClientDataWrapperComponentSync()
+int testTCPclientDataWrapperComponentSync()
 {
     // size_t roomId{0}
     // size_t size{0}
@@ -83,7 +83,7 @@ int testClientDataWrapperComponentSync()
     //    return startClientSendData(nullptr, 0);
     return 84;
 }
-int testClientDataWrapperDestroyEntity()
+int testTCPclientDataWrapperDestroyEntity()
 {
     Tram::DestroyEntity my_data{987654321, 665544};
 

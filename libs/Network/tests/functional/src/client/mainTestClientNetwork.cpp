@@ -23,13 +23,14 @@ int testFunction()
 }
 
 static const std::unordered_map<int, std::function<int(void)>> testFunctions{{0, testFunction},
-    {1, testClientConnectSendDisconnect}, {2, testClientDataWrapperJoinRoom}, {3, testClientDataWrapperGetRoomList},
-    {4, testClientDataWrapperCreateEntityReply}, {5, testClientDataWrapperCreateEntityRequest},
-    {6, testClientDataWrapperJoinCreateRoomReply}, {7, testClientDataWrapperComponentSync},
-    {8, testClientDataWrapperDestroyEntity}, {9, testClientNetworkManagerJoinRoom},
-    {10, testClientNetworkManagerGetRoomList}, {11, testClientNetworkManagerCreateEntityReply},
-    {12, testClientNetworkManagerCreateEntityRequest}, {13, testClientNetworkManagerJoinCreateRoomReply},
-    {14, testClientNetworkManagerComponentSync}, {15, testClientNetworkManagerDestroyEntity}};
+    {1, testTCPclientConnectSendDisconnect}, {2, testTCPclientDataWrapperJoinRoom},
+    {3, testTCPclientDataWrapperGetRoomList}, {4, testTCPclientDataWrapperCreateEntityReply},
+    {5, testTCPclientDataWrapperCreateEntityRequest}, {6, testTCPclientDataWrapperJoinCreateRoomReply},
+    {7, testTCPclientDataWrapperComponentSync}, {8, testTCPclientDataWrapperDestroyEntity},
+    {9, testTCPclientNetworkManagerJoinRoom}, {10, testTCPclientNetworkManagerGetRoomList},
+    {11, testTCPclientNetworkManagerCreateEntityReply}, {12, testTCPclientNetworkManagerCreateEntityRequest},
+    {13, testTCPclientNetworkManagerJoinCreateRoomReply}, {14, testTCPclientNetworkManagerComponentSync},
+    {15, testTCPclientNetworkManagerDestroyEntity}};
 
 int main(int ac, char **av)
 {

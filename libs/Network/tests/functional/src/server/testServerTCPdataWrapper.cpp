@@ -37,7 +37,7 @@ static DataWrapper startServerGetData()
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testServerDataWrapperJoinRoom()
+int testTCPserverDataWrapperJoinRoom()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::JoinRoom my_data(my_wrapper.serialize());
@@ -48,7 +48,7 @@ int testServerDataWrapperJoinRoom()
     return 84;
 }
 
-int testServerDataWrapperGetRoomList()
+int testTCPserverDataWrapperGetRoomList()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::GetRoomList my_data{my_wrapper.serialize()};
@@ -59,7 +59,7 @@ int testServerDataWrapperGetRoomList()
     return 84;
 }
 
-int testServerDataWrapperCreateEntityReply()
+int testTCPserverDataWrapperCreateEntityReply()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityReply my_data{my_wrapper.serialize()};
@@ -70,7 +70,7 @@ int testServerDataWrapperCreateEntityReply()
     return 84;
 }
 
-int testServerDataWrapperCreateEntityRequest()
+int testTCPserverDataWrapperCreateEntityRequest()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
@@ -82,7 +82,7 @@ int testServerDataWrapperCreateEntityRequest()
     return 84;
 }
 
-int testServerDataWrapperJoinCreateRoomReply()
+int testTCPserverDataWrapperJoinCreateRoomReply()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
@@ -94,7 +94,7 @@ int testServerDataWrapperJoinCreateRoomReply()
     return 84;
 }
 
-int testServerDataWrapperComponentSync()
+int testTCPserverDataWrapperComponentSync()
 {
     // size_t roomId{0}
     // size_t size{0}
@@ -114,7 +114,7 @@ int testServerDataWrapperComponentSync()
     return 84;
 }
 
-int testServerDataWrapperDestroyEntity()
+int testTCPserverDataWrapperDestroyEntity()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::DestroyEntity my_data{my_wrapper.serialize()};

@@ -60,7 +60,7 @@ class intWrapper {
  *  AsioServerTCP::receiveAny()
  * @return 0 if test succeeded
  */
-int testServerAcceptReceive()
+int testTCPserverAcceptReceive()
 {
     const std::size_t portServer(8080);
     std::tuple<intWrapper, std::size_t, std::string, std::size_t> recvData;

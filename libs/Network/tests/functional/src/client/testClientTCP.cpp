@@ -55,7 +55,7 @@ class intWrapper {
  *  AsioClientTCP::disconnect()
  * @return 0 if test succeeded
  */
-int testClientConnectSendDisconnect()
+int testTCPclientConnectSendDisconnect()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);

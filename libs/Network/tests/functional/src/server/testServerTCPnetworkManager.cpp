@@ -39,7 +39,7 @@ static uint8_t *startServerGetData()
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testServerNetworkManagerJoinRoom()
+int testTCPserverNetworkManagerJoinRoom()
 {
     Tram::JoinRoom my_data(startServerGetData());
 
@@ -49,7 +49,7 @@ int testServerNetworkManagerJoinRoom()
     return 84;
 }
 
-int testServerNetworkManagerGetRoomList()
+int testTCPserverNetworkManagerGetRoomList()
 {
     Tram::GetRoomList my_data{startServerGetData()};
 
@@ -59,7 +59,7 @@ int testServerNetworkManagerGetRoomList()
     return 84;
 }
 
-int testServerNetworkManagerCreateEntityReply()
+int testTCPserverNetworkManagerCreateEntityReply()
 {
     Tram::CreateEntityReply my_data{startServerGetData()};
 
@@ -69,7 +69,7 @@ int testServerNetworkManagerCreateEntityReply()
     return 84;
 }
 
-int testServerNetworkManagerCreateEntityRequest()
+int testTCPserverNetworkManagerCreateEntityRequest()
 {
     Tram::CreateEntityRequest my_data{startServerGetData()};
 
@@ -80,7 +80,7 @@ int testServerNetworkManagerCreateEntityRequest()
     return 84;
 }
 
-int testServerNetworkManagerJoinCreateRoomReply()
+int testTCPserverNetworkManagerJoinCreateRoomReply()
 {
     Tram::JoinCreateRoomReply my_data{startServerGetData()};
 
@@ -91,7 +91,7 @@ int testServerNetworkManagerJoinCreateRoomReply()
     return 84;
 }
 
-int testServerNetworkManagerComponentSync()
+int testTCPserverNetworkManagerComponentSync()
 {
     // size_t roomId{0}
     // size_t size{0}
@@ -111,7 +111,7 @@ int testServerNetworkManagerComponentSync()
     return 84;
 }
 
-int testServerNetworkManagerDestroyEntity()
+int testTCPserverNetworkManagerDestroyEntity()
 {
     Tram::DestroyEntity my_data{startServerGetData()};
 

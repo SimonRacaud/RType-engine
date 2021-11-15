@@ -7,22 +7,22 @@
 #ifndef R_TYPE_SERVERTEST_HPP
 #define R_TYPE_SERVERTEST_HPP
 
-int testServerAcceptReceive();
+int testTCPserverAcceptReceive();
 
-int testServerDataWrapperJoinRoom();
-int testServerDataWrapperGetRoomList();
-int testServerDataWrapperCreateEntityReply();
-int testServerDataWrapperCreateEntityRequest();
-int testServerDataWrapperJoinCreateRoomReply();
-int testServerDataWrapperComponentSync();
-int testServerDataWrapperDestroyEntity();
+int testTCPserverDataWrapperJoinRoom();
+int testTCPserverDataWrapperGetRoomList();
+int testTCPserverDataWrapperCreateEntityReply();
+int testTCPserverDataWrapperCreateEntityRequest();
+int testTCPserverDataWrapperJoinCreateRoomReply();
+int testTCPserverDataWrapperComponentSync();
+int testTCPserverDataWrapperDestroyEntity();
 
-int testServerNetworkManagerJoinRoom();
-int testServerNetworkManagerGetRoomList();
-int testServerNetworkManagerCreateEntityReply();
-int testServerNetworkManagerCreateEntityRequest();
-int testServerNetworkManagerJoinCreateRoomReply();
-int testServerNetworkManagerComponentSync();
-int testServerNetworkManagerDestroyEntity();
+int testTCPserverNetworkManagerJoinRoom();
+int testTCPserverNetworkManagerGetRoomList();
+int testTCPserverNetworkManagerCreateEntityReply();
+int testTCPserverNetworkManagerCreateEntityRequest();
+int testTCPserverNetworkManagerJoinCreateRoomReply();
+int testTCPserverNetworkManagerComponentSync();
+int testTCPserverNetworkManagerDestroyEntity();
 
 #endif // R_TYPE_SERVERTEST_HPP
