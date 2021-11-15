@@ -52,10 +52,16 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     vector2D size = focusSize[charge];
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [cluster](Engine::Entity, Engine::Entity b) {
+        static auto last = std::chrono::system_clock::from_time_t(0);
         auto &pos = GET_COMP_M.get<Engine::Position>(b);
 
-        std::cout << "EXPLOSION ----------------------->" << std::endl;
-        Explosion(cluster, vector2D(pos.x, pos.y));
+        std::chrono::duration<double> tmp = std::chrono::system_clock::now() - last;
+        size_t nb_sec = tmp.count();
+        std::cout << "EXPLOSION -----------------------> " << nb_sec << " && " << std::chrono::duration<double>(1).count() << std::endl;
+        if (nb_sec > std::chrono::duration<double>(1).count()) {
+            Explosion(cluster, vector2D(pos.x, pos.y));
+            last = std::chrono::system_clock::now();
+        }
     });
     componentManager.add<Engine::Render>(entity, bullet);
 }
