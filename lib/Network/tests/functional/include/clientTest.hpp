@@ -10,5 +10,6 @@
 
 int testClientConnectSendDisconnect();
 int testClientConnectSendDisconnectDataWrapper();
+int testClientConnectSendDisconnectDataWrapper2();
 
 #endif // R_TYPE_CLIENTTEST_HPP

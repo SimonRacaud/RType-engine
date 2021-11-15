@@ -9,5 +9,6 @@
 
 int testServerAcceptReceive();
 int testServerAcceptReceiveDataWrapper();
+int testServerAcceptReceiveDataWrapper2();
 
 #endif // R_TYPE_SERVERTEST_HPP

@@ -182,9 +182,13 @@ add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
 set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
-#set_tests_properties(sendReceiveTramThroughDataWrapper PROPERTIES WILL_FAIL FALSE)
-#message(${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-#        ${TEST_NB})
+
+set(TEST_NB 3)
+set(TEST sendReceiveTramThroughDataWrapper2)
+add_test(NAME ${TEST}
+         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+         ${TEST_NB})
+set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
 
 
 ##### TESTS IN LOOP

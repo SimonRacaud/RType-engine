@@ -23,8 +23,8 @@ int testFunction()
     return 0;
 }
 
-static const std::unordered_map<int, std::function<int(void)>> testFunctions{
-    {0, testFunction}, {1, testServerAcceptReceive}, {2, testServerAcceptReceiveDataWrapper}};
+static const std::unordered_map<int, std::function<int(void)>> testFunctions{{0, testFunction},
+    {1, testServerAcceptReceive}, {2, testServerAcceptReceiveDataWrapper}, {3, testServerAcceptReceiveDataWrapper2}};
 
 int main(int ac, char **av)
 {
