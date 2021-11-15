@@ -61,6 +61,7 @@ int testTCPclientConnectSendDisconnect()
     const std::size_t portServer(8080);
     intWrapper myData(888);
     AsioClientTCP<intWrapper> client;
+    sleep(1); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
 
     if (!connected)

@@ -26,4 +26,22 @@ int testTCPclientNetworkManagerJoinCreateRoomReply();
 int testTCPclientNetworkManagerComponentSync();
 int testTCPclientNetworkManagerDestroyEntity();
 
+int testUDPclientConnectSendDisconnect();
+
+int testUDPclientDataWrapperJoinRoom();
+int testUDPclientDataWrapperGetRoomList();
+int testUDPclientDataWrapperCreateEntityReply();
+int testUDPclientDataWrapperCreateEntityRequest();
+int testUDPclientDataWrapperJoinCreateRoomReply();
+int testUDPclientDataWrapperComponentSync();
+int testUDPclientDataWrapperDestroyEntity();
+
+int testUDPclientNetworkManagerJoinRoom();
+int testUDPclientNetworkManagerGetRoomList();
+int testUDPclientNetworkManagerCreateEntityReply();
+int testUDPclientNetworkManagerCreateEntityRequest();
+int testUDPclientNetworkManagerJoinCreateRoomReply();
+int testUDPclientNetworkManagerComponentSync();
+int testUDPclientNetworkManagerDestroyEntity();
+
 #endif // R_TYPE_CLIENTTEST_HPP

@@ -21,6 +21,7 @@ static uint8_t *startServerGetData()
     std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioServerTCP<DataWrapper>>(portServer));
     NetworkManager serverManager(server);
 
+
     while (true) {
         recvData = serverManager.receive();
         if (std::get<0>(recvData)) {
