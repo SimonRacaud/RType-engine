@@ -8,6 +8,7 @@
 #include "Bullet.hpp"
 #include "GameCore/GameCore.hpp"
 #include "AnimationManager/AnimationManager.hpp"
+#include "Entities/Explosion/Explosion.hpp"
 
 #include "Component/Render.hpp"
 #include "Components/Hitbox.hpp"
@@ -49,11 +50,12 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
 
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
-    /*vector2D size = focusSize[charge];
+    vector2D size = focusSize[charge];
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
-        GameCore::engine.getEntityManager().remove(a);
-        GameCore::engine.getEntityManager().remove(b);
-        // ADD EXPLOSION ANIMATION
-    });*/
+        //GameCore::engine.getEntityManager().remove(a);
+        //GameCore::engine.getEntityManager().remove(b);
+        std::cout << "EXPLOSION ----------------------->" << std::endl;
+        Explosion(vector2D(0, 0));
+    });
     componentManager.add<Engine::Render>(entity, bullet);
 }

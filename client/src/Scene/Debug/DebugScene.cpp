@@ -126,7 +126,7 @@ void DebugScene::open()
     //    componentManager.add<Engine::Position>(entity, 20, 20);
     //    std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
     //    componentManager.add<Engine::Render>(entity, tmp2);
-    Equipment(this->getCluster(), vector2D(700, 100));
+    Equipment(this->getCluster(), vector2D(700, 80));
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();

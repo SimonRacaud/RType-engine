@@ -93,4 +93,8 @@ void AudioEventManager::initEvent()
         GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::SOUND, it);
         GET_EVENT_REG.registerEvent<AudioEventVolume>(it, 100);
     }
+
+    std::string exp = GameCore::config->getVar<std::string>("SOUND_EXPLOSION");
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::SOUND, exp);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(exp, 100);
 }

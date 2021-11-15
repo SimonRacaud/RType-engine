@@ -50,6 +50,7 @@ set(CLIENT_SRCS
         client/src/Entities/Player/Player.cpp
         client/src/Entities/Enemy/Enemy.cpp
         client/src/Entities/Bullet/Bullet.cpp
+        client/src/Entities/Explosion/Explosion.cpp
         client/src/Entities/ScrollingBackground/ScrollingBackground.cpp
 
         client/src/Component/Scroll.hpp
