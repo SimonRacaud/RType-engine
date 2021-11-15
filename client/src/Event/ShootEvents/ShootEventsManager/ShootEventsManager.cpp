@@ -29,11 +29,12 @@ void releaseShot(const ReleaseChargedShot *e)
 	auto &shooting = GET_COMP_M.get<Component::Shooting>(e->_entity);
 	auto pos = GET_COMP_M.get<Engine::Position>(e->_entity);
 	auto hit = GET_COMP_M.get<Engine::Hitbox>(e->_entity);
+	auto velocity = GET_COMP_M.get<Engine::Velocity>(e->_entity);
 
 	size_t nb_sec = std::chrono::duration_cast<std::chrono::seconds>(
 		now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
 	if (nb_sec >= 1)
 		nb_sec += 1;
 	Bullet b(GameCore::engine.getEntityManager().getCluster(e->_entity),
-        nb_sec, vector2D(pos.x + hit.x, pos.y));
+        nb_sec, vector2D(pos.x + hit.x + velocity.x + 5, pos.y));
 }
