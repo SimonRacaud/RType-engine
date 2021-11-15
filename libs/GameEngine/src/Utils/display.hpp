@@ -15,7 +15,7 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
-std::ostream& operator<<(std::ostream& os, const Engine::Position& comp);
+std::ostream& operator<<(std::ostream& os, const Engine::Velocity& comp);
 
 std::ostream& operator<<(std::ostream& os, const Engine::Velocity& comp);
 

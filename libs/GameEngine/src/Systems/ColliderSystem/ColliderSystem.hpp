@@ -13,6 +13,7 @@
 #include "AbstractSystem/AbstractSystem.hpp"
 #include "Components/Hitbox.hpp"
 #include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
 #include "FactoryShortcuts.hpp"
 #include "EntityManager/EntityManager.hpp"
 

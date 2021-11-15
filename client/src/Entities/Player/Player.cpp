@@ -79,7 +79,7 @@ Player::Player(ClusterName cluster,
 	ps.push_back(1);
 
 	componentManager.add<Engine::Render>(entity, renderList, ps);
-	componentManager.add<Engine::Position>(entity, position.x, position.y);
+	componentManager.add<Engine::Velocity>(entity, position.x, position.y);
 	componentManager.add<Engine::Velocity>(entity, 0, 0);
 	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
 	componentManager.add<Engine::ScoreComponent>(entity);

@@ -25,7 +25,7 @@ Label::Label(Engine::ClusterName cluster, const string &content,
 
     componentManager.add<Engine::Render>(entity,
         std::make_unique<TextManager>(position, size, color, content, font));
-    componentManager.add<Engine::Position>(entity, (float)position.x, (float)position.y);
+    componentManager.add<Engine::Velocity>(entity, (float)position.x, (float)position.y);
 }
 
 Label::Label(Engine::ClusterName cluster, size_t content,

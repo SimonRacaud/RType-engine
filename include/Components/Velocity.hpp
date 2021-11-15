@@ -12,7 +12,7 @@
 
 namespace Engine
 {
-    struct Velocity : public BaseComponent<Velocity> {
+    struct Velocity : public Engine::BaseComponent<Velocity> {
         Velocity(float x, float y) : x(x), y(y) {}
         Velocity() = default;
         virtual ~Velocity() = default;

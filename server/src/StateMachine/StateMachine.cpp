@@ -18,7 +18,6 @@ StateMachine::~StateMachine()
 
 void StateMachine::run()
 {
-
 	switch (_currentState) {
 		case StateMachine::IDLE:
 			_enemyApi->idle(_enemyApi);

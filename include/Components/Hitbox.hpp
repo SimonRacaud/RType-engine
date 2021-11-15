@@ -11,15 +11,15 @@
 #include "BaseComponent/BaseComponent.hpp"
 
 namespace Engine {
-	class Hitbox : public BaseComponent<Hitbox> {
+	class Hitbox : public Engine::BaseComponent<Hitbox> {
 		public:
-			Hitbox(float x, float y, const std::function<void(Entity, Entity)> factory) 
+			Hitbox(float x, float y, const std::function<void(Engine::Entity, Engine::Entity)> factory) 
 				: x(x), y(y), _eventFactory(factory) {}
 			virtual ~Hitbox() = default;
 
 			float x{0};
 			float y{0};
-			std::function<void(Entity, Entity)> _eventFactory;
+			std::function<void(Engine::Entity, Engine::Entity)> _eventFactory;
 	};
 }
 

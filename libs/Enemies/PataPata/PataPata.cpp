@@ -6,8 +6,17 @@
 */
 
 #include "PataPata.hpp"
+#include "exported.h"
+
+extern "C" {
+	EXPORTED PataPata *initApi();
+	PataPata *initApi() {
+		return new PataPata();
+	}
+}
 
 PataPata::PataPata()
+	: _position(0, 0), _velocity(10, 10), _health(1)
 {
 }
 
@@ -15,24 +24,19 @@ PataPata::~PataPata()
 {
 }
 
-void PataPata::idle(const PataPata *ptr) 
+void PataPata::idle(const IEnemyApi *ptr) 
 {
 	std::cout << "PataPata idle\n";
 }
 
-void PataPata::move(const PataPata *ptr) 
+void PataPata::move(const IEnemyApi *ptr) 
 {
 	std::cout << "PataPata move\n";
 }
 
-void PataPata::attack(const PataPata *ptr) 
+void PataPata::attack(const IEnemyApi *ptr) 
 {
 	std::cout << "PataPata attack\n";
-}
-
-float PataPata::getMoveSpeed() const 
-{
-	return 10;
 }
 
 float PataPata::getShootingSpeed() const 
@@ -40,33 +44,22 @@ float PataPata::getShootingSpeed() const
 	return 1;
 }
 
-int PataPata::getHealth() const 
+Engine::Velocity &PataPata::getPosition()
 {
-	return 1;
+	return _position;
 }
 
-std::string PataPata::getSpriteSheet() const 
+Engine::Velocity &PataPata::getVelocity()
 {
-	return std::string("asset/sprites/r-typesheet5.gif");
+	return _velocity;
 }
 
-int PataPata::getAnimationNbFrames() const 
+Component::Health &PataPata::getHealth()
 {
-	return 0;
+	return _health;
 }
 
-vector2D PataPata::getIdleAnimPos() const 
+Component::AnimationInfo PataPata::getAnimInfo() const
 {
-	return vector2D(2, 3);
+	return Component::AnimationInfo("asset/sprites/r-typesheet5.gif", 8, {4, 5}, {25, 27});
 }
-
-vector2D PataPata::getMoveAnimPos() const 
-{
-	return vector2D(2, 3);
-}
-
-vector2D PataPata::getAttackAnimPos() const 
-{
-	return vector2D(2, 3);
-}
-

@@ -37,20 +37,19 @@ class PataPata : public IEnemyApi {
 		PataPata();
 		~PataPata();
 
-		virtual void idle(const PataPata *ptr);
-		virtual void move(const PataPata *ptr);
-		virtual void attack(const PataPata *ptr);
-		virtual float getMoveSpeed() const;
+		virtual void idle(const IEnemyApi *ptr) override;
+		virtual void move(const IEnemyApi *ptr) override;
+		virtual void attack(const IEnemyApi *ptr) override;
+		virtual Engine::Velocity &getPosition();
+		virtual Engine::Velocity &getVelocity();
 		virtual float getShootingSpeed() const;
-		virtual int getHealth() const;
-		virtual std::string getSpriteSheet() const;
-		virtual int getAnimationNbFrames() const;
-		virtual vector2D getIdleAnimPos() const;
-		virtual vector2D getMoveAnimPos() const;
-		virtual vector2D getAttackAnimPos() const;
-
-	protected:
-	private:
+		virtual Component::Health &getHealth();
+		virtual Component::AnimationInfo getAnimInfo() const;
+	
+		private:
+			Engine::Velocity _position;
+			Engine::Velocity _velocity;
+			Component::Health _health;
 };
 
 #endif /* !PATAPATA_HPP_ */

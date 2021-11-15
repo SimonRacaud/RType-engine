@@ -29,7 +29,7 @@
 
 template <typename T> class DLLoader {
   public:
-    static T *getEntryPoint(std::string filePath)
+    static T *getEntryPoint(std::string filePath, std::string entryName)
     {
         LIBTYPE handle = NULL;
         T *(*instance)(void) = nullptr;
@@ -43,7 +43,7 @@ template <typename T> class DLLoader {
         //    filePath << std::endl << "Error is : " << error << std::endl;
         //    return nullptr;
         //}
-        *(void **) &instance = LIBFUNC(handle, "initApi");
+        *(void **) &instance = LIBFUNC(handle, entryName.c_str());
         // error = dlerror();
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"
