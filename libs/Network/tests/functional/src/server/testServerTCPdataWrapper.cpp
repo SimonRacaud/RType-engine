@@ -13,6 +13,23 @@
 
 using namespace Network;
 
+static DataWrapper startServerGetData()
+{
+    const std::size_t portServer(8080);
+    std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
+    AsioServerTCP<DataWrapper> server(portServer);
+
+    while (true) {
+        recvData = server.receiveAny();
+        if (std::get<1>(recvData)) {
+            return std::get<0>(recvData);
+        }
+        // todo set clock to avoid infinite loop
+        //  in shell script ?
+        //  with Clock class ?
+    }
+    exit(84);
+}
 /**
  * @brief Test
  *  AsioServerTCP::startAccept()
@@ -22,48 +39,88 @@ using namespace Network;
  */
 int testServerDataWrapperJoinRoom()
 {
-    const std::size_t portServer(8080);
-    std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<DataWrapper> server(portServer);
-    DataWrapper my_wrapper;
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::JoinRoom my_data(my_wrapper.serialize());
 
-    while (true) {
-        recvData = server.receiveAny();
-        if (std::get<1>(recvData)) {
-            my_wrapper = std::get<0>(recvData);
-            Tram::JoinRoom my_data(my_wrapper.serialize());
-            if (my_data.roomId == 51)
-                return 0;
-            else
-                break;
-        }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
+    if (my_data.roomId == 51) {
+        return 0;
     }
     return 84;
 }
 
 int testServerDataWrapperGetRoomList()
 {
-    const std::size_t portServer(8080);
-    std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<DataWrapper> server(portServer);
-    DataWrapper my_wrapper;
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::GetRoomList my_data{my_wrapper.serialize()};
 
-    while (true) {
-        recvData = server.receiveAny();
-        if (std::get<1>(recvData)) {
-            my_wrapper = std::get<0>(recvData);
-            Tram::GetRoomList my_data{my_wrapper.serialize()};
-            if (my_data.nbItem == 2 && my_data.list[0] == 222 && my_data.list[1] == 444) {
-                return 0;
-            } else
-                break;
-        }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
+    if (my_data.nbItem == 2 && my_data.list[0] == 222 && my_data.list[1] == 444) {
+        return 0;
+    }
+    return 84;
+}
+
+int testServerDataWrapperCreateEntityReply()
+{
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::CreateEntityReply my_data{my_wrapper.serialize()};
+
+    if (my_data.roomId == 123 && my_data.accept == true && my_data.entityId == 456 && my_data.networkId == 789) {
+        return 0;
+    }
+    return 84;
+}
+
+int testServerDataWrapperCreateEntityRequest()
+{
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
+
+    if (my_data.roomId == 123 && my_data.entityId == 345 && std::string(my_data.entityType) == std::string("789")
+        && my_data.timestamp == std::chrono::milliseconds(321)) {
+        return 0;
+    }
+    return 84;
+}
+
+int testServerDataWrapperJoinCreateRoomReply()
+{
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
+
+    if (my_data.accept == true && my_data.roomId == 123456789
+        && my_data.startTimestamp == std::chrono::milliseconds(987)) {
+        return 0;
+    }
+    return 84;
+}
+
+int testServerDataWrapperComponentSync()
+{
+    // size_t roomId{0}
+    // size_t size{0}
+    // uint32_t networkId{0}
+    // Time timestamp{0}
+    // size_t componentType{0}
+    // size_t componentSize{0}
+    // void *component{nullptr}
+    //    DataWrapper my_wrapper(startServerGetData());
+    //    Tram::ComponentSync my_data{my_wrapper.serialize()};
+
+    //    if (!my_wrapper.serialize())
+    //        return 0;
+    //    if (my_data.roomId == 123 && my_data.accept == true && my_data.entityId == 456 && my_data.networkId == 789) {
+    //        return 0;
+    //    }
+    return 84;
+}
+
+int testServerDataWrapperDestroyEntity()
+{
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::DestroyEntity my_data{my_wrapper.serialize()};
+
+    if (my_data.roomId == 987654321 && my_data.networkId == 665544) {
+        return 0;
     }
     return 84;
 }

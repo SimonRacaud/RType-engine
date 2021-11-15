@@ -23,9 +23,24 @@ int testFunction()
     return 0;
 }
 
-static const std::unordered_map<int, std::function<int(void)>> testFunctions{{0, testFunction},
-    {1, testServerAcceptReceive}, {2, testServerDataWrapperJoinRoom}, {3, testServerDataWrapperGetRoomList},
-    {4, testServerAcceptReceiveNetworkManager}, {5, testServerAcceptReceiveNetworkManagerGetRoomList}};
+static const std::unordered_map<int, std::function<int(void)>> testFunctions{
+    {0, testFunction},
+    {1, testServerAcceptReceive},
+    {2, testServerDataWrapperJoinRoom},
+    {3, testServerDataWrapperGetRoomList},
+    {4, testServerDataWrapperCreateEntityReply},
+    {5, testServerDataWrapperCreateEntityRequest},
+    {6, testServerDataWrapperJoinCreateRoomReply},
+    {7, testServerDataWrapperComponentSync},
+    {8, testServerDataWrapperDestroyEntity},
+    {9, testServerNetworkManagerJoinRoom},
+    {10, testServerNetworkManagerGetRoomList},
+    {11, testServerNetworkManagerCreateEntityReply},
+    {12, testServerNetworkManagerCreateEntityRequest},
+    {13, testServerNetworkManagerJoinCreateRoomReply},
+    {14, testServerNetworkManagerComponentSync},
+    {15, testServerNetworkManagerDestroyEntity},
+};
 
 int main(int ac, char **av)
 {

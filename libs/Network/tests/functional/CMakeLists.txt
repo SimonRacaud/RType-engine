@@ -178,35 +178,6 @@ add_test(NAME ${TEST}
 set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
 
 
-set(TEST_NB 2)
-set(TEST sendReceiveTramThroughDataWrapper)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
-
-set(TEST_NB 3)
-set(TEST sendReceiveTramThroughDataWrapper2)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
-
-set(TEST_NB 4)
-set(TEST sendReceiveTramThroughNetworkManager)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
-
-set(TEST_NB 5)
-set(TEST sendReceiveTramThroughNetworkManagerGetRoomList)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
-
-
 ##### TESTS IN LOOP
 #set(TEST_NBS 0;1)
 
@@ -217,6 +188,23 @@ set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
 #             ${TEST_NB})
 #endforeach ()
 
+
+##### TESTS TRAM BUFFER
+set(TEST_NBS 2;3;4;5;6;7;8)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    add_test(NAME test_networkManager_${TEST_NB}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
+endforeach ()
+
+set(TEST_NBS 9;10;11;12;13;14;15)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    add_test(NAME test_dataWrapper_${TEST_NB}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
+endforeach ()
 
 ##### TESTS TRAM BUFFER
 set(TEST_NBS 1;2;3;4)

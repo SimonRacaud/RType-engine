@@ -12,6 +12,21 @@
 
 using namespace Network;
 
+static int startClientSendData(uint8_t *data, const std::size_t length)
+{
+    const std::string ipServer("127.0.0.1");
+    const std::size_t portServer(8080);
+    AsioClientTCP<DataWrapper> client;
+    bool connected = client.connect(ipServer, portServer);
+    DataWrapper wrapper(data, length);
+
+    if (!connected)
+        return 84;
+    client.send(wrapper, ipServer, portServer);
+    client.disconnect(ipServer, portServer);
+    return 0;
+}
+
 /**
  * @brief Test
  *  AsioClientTCP::connect()
@@ -20,39 +35,59 @@ using namespace Network;
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testServerDataWrapperJoinRoom()
+int testClientDataWrapperJoinRoom()
 {
-    const std::string ipServer("127.0.0.1");
-    const std::size_t portServer(8080);
     Tram::JoinRoom my_data{51};
-    DataWrapper myDataWrapper(my_data.serialize(), my_data.length());
 
-    AsioClientTCP<DataWrapper> client;
-    bool connected = client.connect(ipServer, portServer);
-
-    if (!connected)
-        return 84;
-    client.send(myDataWrapper, ipServer, portServer);
-    client.disconnect(ipServer, portServer);
-    return 0;
+    return startClientSendData(my_data.serialize(), my_data.length());
 }
 
-int testServerDataWrapperGetRoomList()
+int testClientDataWrapperGetRoomList()
 {
-    const std::string ipServer("127.0.0.1");
-    const std::size_t portServer(8080);
     std::vector<std::size_t> listOfRooms{222, 444};
     Tram::GetRoomList my_data{listOfRooms};
-    DataWrapper myDataWrapper(my_data.serialize(), my_data.length());
 
-    AsioClientTCP<DataWrapper> client;
-    bool connected = client.connect(ipServer, portServer);
+    return startClientSendData(my_data.serialize(), my_data.length());
+}
 
-    if (!connected)
-        return 84;
-    client.send(myDataWrapper, ipServer, portServer);
-    client.disconnect(ipServer, portServer);
-    return 0;
+int testClientDataWrapperCreateEntityReply()
+{
+    Tram::CreateEntityReply my_data{123, true, 456, 789};
+
+    return startClientSendData(my_data.serialize(), my_data.length());
+}
+int testClientDataWrapperCreateEntityRequest()
+{
+    Tram::CreateEntityRequest my_data{123, 456, "789", std::chrono::milliseconds(321)};
+
+    return startClientSendData(my_data.serialize(), my_data.length());
+}
+int testClientDataWrapperJoinCreateRoomReply()
+{
+    Tram::JoinCreateRoomReply my_data{true, 123456789, std::chrono::milliseconds(987)};
+
+    return startClientSendData(my_data.serialize(), my_data.length());
+}
+int testClientDataWrapperComponentSync()
+{
+    // size_t roomId{0}
+    // size_t size{0}
+    // uint32_t networkId{0}
+    // Time timestamp{0}
+    // size_t componentType{0}
+    // size_t componentSize{0}
+    // void *component{nullptr}
+    //    Tram::ComponentSync my_data{963, 852, 456, 789};
+
+    //    return startClientSendData(my_data.serialize(), my_data.length());
+    //    return startClientSendData(nullptr, 0);
+    return 84;
+}
+int testClientDataWrapperDestroyEntity()
+{
+    Tram::DestroyEntity my_data{9876544321, 665544};
+
+    return startClientSendData(my_data.serialize(), my_data.length());
 }
 
 // todo test all Trams
