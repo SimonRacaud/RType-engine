@@ -49,7 +49,7 @@ namespace Tram
     class Serializable : public Network::ISerializable {
       public:
         explicit Serializable() = default;
-        explicit Serializable(TramType type, size_t size = 0);
+        explicit Serializable(TramType type, size_t size = sizeof(Serializable));
         explicit Serializable(uint8_t *data);
 
         /**
