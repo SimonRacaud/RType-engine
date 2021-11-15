@@ -31,5 +31,5 @@ ScrollingBackground::ScrollingBackground(Engine::ClusterName clusterName)
     componentManager.add<Engine::Render>(entity, std::make_shared<SpriteManager>(pos, vector2f(1, 1), path));
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     componentManager.add<Component::Scroll>(entity, win.x * 2);
-    componentManager.add<Engine::Velocity>(entity, pos.x, pos.y);
+    componentManager.add<Engine::Position>(entity, pos.x, pos.y);
 }

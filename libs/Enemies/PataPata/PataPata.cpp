@@ -44,7 +44,7 @@ float PataPata::getShootingSpeed() const
 	return 1;
 }
 
-Engine::Velocity &PataPata::getPosition()
+Engine::Position &PataPata::getPosition()
 {
 	return _position;
 }

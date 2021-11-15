@@ -13,7 +13,7 @@ static const Engine::Time freq = static_cast<Engine::Time>(50);
 
 ColliderSystem::ColliderSystem() : Engine::AbstractSystem<ColliderSystem>(freq)
 {
-	this->setRequirements<Engine::Velocity, Engine::Hitbox>();
+	this->setRequirements<Engine::Position, Engine::Hitbox>();
 }
 
 void ColliderSystem::run(const vector<Entity> &entities)
@@ -22,8 +22,8 @@ void ColliderSystem::run(const vector<Entity> &entities)
 		for (Entity other : entities) {
 			if (other == e || GET_ENTITY_M.getCluster(e) != GET_ENTITY_M.getCluster(other))
 				continue;
-			auto [position1, hitbox1] = GET_COMP_M.getList<Engine::Velocity, Engine::Hitbox>(e);
-			auto [position2, hitbox2] = GET_COMP_M.getList<Engine::Velocity, Engine::Hitbox>(other);
+			auto [position1, hitbox1] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox>(e);
+			auto [position2, hitbox2] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox>(other);
 
 			if (position1.x < position2.x + hitbox2.x &&
 				position1.x + hitbox1.x > position2.x &&

@@ -220,7 +220,7 @@ namespace Engine
             throw NotRegisteredException("Component type not registered");
         }
         if (this->hasComponent<ComponentType>(entity)) {
-            std::cerr << "ComponentManager::addComponent : Entity "
+            std::cerr << "ComponentManager::Engine::Hitbox : Entity "
                       << entity << " => Component " <<
                       ComponentType::getIndex() << std::endl;
             throw FatalErrorException("ComponentManager::addComponent, Same "
