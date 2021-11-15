@@ -30,6 +30,9 @@ namespace Scene
 
       private:
         void reloadRoomList(std::vector<size_t> const &roomIdList);
+
+      private:
+        std::string _audio;
     };
 }
 

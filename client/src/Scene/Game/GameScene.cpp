@@ -29,8 +29,11 @@ using namespace Engine;
 using namespace std;
 
 GameScene::GameScene()
-    : Engine::AbstractScene<GameScene>(ClusterName::GAME)
-{}
+    : Engine::AbstractScene<GameScene>(ClusterName::GAME), _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE"))
+{
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+}
 
 void GameScene::open()
 {
@@ -48,6 +51,8 @@ void GameScene::open()
         vector2D(1, 1), color_e::GREEN);
     ProgressBar beamPower(this->getCluster(), EntityName::BEAM_PROGRESS,
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
+    // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECT
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<

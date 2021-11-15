@@ -21,8 +21,11 @@ using namespace Scene;
 using namespace Engine;
 using namespace std;
 
-HomeScene::HomeScene() : Engine::AbstractScene<HomeScene>(ClusterName::HOME)
-{}
+HomeScene::HomeScene() : Engine::AbstractScene<HomeScene>(ClusterName::HOME), _audio(GameCore::config->getVar<std::string>("MUSIC_HOME_SCENE"))
+{
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+}
 
 void HomeScene::open()
 {
@@ -49,7 +52,8 @@ void HomeScene::open()
         std::make_shared<SelectScene>(ClusterName::SETTINGS));
     Button QuitButton(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3),
         std::make_shared<SelectScene>(ClusterName::GLOBAL));
-
+    // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     /// SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<

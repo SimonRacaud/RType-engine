@@ -22,8 +22,10 @@
 using namespace Scene;
 
 DebugScene::DebugScene(std::string testParam)
-    : Engine::AbstractScene<DebugScene>(Engine::ClusterName::HOME)
+    : Engine::AbstractScene<DebugScene>(Engine::ClusterName::HOME), _audio("asset/music/R_Type-03_Game1.ogg")
 {
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
     std::cerr << testParam << std::endl;
 }
 
@@ -125,6 +127,7 @@ void DebugScene::open()
     //    std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
     //    componentManager.add<Engine::Render>(entity, tmp2);
     Equipment(this->getCluster(), vector2D(700, 100));
+    GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
 
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<

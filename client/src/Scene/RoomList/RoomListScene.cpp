@@ -28,8 +28,11 @@ using namespace Engine;
 using namespace std;
 
 RoomListScene::RoomListScene()
-    : Engine::AbstractScene<RoomListScene>(ClusterName::ROOM_LIST)
-{}
+    : Engine::AbstractScene<RoomListScene>(ClusterName::ROOM_LIST), _audio(GameCore::config->getVar<std::string>("MUSIC_ROOMLIST_SCENE"))
+{
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+}
 
 void RoomListScene::open()
 {
@@ -59,6 +62,8 @@ void RoomListScene::open()
         vector2D(1, 1), color_e::GREEN);
     Button startButton(this->getCluster(), "Back", vector2D(20, 710),
         vector2f(2, 2), std::make_shared<SelectPreviousScene>());
+    // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<

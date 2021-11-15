@@ -29,8 +29,11 @@ using namespace Engine;
 extern Engine::IGameEngine &engine;
 extern std::unique_ptr<IEventManager> event;
 
-StartScene::StartScene(): AbstractScene<StartScene>(ClusterName::START)
-{}
+StartScene::StartScene(): AbstractScene<StartScene>(ClusterName::START), _audio(GameCore::config->getVar<std::string>("MUSIC_START_SCENE"))
+{
+    GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+}
 
 void StartScene::open()
 {
@@ -48,6 +51,8 @@ void StartScene::open()
 
     Button startButton(this->getCluster(), "Start", vector2D(280, 500),
         vector2f(3, 3), std::make_shared<SelectScene>(ClusterName::HOME));
+    // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<
