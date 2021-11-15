@@ -40,17 +40,17 @@ GameScene::GameScene()
 
 void GameScene::open()
 {
+    vector2D win = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
     size_t waitedTime = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
     const std::string waitText = GameCore::config->getVar<std::string>("CLIENT_WAIT_LABEL");
     const std::string backgroundPath = GameCore::config->getVar<std::string>("CLIENT_WAIT_BACKGROUND");
 
+    // ENTITY CREATE
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
+    Label mentionLabel(this->getCluster(), waitText, vector2D((win.x - waitText.length() * 10) / 2, win.y / 2), vector2D(1, 1), color_e::WHITE);
+    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(1, 1), nullptr);
 
-    Label mentionLabel(this->getCluster(), waitText, vector2D(290, 780), vector2D(1, 1), color_e::WHITE);
-    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), nullptr);
-
-
-
+    // MANUAL COMPONENT BUILD
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
@@ -59,9 +59,9 @@ void GameScene::open()
         GameCore::engine.getEntityManager().remove(this->getCluster());
         this->initGame();
     });
-    GameCore::engine.getSystemManager().selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem>();
 
-    std::cout << "HERE FIN" << std::endl;
+    // SYSTEM SELECT
+    GameCore::engine.getSystemManager().selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem, System::RenderSystem>();
 }
 
 void GameScene::initGame() const
