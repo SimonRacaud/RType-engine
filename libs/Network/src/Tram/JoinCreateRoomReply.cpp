@@ -43,9 +43,5 @@ size_t JoinCreateRoomReply::length() const
 JoinCreateRoomReply::JoinCreateRoomReply(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply))
 {
-    auto *ptr = reinterpret_cast<JoinCreateRoomReply *>(buffer);
-
-    this->roomId = ptr->roomId;
-    this->accept = ptr->accept;
-    this->startTimestamp = ptr->startTimestamp;
+    JoinCreateRoomReply::deserialize(buffer);
 }

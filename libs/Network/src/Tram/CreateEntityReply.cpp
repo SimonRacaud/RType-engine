@@ -39,6 +39,10 @@ void CreateEntityReply::deserialize(uint8_t *buffer)
 {
     auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
 
+    // header
+    this->size = ptr->size;
+    this->type = ptr->type;
+    // body
     this->roomId = ptr->roomId;
     this->accept = ptr->accept;
     this->entityId = ptr->entityId;
@@ -53,12 +57,7 @@ size_t CreateEntityReply::length() const
 CreateEntityReply::CreateEntityReply(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply))
 {
-    auto *ptr = reinterpret_cast<CreateEntityReply *>(buffer);
-
-    this->roomId = ptr->roomId;
-    this->accept = ptr->accept;
-    this->entityId = ptr->entityId;
-    this->networkId = ptr->networkId;
+    CreateEntityReply::deserialize(buffer);
 }
 /*
  CreateEntityReply::CreateEntityReply(CreateEntityReply &&rhs) noexcept

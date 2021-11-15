@@ -27,7 +27,7 @@ CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t entityId, strin
 
 uint8_t *CreateEntityRequest::serialize() const
 {
-    size_t size = sizeof(CreateEntityRequest);
+    size_t size = this->length();
     auto *buffer = new uint8_t[size];
 
     std::memcpy(buffer, (void *) this, size);
@@ -38,6 +38,10 @@ void CreateEntityRequest::deserialize(uint8_t *buffer)
 {
     auto *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
 
+    // header
+    this->size = ptr->size;
+    this->type = ptr->type;
+    // body
     this->roomId = ptr->roomId;
     this->entityId = ptr->entityId;
     std::strcpy(this->entityType, ptr->entityType);
@@ -53,10 +57,5 @@ CreateEntityRequest::CreateEntityRequest(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY, sizeof(CreateEntityRequest))
 
 {
-    auto *ptr = reinterpret_cast<CreateEntityRequest *>(buffer);
-
-    this->roomId = ptr->roomId;
-    this->entityId = ptr->entityId;
-    std::strcpy(this->entityType, ptr->entityType);
-    this->timestamp = ptr->timestamp;
+    CreateEntityRequest::deserialize(buffer);
 }

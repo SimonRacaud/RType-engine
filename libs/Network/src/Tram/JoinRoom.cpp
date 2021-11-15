@@ -40,7 +40,5 @@ size_t JoinRoom::length() const
 
 JoinRoom::JoinRoom(uint8_t *buffer) : Tram::Serializable(Tram::TramType::JOIN_ROOM, sizeof(JoinRoom))
 {
-    auto *ptr = reinterpret_cast<JoinRoom *>(buffer);
-
-    this->roomId = ptr->roomId;
+    JoinRoom::deserialize(buffer);
 }

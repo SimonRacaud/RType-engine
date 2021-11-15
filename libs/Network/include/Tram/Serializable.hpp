@@ -25,16 +25,16 @@ namespace Tram
 {
     enum class TramType {
         NONE,
-        GET_ROOM_LIST,
-        ROOM_LIST,
-        CREATE_ROOM,
-        JOIN_ROOM,
-        JOIN_ROOM_REPLY,
-        QUIT_ROOM,
-        CREATE_ENTITY,
-        CREATE_ENTITY_REPLY,
-        DESTROY_ENTITY,
-        SYNC_COMPONENT
+        GET_ROOM_LIST,  // server
+        ROOM_LIST,      // client
+        CREATE_ROOM,    // server
+        JOIN_ROOM,      // server
+        JOIN_ROOM_REPLY, // client
+        QUIT_ROOM,      // server
+        CREATE_ENTITY,  // client, server
+        CREATE_ENTITY_REPLY, // client, server
+        DESTROY_ENTITY, // client, server
+        SYNC_COMPONENT  // client, server
     };
 
     const std::unordered_map<TramType, std::string> TramTypeString{{TramType::NONE, "NONE"},
