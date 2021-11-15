@@ -18,7 +18,7 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
     AsioConnectionUDP<DataWrapper> client(portClient);
-    sleep(1); // wait for the server to setup
+    usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
     DataWrapper wrapper(data, length);
 

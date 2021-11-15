@@ -20,7 +20,7 @@ template <Pointerable Data> static int startClientSendData(Data &dataToSend)
     const std::size_t portServer(8080);
     std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioConnectionUDP<DataWrapper>>(portClient));
     NetworkManager clientManager(client);
-    sleep(1); // wait for the server to setup
+    usleep(300000); // wait for the server to setup
     bool connected = clientManager.connect(ipServer, portServer);
 
     if (!connected) {

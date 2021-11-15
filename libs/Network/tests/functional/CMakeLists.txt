@@ -161,7 +161,7 @@ target_link_libraries(${INDEPENDENT} PUBLIC ${CONAN_LIBS})
 
 
 ############## TESTS
-set(CTEST_TEST_TIMEOUT 1)
+set(TEST_TIMEOUT 1)
 include(CTest)
 enable_testing()
 
@@ -172,30 +172,21 @@ set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
 set(SH_ADD_CMD -c)
 
 ##### TEST THAT TESTS WORK
-add_test(TestTheTest bin/client 0)
-set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
+#add_test(TestTheTest bin/client 0)
+#set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
 
 ##### REAL TESTS
 set(TEST_NB 1)
-set(TEST simpleSendReceive)
+set(TEST simpleSendReceiveTCP)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
 set_tests_properties(${TEST}
                      PROPERTIES WILL_FAIL FALSE
-                     TIMEOUT 3)
+                     TIMEOUT ${TEST_TIMEOUT})
 
 
-##### TESTS IN LOOP
-#set(TEST_NBS 0;1)
-
-#foreach (num IN ZIP_LISTS TEST_NBS)
-#    set(TEST_NB ${num_0})
-#    add_test(NAME test_${TEST_NB}
-#             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-#             ${TEST_NB})
-#endforeach ()
-
+####### TESTS IN LOOP
 
 ##### TESTS TRAM BUFFER
 set(TEST_NBS 2;3;4;5;6;7;8)
@@ -208,7 +199,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
              ${CLIENT_TEST_BIN} ${TEST_NB})
     set_tests_properties(${TEST}
                          PROPERTIES WILL_FAIL FALSE
-                         TIMEOUT 3)
+                         TIMEOUT ${TEST_TIMEOUT})
 
 endforeach ()
 
@@ -222,11 +213,20 @@ foreach (num IN ZIP_LISTS TEST_NBS)
              ${CLIENT_TEST_BIN} ${TEST_NB})
     set_tests_properties(${TEST}
                          PROPERTIES WILL_FAIL FALSE
-                         TIMEOUT 3)
+                         TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
 
-set(TEST_NBS 16;17;18;19;20;21;22)
+set(TEST_NB 16)
+set(TEST simpleSendReceiveUDP)
+add_test(NAME ${TEST}
+         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+         ${TEST_NB})
+set_tests_properties(${TEST}
+                     PROPERTIES WILL_FAIL FALSE
+                     TIMEOUT ${TEST_TIMEOUT})
+
+set(TEST_NBS 17;18;19;20;21;22;23)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -234,10 +234,12 @@ foreach (num IN ZIP_LISTS TEST_NBS)
     add_test(NAME ${TEST}
              COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
              ${CLIENT_TEST_BIN} ${TEST_NB})
-
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
-set(TEST_NBS 23;24;25;26;27;28;29)
+set(TEST_NBS 24;25;26;27;28;29;30)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -247,7 +249,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
              ${CLIENT_TEST_BIN} ${TEST_NB})
     set_tests_properties(${TEST}
                          PROPERTIES WILL_FAIL FALSE
-                         TIMEOUT 3)
+                         TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
 ##### TESTS TRAM BUFFER
@@ -260,5 +262,5 @@ foreach (num IN ZIP_LISTS TEST_NBS)
              COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
     set_tests_properties(${TEST}
                          PROPERTIES WILL_FAIL FALSE
-                         TIMEOUT 3)
+                         TIMEOUT ${TEST_TIMEOUT})
 endforeach ()

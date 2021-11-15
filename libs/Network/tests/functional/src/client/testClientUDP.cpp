@@ -62,7 +62,7 @@ int testUDPclientConnectSendDisconnect()
     const std::size_t portServer(8080);
     intWrapper myData(888);
     AsioConnectionUDP<intWrapper> client(portClient);
-    sleep(1); // wait for the server to setup
+    usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
 
     if (!connected)
