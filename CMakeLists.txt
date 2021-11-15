@@ -40,6 +40,7 @@ set(CLIENT_SRCS
         client/src/System/InputEventSystem/InputEventSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
+        client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
         client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
 

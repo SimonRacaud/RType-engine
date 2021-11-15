@@ -24,6 +24,7 @@
 #include "Component/Render.hpp"
 #include "TextManager/TextManager.hpp"
 #include "Event/GUI/SelectPreviousScene.hpp"
+#include "Event/EmptyCluster/EmptyCluster.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
@@ -69,8 +70,9 @@ void GameScene::open()
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
 
         if (i == 0) {
-            GameCore::engine.getEntityManager().remove(this->getCluster());
-            this->initGame();
+            GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
+                this->initGame();
+            });
         }
     });
 

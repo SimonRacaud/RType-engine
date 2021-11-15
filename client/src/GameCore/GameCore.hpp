@@ -18,6 +18,7 @@
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 #include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
+#include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
 #include "DLLoader.hpp"
 
@@ -39,6 +40,7 @@ class GameCore
     private:
         AudioEventManager _audio;
         GuiEventManager _guiEventManager;
+        EmptyClusterManager _emptyCluster;
 };
 
 #endif
