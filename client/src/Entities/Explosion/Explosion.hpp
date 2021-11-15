@@ -16,7 +16,7 @@ using Engine::ClusterName;
 class Explosion
 {
     public:
-        Explosion(const vector2D &pos);
+        Explosion(ClusterName cluster, const vector2D &pos);
         ~Explosion() = default;
 };
 
