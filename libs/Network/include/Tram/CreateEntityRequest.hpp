@@ -22,7 +22,7 @@
 namespace Tram
 {
     using std::string;
-#define ENTITY_TYPE_LEN 10
+    #define ENTITY_TYPE_LEN 10
 
     class CreateEntityRequest : public Serializable {
       public:

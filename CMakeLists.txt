@@ -62,7 +62,10 @@ set(CLIENT_SRCS
         client/src/Entities/Label/Label.cpp
         client/src/Entities/Progress/ProgressBar.cpp
         client/src/Event/GUI/GuiEventManager.cpp
-        client/src/Entities/Equipment/Equipment.cpp)
+        client/src/Entities/Equipment/Equipment.cpp
+
+        client/src/ClientNetworkCore/ClientNetworkCore.cpp
+        )
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
