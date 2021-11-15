@@ -22,7 +22,7 @@ class ClientNetworkCore {
 
     # receiveLoop(): void
 
-    - _currentRoomId: size_t
+    - _roomId: size_t
     - _engine: GameEngine&
     - _tcpNetwork: NetworkManager
     - _udpNetwork: NetworkManager
@@ -39,9 +39,9 @@ class ServerNetworkCore {
 
     # receiveLoop(): void
 
-    + createEntity(entity: Entity, type: string): void
-    + destroyEntity(id: NetworkId): void
-    + syncComponent(id: NetworkId, componentType: size_t, componentSize: size_t, component: void *): void
+    + createEntity(roomId: size_t, entity: Entity, type: string): void
+    + destroyEntity(roomId: size_t, id: NetworkId): void
+    + syncComponent(roomId: size_t, id: NetworkId, componentType: size_t, componentSize: size_t, component: void *): void
 
     - _rooms: vector<NetworkRoom>
 }
