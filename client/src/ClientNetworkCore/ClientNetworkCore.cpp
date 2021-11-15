@@ -9,6 +9,8 @@
 */
 
 #include "ClientNetworkCore.hpp"
+#include "Scene/RoomList/RoomListScene.hpp"
+#include "Scene/Game/GameScene.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
     : _engine(engine)
@@ -85,40 +87,77 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
         + to_string(componentType.hash_code()));
 }
 
-void ClientNetworkCore::receiveRoomList(InfoConnection &info, Tram::GetRoomList &data)
+void ClientNetworkCore::receiveRoomList(InfoConnection &, Tram::GetRoomList &data)
 {
     SHOW_DEBUG("NETWORK: receive - game room list");
-    // TODO
+    if (data.nbItem != 0 && this->_engine.getSceneManager().isCurrent<Scene::RoomListScene>()) {
+        std::shared_ptr<Engine::IScene> scene = this->_engine.getSceneManager().getCurrent();
+        Scene::RoomListScene *ptr = reinterpret_cast<Scene::RoomListScene *>(scene.get());
+        std::vector<size_t> roomList;
+        for (size_t i = 0; i < data.nbItem; i++) {
+            roomList.push_back(data.list[i]);
+        }
+        ptr->reloadRoomList(roomList);
+    }
 }
 
-void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &info, Tram::JoinCreateRoomReply &data)
+void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateRoomReply &data)
 {
     SHOW_DEBUG("NETWORK: receive - join/create room reply");
-    // TODO
+    if (data.accept == true) {
+        this->_roomId = data.roomId;
+        this->_engine.getSceneManager().select<Scene::GameScene>(); // Go to the game scene
+        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
+            (&this->_engine.getSceneManager().get<Scene::GameScene>())
+            );
+        //ptr->setTimeStart(data.startTimestamp); TODO => give to the game scene
+    } else {
+        std::cerr << "Room connection refused." << std::endl;
+    }
 }
 
-void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::CreateEntityReply &data)
+void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &, Tram::CreateEntityReply &data)
 {
     SHOW_DEBUG("NETWORK: receive - create entity reply");
-    // TODO TCP
+    if ((int)data.roomId != this->_roomId) {
+        return; // abort
+    }
+    if (data.accept) {
+        this->_engine.getEntityManager().setNetworkId(data.entityId, data.networkId); // apply network id
+    } else {
+        // rollback entity creation
+        this->_engine.getEntityManager().remove(data.entityId);
+    }
 }
 
-void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data)
+void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::CreateEntityRequest &data)
 {
     SHOW_DEBUG("NETWORK: receive - create entity reply");
-    // TODO TCP
+    if ((int)data.roomId != this->_roomId) {
+        return; // abort
+    }
+    //EntityFactory::build(data.entityType, data.entityId) // TODO send to entity the global factory
 }
 
-void ClientNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data)
+void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSync &data)
 {
     SHOW_DEBUG("NETWORK: receive - receive sync component");
-    // TODO
+    if ((int)data.roomId != this->_roomId) {
+        return; // abort
+    }
+    Engine::Entity id = this->_engine.getEntityManager().getId(data.networkId);
+    void *component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
+    //ComponentRollback::apply(id, data.componentType, component); // TODO
 }
 
-void ClientNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data)
+void ClientNetworkCore::receiveDestroyEntity(InfoConnection &, Tram::DestroyEntity &data)
 {
     SHOW_DEBUG("NETWORK: receive - destroy entity");
-    // TODO TCP
+    if ((int)data.roomId != this->_roomId) {
+        return; // abort
+    }
+    Engine::Entity id = this->_engine.getEntityManager().getId(data.networkId);
+    this->_engine.getEntityManager().remove(id);
 }
 
 void ClientNetworkCore::receiveLoop()
@@ -127,12 +166,14 @@ void ClientNetworkCore::receiveLoop()
         try {
             this->_receiveTcp();
         } catch (std::exception const &e) {
-            // TODO
+            // TODO debug
+            std::cerr << "ClientNetworkCore::receiveLoop TCP " << e.what() << std::endl;
         }
         try {
             this->_receiveUdp();
         } catch (std::exception const &e) {
-            // TODO
+            // TODO debug
+            std::cerr << "ClientNetworkCore::receiveLoop UDP " << e.what() << std::endl;
         }
     }
 }

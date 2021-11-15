@@ -31,7 +31,7 @@ namespace Tram
 
         size_t roomId{0};
         /**
-         * @brief private id of the entity
+         * @brief private id of the entity (client -> server) |or| network id of the entity (server -> client)
          */
         uint32_t entityId{0};
         /**
