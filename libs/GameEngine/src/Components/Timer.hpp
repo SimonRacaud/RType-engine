@@ -17,7 +17,7 @@
 namespace Engine {
 	class Timer : public BaseComponent<Timer> {
 		public:
-			Timer(Time time, const std::function<void(Entity)> factory, bool countdown = true, Time interval = std::chrono::milliseconds(10))
+			Timer(Time time, const std::function<void(Entity)> factory, bool countdown = true, Time interval = std::chrono::milliseconds(100))
 				: _countdown(countdown), _maxTime(time), _currentTime(time), _interval(interval), _startTime(Clock::now()), _eventFactory(factory) {}
 			virtual ~Timer() = default;
 

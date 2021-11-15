@@ -18,7 +18,7 @@
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "Systems/ColliderSystem/ColliderSystem.hpp"
 #include "Components/Hitbox.hpp"
-
+#include "Systems/TimerSystem/TimerSystem.hpp"
 using namespace Scene;
 
 DebugScene::DebugScene(std::string testParam)
@@ -134,5 +134,6 @@ void DebugScene::open()
         Engine::PhysicsSystem,
         System::RenderSystem,
         System::InputEventSystem,
-        Engine::ColliderSystem>();
+        Engine::ColliderSystem,
+        Engine::TimerSystem>();
 }
