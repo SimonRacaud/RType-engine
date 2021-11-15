@@ -15,7 +15,7 @@ namespace Network
 {
     using asio::ip::udp;
 
-    template <Pointerable Data> class AsioConnectionUDP : public AAsioConnection<Data> {
+    template <PointerableUnknownLen Data> class AsioConnectionUDP : public AAsioConnection<Data> {
       public:
         /**
          * @brief
@@ -58,7 +58,7 @@ namespace Network
 
         std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override
         {
-            std::pair<Data, std::size_t> buf({0}, 0);
+            std::pair<Data, std::size_t> buf({}, 0);
 
             auto my_recvData(std::find_if(AAsioConnection<Data>::_recvData.begin(),
                 AAsioConnection<Data>::_recvData.end(), [&](const auto &recvData) {
@@ -128,7 +128,7 @@ namespace Network
                 return;
             }
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(ip, port),
-                Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize);
+                std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
             asyncReceive(ip, port);
         }
 
