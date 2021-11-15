@@ -13,5 +13,6 @@ int testServerAcceptReceiveDataWrapper();
 int testServerAcceptReceiveDataWrapper2();
 
 int testServerAcceptReceiveNetworkManager();
+int testServerAcceptReceiveNetworkManagerGetRoomList();
 
 #endif // R_TYPE_SERVERTEST_HPP

@@ -199,6 +199,13 @@ add_test(NAME ${TEST}
          ${TEST_NB})
 set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
 
+set(TEST_NB 5)
+set(TEST sendReceiveTramThroughNetworkManagerGetRoomList)
+add_test(NAME ${TEST}
+         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+         ${TEST_NB})
+set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+
 
 ##### TESTS IN LOOP
 #set(TEST_NBS 0;1)

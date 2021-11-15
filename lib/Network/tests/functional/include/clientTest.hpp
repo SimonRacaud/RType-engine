@@ -14,5 +14,6 @@ int testClientConnectSendDisconnectDataWrapper();
 int testClientConnectSendDisconnectDataWrapper2();
 
 int testClientConnectSendDisconnectNetworkManager();
+int testClientConnectSendDisconnectNetworkManagerGetRoomList();
 
 #endif // R_TYPE_CLIENTTEST_HPP
