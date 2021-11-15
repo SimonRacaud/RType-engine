@@ -77,14 +77,17 @@ void RoomListScene::reloadRoomList(std::vector<size_t> const &roomIdList)
     GameCore::engine.getEntityManager().remove(ClusterName::ROOM_LIST_ITEMS);
     //
     size_t positionY = 180;
+    size_t positionX = 320;
     size_t counter = 0;
     for (size_t id : roomIdList) {
         Button room(ClusterName::ROOM_LIST_ITEMS, "Room " + std::to_string(id),
-            vector2D(320, positionY), vector2f(2, 2), nullptr); // TODO button event
+            vector2D(positionX, positionY), vector2f(2, 2), nullptr); // TODO button event
         positionY += 60;
         counter++;
         if (counter == 7) {
-            break; // too much to display
+            counter = 0;
+            positionY = 180;
+            positionX += 120;
         }
     }
 }
