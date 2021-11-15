@@ -29,7 +29,7 @@ ScrollingBackground::ScrollingBackground(Engine::ClusterName clusterName)
     std::string path = GameCore::config->getVar<std::string>("SCROLLING_DEFAULT_PATH");
 
     componentManager.add<Engine::Render>(entity, std::make_shared<SpriteManager>(pos, vector2f(1, 1), path));
-    componentManager.add<Component::Velocity>(entity, velocity.x, velocity.y);
+    componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     componentManager.add<Component::Scroll>(entity, win.x * 2);
-    componentManager.add<Component::Position>(entity, pos.x, pos.y);
+    componentManager.add<Engine::Velocity>(entity, pos.x, pos.y);
 }

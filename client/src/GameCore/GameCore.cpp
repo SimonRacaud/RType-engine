@@ -64,13 +64,13 @@ void GameCore::run()
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Render>();
-    componentManager.registerComponent<Component::Hitbox>();
-    componentManager.registerComponent<Component::Position>();
-    componentManager.registerComponent<Component::Velocity>();
+    componentManager.registerComponent<Engine::Hitbox>();
+    componentManager.registerComponent<Engine::Velocity>();
+    componentManager.registerComponent<Engine::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
     componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::ScoreComponent>();
-    componentManager.registerComponent<Component::Hitbox>();
+    componentManager.registerComponent<Engine::Hitbox>();
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Engine::NumberComponent>();
     componentManager.registerComponent<Component::Shooting>();

@@ -24,17 +24,17 @@ PataPata::~PataPata()
 {
 }
 
-void PataPata::idle(const PataPata *ptr) 
+void PataPata::idle(const IEnemyApi *ptr) 
 {
 	std::cout << "PataPata idle\n";
 }
 
-void PataPata::move(const PataPata *ptr) 
+void PataPata::move(const IEnemyApi *ptr) 
 {
 	std::cout << "PataPata move\n";
 }
 
-void PataPata::attack(const PataPata *ptr) 
+void PataPata::attack(const IEnemyApi *ptr) 
 {
 	std::cout << "PataPata attack\n";
 }
@@ -44,12 +44,12 @@ float PataPata::getShootingSpeed() const
 	return 1;
 }
 
-Component::Position &PataPata::getPosition()
+Engine::Velocity &PataPata::getPosition()
 {
 	return _position;
 }
 
-Component::Velocity &PataPata::getVelocity()
+Engine::Velocity &PataPata::getVelocity()
 {
 	return _velocity;
 }

@@ -48,9 +48,9 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     bullet->setNbMember(GameCore::config->getVar<int>("BULLET_DEFAULT_ANIMATION_STEP"));
     bullet->setSrcPath(GameCore::config->getVar<std::string>("BULLET_DEFAULT_ANIMATION_PATH"));
 
-    componentManager.add<Component::Position>(entity, pos.x, pos.y);
-    componentManager.add<Component::Velocity>(entity, velocity.x, velocity.y);
-    /*componentManager.add<Component::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
+    componentManager.add<Engine::Velocity>(entity, pos.x, pos.y);
+    componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
+    /*componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
         GameCore::engine.getEntityManager().remove(a);
         GameCore::engine.getEntityManager().remove(b);
         // ADD EXPLOSION ANIMATION

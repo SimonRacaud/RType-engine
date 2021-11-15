@@ -10,7 +10,7 @@
 
 #include "BaseComponent/BaseComponent.hpp"
 
-namespace Component
+namespace Engine
 {
     struct Position : public Engine::BaseComponent<Position> {
         Position(float x, float y) : x(x), y(y) {}

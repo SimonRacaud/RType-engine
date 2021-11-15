@@ -16,9 +16,3 @@ IEnemyApi *loadEnemyApi(const std::string &path)
 	}
 	return ptr;
 }
-
-void closeEnemyApi(IEnemyApi *ptr)
-{
-	if (ptr)
-		delete ptr;
-}

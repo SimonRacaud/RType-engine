@@ -21,8 +21,8 @@ class IEnemyApi {
 		virtual void idle(const IEnemyApi *ptr) = 0;
 		virtual void move(const IEnemyApi *ptr) = 0;
 		virtual void attack(const IEnemyApi *ptr) = 0;
-		virtual Component::Position &getPosition() = 0;
-		virtual Component::Velocity &getVelocity() = 0;
+		virtual Engine::Velocity &getPosition() = 0;
+		virtual Engine::Velocity &getVelocity() = 0;
 		virtual float getShootingSpeed() const = 0;
 		virtual Component::Health &getHealth() = 0;
 		virtual Component::AnimationInfo getAnimInfo() const = 0;

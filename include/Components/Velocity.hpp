@@ -10,7 +10,7 @@
 
 #include "BaseComponent/BaseComponent.hpp"
 
-namespace Component
+namespace Engine
 {
     struct Velocity : public Engine::BaseComponent<Velocity> {
         Velocity(float x, float y) : x(x), y(y) {}

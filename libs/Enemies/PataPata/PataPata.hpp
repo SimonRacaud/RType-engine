@@ -37,18 +37,18 @@ class PataPata : public IEnemyApi {
 		PataPata();
 		~PataPata();
 
-		virtual void idle(const PataPata *ptr);
-		virtual void move(const PataPata *ptr);
-		virtual void attack(const PataPata *ptr);
-		virtual Component::Position &getPosition();
-		virtual Component::Velocity &getVelocity();
+		virtual void idle(const IEnemyApi *ptr) override;
+		virtual void move(const IEnemyApi *ptr) override;
+		virtual void attack(const IEnemyApi *ptr) override;
+		virtual Engine::Velocity &getPosition();
+		virtual Engine::Velocity &getVelocity();
 		virtual float getShootingSpeed() const;
 		virtual Component::Health &getHealth();
 		virtual Component::AnimationInfo getAnimInfo() const;
 	
 		private:
-			Component::Position _position;
-			Component::Velocity _velocity;
+			Engine::Velocity _position;
+			Engine::Velocity _velocity;
 			Component::Health _health;
 };
 

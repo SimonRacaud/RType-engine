@@ -10,7 +10,7 @@
 
 #include "BaseComponent/BaseComponent.hpp"
 
-namespace Component {
+namespace Engine {
 	class Hitbox : public Engine::BaseComponent<Hitbox> {
 		public:
 			Hitbox(float x, float y, const std::function<void(Engine::Entity, Engine::Entity)> factory) 
