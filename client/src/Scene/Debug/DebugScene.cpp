@@ -9,6 +9,7 @@
 */
 
 #include "DebugScene.hpp"
+#include "Entities/Enemy/Enemy.hpp"
 #include "Entities/Equipment/Equipment.hpp"
 #include "GameCore/GameCore.hpp"
 #include "System/LogPosition/LogPositionSystem.hpp"
@@ -41,7 +42,8 @@ void DebugScene::open()
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 
     //Player p({40, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
-     Player p2(this->getCluster(), {120, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    Player p2(this->getCluster(), {120, 200}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    Enemy enemy(this->getCluster(), vector2D(200, 200), vector2D(0, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3, surface(vector2D(33, 18), vector2D(33, 18)));
     // Player p3({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     // Player p4({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     // Player p5({40, 40}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");

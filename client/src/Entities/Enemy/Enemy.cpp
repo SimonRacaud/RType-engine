@@ -25,6 +25,10 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
 
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
+    componentManager.add<Engine::Hitbox>(entity, focus.size.x, focus.size.y, [](Engine::Entity, Engine::Entity) {
+        // TODO ADD CALLBACK
+    });
     componentManager.add<Engine::Render>(entity, enemyRender);
     componentManager.add<Component::EntityMask>(entity, Component::MASK::ENEMY);
+    
 }

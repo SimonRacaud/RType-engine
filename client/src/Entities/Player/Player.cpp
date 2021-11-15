@@ -17,6 +17,7 @@
 #include "Component/Shooting.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
+#include "Entities/Explosion/Explosion.hpp"
 #include "SpriteManager/SpriteManager.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "Event/MoveEvents/MoveEvents.hpp"
@@ -24,14 +25,30 @@
 #include "Event/ShootEvents/ShootEvents.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 
-void Player::hit(Engine::Entity a, Engine::Entity b)
+bool Player::animationPlayer(Engine::ClusterName cluster, Engine::Entity once)
+{
+	static auto last = std::chrono::system_clock::from_time_t(0);
+	bool stat = GET_COMP_M.hasComponent<Component::EntityMask>(once) && GET_COMP_M.get<Component::EntityMask>(once)._currentMask == Component::MASK::ENEMY;
+
+	std::cout << "HERE1 -> " << ((stat) ? "true" : "false") << std::endl;
+	if (stat) {
+		size_t nb_sec = std::chrono::duration<double>(std::chrono::system_clock::now() - last).count();
+
+		std::cout << "HERE2 -> " << nb_sec << std::endl;
+		if (nb_sec > std::chrono::duration<double>(1).count() && GET_COMP_M.hasComponent<Engine::Position>(once)) {
+			auto &pos = GET_COMP_M.get<Engine::Position>(once);
+
+			Explosion(cluster, vector2D(pos.x, pos.y));
+            last = std::chrono::system_clock::now();
+		}
+	}
+	return stat;
+}
+
+void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b)
 {
 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
-	/*if (GET_COMP_M.hasComponent<Component::EntityMask>(a) && GET_COMP_M.) {
-		// TODO
-	} else if () {
-		// TODO
-	}*/
+	Player::animationPlayer(cluster, a) || Player::animationPlayer(cluster, b);
 }
 
 Player::Player(ClusterName cluster,
@@ -87,7 +104,9 @@ Player::Player(ClusterName cluster,
 	componentManager.add<Engine::Render>(entity, renderList, ps);
 	componentManager.add<Engine::Position>(entity, position.x, position.y);
 	componentManager.add<Engine::Velocity>(entity, 0, 0);
-	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, hit);
+	componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y, [cluster](Engine::Entity a, Engine::Entity b) {
+		Player::hit(cluster, a, b);
+	});
 	componentManager.add<Engine::ScoreComponent>(entity);
 	componentManager.add<Engine::EquipmentComponent>(entity);
 	componentManager.add<Component::Shooting>(entity);

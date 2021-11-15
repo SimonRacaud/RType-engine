@@ -25,9 +25,10 @@ class Player {
           const std::string &sprite);
 		~Player();
 
-		static void hit(Engine::Entity a, Engine::Entity b);
 	protected:
 	private:
+		static void hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b);
+		static bool animationPlayer(Engine::ClusterName cluster, Engine::Entity once);
 };
 
 #endif /* !PLAYER_HPP_ */
