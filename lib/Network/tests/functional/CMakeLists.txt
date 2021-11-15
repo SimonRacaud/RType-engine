@@ -53,6 +53,7 @@ set(SERVER_DIR ${SRC_DIR}${SERVER}/)
 set(SRCS_SERVER
     ${SERVER_DIR}testServerTCP.cpp
     ${SERVER_DIR}testServerTCPdataWrapper.cpp
+    ${SERVER_DIR}testServerTCPnetworkManager.cpp
     )
 
 add_executable(${SERVER}
@@ -88,6 +89,7 @@ set(CLIENT_DIR ${SRC_DIR}${CLIENT}/)
 set(SRCS_CLIENT
     ${CLIENT_DIR}testClientTCP.cpp
     ${CLIENT_DIR}testClientTCPdataWrapper.cpp
+    ${CLIENT_DIR}testClientTCPnetworkManager.cpp
     )
 
 ## TARGET
@@ -173,7 +175,7 @@ set(TEST simpleSendReceive)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
-set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
+set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
 
 
 set(TEST_NB 2)
@@ -181,14 +183,21 @@ set(TEST sendReceiveTramThroughDataWrapper)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
-set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
+set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
 
 set(TEST_NB 3)
 set(TEST sendReceiveTramThroughDataWrapper2)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
-set_tests_properties(simpleSendReceive PROPERTIES WILL_FAIL FALSE)
+set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+
+set(TEST_NB 4)
+set(TEST sendReceiveTramThroughNetworkManager)
+add_test(NAME ${TEST}
+         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
+         ${TEST_NB})
+set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
 
 
 ##### TESTS IN LOOP
