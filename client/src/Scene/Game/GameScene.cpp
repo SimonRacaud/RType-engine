@@ -13,6 +13,8 @@
 #include "GameCore/GameCore.hpp"
 #include "Item/vector2D.hpp"
 
+#include "Entities/Label/Label.hpp"
+#include "Entities/ImageView/ImageView.hpp"
 #include "Entities/Player/Player.hpp"
 #include "Entities/Button/Button.hpp"
 #include "Entities/Label/Label.hpp"
@@ -37,6 +39,32 @@ GameScene::GameScene()
 }
 
 void GameScene::open()
+{
+    size_t waitedTime = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
+    const std::string waitText = GameCore::config->getVar<std::string>("CLIENT_WAIT_LABEL");
+    const std::string backgroundPath = GameCore::config->getVar<std::string>("CLIENT_WAIT_BACKGROUND");
+
+    ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
+
+    Label mentionLabel(this->getCluster(), waitText, vector2D(290, 780), vector2D(1, 1), color_e::WHITE);
+    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), nullptr);
+
+
+
+    Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
+    Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
+    Engine::Entity entity = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+
+    componentManager.add<Engine::Timer>(entity, std::chrono::milliseconds(waitedTime), [this](Engine::Entity) {
+        GameCore::engine.getEntityManager().remove(this->getCluster());
+        this->initGame();
+    });
+    GameCore::engine.getSystemManager().selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem>();
+
+    std::cout << "HERE FIN" << std::endl;
+}
+
+void GameScene::initGame() const
 {
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
