@@ -25,7 +25,7 @@ DebugScene::DebugScene(std::string testParam)
     : Engine::AbstractScene<DebugScene>(Engine::ClusterName::HOME), _audio("asset/music/R_Type-03_Game1.ogg")
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 10);
     std::cerr << testParam << std::endl;
 }
 
