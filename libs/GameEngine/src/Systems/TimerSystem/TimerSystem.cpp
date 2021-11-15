@@ -25,7 +25,7 @@ TimerSystem::~TimerSystem()
 void TimerSystem::run(const vector<Entity> &entities)
 {
 	for (Entity e : entities) {
-		auto timer = GET_COMP_M.get<Timer>(e);
+		auto &timer = GET_COMP_M.get<Timer>(e);
 		if (timer._countdown) {
 			timer._currentTime -= timer._interval;
 			if (timer._currentTime.count() <= 0) {
@@ -35,7 +35,6 @@ void TimerSystem::run(const vector<Entity> &entities)
 		} else {
 			std::chrono::steady_clock::time_point now = Clock::now();
 			auto nb = now.time_since_epoch() - timer._startTime.time_since_epoch();
-			std::cout << "NB === " << nb.count() << " MAX TIME == " << timer._maxTime.count() << std::endl;;
 			if (nb >= timer._maxTime) {
 				timer._eventFactory.operator()(e);
 				timer._startTime = now;
