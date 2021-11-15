@@ -56,7 +56,6 @@ namespace Network
         /**
          * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
          */
-        // TODO ensure that base functions are called by inherited classes
         void disconnect(const std::string &ip, const std::size_t port) override
         {
             auto first(_connections.begin());

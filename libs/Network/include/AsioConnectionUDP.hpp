@@ -25,6 +25,7 @@ namespace Network
             : AAsioConnection<Data>(true),
               _endpoint(udp::v4(), port), _socket{AAsioConnection<Data>::_ioContext, _endpoint}
         {
+            asyncReceiveAny();
         }
 
         ~AsioConnectionUDP() = default;
@@ -39,19 +40,15 @@ namespace Network
 
         std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override
         {
-            std::pair<Data, std::size_t> buf;
+            if (!AAsioConnection<Data>::_recvData.empty()) {
+                auto buf = AAsioConnection<Data>::_recvData.extract(AAsioConnection<Data>::_recvData.begin());
 
-            for (const auto &connection : AAsioConnection<Data>::_connections) {
-                buf = receive(connection.first, connection.second);
-
-                if (buf.second != 0) {
-                    return std::make_tuple(buf.first, buf.second, connection.first, connection.second);
-                }
-                /**
-                 * @brief Write the good amount of data :
-                 *  std::cout.write(recvBuf.data(), len);
-                 */
+                return std::make_tuple(buf.second.first, buf.second.second, buf.first.first, buf.first.second);
             }
+            /**
+             * @brief Write the good amount of data :
+             *  std::cout.write(recvBuf.data(), len);
+             */
 
             return std::make_tuple(Data(), 0, "", 0);
         }
@@ -72,7 +69,7 @@ namespace Network
                 AAsioConnection<Data>::_recvData.erase(my_recvData);
                 return buf;
             }
-            return std::pair<Data, std::size_t>({}, 0);
+            return buf;
         }
 
         void sendAll(const Data &buf) override
@@ -96,9 +93,12 @@ namespace Network
          */
         void asyncReceiveAny()
         {
-            for (auto &connection : AAsioConnection<Data>::_connections) {
-                asyncReceive(connection.first, connection.second);
-            }
+            _socket.async_receive(
+                asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
+                std::bind(&AsioConnectionUDP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
+                    "",
+                    0)); // todo find a way to get the address of the sender
+                         //     in order to put it into ret val of receiveAny and to connec()
         }
 
         /**
@@ -127,9 +127,11 @@ namespace Network
             if (!receivedPacketSize) {
                 return;
             }
+
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(ip, port),
                 std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
-            asyncReceive(ip, port);
+            if (!ip.empty() && port)
+                asyncReceive(ip, port);
         }
 
       private:
