@@ -195,7 +195,9 @@ set(TEST_NBS 2;3;4;5;6;7;8)
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
     add_test(NAME test_networkManager_${TEST_NB}
-             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+
 endforeach ()
 
 set(TEST_NBS 9;10;11;12;13;14;15)
@@ -203,7 +205,9 @@ set(TEST_NBS 9;10;11;12;13;14;15)
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
     add_test(NAME test_dataWrapper_${TEST_NB}
-             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+
 endforeach ()
 
 ##### TESTS TRAM BUFFER
