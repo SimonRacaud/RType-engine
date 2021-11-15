@@ -47,11 +47,11 @@ Button::Button(
     pos.push_back(0);
 
     componentManager.add<Engine::Render>(entity, renderList, pos);
-    componentManager.add<Engine::InputEvent>(entity, [position, size, event](const Engine::Entity &local) {
-        if (GameCore::event->mouseIsOnClick(surface(position, vector2D(73 * size.x, 30 * size.y)), IEventManager::keyEvent_e::MOUSE_CLICK_LEFT)) {
+    componentManager.add<Engine::InputEvent>(entity, [position, scale, event](const Engine::Entity &local) {
+        if (GameCore::event->mouseIsOnClick(surface(position, vector2D(73 * scale.x, 30 * scale.y)), IEventManager::keyEvent_e::MOUSE_CLICK_LEFT)) {
             GameCore::engine.getComponentManager().get<Engine::Render>(local).replaceLastRender(2);
             GET_EVENT_REG.registerEvent(event);
-        } else if (GameCore::event->mouseIsOn(surface(position, vector2D(73 * size.x, 30 * size.y)))) {
+        } else if (GameCore::event->mouseIsOn(surface(position, vector2D(73 * scale.x, 30 * scale.y)))) {
             GameCore::engine.getComponentManager().get<Engine::Render>(local).replaceLastRender(1);
         } else {
             GameCore::engine.getComponentManager().get<Engine::Render>(local).replaceLastRender(0);

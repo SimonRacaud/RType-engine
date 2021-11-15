@@ -48,7 +48,7 @@ void GameScene::open()
     // ENTITY CREATE
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
     Label mentionLabel(this->getCluster(), waitText, vector2D((win.x - waitText.length() * 10) / 2, win.y / 2), vector2D(1, 1), color_e::WHITE);
-    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(1, 1), nullptr);
+    Button back(this->getCluster(), "Quit", vector2D(win.x / 2, win.y / 1.5), vector2f(1, 1), nullptr);
 
     // MANUAL COMPONENT BUILD
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
