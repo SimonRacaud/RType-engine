@@ -9,7 +9,6 @@
 #define BABEL_ASIOCONNECTIONTCP_HPP
 
 #include <functional>
-#include <unordered_map>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -18,18 +17,15 @@
 #endif
 
 #include <asio/error.hpp>
-#include <mutex>
-#include <thread>
 #include "ANetwork.hpp"
-#include "NetworkException.hpp"
 
 namespace Network
 {
     using asio::ip::tcp;
 
-    template <std::size_t PACKETSIZE> class AsioConnectionTCP : public AAsioConnection<PACKETSIZE> {
+    template <PointerableUnknownLen Data> class AsioConnectionTCP : public AAsioConnection<Data> {
       public:
-        explicit AsioConnectionTCP(const bool server = false) : AAsioConnection<PACKETSIZE>(server)
+        explicit AsioConnectionTCP(const bool server = false) : AAsioConnection<Data>(server)
         {
         }
 
@@ -38,20 +34,21 @@ namespace Network
             this->disconnectAll();
         }
 
+        /**
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
         void disconnect(const std::string &ip, const std::size_t port) override
         {
             auto first(_socketConnections.begin());
             auto last(_socketConnections.end());
             auto connection(getConnection(ip, port));
 
-            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
             if (!connection)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             first = std::find(first, last, connection);
             if (first == last)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
-            AAsioConnection<PACKETSIZE>::disconnect(
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
+            AAsioConnection<Data>::disconnect(
                 connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
             if (first != last)
                 for (auto i = first; ++i != last;)
@@ -61,19 +58,19 @@ namespace Network
 
         void disconnectAll() override
         {
-            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
-            AAsioConnection<PACKETSIZE>::disconnectAll();
+            AAsioConnection<Data>::disconnectAll();
             _socketConnections.clear();
         }
 
-        std::tuple<std::array<char, PACKETSIZE>, std::size_t, std::string, std::size_t> receiveAny() override
+        /**
+         * @brief Receive data from connected machines
+         * @return The data and its author, if received
+         */
+        std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override
         {
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
+            std::pair<Data, std::size_t> buf;
 
-            std::pair<std::array<char, PACKETSIZE>, std::size_t> buf;
-
-            for (const auto &connection : AAsioConnection<PACKETSIZE>::_connections) {
+            for (const auto &connection : AAsioConnection<Data>::_connections) {
                 buf = receive(connection.first, connection.second);
 
                 if (buf.second != 0) {
@@ -85,103 +82,68 @@ namespace Network
                  */
             }
 
-            return std::make_tuple(std::array<char, PACKETSIZE>(), 0, "", 0);
+            //            return std::make_tuple(Data(), 0, "", 0);
+            return {Data(), 0, "", 0};
         }
 
-        std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
-            const std::string &ip, const std::size_t port) override
+        /**
+         * @brief Receive data from a particular machine
+         * @param ip The ip of the machine to receive data from
+         * @param port The port of the machine to receive data from
+         * @return The data, if received
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
+        std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override
         {
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
-            std::pair<std::array<char, PACKETSIZE>, std::size_t> buf({0}, 0);
+            std::pair<Data, std::size_t> buf({}, 0);
             auto connection(getConnection(ip, port));
 
             if (!connection)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
-            //            return std::pair<std::array<char, PACKETSIZE>, std::size_t>({}, 0);
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
 
-            auto my_recvData(std::find_if(AAsioConnection<PACKETSIZE>::_recvData.begin(),
-                AAsioConnection<PACKETSIZE>::_recvData.end(),
-                [&](const auto &recvData) {
+            auto my_recvData(std::find_if(AAsioConnection<Data>::_recvData.begin(),
+                AAsioConnection<Data>::_recvData.end(), [&](const auto &recvData) {
                     if (ip == recvData.first.first && port == recvData.first.second) {
                         return true;
                     }
                     return false;
                 }));
-            if (my_recvData != AAsioConnection<PACKETSIZE>::_recvData.end()) {
+            if (my_recvData != AAsioConnection<Data>::_recvData.end()) {
                 buf = std::make_pair(my_recvData->second.first, my_recvData->second.second);
-                AAsioConnection<PACKETSIZE>::_recvData.erase(my_recvData);
+                AAsioConnection<Data>::_recvData.erase(my_recvData);
                 return buf;
             }
-            return std::pair<std::array<char, PACKETSIZE>, std::size_t>({}, 0);
+            return std::pair<Data, std::size_t>({}, 0);
         }
 
-        void sendAll(const std::array<char, PACKETSIZE> &buf) override
+        void sendAll(const Data &buf) override
         {
             for (auto &connection : _socketConnections) {
                 send(buf, connection);
             }
         }
 
-        void send(const std::array<char, PACKETSIZE> &buf, const std::string &ip, const std::size_t port) override
+        /**
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
+        void send(const Data &buf, const std::string &ip, const std::size_t port) override
         {
             auto connection(getConnection(ip, port));
 
             if (!connection)
-                throw Network::invalidConnection("Network::invalidConnection::_baseMessageFormat", ip, port);
-            std::cout << "connection exists, need to send now" << std::endl;
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             send(buf, connection);
         }
 
       protected:
-        void send(const std::array<char, PACKETSIZE> &buf, std::shared_ptr<tcp::socket> &connection)
+        /**
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
+        void send(const Data &buf, std::shared_ptr<tcp::socket> &connection)
         {
             if (!connection)
                 throw Network::invalidConnection();
-            std::cout << "sending ..." << std::endl;
-            connection->send(asio::buffer(std::string(buf.data(), buf.size())));
-        }
-
-        [[nodiscard]] bool isConnection(const std::shared_ptr<tcp::socket> &connection, const std::string &otherIp,
-            const std::size_t otherPort) const
-        {
-            if (!connection)
-                return false;
-            auto endpoint(connection->remote_endpoint());
-
-            if (endpoint.address().to_string() == otherIp && endpoint.port() == otherPort)
-                return true;
-            return false;
-        }
-
-        std::shared_ptr<tcp::socket> getConnection(const std::string &ip, const std::size_t port)
-        {
-            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
-            for (auto socketConnection : _socketConnections) {
-                if (isConnection(socketConnection, ip, port)) {
-                    return socketConnection;
-                }
-            }
-            return nullptr;
-        }
-
-        /**
-         * @brief Record a connection and be ready to receive data from it
-         * @param newConnection The connection to record
-         */
-        void addConnection(std::shared_ptr<tcp::socket> &newConnection)
-        {
-            if (!newConnection)
-                return;
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex);
-
-            AAsioConnection<PACKETSIZE>::connect(
-                newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
-            _socketConnections.push_back(newConnection);
-            //            newConnection->set_option(_receiveBufferSizeOption); // TODO refactor PACKETSIZE
-            //            newConnection->set_option(_sendBufferSizeOption);
-            asyncReceive(newConnection);
+            connection->send(asio::buffer(buf.serialize(), buf.length()));
         }
 
         /**
@@ -202,66 +164,74 @@ namespace Network
          */
         void asyncReceive(std::shared_ptr<tcp::socket> &connection)
         {
-            //            const std::scoped_lock<std::mutex> lock(AAsioConnection<PACKETSIZE>::_mutex); // todo ensure
-            //            that no
-            // problem with callback
-
             if (!connection)
                 return;
 
-            std::cout << "\tWill now Receive from " << connection << std::endl;
-            connection->async_receive(asio::buffer(AAsioConnection<PACKETSIZE>::_recvBuf.data(),
-                                          AAsioConnection<PACKETSIZE>::_recvBuf.size()),
-                std::bind(&AsioConnectionTCP<PACKETSIZE>::asyncReceiving,
-                    this,
-                    std::placeholders::_1,
-                    std::placeholders::_2,
+            connection->async_receive(
+                asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
+                std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
                     connection));
         }
 
-        void asyncReceiving(
-            const asio::error_code &err, const std::size_t &lenRecvBuf, std::shared_ptr<tcp::socket> &connection)
+        void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize,
+            std::shared_ptr<tcp::socket> &connection)
         {
-            std::cout << "asyncReceiving()" << std::endl;
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
-                    std::cout << "\tAn error occured : asio::error::misc_errors" << std::endl;
                     return;
                 }
             }
-            std::cout << "\t\tNo error" << std::endl;
-            if (!lenRecvBuf) {
-                std::cout << "\t\t\tAn error occured : no lenRecvBuf" << std::endl;
+            if (!receivedPacketSize) {
                 return;
             }
-
-            if (!AAsioConnection<PACKETSIZE>::_recvBuf.data()) {
-                return;
-            }
-            std::cout << "\t\t\t\t\tReceived data" << std::endl;
-            AAsioConnection<PACKETSIZE>::_recvData.emplace(
-                std::make_pair(
-                    connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port()),
-                std::make_pair(AAsioConnection<PACKETSIZE>::_recvBuf, lenRecvBuf));
+            AAsioConnection<Data>::_recvData.emplace(std::make_pair(connection->remote_endpoint().address().to_string(),
+                                                         connection->remote_endpoint().port()),
+                std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
             asyncReceive(connection);
+        }
+
+        [[nodiscard]] bool isConnection(const std::shared_ptr<tcp::socket> &connection, const std::string &otherIp,
+            const std::size_t otherPort) const
+        {
+            if (!connection)
+                return false;
+            auto endpoint(connection->remote_endpoint());
+
+            if (endpoint.address().to_string() == otherIp && endpoint.port() == otherPort)
+                return true;
+            return false;
+        }
+
+        std::shared_ptr<tcp::socket> getConnection(const std::string &ip, const std::size_t port)
+        {
+            for (auto socketConnection : _socketConnections) {
+                if (isConnection(socketConnection, ip, port)) {
+                    return socketConnection;
+                }
+            }
+            return nullptr;
+        }
+
+        /**
+         * @brief Record a connection and be ready to receive data from it
+         * @param newConnection The connection to record
+         */
+        void addConnection(std::shared_ptr<tcp::socket> &newConnection)
+        {
+            if (!newConnection)
+                return;
+
+            AAsioConnection<Data>::connect(
+                newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
+            _socketConnections.push_back(newConnection);
+            asyncReceive(newConnection);
         }
 
       private:
         /**
          * @brief deque of connected sockets
          */
-        std::deque<std::shared_ptr<tcp::socket>> _socketConnections;
-
-        /**
-         * @brief Option (to be set) to buffer data when receiving it
-         */
-        asio::socket_base::receive_buffer_size _receiveBufferSizeOption{PACKETSIZE};
-
-        /**
-         * @brief Option (to be set) to buffer data when sending it
-         */
-        //        asio::socket_base::send_buffer_size
-        //        _sendBufferSizeOption{PACKETSIZE};
+        ThreadSafety::LockedDeque<std::shared_ptr<tcp::socket>> _socketConnections;
     };
 
 } // namespace Network

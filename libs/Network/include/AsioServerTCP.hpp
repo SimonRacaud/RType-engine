@@ -11,7 +11,7 @@
 
 namespace Network
 {
-    template <std::size_t PACKETSIZE> class AsioServerTCP : public AsioConnectionTCP<PACKETSIZE> {
+    template <PointerableUnknownLen Data> class AsioServerTCP : public AsioConnectionTCP<Data> {
       public:
         /**
          * @brief
@@ -19,8 +19,8 @@ namespace Network
          * @throws system_error if port is already used
          */
         explicit AsioServerTCP(const std::size_t port)
-            : AsioConnectionTCP<PACKETSIZE>(true),
-              _acceptor(AAsioConnection<PACKETSIZE>::_ioContext, tcp::endpoint(tcp::v4(), port))
+            : AsioConnectionTCP<Data>(true),
+              _acceptor(AAsioConnection<Data>::_ioContext, tcp::endpoint(tcp::v4(), port))
         {
             startAccept();
         }
@@ -29,7 +29,7 @@ namespace Network
         void startAccept()
         {
             std::shared_ptr<tcp::socket> newConnection(
-                std::make_shared<tcp::socket>(AAsioConnection<PACKETSIZE>::_ioContext));
+                std::make_shared<tcp::socket>(AAsioConnection<Data>::_ioContext));
 
             _acceptor.async_accept(*newConnection,
                 std::bind(&AsioServerTCP::registerConnection, this, newConnection, std::placeholders::_1));
@@ -40,7 +40,7 @@ namespace Network
             if (error)
                 return; // todo check errors
 
-            AsioConnectionTCP<PACKETSIZE>::addConnection(newConnection);
+            AsioConnectionTCP<Data>::addConnection(newConnection);
 
             startAccept();
         }

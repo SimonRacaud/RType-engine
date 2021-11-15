@@ -8,13 +8,16 @@
 #define BABEL_ANETWORK_HPP
 
 #include <functional>
-#include <mutex>
+#include <iostream>
+#include <thread>
+#include "Exceptions/NetworkException.hpp"
 #include "INetwork.hpp"
+#include "utils/ThreadSafety/LockedDeque.hpp"
+#include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
 #ifndef MY_MAP
     #define MY_MAP
-struct hash_pair
-{
+struct hash_pair {
     std::size_t operator()(const std::pair<std::string, std::size_t> &pair) const
     {
         std::size_t h1 = std::hash<std::string>{}(pair.first);
@@ -27,31 +30,32 @@ struct hash_pair
 
 namespace Network
 {
-    template <std::size_t PACKETSIZE> class AAsioConnection : public IConnection<PACKETSIZE> {
+    template <PointerableUnknownLen Data> class AAsioConnection : public IConnection<Data> {
       public:
         explicit AAsioConnection(const bool server = false) : _server(server)
         {
             runAsync();
         }
 
-        ~AAsioConnection()
+        virtual ~AAsioConnection()
         {
-            std::cout << "Stopping run async" << std::endl;
-            stopRunAsync(); // todo search blocking / infinite loop
-            std::cout << "Stopped run async" << std::endl;
+            delete _recvBuf.first;
+            stopRunAsync();
             disconnectAll();
-            std::cout << "Disconnect all" << std::endl;
         }
 
-        AAsioConnection &operator=(const AAsioConnection<PACKETSIZE> &) = delete;
-        AAsioConnection(const AAsioConnection<PACKETSIZE> &) = delete;
+        AAsioConnection &operator=(const AAsioConnection<Data> &) = delete;
+        AAsioConnection(const AAsioConnection<Data> &) = delete;
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
-            AAsioConnection<PACKETSIZE>::_connections.emplace_back(ip, port);
+            AAsioConnection<Data>::_connections.emplace_back(ip, port);
             return true;
         }
 
+        /**
+         * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
+         */
         // TODO ensure that base functions are called by inherited classes
         void disconnect(const std::string &ip, const std::size_t port) override
         {
@@ -60,46 +64,40 @@ namespace Network
             std::pair<const std::string, const std::size_t> value(ip, port);
 
             first = std::find(first, last, value);
-
-            //            if (first == last)
-            //                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip,
-            //                port);
-
+            if (first == last)
+                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
             for (auto i = first; ++i != last;)
                 if (!(*i == value))
-                    (void) std::move(*i); // todo test
+                    (void) std::move(*i);
         }
 
         void disconnectAll() override
         {
-            AAsioConnection<PACKETSIZE>::_connections.clear();
+            AAsioConnection<Data>::_connections.clear();
         }
 
-        std::tuple<std::array<char, PACKETSIZE>, std::size_t, std::string, std::size_t> receiveAny() override = 0;
+        std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override = 0;
 
-        std::pair<std::array<char, PACKETSIZE>, std::size_t> receive(
-            const std::string &ip, const std::size_t port) override = 0;
+        std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override = 0;
 
-        void sendAll(const std::array<char, PACKETSIZE> &buf) override = 0;
+        void sendAll(const Data &buf) override = 0;
 
-        void send(const std::array<char, PACKETSIZE> &buf, const std::string &ip, const std::size_t port) override = 0;
+        void send(const Data &buf, const std::string &ip, const std::size_t port) override = 0;
 
         [[nodiscard]] bool isConnected(const std::string &ip, const std::size_t port) const override
         {
-            if (!AAsioConnection<PACKETSIZE>::_connections.empty()
-                && std::find_if(_connections.begin(),
-                       _connections.end(),
+            if (!AAsioConnection<Data>::_connections.empty()
+                && std::find_if(_connections.begin(), _connections.end(),
                        [=](const auto &connection) {
                            return ip == connection.first && port == connection.second;
                        })
-                    != AAsioConnection<PACKETSIZE>::_connections.end())
+                    != AAsioConnection<Data>::_connections.end())
                 return true;
             return false;
         }
 
-        // Asynchronous operations
-
       private:
+        // Asynchronous operations
         /**
          * @brief Create a thread, which will execute asynchronous actions on
          *  network (accept connections and receive data)
@@ -108,7 +106,7 @@ namespace Network
         {
             if (_thread.joinable())
                 return;
-            _thread = std::thread(&AAsioConnection<PACKETSIZE>::realRunAsync, this);
+            _thread = std::thread(&AAsioConnection<Data>::realRunAsync, this);
         }
 
         /**
@@ -117,10 +115,11 @@ namespace Network
          */
         void realRunAsync()
         {
-            while (_thread.joinable() && !AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
+            while (_thread.joinable() && !AAsioConnection<Data>::_ioContext.stopped()) {
                 std::cout << "thread running" << std::endl;
+                //                _ioContext.run_one_for(std::chrono::seconds(1)); // todo might not work for big
+                //                packets
                 _ioContext.run_one();
-                usleep(500); // todo remove
             }
         }
 
@@ -129,9 +128,8 @@ namespace Network
             if (!_thread.joinable()) {
                 return;
             }
-            std::cout << "trying to stop io_context " << std::endl;
-            if (!AAsioConnection<PACKETSIZE>::_ioContext.stopped()) {
-                AAsioConnection<PACKETSIZE>::_ioContext.stop();
+            if (!AAsioConnection<Data>::_ioContext.stopped()) {
+                AAsioConnection<Data>::_ioContext.stop();
             }
             if (_thread.joinable())
                 _thread.join();
@@ -158,7 +156,13 @@ namespace Network
          */
         bool _server;
 
-        std::deque<std::pair<const std::string, const std::size_t>> _connections;
+        /**
+         * @property _packetSize The size that is read from the socket when receiving
+         */
+        std::size_t _receivePacketSize{500};
+        // todo change
+
+        ThreadSafety::LockedDeque<std::pair<const std::string, const std::size_t>> _connections;
 
         // Asynchronous operations
         /**
@@ -166,19 +170,18 @@ namespace Network
          *  asynchronous operations
          * @note std::atomic ensures thread safety over this variable
          */
-        std::unordered_map<std::pair<const std::string, const std::size_t>,
-            std::pair<std::array<char, PACKETSIZE>, std::size_t>, hash_pair>
+        ThreadSafety::LockedUnorderedMultimap<std::pair<const std::string, const std::size_t>,
+            std::pair<Data, std::size_t>, hash_pair>
             _recvData;
-
         /**
          * @property Run asynchronous asio operations in a non-blocking way
          */
         std::thread _thread;
-        std::mutex _mutex;
         /**
          * @note std::atomic ensures thread safety over this variable
-         */ // todo make atomic
-        std::array<char, PACKETSIZE> _recvBuf{0};
+         */
+        //        std::pair<Data, std::size_t> _recvBuf;
+        std::pair<uint8_t *, std::size_t> _recvBuf{new uint8_t[_receivePacketSize], _receivePacketSize};
     };
 } // namespace Network
 

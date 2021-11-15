@@ -15,14 +15,14 @@ namespace Network
 {
     static const double ConnectionPingInterval(3);
 
-    template <std::size_t PACKETSIZE> class AsioClientTCP : public AsioConnectionTCP<PACKETSIZE> {
+    template <PointerableUnknownLen Data> class AsioClientTCP : public AsioConnectionTCP<Data> {
       public:
         AsioClientTCP() = default;
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
             tcp::endpoint serverEndpoint(asio::ip::make_address(ip), port);
-            auto newConnection(std::make_shared<tcp::socket>(AAsioConnection<PACKETSIZE>::_ioContext));
+            auto newConnection(std::make_shared<tcp::socket>(AAsioConnection<Data>::_ioContext));
 
             try {
                 newConnection->connect(serverEndpoint);
@@ -35,8 +35,7 @@ namespace Network
                 }
                 return false;
             }
-            std::cout << "add connection" << std::endl;
-            AsioConnectionTCP<PACKETSIZE>::addConnection(newConnection);
+            AsioConnectionTCP<Data>::addConnection(newConnection);
             return true;
         }
 

@@ -7,9 +7,11 @@
 
 cmake_minimum_required(VERSION 3.17)
 
+set(CONAN_DISABLE_CHECK_COMPILER True)
+
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(NAME_CLIENT r-type_client)
 set(NAME_SERVER r-type_server)
@@ -32,24 +34,24 @@ set(CLIENT_SRCS
         client/src/main.cpp
         client/src/ConfigFileExternal/ConfigFileExternal.cpp
         client/src/Scene/Start/StartScene.cpp
-        
+
         client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
-        
+
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
         client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
-        
+
         client/src/Entities/Button/Button.cpp
         client/src/Entities/Player/Player.cpp
         client/src/Entities/Enemy/Enemy.cpp
         client/src/Entities/Bullet/Bullet.cpp
         client/src/Entities/ScrollingBackground/ScrollingBackground.cpp
-        
+
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
         client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp
@@ -79,10 +81,9 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
+        #./server/src/GarbageEntity/GarbageEntity.cpp
         ./server/src/GameStage/GameStage.cpp
         ./server/src/DLLoader/DLLoader.hpp
-        ./server/src/Entities/Bullet/BulletServer.cpp
-        ./server/src/Entities/Enemy/EnemyServer.cpp
         ./server/src/ServerCore/ServerCore.cpp
         ./server/src/EnemyLoader/EnemyLoader.cpp
         ./server/src/StateMachine/StateMachine.cpp
@@ -90,7 +91,7 @@ set(SERVER_SRCS
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC server/src server/include)
+target_include_directories(${NAME_SERVER} PUBLIC server/src server/include lib/Network)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
@@ -116,6 +117,13 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 target_link_libraries(${NAME_CLIENT} gameEngine)
 target_link_libraries(${NAME_SERVER} gameEngine)
+
+## Network
+set(NetworkDir ${PROJECT_SOURCE_DIR}/libs/Network)
+add_subdirectory(${NetworkDir})
+include_directories(${NetworkDir}/include)
+target_link_libraries(${NAME_CLIENT} Network)
+target_link_libraries(${NAME_SERVER} Network)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)
