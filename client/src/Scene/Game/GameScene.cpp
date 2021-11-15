@@ -64,12 +64,12 @@ void GameScene::open()
         static size_t i = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
         Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
         Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
-        std::string str(waitText + std::to_string(i--));
+        std::string str(waitText + std::to_string(i));
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
 
-        if (i == 0) {
+        if (i-- == 0) {
             GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
                 this->initGame();
             });
