@@ -37,7 +37,7 @@
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
 
-//SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so");
+//SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager> GameCore::event = std::make_unique<EventManager>();
@@ -64,13 +64,13 @@ void GameCore::run()
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Render>();
-    componentManager.registerComponent<Engine::Hitbox>();
-    componentManager.registerComponent<Engine::Position>();
-    componentManager.registerComponent<Engine::Velocity>();
+    componentManager.registerComponent<Component::Hitbox>();
+    componentManager.registerComponent<Component::Position>();
+    componentManager.registerComponent<Component::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
     componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::ScoreComponent>();
-    componentManager.registerComponent<Engine::Hitbox>();
+    componentManager.registerComponent<Component::Hitbox>();
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Engine::NumberComponent>();
     componentManager.registerComponent<Component::Shooting>();

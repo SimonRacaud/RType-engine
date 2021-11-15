@@ -27,9 +27,9 @@ void ServerCore::run(void)
 {
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Timer>();
-    componentManager.registerComponent<Engine::Hitbox>();
-    componentManager.registerComponent<Engine::Position>();
-    componentManager.registerComponent<Engine::Velocity>();
+    componentManager.registerComponent<Component::Hitbox>();
+    componentManager.registerComponent<Component::Position>();
+    componentManager.registerComponent<Component::Velocity>();
     componentManager.registerComponent<Engine::ScoreComponent>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();

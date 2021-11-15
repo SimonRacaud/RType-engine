@@ -22,7 +22,7 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
     enemyRender->setNbMember(nbStep);
     enemyRender->setScale(scale);
 
-    componentManager.add<Engine::Position>(entity, pos.x, pos.y);
-    componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
+    componentManager.add<Component::Position>(entity, pos.x, pos.y);
+    componentManager.add<Component::Velocity>(entity, velocity.x, velocity.y);
     componentManager.add<Engine::Render>(entity, enemyRender);
 }

@@ -103,8 +103,8 @@ void DebugScene::open()
     //
     //    // Create entities here...
     //
-    //    componentManager.add<Engine::Position>(entity, 10, 10);
-    //    componentManager.add<Engine::Velocity>(entity, 1, 0);
+    //    componentManager.add<Component::Position>(entity, 10, 10);
+    //    componentManager.add<Component::Velocity>(entity, 1, 0);
     //
     //    std::shared_ptr<TextManager> tmp = std::make_shared<TextManager>();
     //    tmp->setColor(color_e::RED);
@@ -123,7 +123,7 @@ void DebugScene::open()
     //
     //    // other
     //    entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
-    //    componentManager.add<Engine::Position>(entity, 20, 20);
+    //    componentManager.add<Component::Position>(entity, 20, 20);
     //    std::shared_ptr<ShapeManager> tmp2 = std::make_shared<ShapeManager>(vector2D(200, 200), vector2D(20, 20), color_e::GREEN);
     //    componentManager.add<Engine::Render>(entity, tmp2);
     Equipment(this->getCluster(), vector2D(700, 80));

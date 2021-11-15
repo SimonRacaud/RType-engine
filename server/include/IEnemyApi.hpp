@@ -9,7 +9,10 @@
 #define IENEMYAPI_HPP_
 
 #include "EngineCore.hpp"
-#include "Item/vector2D.hpp"
+#include "Components/Velocity.hpp"
+#include "Components/Position.hpp"
+#include "Components/Health.hpp"
+#include "Components/AnimationInfo.hpp"
 
 class IEnemyApi {
 	public:
@@ -18,14 +21,11 @@ class IEnemyApi {
 		virtual void idle(const IEnemyApi *ptr) = 0;
 		virtual void move(const IEnemyApi *ptr) = 0;
 		virtual void attack(const IEnemyApi *ptr) = 0;
-		virtual float getMoveSpeed() const = 0;
+		virtual Component::Position &getPosition() = 0;
+		virtual Component::Velocity &getVelocity() = 0;
 		virtual float getShootingSpeed() const = 0;
-		virtual int getHealth() const = 0;
-		virtual std::string getSpriteSheet() const = 0;
-		virtual int getAnimationNbFrames() const = 0;
-		virtual vector2D getIdleAnimPos() const = 0;
-		virtual vector2D getMoveAnimPos() const = 0;
-		virtual vector2D getAttackAnimPos() const = 0;
+		virtual Component::Health &getHealth() = 0;
+		virtual Component::AnimationInfo getAnimInfo() const = 0;
 };
 
 #endif /* !IEnemyApi_HPP_ */
