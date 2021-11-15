@@ -9,8 +9,8 @@
 
 int testServerAcceptReceive();
 
-int testServerAcceptReceiveDataWrapper();
-int testServerAcceptReceiveDataWrapper2();
+int testServerDataWrapperJoinRoom();
+int testServerDataWrapperGetRoomList();
 
 int testServerAcceptReceiveNetworkManager();
 int testServerAcceptReceiveNetworkManagerGetRoomList();

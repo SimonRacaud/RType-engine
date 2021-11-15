@@ -10,8 +10,8 @@
 
 int testClientConnectSendDisconnect();
 
-int testClientConnectSendDisconnectDataWrapper();
-int testClientConnectSendDisconnectDataWrapper2();
+int testServerDataWrapperJoinRoom();
+int testServerDataWrapperGetRoomList();
 
 int testClientConnectSendDisconnectNetworkManager();
 int testClientConnectSendDisconnectNetworkManagerGetRoomList();
