@@ -110,7 +110,18 @@ Player::Player(ClusterName cluster,
 		} else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
 			shooting._isCharging = false;
 			render.removeRender(2);
+			GET_EVENT_REG.registerEvent<SetProgressBarValue>(Engine::EntityName::BEAM_PROGRESS, 0);
 			GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);
+		} else if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
+			auto now = std::chrono::steady_clock::now();
+			auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
+
+			size_t nb_sec = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
+			size_t value = nb_sec * 100 / 5;
+
+			if (value > 100)
+				value = 100;
+			GET_EVENT_REG.registerEvent<SetProgressBarValue>(Engine::EntityName::BEAM_PROGRESS, value);
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
 	});

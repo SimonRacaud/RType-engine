@@ -13,6 +13,7 @@
 #include "GameCore/GameCore.hpp"
 #include "Item/vector2D.hpp"
 
+#include "Entities/Player/Player.hpp"
 #include "Entities/Button/Button.hpp"
 #include "Entities/Label/Label.hpp"
 #include "Entities/ScrollingBackground/ScrollingBackground.hpp"
@@ -39,6 +40,7 @@ void GameScene::open()
 {
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
+    Player player(this->getCluster(), {120, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2),
         nullptr);
     Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
