@@ -49,7 +49,6 @@ class NetworkManager {
     /**
      * @brief Get data from the received data queue
      * @return The data raw data (to be converted to the good class with tramConverter class), the sender
-     * todo tramConverter class
      */
     [[nodiscard]] std::tuple<uint8_t *, std::pair<std::string, std::size_t>> receive();
 
