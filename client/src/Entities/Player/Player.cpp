@@ -7,6 +7,7 @@
 
 #include "Player.hpp"
 #include "Component/Render.hpp"
+#include "Component/EntityMask.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/Hitbox.hpp"
@@ -78,6 +79,7 @@ Player::Player(ClusterName cluster,
 	ps.push_back(0);
 	ps.push_back(1);
 
+	componentManager.add<Component::EntityMask>(entity, Component::MASK::PLAYER);
 	componentManager.add<Engine::Render>(entity, renderList, ps);
 	componentManager.add<Engine::Position>(entity, position.x, position.y);
 	componentManager.add<Engine::Velocity>(entity, 0, 0);

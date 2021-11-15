@@ -11,6 +11,7 @@
 #include "Entities/Explosion/Explosion.hpp"
 
 #include "Component/Render.hpp"
+#include "Component/EntityMask.hpp"
 #include "Components/Hitbox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
@@ -48,6 +49,7 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     bullet->setNbMember(GameCore::config->getVar<int>("BULLET_DEFAULT_ANIMATION_STEP"));
     bullet->setSrcPath(GameCore::config->getVar<std::string>("BULLET_DEFAULT_ANIMATION_PATH"));
 
+    componentManager.add<Component::EntityMask>(entity, Component::MASK::BULLET);
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     vector2D size = focusSize[charge];

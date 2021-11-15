@@ -13,6 +13,7 @@
 namespace Component {
 	enum MASK {
 		PLAYER,
+		BULLET,
 		ENEMY,
 	};
 

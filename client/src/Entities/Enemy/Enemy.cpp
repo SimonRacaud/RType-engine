@@ -7,6 +7,7 @@
 
 #include "Enemy.hpp"
 #include "Component/Render.hpp"
+#include "Component/EntityMask.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
 Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2D &velocity, const vector2f &scale, const std::string &path, size_t nbStep, const surface &focus)
@@ -25,4 +26,5 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     componentManager.add<Engine::Render>(entity, enemyRender);
+    componentManager.add<Component::EntityMask>(entity, Component::MASK::ENEMY);
 }

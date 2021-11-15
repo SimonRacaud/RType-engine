@@ -28,8 +28,9 @@
 #include "Event/AudioEvent/AudioEventVolume.hpp"
 #include "Component/Render.hpp"
 #include "Component/Scroll.hpp"
-#include "Component/InputEvent.hpp"
 #include "Component/Shooting.hpp"
+#include "Component/EntityMask.hpp"
+#include "Component/InputEvent.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
@@ -63,18 +64,19 @@ void GameCore::run()
     //reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
+    componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::Render>();
+    componentManager.registerComponent<Engine::Hitbox>();
     componentManager.registerComponent<Engine::Hitbox>();
     componentManager.registerComponent<Engine::Position>();
     componentManager.registerComponent<Engine::Velocity>();
     componentManager.registerComponent<Engine::InputEvent>();
-    componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::ScoreComponent>();
-    componentManager.registerComponent<Engine::Hitbox>();
-    componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Engine::NumberComponent>();
-    componentManager.registerComponent<Component::Shooting>();
     componentManager.registerComponent<Engine::EquipmentComponent>();
+    componentManager.registerComponent<Component::Scroll>();
+    componentManager.registerComponent<Component::Shooting>();
+    componentManager.registerComponent<Component::EntityMask>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
