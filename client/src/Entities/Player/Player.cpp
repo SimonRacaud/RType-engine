@@ -116,8 +116,8 @@ Player::Player(ClusterName cluster,
 			auto now = std::chrono::steady_clock::now();
 			auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
 
-			size_t nb_sec = std::chrono::duration_cast<std::chrono::seconds>(now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
-			size_t value = nb_sec * 100 / 5;
+			size_t nb_milli = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
+			size_t value = (nb_milli * 100 / 5000);
 
 			if (value > 100)
 				value = 100;
