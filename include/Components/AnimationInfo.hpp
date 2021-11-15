@@ -16,7 +16,7 @@ namespace Component {
 		public:
 			AnimationInfo(std::string path, int nbFrames, vector2D animPos, vector2D animSize)
 				: _path(path), _nbFrames(nbFrames), _animPos(animPos), _animSize(animSize) {}
-			~AnimationInfo();
+			virtual ~AnimationInfo() = default;
 
 			std::string _path;
 			int _nbFrames;
