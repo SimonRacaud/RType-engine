@@ -58,7 +58,6 @@ namespace Network
 
         std::pair<Data, std::size_t> receive(const std::string &ip, const std::size_t port) override
         {
-            //            std::cout << std::endl << std::endl << "receive()" << std::endl;
             std::pair<Data, std::size_t> buf({0}, 0);
 
             auto my_recvData(std::find_if(AAsioConnection<Data>::_recvData.begin(),
@@ -79,26 +78,16 @@ namespace Network
         void sendAll(const Data &buf) override
         {
             for (const auto &connection : AAsioConnection<Data>::_connections) {
-                std::cout << "UDP sending to : " << std::endl;
-                std::cout << "ip : " << connection.first << std::endl;
-                std::cout << "port : " << connection.second << std::endl;
                 send(buf, connection.first, connection.second);
             }
         }
 
         void send(const Data &buf, const std::string &ip, const std::size_t port) override
         {
-            std::cout << std::endl << "sending" << std::endl;
             udp::endpoint remoteEndpoint(asio::ip::make_address(ip), port);
 
-            _socket.send_to(asio::buffer(buf, buf.size()), remoteEndpoint, 0, AAsioConnection<Data>::_error);
-        }
-
-        void runAsync()
-        {
-            //            asyncReceiveAny();
-            AAsioConnection<Data>::runAsync();
-            // todo add asyncReceive for each new connection started !!!!!
+            _socket.send_to(
+                asio::buffer(buf.serialize(), buf.length()), remoteEndpoint, 0, AAsioConnection<Data>::_error);
         }
 
       private:
@@ -118,41 +107,28 @@ namespace Network
          */
         void asyncReceive(const std::string &ip, const std::size_t port)
         {
-            std::cout << "will now receive from new connection : " << ip << " : " << port
-                      << std::endl; // todo remove after debug
-
             asio::ip::udp::endpoint senderEndpoint(asio::ip::make_address(ip), port);
 
             _socket.async_receive_from(
-                asio::buffer(&AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
+                asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
                 senderEndpoint,
                 std::bind(&AsioConnectionUDP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
                     ip, port));
         }
 
-        void asyncReceiving(
-            const asio::error_code &err, const std::size_t &lenRecvBuf, const std::string &ip, const std::size_t port)
+        void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize, const std::string &ip,
+            const std::size_t port)
         {
-            std::cout << "receiving..." << std::endl;
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
                     return;
                 }
             }
-            // std::cout << "no error" << std::endl;
-            if (!lenRecvBuf) {
+            if (!receivedPacketSize) {
                 return;
             }
-            std::cout << "Buff is " << lenRecvBuf << " of length" << std::endl;
-            //            if (!AAsioConnection<Data>::_recvBuf.data()) {
-            //                return;
-            //            }
-            std::cout << "received data from : " << std::endl;
-            std::cout << "ip : " << ip << std::endl;
-            std::cout << "port : " << port << std::endl;
-            AAsioConnection<Data>::_recvData.emplace(
-                std::make_pair(ip, port), std::make_pair(AAsioConnection<Data>::_recvBuf, lenRecvBuf));
-            std::cout << "data stored in buffer" << std::endl;
+            AAsioConnection<Data>::_recvData.emplace(std::make_pair(ip, port),
+                Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize);
             asyncReceive(ip, port);
         }
 

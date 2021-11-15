@@ -1,7 +1,6 @@
 #!/bin/bash
 
 declare -a COMMANDS
-myArray+=(item)
 CMD_NB=0
 
 for ARG in "$@" ; do
@@ -14,13 +13,32 @@ for ARG in "$@" ; do
 done
 
 
+declare -a PIDS
+PID_NB=0
+
+RET_VAL=0
+
 for (( i = 1; i <= ${#COMMANDS[@]}; i++ )); do
 #    echo ${COMMANDS[$i]}
   if ( (($i == ${#COMMANDS[@]})) ); then
     command ${COMMANDS[$i]}
+    RET=$?
+    if (( $RET != 0 )) ; then
+        RET_VAL=$RET
+    fi
   else
     command ${COMMANDS[$i]} &
+    PID_NB=$( expr $PIOAD_NB + 1 )
+    PIDS[$PID_NB]="$!"
   fi
 done
 
-#$1 $2 & $3 $4
+for (( i = 1; i <= ${#PIDS[@]}; i++ )); do
+    wait ${PIDS[$i]}
+    RET=$?
+    if (( $RET != 0 )) ; then
+        RET_VAL=$RET
+    fi
+done
+
+exit $RET_VAL

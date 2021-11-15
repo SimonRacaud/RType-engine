@@ -37,9 +37,8 @@ void DataWrapper::deserialize(const uint8_t *data, const std::size_t length)
 
 uint8_t *DataWrapper::serialize() const
 {
-    auto tmp = new uint8_t[_dataLength + sizeof(_dataLength)];
+    auto tmp = new uint8_t[_dataLength];
 
-    memcpy(tmp, &_dataLength, sizeof(std::size_t));
-    memcpy(tmp + sizeof(std::size_t), _data, _dataLength);
+    memcpy(tmp, _data, _dataLength);
     return tmp;
 }

@@ -24,7 +24,7 @@ int testFunction()
 
 static const std::unordered_map<int, std::function<int(void)>> testFunctions{{0, testFunction},
     {1, testTramBufferComplete}, {2, testTramBufferIncomplete}, {3, testTramBufferTruncatedSet},
-    {4, testTramBuffer2Sets}, {5, testTramBufferCreateBuffer}};
+    {4, testTramBuffer2Sets}};
 
 int main(int ac, char **av)
 {

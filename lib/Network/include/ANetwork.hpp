@@ -37,7 +37,7 @@ namespace Network
             runAsync();
         }
 
-        ~AAsioConnection()
+        virtual ~AAsioConnection()
         {
             delete _recvBuf.first;
             stopRunAsync();

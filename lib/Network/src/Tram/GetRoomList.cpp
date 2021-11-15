@@ -16,12 +16,14 @@ GetRoomList::GetRoomList() : Tram::Serializable(Tram::TramType::CREATE_ENTITY_RE
 GetRoomList::GetRoomList(const std::vector<size_t> &roomIdList)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
 {
-    this->list = new size_t[roomIdList.size()];
-    for (size_t i = 0; i < roomIdList.size(); i++) {
+    auto listSize(roomIdList.size());
+
+    this->list = new size_t[listSize];
+    for (size_t i = 0; i < listSize; i++) {
         this->list[i] = roomIdList[i];
     }
-    this->nbItem = roomIdList.size();
-    Serializable::size += (sizeof(size_t) * this->nbItem);
+    this->nbItem = listSize;
+    Serializable::size += (sizeof(size_t) * (this->nbItem - 1));
 }
 
 GetRoomList::~GetRoomList()
@@ -38,7 +40,7 @@ uint8_t *GetRoomList::serialize() const
     // nb item
     std::memcpy(buffer, (void *) this, sizeof(GetRoomList));
     // list
-    ptr->list = reinterpret_cast<size_t *>(buffer + sizeof(GetRoomList));
+    ptr->list = reinterpret_cast<size_t *>(buffer + (sizeof(GetRoomList) - sizeof(std::size_t)));
     if (this->list != nullptr) {
         std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
     } else {
@@ -56,12 +58,14 @@ void GetRoomList::deserialize(uint8_t *buffer)
         this->list = nullptr;
     } else {
         this->list = new size_t[this->nbItem];
-        std::memcpy(this->list, ptr->list, sizeof(size_t) * nbItem);
+        std::memcpy(
+            this->list, buffer + sizeof(Tram::Serializable) + sizeof(std::size_t), sizeof(size_t) * this->nbItem);
     }
+    Serializable::size += (sizeof(size_t) * this->nbItem);
 }
 size_t GetRoomList::length() const
 {
-    return sizeof(GetRoomList) + (sizeof(size_t) * this->nbItem);
+    return Serializable::size;
 }
 GetRoomList::GetRoomList(uint8_t *buffer) : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
 {
@@ -72,7 +76,8 @@ GetRoomList::GetRoomList(uint8_t *buffer) : Tram::Serializable(Tram::TramType::C
         this->list = nullptr;
     } else {
         this->list = new size_t[this->nbItem];
-        std::memcpy(this->list, ptr->list, sizeof(size_t) * nbItem);
+        std::memcpy(
+            this->list, buffer + sizeof(Tram::Serializable) + sizeof(std::size_t), sizeof(size_t) * this->nbItem);
     }
     Serializable::size += (sizeof(size_t) * this->nbItem);
 }

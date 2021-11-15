@@ -8,6 +8,7 @@
 #include <cstring>
 #include "AsioClientTCP.hpp"
 #include "DataWrapper.hpp"
+#include "NetworkManager.hpp"
 #include "Tram/JoinRoom.hpp"
 
 using namespace Network;
@@ -20,39 +21,37 @@ using namespace Network;
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testClientConnectSendDisconnectDataWrapper()
+int testClientConnectSendDisconnectNetworkManager()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    Tram::JoinRoom my_data{51};
-    DataWrapper myDataWrapper(my_data.serialize(), my_data.length());
+    Tram::JoinRoom my_data{876};
 
-    AsioClientTCP<DataWrapper> client;
-    bool connected = client.connect(ipServer, portServer);
+    std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioClientTCP<DataWrapper>>());
+
+    NetworkManager clientManager(client);
+    bool connected = clientManager.connect(ipServer, portServer);
 
     if (!connected)
         return 84;
-    client.send(myDataWrapper, ipServer, portServer);
-    client.disconnect(ipServer, portServer);
+    clientManager.sendAll(my_data);
     return 0;
 }
 
-int testClientConnectSendDisconnectDataWrapper2()
+int testClientConnectSendDisconnectNetworkManagerGetRoomList()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
     std::vector<std::size_t> listOfRooms{222, 444};
     Tram::GetRoomList my_data{listOfRooms};
-    DataWrapper myDataWrapper(my_data.serialize(), my_data.length());
 
-    AsioClientTCP<DataWrapper> client;
-    bool connected = client.connect(ipServer, portServer);
+    std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioClientTCP<DataWrapper>>());
+
+    NetworkManager clientManager(client);
+    bool connected = clientManager.connect(ipServer, portServer);
 
     if (!connected)
         return 84;
-    client.send(myDataWrapper, ipServer, portServer);
-    client.disconnect(ipServer, portServer);
+    clientManager.sendAll(my_data);
     return 0;
 }
-
-// todo test all Trams
