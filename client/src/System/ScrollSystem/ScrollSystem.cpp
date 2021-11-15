@@ -19,13 +19,13 @@ static const Engine::Time freq = static_cast<Engine::Time>(100);
 ScrollSystem::ScrollSystem()
     : Engine::AbstractSystem<ScrollSystem>(freq, SystemPriority::LOW)
 {
-    this->setRequirements<Engine::Velocity, Component::Scroll>();
+    this->setRequirements<Engine::Position, Component::Scroll>();
 }
 
 void ScrollSystem::run(const vector<Engine::Entity> &entities)
 {
     for (const Engine::Entity entity : entities) {
-        auto [position, scroll] = GET_COMP_M.getList<Engine::Velocity, Component::Scroll>(entity);
+        auto [position, scroll] = GET_COMP_M.getList<Engine::Position, Component::Scroll>(entity);
 
         if (position.x <= -(scroll.width / 2)) {
             position.x = 0;
