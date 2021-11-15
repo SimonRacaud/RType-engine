@@ -16,6 +16,8 @@
 
 namespace Network {
     struct InfoConnection {
+        InfoConnection(std::string const &ip, size_t port) : ip(ip), port(port) {}
+
         std::string ip;
         size_t port;
     };

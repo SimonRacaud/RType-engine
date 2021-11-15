@@ -9,12 +9,12 @@
 
 using namespace Tram;
 
-GetRoomList::GetRoomList() : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
+GetRoomList::GetRoomList() : Tram::Serializable(Tram::TramType::GET_ROOM_LIST, sizeof(GetRoomList))
 {
 }
 
 GetRoomList::GetRoomList(const std::vector<size_t> &roomIdList)
-    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
+    : Tram::Serializable(Tram::TramType::GET_ROOM_LIST, sizeof(GetRoomList))
 {
     auto listSize(roomIdList.size());
 
@@ -71,7 +71,7 @@ size_t GetRoomList::length() const
 }
 
 GetRoomList::GetRoomList(uint8_t *buffer)
-    : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(GetRoomList))
+    : Tram::Serializable(Tram::TramType::GET_ROOM_LIST, sizeof(GetRoomList))
 {
     GetRoomList::deserialize(buffer);
 }
