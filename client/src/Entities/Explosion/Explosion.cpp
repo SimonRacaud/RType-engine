@@ -28,6 +28,12 @@ Explosion::Explosion(ClusterName cluster, const vector2D &pos)
     anim->setNbMember(GameCore::config->getVar<int>("EXPLOSION_ANIMATION_STEP"));
     anim->setSrcPath(GameCore::config->getVar<std::string>("EXPLOSION_ANIMATION_PATH"));
 
+    int animDuration = GameCore::config->getVar<int>("EXPLOSION_ANIMATION_DURATION");
+
     componentManager.add<Engine::Render>(entity, anim);
     componentManager.add<Engine::Position>(entity, pos.x - sizeAnim.x / 2, pos.y - sizeAnim.y / 2);
+    componentManager.add<Engine::Timer>(entity, std::chrono::milliseconds(animDuration), [](Engine::Entity a) {
+        std::cout << "DESTROY -> EXPLOSION" << std::endl;
+        GameCore::engine.getEntityManager().remove(a);
+    });
 }

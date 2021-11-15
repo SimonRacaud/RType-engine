@@ -10,7 +10,7 @@
 
 using namespace Engine;
 
-static const Engine::Time freq = static_cast<Engine::Time>(1000);
+static const Engine::Time freq = static_cast<Engine::Time>(10);
 static const SystemPriority priority = SystemPriority::HIGH;
 
 TimerSystem::TimerSystem() : AbstractSystem<TimerSystem>(freq, priority), _interval(0)
