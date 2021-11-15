@@ -10,10 +10,20 @@
 
 int testClientConnectSendDisconnect();
 
-int testServerDataWrapperJoinRoom();
-int testServerDataWrapperGetRoomList();
+int testClientDataWrapperJoinRoom();
+int testClientDataWrapperGetRoomList();
+int testClientDataWrapperCreateEntityReply();
+int testClientDataWrapperCreateEntityRequest();
+int testClientDataWrapperJoinCreateRoomReply();
+int testClientDataWrapperComponentSync();
+int testClientDataWrapperDestroyEntity();
 
-int testClientConnectSendDisconnectNetworkManager();
-int testClientConnectSendDisconnectNetworkManagerGetRoomList();
+int testClientNetworkManagerJoinRoom();
+int testClientNetworkManagerGetRoomList();
+int testClientNetworkManagerCreateEntityReply();
+int testClientNetworkManagerCreateEntityRequest();
+int testClientNetworkManagerJoinCreateRoomReply();
+int testClientNetworkManagerComponentSync();
+int testClientNetworkManagerDestroyEntity();
 
 #endif // R_TYPE_CLIENTTEST_HPP
