@@ -53,7 +53,7 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
-        ./server/src/GarbageEntity/GarbageEntity.cpp
+        #./server/src/GarbageEntity/GarbageEntity.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
