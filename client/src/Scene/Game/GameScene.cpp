@@ -21,6 +21,8 @@
 #include "Entities/ScrollingBackground/ScrollingBackground.hpp"
 #include "Entities/Progress/ProgressBar.hpp"
 
+#include "Component/Render.hpp"
+#include "TextManager/TextManager.hpp"
 #include "Event/GUI/SelectPreviousScene.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
@@ -41,23 +43,35 @@ GameScene::GameScene()
 void GameScene::open()
 {
     vector2D win = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
-    size_t waitedTime = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
     const std::string waitText = GameCore::config->getVar<std::string>("CLIENT_WAIT_LABEL");
     const std::string backgroundPath = GameCore::config->getVar<std::string>("CLIENT_WAIT_BACKGROUND");
 
     // ENTITY CREATE
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
-    Label mentionLabel(this->getCluster(), waitText, vector2D((win.x - waitText.length() * 10) / 2, win.y / 2), vector2D(1, 1), color_e::WHITE);
     Button back(this->getCluster(), "Quit", vector2D(win.x / 2, win.y / 1.5), vector2f(1, 1), nullptr);
 
     // MANUAL COMPONENT BUILD
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+    Engine::Entity dynamicText = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+    std::string font = GameCore::config->getVar<string>("FONT");
+    vector2D position((win.x - waitText.length() * 15) / 2, win.y / 2);
 
-    componentManager.add<Engine::Timer>(entity, std::chrono::milliseconds(waitedTime), [this](Engine::Entity) {
-        GameCore::engine.getEntityManager().remove(this->getCluster());
-        this->initGame();
+    componentManager.add<Engine::Render>(dynamicText, std::make_shared<TextManager>(position, vector2D(), color_e::WHITE, waitText, font));
+    componentManager.add<Engine::Position>(dynamicText, (float)position.x, (float)position.y);
+    componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win](Engine::Entity a) {
+        static size_t i = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
+        Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
+        Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
+        std::string str(waitText + std::to_string(i--));
+
+        pos.x = (win.x - str.length() * 15) / 2;
+        dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
+
+        if (i == 0) {
+            GameCore::engine.getEntityManager().remove(this->getCluster());
+            this->initGame();
+        }
     });
 
     // SYSTEM SELECT

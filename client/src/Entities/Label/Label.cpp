@@ -24,7 +24,7 @@ Label::Label(Engine::ClusterName cluster, const string &content,
     string font = GameCore::config->getVar<string>("FONT");
 
     componentManager.add<Engine::Render>(entity,
-        std::make_unique<TextManager>(position, size, color, content, font));
+        std::make_shared<TextManager>(position, size, color, content, font));
     componentManager.add<Engine::Position>(entity, (float)position.x, (float)position.y);
 }
 

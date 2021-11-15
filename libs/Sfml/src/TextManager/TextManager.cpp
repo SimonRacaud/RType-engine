@@ -58,6 +58,8 @@ void TextManager::setPosition(const vector2D &pos)
 void TextManager::setContent(const std::string &str)
 {
     this->_content = str;
+    if (_text && _font)
+        this->_text->setString(this->_content);
 }
 
 void TextManager::setFont(const std::string &name)
