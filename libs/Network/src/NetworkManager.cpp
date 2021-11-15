@@ -32,7 +32,7 @@ std::tuple<uint8_t *, std::pair<std::string, std::size_t>> NetworkManager::recei
     std::pair<DataWrapper, std::size_t> receivedData(std::get<0>(receivedPacket), std::get<1>(receivedPacket));
     auto sender(std::make_pair(std::get<2>(receivedPacket), std::get<3>(receivedPacket)));
 
-    if (!receivedData)
+    if (!receivedData.second)
     {
         return std::make_tuple(nullptr, sender);
     }
