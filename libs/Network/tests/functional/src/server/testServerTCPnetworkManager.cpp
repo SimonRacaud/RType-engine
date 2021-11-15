@@ -43,7 +43,7 @@ int testServerNetworkManagerJoinRoom()
 {
     Tram::JoinRoom my_data(startServerGetData());
 
-    if (my_data.roomId == 51) {
+    if (my_data.roomId == 876) {
         return 0;
     }
     return 84;
@@ -73,7 +73,7 @@ int testServerNetworkManagerCreateEntityRequest()
 {
     Tram::CreateEntityRequest my_data{startServerGetData()};
 
-    if (my_data.roomId == 123 && my_data.entityId == 345 && std::string(my_data.entityType) == std::string("789")
+    if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
         && my_data.timestamp == std::chrono::milliseconds(321)) {
         return 0;
     }

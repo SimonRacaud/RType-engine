@@ -81,7 +81,7 @@ int testClientNetworkManagerComponentSync()
 
 int testClientNetworkManagerDestroyEntity()
 {
-    Tram::DestroyEntity my_data{9876544321, 665544};
+    Tram::DestroyEntity my_data{987654321, 665544};
 
     return startClientSendData(my_data);
 }

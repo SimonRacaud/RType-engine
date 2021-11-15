@@ -75,7 +75,7 @@ int testServerDataWrapperCreateEntityRequest()
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
 
-    if (my_data.roomId == 123 && my_data.entityId == 345 && std::string(my_data.entityType) == std::string("789")
+    if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
         && my_data.timestamp == std::chrono::milliseconds(321)) {
         return 0;
     }
