@@ -17,7 +17,6 @@
 #include "Component/Shooting.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
-#include "GameCore/GameCore.hpp"
 #include "SpriteManager/SpriteManager.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "Event/MoveEvents/MoveEvents.hpp"
@@ -25,9 +24,14 @@
 #include "Event/ShootEvents/ShootEvents.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 
-void hit(Engine::Entity, Engine::Entity)
+void Player::hit(Engine::Entity a, Engine::Entity b)
 {
 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
+	/*if (GET_COMP_M.hasComponent<Component::EntityMask>(a) && GET_COMP_M.) {
+		// TODO
+	} else if () {
+		// TODO
+	}*/
 }
 
 Player::Player(ClusterName cluster,

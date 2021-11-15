@@ -9,6 +9,7 @@
 #define PLAYER_HPP_
 
 #include <memory>
+#include "GameCore/GameCore.hpp"
 #include "Event/IEvent.hpp"
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
@@ -24,6 +25,7 @@ class Player {
           const std::string &sprite);
 		~Player();
 
+		static void hit(Engine::Entity a, Engine::Entity b);
 	protected:
 	private:
 };
