@@ -20,7 +20,7 @@ using namespace Network;
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testServerAcceptReceiveDataWrapper()
+int testServerDataWrapperJoinRoom()
 {
     const std::size_t portServer(8080);
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
@@ -44,7 +44,7 @@ int testServerAcceptReceiveDataWrapper()
     return 84;
 }
 
-int testServerAcceptReceiveDataWrapper2()
+int testServerDataWrapperGetRoomList()
 {
     const std::size_t portServer(8080);
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;

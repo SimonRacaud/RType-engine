@@ -20,7 +20,7 @@ using namespace Network;
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testClientConnectSendDisconnectDataWrapper()
+int testServerDataWrapperJoinRoom()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
@@ -37,7 +37,7 @@ int testClientConnectSendDisconnectDataWrapper()
     return 0;
 }
 
-int testClientConnectSendDisconnectDataWrapper2()
+int testServerDataWrapperGetRoomList()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);

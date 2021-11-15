@@ -24,7 +24,7 @@ int testFunction()
 }
 
 static const std::unordered_map<int, std::function<int(void)>> testFunctions{{0, testFunction},
-    {1, testServerAcceptReceive}, {2, testServerAcceptReceiveDataWrapper}, {3, testServerAcceptReceiveDataWrapper2},
+    {1, testServerAcceptReceive}, {2, testServerDataWrapperJoinRoom}, {3, testServerDataWrapperGetRoomList},
     {4, testServerAcceptReceiveNetworkManager}, {5, testServerAcceptReceiveNetworkManagerGetRoomList}};
 
 int main(int ac, char **av)
