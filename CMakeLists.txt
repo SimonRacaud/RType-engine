@@ -53,11 +53,12 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
+        ./server/src/GarbageEntity/GarbageEntity.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include)
+target_include_directories(${NAME_SERVER} PUBLIC sever/src server/include lib/Network)
 
 if (MSVC)
     target_compile_options(${NAME_SERVER} PRIVATE /W4 /WX)
