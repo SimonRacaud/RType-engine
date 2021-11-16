@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionUDP.hpp"
 #include "DataWrapper.hpp"
 #include <unordered_map>
 
@@ -56,17 +56,16 @@ class intWrapper {
 
 /**
  * @brief Test
- *  AsioServerTCP::startAccept()
- *  AsioServerTCP::receiveAny()
+ *  AsioConnectionUDP::startAccept()
+ *  AsioConnectionUDP::receiveAny()
  * @return 0 if test succeeded
  */
-int testTCPserverAcceptReceive()
+int testUDPserverAcceptReceive()
 {
     const std::size_t portServer(8080);
     std::tuple<intWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<intWrapper> server(portServer);
+    AsioConnectionUDP<intWrapper> server(portServer);
     intWrapper my_var;
-
 
     while (true) {
         recvData = server.receiveAny();

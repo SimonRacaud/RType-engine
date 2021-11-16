@@ -96,6 +96,14 @@ namespace ThreadSafety
             return std::unordered_multimap<Key, T, Hash>::end();
         }
 
+        std::pair<Key, T> extract(const_iterator position)
+        {
+            auto nodeHandle(std::unordered_multimap<Key, T, Hash>::extract(position));
+            auto extracted(std::make_pair(std::move(nodeHandle.key()), std::move(nodeHandle.mapped())));
+
+            return extracted;
+        }
+
       private:
         /**
          * @brief multimap is able to contain duplicates

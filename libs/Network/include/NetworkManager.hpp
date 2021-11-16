@@ -34,7 +34,7 @@ class NetworkManager {
   public:
     NetworkManager() = default;
     explicit NetworkManager(std::shared_ptr<Network::IConnection<DataWrapper>> connector);
-    ~NetworkManager();
+    ~NetworkManager() = default;
 
     /**
      * @brief Set the IConnection that will be used to send and receive through network

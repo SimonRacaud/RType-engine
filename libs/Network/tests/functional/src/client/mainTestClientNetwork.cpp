@@ -22,10 +22,41 @@ int testFunction()
     return 0;
 }
 
-static const std::unordered_map<int, std::function<int(void)>> testFunctions{{0, testFunction},
-    {1, testClientConnectSendDisconnect}, {2, testClientConnectSendDisconnectDataWrapper},
-    {3, testClientConnectSendDisconnectDataWrapper2}, {4, testClientConnectSendDisconnectNetworkManager},
-    {5, testClientConnectSendDisconnectNetworkManagerGetRoomList}};
+static auto testNb(0);
+
+static const std::unordered_map<int, std::function<int(void)>> testFunctions{
+    {testNb, testFunction},
+    {++testNb, testTCPclientConnectSendDisconnect},
+    {++testNb, testTCPclientDataWrapperJoinRoom},
+    {++testNb, testTCPclientDataWrapperGetRoomList},
+    {++testNb, testTCPclientDataWrapperCreateEntityReply},
+    {++testNb, testTCPclientDataWrapperCreateEntityRequest},
+    {++testNb, testTCPclientDataWrapperJoinCreateRoomReply},
+    {++testNb, testTCPclientDataWrapperComponentSync},
+    {++testNb, testTCPclientDataWrapperDestroyEntity},
+    {++testNb, testTCPclientNetworkManagerJoinRoom},
+    {++testNb, testTCPclientNetworkManagerGetRoomList},
+    {++testNb, testTCPclientNetworkManagerCreateEntityReply},
+    {++testNb, testTCPclientNetworkManagerCreateEntityRequest},
+    {++testNb, testTCPclientNetworkManagerJoinCreateRoomReply},
+    {++testNb, testTCPclientNetworkManagerComponentSync},
+    {++testNb, testTCPclientNetworkManagerDestroyEntity},
+    {++testNb, testUDPclientConnectSendDisconnect},
+    {++testNb, testUDPclientDataWrapperJoinRoom},
+    {++testNb, testUDPclientDataWrapperGetRoomList},
+    {++testNb, testUDPclientDataWrapperCreateEntityReply},
+    {++testNb, testUDPclientDataWrapperCreateEntityRequest},
+    {++testNb, testUDPclientDataWrapperJoinCreateRoomReply},
+    {++testNb, testUDPclientDataWrapperComponentSync},
+    {++testNb, testUDPclientDataWrapperDestroyEntity},
+    {++testNb, testUDPclientNetworkManagerJoinRoom},
+    {++testNb, testUDPclientNetworkManagerGetRoomList},
+    {++testNb, testUDPclientNetworkManagerCreateEntityReply},
+    {++testNb, testUDPclientNetworkManagerCreateEntityRequest},
+    {++testNb, testUDPclientNetworkManagerJoinCreateRoomReply},
+    {++testNb, testUDPclientNetworkManagerComponentSync},
+    {++testNb, testUDPclientNetworkManagerDestroyEntity},
+};
 
 int main(int ac, char **av)
 {
