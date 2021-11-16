@@ -37,6 +37,7 @@ set(CLIENT_SRCS
 
         client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
+        client/src/System/SyncSendSystem/SyncSendSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
