@@ -27,10 +27,10 @@ CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t entityId, strin
 
 uint8_t *CreateEntityRequest::serialize() const
 {
-    size_t size = sizeof(CreateEntityRequest);
-    auto *buffer = new uint8_t[size];
+    size_t len = sizeof(CreateEntityRequest);
+    auto *buffer = new uint8_t[len];
 
-    std::memcpy(buffer, (void *) this, size);
+    std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
 
