@@ -25,10 +25,15 @@ class Player {
           const std::string &sprite);
 		~Player();
 
+        void setNetworkId(uint32_t entityId);
+
 	protected:
 	private:
 		static void hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b);
 		static bool animationPlayer(Engine::ClusterName cluster, Engine::Entity once);
+	
+    private:
+        Engine::Entity _entity;
 };
 
 #endif /* !PLAYER_HPP_ */

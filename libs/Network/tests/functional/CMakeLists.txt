@@ -54,6 +54,9 @@ set(SRCS_SERVER
     ${SERVER_DIR}testServerTCP.cpp
     ${SERVER_DIR}testServerTCPdataWrapper.cpp
     ${SERVER_DIR}testServerTCPnetworkManager.cpp
+    ${SERVER_DIR}testServerUDP.cpp
+    ${SERVER_DIR}testServerUDPdataWrapper.cpp
+    ${SERVER_DIR}testServerUDPnetworkManager.cpp
     )
 
 add_executable(${SERVER}
@@ -90,6 +93,9 @@ set(SRCS_CLIENT
     ${CLIENT_DIR}testClientTCP.cpp
     ${CLIENT_DIR}testClientTCPdataWrapper.cpp
     ${CLIENT_DIR}testClientTCPnetworkManager.cpp
+    ${CLIENT_DIR}testClientUDP.cpp
+    ${CLIENT_DIR}testClientUDPdataWrapper.cpp
+    ${CLIENT_DIR}testClientUDPnetworkManager.cpp
     )
 
 ## TARGET
@@ -155,7 +161,7 @@ target_link_libraries(${INDEPENDENT} PUBLIC ${CONAN_LIBS})
 
 
 ############## TESTS
-
+set(TEST_TIMEOUT 1)
 include(CTest)
 enable_testing()
 
@@ -166,63 +172,95 @@ set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
 set(SH_ADD_CMD -c)
 
 ##### TEST THAT TESTS WORK
-add_test(TestTheTest bin/client 0)
-set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
+#add_test(TestTheTest bin/client 0)
+#set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
 
 ##### REAL TESTS
 set(TEST_NB 1)
-set(TEST simpleSendReceive)
+set(TEST simpleSendReceiveTCP)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+set_tests_properties(${TEST}
+                     PROPERTIES WILL_FAIL FALSE
+                     TIMEOUT ${TEST_TIMEOUT})
 
 
-set(TEST_NB 2)
-set(TEST sendReceiveTramThroughDataWrapper)
+####### TESTS IN LOOP
+
+##### TESTS TRAM BUFFER
+set(TEST_NBS 2;3;4;5;6;7;8)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_TCP_dataWrapper_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+
+endforeach ()
+
+set(TEST_NBS 9;10;11;12;13;14;15)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_TCP_networkManager_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+endforeach ()
+
+
+set(TEST_NB 16)
+set(TEST simpleSendReceiveUDP)
 add_test(NAME ${TEST}
          COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
          ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+set_tests_properties(${TEST}
+                     PROPERTIES WILL_FAIL FALSE
+                     TIMEOUT ${TEST_TIMEOUT})
 
-set(TEST_NB 3)
-set(TEST sendReceiveTramThroughDataWrapper2)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+set(TEST_NBS 17;18;19;20;21;22;23)
 
-set(TEST_NB 4)
-set(TEST sendReceiveTramThroughNetworkManager)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_UDP_dataWrapper_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+endforeach ()
 
-set(TEST_NB 5)
-set(TEST sendReceiveTramThroughNetworkManagerGetRoomList)
-add_test(NAME ${TEST}
-         COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-         ${TEST_NB})
-set_tests_properties(${TEST} PROPERTIES WILL_FAIL FALSE)
+set(TEST_NBS 24;25;26;27;28;29;30)
 
-
-##### TESTS IN LOOP
-#set(TEST_NBS 0;1)
-
-#foreach (num IN ZIP_LISTS TEST_NBS)
-#    set(TEST_NB ${num_0})
-#    add_test(NAME test_${TEST_NB}
-#             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD} ${CLIENT_TEST_BIN}
-#             ${TEST_NB})
-#endforeach ()
-
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_UDP_networkManager_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+endforeach ()
 
 ##### TESTS TRAM BUFFER
 set(TEST_NBS 1;2;3;4)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
-    add_test(NAME test_tram_buffer_${TEST_NB}
+    set(TEST test_tram_buffer_${TEST_NB})
+    add_test(NAME ${TEST}
              COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${INDEPENDENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
 endforeach ()

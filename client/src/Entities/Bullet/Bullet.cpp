@@ -6,11 +6,11 @@
 */
 
 #include "Bullet.hpp"
-#include "GameCore/GameCore.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 #include "Entities/Explosion/Explosion.hpp"
 
 #include "Component/Render.hpp"
+#include "Component/SyncSend.hpp"
 #include "Component/EntityMask.hpp"
 #include "Components/Hitbox.hpp"
 #include "Components/Position.hpp"
@@ -66,4 +66,15 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
         }
     });
     componentManager.add<Engine::Render>(entity, bullet);
+    // TODO IF MASTER
+    bool isMaster = false;
+    if (isMaster) {
+        componentManager.add<Component::SyncSend>(entity, Component::MASK::BULLET, Component::toSync::POSITION | Component::toSync::VELOCITY);
+    }
+    _entity = entity;
+}
+
+void Bullet::setNetworkId(uint32_t entityId)
+{
+    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }

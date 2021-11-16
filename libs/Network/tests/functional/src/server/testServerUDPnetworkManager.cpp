@@ -1,28 +1,29 @@
 /*
 ** EPITECH PROJECT, 2021
-** testServerTCPdataWrapper.cpp
+** testServerUDPnetworkManager.cpp
 ** File description:
-** test network TCP connection with data wrapper server side
+** test network UDP connection with data wrapper server side
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionUDP.hpp"
 #include "DataWrapper.hpp"
+#include "NetworkManager.hpp"
 #include "Tram/JoinRoom.hpp"
 #include <unordered_map>
 
 using namespace Network;
 
-static DataWrapper startServerGetData()
+static uint8_t *startServerGetData()
 {
     const std::size_t portServer(8080);
-    std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<DataWrapper> server(portServer);
-
+    std::tuple<uint8_t *, std::pair<std::string, std::size_t>> recvData;
+    std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioConnectionUDP<DataWrapper>>(portServer));
+    NetworkManager serverManager(server);
 
     while (true) {
-        recvData = server.receiveAny();
-        if (std::get<1>(recvData)) {
+        recvData = serverManager.receive();
+        if (std::get<0>(recvData)) {
             return std::get<0>(recvData);
         }
         // todo set clock to avoid infinite loop
@@ -33,26 +34,24 @@ static DataWrapper startServerGetData()
 }
 /**
  * @brief Test
- *  AsioServerTCP::startAccept()
- *  AsioServerTCP::receiveAny()
+ *  AsioConnectionUDP::startAccept()
+ *  AsioConnectionUDP::receiveAny()
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testTCPserverDataWrapperJoinRoom()
+int testUDPserverNetworkManagerJoinRoom()
 {
-    DataWrapper my_wrapper(startServerGetData());
-    Tram::JoinRoom my_data(my_wrapper.serialize());
+    Tram::JoinRoom my_data(startServerGetData());
 
-    if (my_data.roomId == 51) {
+    if (my_data.roomId == 876) {
         return 0;
     }
     return 84;
 }
 
-int testTCPserverDataWrapperGetRoomList()
+int testUDPserverNetworkManagerGetRoomList()
 {
-    DataWrapper my_wrapper(startServerGetData());
-    Tram::GetRoomList my_data{my_wrapper.serialize()};
+    Tram::GetRoomList my_data{startServerGetData()};
 
     if (my_data.nbItem == 2 && my_data.list[0] == 222 && my_data.list[1] == 444) {
         return 0;
@@ -60,10 +59,9 @@ int testTCPserverDataWrapperGetRoomList()
     return 84;
 }
 
-int testTCPserverDataWrapperCreateEntityReply()
+int testUDPserverNetworkManagerCreateEntityReply()
 {
-    DataWrapper my_wrapper(startServerGetData());
-    Tram::CreateEntityReply my_data{my_wrapper.serialize()};
+    Tram::CreateEntityReply my_data{startServerGetData()};
 
     if (my_data.roomId == 123 && my_data.accept == true && my_data.entityId == 456 && my_data.networkId == 789) {
         return 0;
@@ -71,10 +69,9 @@ int testTCPserverDataWrapperCreateEntityReply()
     return 84;
 }
 
-int testTCPserverDataWrapperCreateEntityRequest()
+int testUDPserverNetworkManagerCreateEntityRequest()
 {
-    DataWrapper my_wrapper(startServerGetData());
-    Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
+    Tram::CreateEntityRequest my_data{startServerGetData()};
 
     if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
         && my_data.timestamp == std::chrono::milliseconds(321)) {
@@ -83,10 +80,9 @@ int testTCPserverDataWrapperCreateEntityRequest()
     return 84;
 }
 
-int testTCPserverDataWrapperJoinCreateRoomReply()
+int testUDPserverNetworkManagerJoinCreateRoomReply()
 {
-    DataWrapper my_wrapper(startServerGetData());
-    Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
+    Tram::JoinCreateRoomReply my_data{startServerGetData()};
 
     if (my_data.accept == true && my_data.roomId == 123456789
         && my_data.startTimestamp == std::chrono::milliseconds(987)) {
@@ -95,7 +91,7 @@ int testTCPserverDataWrapperJoinCreateRoomReply()
     return 84;
 }
 
-int testTCPserverDataWrapperComponentSync()
+int testUDPserverNetworkManagerComponentSync()
 {
     // size_t roomId{0}
     // size_t size{0}
@@ -115,10 +111,9 @@ int testTCPserverDataWrapperComponentSync()
     return 84;
 }
 
-int testTCPserverDataWrapperDestroyEntity()
+int testUDPserverNetworkManagerDestroyEntity()
 {
-    DataWrapper my_wrapper(startServerGetData());
-    Tram::DestroyEntity my_data{my_wrapper.serialize()};
+    Tram::DestroyEntity my_data{startServerGetData()};
 
     if (my_data.roomId == 987654321 && my_data.networkId == 665544) {
         return 0;

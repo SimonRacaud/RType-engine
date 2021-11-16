@@ -32,6 +32,9 @@ std::tuple<uint8_t *, std::pair<std::string, std::size_t>> NetworkManager::recei
     std::pair<DataWrapper, std::size_t> receivedData(std::get<0>(receivedPacket), std::get<1>(receivedPacket));
     auto sender(std::make_pair(std::get<2>(receivedPacket), std::get<3>(receivedPacket)));
 
+    if (!receivedData.second) {
+        return std::make_tuple(nullptr, sender);
+    }
     if (_tramBuffers.find(sender) == _tramBuffers.end()) {
         _tramBuffers.emplace(sender, Tram::TramBuffer());
     }
@@ -49,12 +52,9 @@ setDataBuffer:
     }
     return std::make_tuple(senderTramBuffer.receiveTram(), sender);
 }
-bool NetworkManager::connect(const std::string &ip, std::size_t port)
+bool NetworkManager::connect(const std::string &ip, const std::size_t port)
 {
     if (!_connector)
         throw std::logic_error("No connector in NetworkManager");
     return _connector->connect(ip, port);
-}
-NetworkManager::~NetworkManager()
-{
 }

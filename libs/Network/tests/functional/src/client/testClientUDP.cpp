@@ -6,9 +6,8 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionUDP.hpp"
 #include "DataWrapper.hpp"
-#include <unordered_map>
 
 using namespace Network;
 
@@ -25,11 +24,7 @@ class intWrapper {
 
     [[nodiscard]] int getVal() const
     {
-        return _val;
-    }
-    [[nodiscard]] int getOtherVal() const
-    {
-        return _otherVal;
+        return _val + _otherVal;
     }
 
     [[nodiscard]] uint8_t *serialize() const
@@ -42,45 +37,37 @@ class intWrapper {
     }
     intWrapper(uint8_t *data, const std::size_t len)
     {
-        if (len != sizeof(intWrapper)) {
+        if (len != sizeof(intWrapper))
             return;
-        }
         memcpy(&_val, data, sizeof(int));
         memcpy(&_otherVal, data + sizeof(int), sizeof(int));
     }
 
   private:
-    int _val{222};
-    int _otherVal{444};
+    int _val{111};
+    int _otherVal{333};
 };
 
 /**
  * @brief Test
- *  AsioServerTCP::startAccept()
- *  AsioServerTCP::receiveAny()
+ *  AsioConnectionUDP::connect()
+ *  AsioConnectionUDP::send()
+ *  AsioConnectionUDP::disconnect()
  * @return 0 if test succeeded
  */
-int testTCPserverAcceptReceive()
+int testUDPclientConnectSendDisconnect()
 {
+    const std::size_t portClient(8081);
+    const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    std::tuple<intWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<intWrapper> server(portServer);
-    intWrapper my_var;
+    intWrapper myData(888);
+    AsioConnectionUDP<intWrapper> client(portClient);
+    usleep(300000); // wait for the server to setup
+    bool connected = client.connect(ipServer, portServer);
 
-
-    while (true) {
-        recvData = server.receiveAny();
-        if (std::get<1>(recvData)) {
-            my_var = std::get<0>(recvData);
-            if (my_var.getVal() == 888 && my_var.getOtherVal() == 333)
-                return 0;
-            else {
-                break;
-            }
-        }
-        //  todo set clock to avoid infinite loop
-        //     in shell script ?
-        //     with Clock class ?
-    }
-    return 84;
+    if (!connected)
+        return 84;
+    client.send(myData, ipServer, portServer);
+    client.disconnect(ipServer, portServer);
+    return 0;
 }

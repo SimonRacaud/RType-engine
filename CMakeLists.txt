@@ -37,6 +37,7 @@ set(CLIENT_SRCS
 
         client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
+        client/src/System/SyncSendSystem/SyncSendSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
@@ -46,6 +47,7 @@ set(CLIENT_SRCS
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
+        client/src/EntityFactory/EntityFactory.cpp
 
         client/src/Entities/Button/Button.cpp
         client/src/Entities/Player/Player.cpp

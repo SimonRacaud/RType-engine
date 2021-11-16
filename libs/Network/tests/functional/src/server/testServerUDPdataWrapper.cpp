@@ -1,12 +1,12 @@
 /*
 ** EPITECH PROJECT, 2021
-** testServerTCPdataWrapper.cpp
+** testServerUDPdataWrapper.cpp
 ** File description:
-** test network TCP connection with data wrapper server side
+** test network UDP connection with data wrapper server side
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionUDP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
 #include <unordered_map>
@@ -17,8 +17,7 @@ static DataWrapper startServerGetData()
 {
     const std::size_t portServer(8080);
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<DataWrapper> server(portServer);
-
+    AsioConnectionUDP<DataWrapper> server(portServer);
 
     while (true) {
         recvData = server.receiveAny();
@@ -33,12 +32,12 @@ static DataWrapper startServerGetData()
 }
 /**
  * @brief Test
- *  AsioServerTCP::startAccept()
- *  AsioServerTCP::receiveAny()
+ *  AsioConnectionUDP::startAccept()
+ *  AsioConnectionUDP::receiveAny()
  *  class DataWrapper
  * @return 0 if test succeeded
  */
-int testTCPserverDataWrapperJoinRoom()
+int testUDPserverDataWrapperJoinRoom()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::JoinRoom my_data(my_wrapper.serialize());
@@ -49,7 +48,7 @@ int testTCPserverDataWrapperJoinRoom()
     return 84;
 }
 
-int testTCPserverDataWrapperGetRoomList()
+int testUDPserverDataWrapperGetRoomList()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::GetRoomList my_data{my_wrapper.serialize()};
@@ -60,7 +59,7 @@ int testTCPserverDataWrapperGetRoomList()
     return 84;
 }
 
-int testTCPserverDataWrapperCreateEntityReply()
+int testUDPserverDataWrapperCreateEntityReply()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityReply my_data{my_wrapper.serialize()};
@@ -71,7 +70,7 @@ int testTCPserverDataWrapperCreateEntityReply()
     return 84;
 }
 
-int testTCPserverDataWrapperCreateEntityRequest()
+int testUDPserverDataWrapperCreateEntityRequest()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
@@ -83,7 +82,7 @@ int testTCPserverDataWrapperCreateEntityRequest()
     return 84;
 }
 
-int testTCPserverDataWrapperJoinCreateRoomReply()
+int testUDPserverDataWrapperJoinCreateRoomReply()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
@@ -95,7 +94,7 @@ int testTCPserverDataWrapperJoinCreateRoomReply()
     return 84;
 }
 
-int testTCPserverDataWrapperComponentSync()
+int testUDPserverDataWrapperComponentSync()
 {
     // size_t roomId{0}
     // size_t size{0}
@@ -115,7 +114,7 @@ int testTCPserverDataWrapperComponentSync()
     return 84;
 }
 
-int testTCPserverDataWrapperDestroyEntity()
+int testUDPserverDataWrapperDestroyEntity()
 {
     DataWrapper my_wrapper(startServerGetData());
     Tram::DestroyEntity my_data{my_wrapper.serialize()};
