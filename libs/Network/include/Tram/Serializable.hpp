@@ -31,7 +31,7 @@ namespace Tram
         JOIN_ROOM,      // server
         JOIN_ROOM_REPLY, // client
         QUIT_ROOM,      // server
-        CREATE_ENTITY,  // client, server
+        CREATE_ENTITY_REQUEST,  // client, server
         CREATE_ENTITY_REPLY, // client, server
         DESTROY_ENTITY, // client, server
         SYNC_COMPONENT  // client, server
@@ -41,7 +41,7 @@ namespace Tram
         {TramType::GET_ROOM_LIST, "GET_ROOM_LIST"}, {TramType::ROOM_LIST, "ROOM_LIST"},
         {TramType::CREATE_ROOM, "CREATE_ROOM"}, {TramType::JOIN_ROOM, "JOIN_ROOM"},
         {TramType::JOIN_ROOM_REPLY, "JOIN_ROOM_REPLY"}, {TramType::QUIT_ROOM, "QUIT_ROOM"},
-        {TramType::CREATE_ENTITY, "CREATE_ENTITY"}, {TramType::CREATE_ENTITY_REPLY, "CREATE_ENTITY_REPLY"},
+        {TramType::CREATE_ENTITY_REQUEST, "CREATE_ENTITY"}, {TramType::CREATE_ENTITY_REPLY, "CREATE_ENTITY_REPLY"},
         {TramType::DESTROY_ENTITY, "DESTROY_ENTITY"}, {TramType::SYNC_COMPONENT, "SYNC_COMPONENT"}};
     std::ostream &operator<<(std::ostream &stream, const Tram::TramType tram);
 
