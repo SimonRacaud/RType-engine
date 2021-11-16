@@ -28,7 +28,10 @@ namespace Network
             asyncReceiveAny();
         }
 
-        ~AsioConnectionUDP() = default;
+        ~AsioConnectionUDP()
+        {
+            disconnectAll();
+        };
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
@@ -36,6 +39,20 @@ namespace Network
 
             asyncReceive(ip, port);
             return true;
+        }
+
+        void disconnect(const std::string &ip, const std::size_t port) override
+        {
+            AAsioConnection<Data>::disconnect(ip, port);
+
+            this->send(Data(), ip, port);
+        }
+
+        void disconnectAll() override
+        {
+            for (const auto &item : AAsioConnection<Data>::_connections) {
+                disconnect(item.first, item.second);
+            }
         }
 
         std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override
@@ -98,7 +115,7 @@ namespace Network
                 std::bind(&AsioConnectionUDP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
                     "",
                     0)); // todo find a way to get the address of the sender
-                         //     in order to put it into ret val of receiveAny and to connec()
+                         //     in order to put it into ret val of receiveAny and to connect()
         }
 
         /**
@@ -121,10 +138,14 @@ namespace Network
         {
             if (err) {
                 if (err.value() == asio::error::misc_errors::eof) {
+                    // todo will be caught instead of the next if when disconnect() ?
                     return;
                 }
             }
             if (!receivedPacketSize) {
+                if (!ip.empty() && port) {
+                    this->disconnect(ip, port);
+                }
                 return;
             }
 
