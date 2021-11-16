@@ -49,6 +49,7 @@ namespace Network
             first = std::find(first, last, connection);
             if (first == last)
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
+            this->send(Data(), ip, port);
             AAsioConnection<Data>::disconnect(
                 connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
             if (first != last)
@@ -60,7 +61,10 @@ namespace Network
         void disconnectAll() override
         {
             AAsioConnection<Data>::disconnectAll();
-            _socketConnections.clear();
+
+            for (const auto &connection : _socketConnections) {
+                disconnect(connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
+            }
         }
 
         /**
