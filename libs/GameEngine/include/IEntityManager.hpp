@@ -33,7 +33,7 @@ namespace Engine {
         virtual void remove(ClusterName cluster) = 0;
 
         virtual bool exist(Entity entity) = 0;
-        virtual bool exist(EntityName name, ClusterName cluster) = 0;
+        virtual bool exist(EntityName name) = 0;
 
         virtual Entity getId(EntityName name) = 0;
         virtual std::size_t getClusterSize(ClusterName cluster) = 0;

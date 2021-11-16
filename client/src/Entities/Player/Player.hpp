@@ -9,19 +9,26 @@
 #define PLAYER_HPP_
 
 #include <memory>
+#include "GameCore/GameCore.hpp"
 #include "Event/IEvent.hpp"
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 #include "Item/vector2D.hpp"
 #include "Item/vector2f.hpp"
 
+using Engine::ClusterName;
+
 class Player {
 	public:
-		Player(const vector2D &position, const vector2f &size, const vector2D &hitboxSize, const std::string &sprite);
+		Player(ClusterName cluster, const vector2D &position,
+          const vector2f &size, const vector2D &hitboxSize,
+          const std::string &sprite);
 		~Player();
 
 	protected:
 	private:
+		static void hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b);
+		static bool animationPlayer(Engine::ClusterName cluster, Engine::Entity once);
 };
 
 #endif /* !PLAYER_HPP_ */

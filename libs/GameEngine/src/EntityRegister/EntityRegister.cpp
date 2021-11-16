@@ -101,20 +101,23 @@ bool EntityRegister::exist(Entity entity) const
     return true;
 }
 
-bool EntityRegister::exist(EntityName name, ClusterName cluster) const
+bool EntityRegister::exist(EntityName name) const
 {
     try {
-        Entity entity = this->getId(name);
-
-        if (_bookedEntities[entity].getCluster() == cluster) {
-            return true;
+        if (name == EntityName::EMPTY) {
+            return false;
         }
+        this->getId(name);
+        return true;
     } catch (NotFoundException const &) {}
     return false;
 }
 
 Entity EntityRegister::getId(EntityName name) const
 {
+    if (name == EntityName::EMPTY) {
+        throw NotFoundException("EntityRegister::getId Invalid entity name");
+    }
     for (auto it = _bookedEntities.begin(); it != _bookedEntities.end(); it++) {
         if (it->removed == false && it->getName() == name) {
             return it->getEntity();

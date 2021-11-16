@@ -25,6 +25,10 @@ namespace Scene
         virtual ~GameScene() = default;
 
         virtual void open();
+        void initGame() const;
+
+      private:
+        std::string _audio;
     };
 }
 

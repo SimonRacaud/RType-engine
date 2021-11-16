@@ -39,6 +39,8 @@ void ShapeManager::setSize(const vector2D &size)
 void ShapeManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_shape)
+        this->_shape->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
 }
 
 void ShapeManager::setColors(const color_e &color)
@@ -46,11 +48,11 @@ void ShapeManager::setColors(const color_e &color)
     this->_color = color;
 }
 
-void ShapeManager::draw(renderToolSfml &render)
+void ShapeManager::draw()
 {
     if (!this->_shape)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_shape.get()));
+    WindowManager::_window->draw(*(this->_shape.get()));
 }
 
 void ShapeManager::refresh()

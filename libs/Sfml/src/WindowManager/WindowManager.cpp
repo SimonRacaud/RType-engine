@@ -7,11 +7,13 @@
 
 #include "WindowManager.hpp"
 
-WindowManager::WindowManager(): _window(nullptr), _fps(0), _size(0, 0), _name("")
+std::shared_ptr<sf::RenderWindow> WindowManager::_window = nullptr;
+
+WindowManager::WindowManager(): _fps(0), _size(0, 0), _name("")
 {
 }
 
-WindowManager::WindowManager(const WindowManager &src): _window(src._window), _fps(src._fps), _size(src._size), _name(src._name)
+WindowManager::WindowManager(const WindowManager &src): _fps(src._fps), _size(src._size), _name(src._name)
 {
 }
 

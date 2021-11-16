@@ -17,8 +17,7 @@
 #include <functional>
 #include "Item/vector2f.hpp"
 
-template <typename renderTool>
-class IAnimationManager: public IMovable, public IDrawable<renderTool>
+class IAnimationManager: public IDrawable
 {
     public:
         ~IAnimationManager() = default;
@@ -29,7 +28,7 @@ class IAnimationManager: public IMovable, public IDrawable<renderTool>
         virtual void setPosition(const vector2D &) = 0;
         virtual void setSrcPath(const std::string &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
 
         virtual void refresh() = 0;
 

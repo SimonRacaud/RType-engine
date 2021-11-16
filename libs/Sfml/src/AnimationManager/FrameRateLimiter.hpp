@@ -37,8 +37,6 @@ namespace Singly
                 long double nb_nsec = 0;
                 auto start = std::chrono::steady_clock::now();
 
-                //nb_sec = std::chrono::time_point_cast<std::chrono::seconds>(
-                    //start - _lastReference);
                 nb_sec = std::chrono::duration_cast<std::chrono::seconds>(start.time_since_epoch()
                     - _lastReference.time_since_epoch()).count();
                

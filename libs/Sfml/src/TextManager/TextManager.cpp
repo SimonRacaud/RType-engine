@@ -51,11 +51,15 @@ void TextManager::setSize(const vector2D &size)
 void TextManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_text)
+        this->_text->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
 }
 
 void TextManager::setContent(const std::string &str)
 {
     this->_content = str;
+    if (_text && _font)
+        this->_text->setString(this->_content);
 }
 
 void TextManager::setFont(const std::string &name)
@@ -63,11 +67,11 @@ void TextManager::setFont(const std::string &name)
     this->_fontPath = name;
 }
 
-void TextManager::draw(renderToolSfml &render)
+void TextManager::draw()
 {
     if (!this->_text || !this->_font)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(*(this->_text.get()));
+    WindowManager::_window->draw(*(this->_text.get()));
 }
 
 void TextManager::refresh()

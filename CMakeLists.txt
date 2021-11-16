@@ -7,9 +7,11 @@
 
 cmake_minimum_required(VERSION 3.17)
 
+set(CONAN_DISABLE_CHECK_COMPILER True)
+
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(NAME_CLIENT r-type_client)
 set(NAME_SERVER r-type_server)
@@ -32,23 +34,26 @@ set(CLIENT_SRCS
         client/src/main.cpp
         client/src/ConfigFileExternal/ConfigFileExternal.cpp
         client/src/Scene/Start/StartScene.cpp
-        
+
         client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
-        
+
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
+        client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
-        
+        client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
+
         client/src/Scene/Debug/DebugScene.cpp
-        client/src/Events/TimerEvent.hpp
         client/src/GameCore/GameCore.cpp
-        
+
         client/src/Entities/Button/Button.cpp
         client/src/Entities/Player/Player.cpp
         client/src/Entities/Enemy/Enemy.cpp
         client/src/Entities/Bullet/Bullet.cpp
+        client/src/Entities/Explosion/Explosion.cpp
         client/src/Entities/ScrollingBackground/ScrollingBackground.cpp
+
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
         client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp
@@ -57,7 +62,7 @@ set(CLIENT_SRCS
         client/src/Entities/Label/Label.cpp
         client/src/Entities/Progress/ProgressBar.cpp
         client/src/Event/GUI/GuiEventManager.cpp
-        )
+        client/src/Entities/Equipment/Equipment.cpp)
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
@@ -78,19 +83,17 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
+        #./server/src/GarbageEntity/GarbageEntity.cpp
         ./server/src/GameStage/GameStage.cpp
         ./server/src/DLLoader/DLLoader.hpp
-        ##./server/src/Entities/Bullet/BulletServer.cpp
-        ##./server/src/Entities/Enemy/EnemyServer.cpp
         ./server/src/ServerCore/ServerCore.cpp
-        ./server/src/GameRoomManager/GameRoomManager.cpp
-        ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
-        ./server/src/GameRoomManager/PortManager/PortManager.cpp
+        ./server/src/EnemyLoader/EnemyLoader.cpp
+        ./server/src/StateMachine/StateMachine.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC server/src server/include)
+target_include_directories(${NAME_SERVER} PUBLIC server/src server/include lib/Network)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
@@ -108,13 +111,7 @@ set_target_properties(${NAME_SERVER}
         RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}"
         )
 
-## NETWORK (client & server)
-set(NetworkDir ${PROJECT_SOURCE_DIR}/libs/Network)
-## add_subdirectory(${NetworkDir})
-include_directories(${NetworkDir}/include)
-include_directories(${NetworkDir}/src)
-## target_link_libraries(${NAME_CLIENT} Network)
-## target_link_libraries(${NAME_SERVER} Network)
+target_link_libraries(${NAME_SERVER} ${CMAKE_DL_LIBS})
 
 ## GAME-ENGINE (client & server)
 set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
@@ -122,6 +119,13 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 target_link_libraries(${NAME_CLIENT} gameEngine)
 # target_link_libraries(${NAME_SERVER} gameEngine)
+
+## Network
+set(NetworkDir ${PROJECT_SOURCE_DIR}/libs/Network)
+add_subdirectory(${NetworkDir})
+include_directories(${NetworkDir}/include)
+target_link_libraries(${NAME_CLIENT} Network)
+target_link_libraries(${NAME_SERVER} Network)
 
 ## CONFIG_FILE (client & server)
 set(ConfigFileDir ${PROJECT_SOURCE_DIR}/libs/ConfigFile)
@@ -137,3 +141,11 @@ add_subdirectory(${SfmlDir})
 include_directories(${SfmlDir}/include)
 include_directories(${SfmlDir}/src)
 target_link_libraries(${NAME_CLIENT} Sfml)
+
+## Enemy Lib
+set(EnemyDir ${PROJECT_SOURCE_DIR}/libs/Enemies)
+
+## PataPata Lib
+add_subdirectory(${EnemyDir}/PataPata)
+include_directories(${EnemyDir}/PataPata)
+target_link_libraries(${NAME_SERVER} PataPata)

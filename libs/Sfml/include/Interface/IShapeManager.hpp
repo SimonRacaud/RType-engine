@@ -9,13 +9,10 @@
 #define ISHAPEMANAGER_HPP
 
 #include "color.hpp"
-#include "IMovable.hpp"
 #include "IDrawable.hpp"
-#include "IResizable.hpp"
 #include "Item/surface.hpp"
 
-template <typename renderTool>
-class IShapeManager: public IMovable, public IResizable, public IDrawable<renderTool>
+class IShapeManager: public IDrawable
 {
     public:
         ~IShapeManager() = default;
@@ -27,7 +24,7 @@ class IShapeManager: public IMovable, public IResizable, public IDrawable<render
 
         virtual void setColors(const color_e &) = 0;
 
-        virtual void draw(renderTool &render) = 0;
+        virtual void draw() = 0;
         // TOOLS
         virtual void refresh() = 0;
 };

@@ -22,15 +22,6 @@ namespace Engine {
 			~TimerSystem();
 
 			void run(const vector<Entity> &entities) override;
-
-			/**
-			 * @brief Set the Interval object
-			 * 
-			 * @param interval 
-			 */
-			void setInterval(const Time &interval);
-		private:
-			Time _interval;
 	};
 }
 

@@ -23,6 +23,9 @@ namespace Scene
         virtual ~DebugScene() = default;
 
         virtual void open();
+
+      private:
+        std::string _audio;
     };
 }
 

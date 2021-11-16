@@ -18,9 +18,9 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 
 Button::Button(
+    ClusterName cluster,
     const std::string &text,
     const vector2D &position,
-    const vector2D &size,
     const vector2f &scale,
     std::shared_ptr<Engine::Event::IEvent> event,
     const std::string &none,
@@ -30,7 +30,9 @@ Button::Button(
 {
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, Engine::ClusterName::START, Engine::EntityName::TEST);
+    Engine::Entity entity = entityManager.create(nullptr, cluster,
+        Engine::EntityName::EMPTY);
+    const vector2D size((scale.x), (scale.y * 0.95));
 
     std::vector<size_t> pos;
     std::vector<Engine::DrawableObj> renderList;
@@ -38,16 +40,18 @@ Button::Button(
     renderList.push_back(std::make_unique<SpriteManager>(position, scale, none));
     renderList.push_back(std::make_unique<SpriteManager>(position, scale, isOn));
     renderList.push_back(std::make_unique<SpriteManager>(position, scale, isClick));
-    renderList.push_back(std::make_unique<TextManager>(vector2D(position.x + 73 * 0.1, position.y + 30 * 0.1), size, color_e::WHITE, text, "asset/font/Code-Bold.ttf"));
+    renderList.push_back(std::make_unique<TextManager>(
+        vector2D(position.x + 73 * (0.1 * scale.x), position.y + 30 * (0.1 * scale.y)),
+        size, color_e::WHITE, text, "asset/font/Code-Pro.otf"));
     pos.push_back(3);
     pos.push_back(0);
 
     componentManager.add<Engine::Render>(entity, renderList, pos);
-    componentManager.add<Engine::InputEvent>(entity, [position, size, event](const Engine::Entity &local) {
-        if (GameCore::event->mouseIsOnClick(surface(position, vector2D(73 * size.x, 30 * size.y)), IEventManager<renderToolSfml>::keyEvent_e::MOUSE_CLICK_LEFT)) {
+    componentManager.add<Engine::InputEvent>(entity, [position, scale, event](const Engine::Entity &local) {
+        if (GameCore::event->mouseIsOnClick(surface(position, vector2D(73 * scale.x, 30 * scale.y)), IEventManager::keyEvent_e::MOUSE_CLICK_LEFT)) {
             GameCore::engine.getComponentManager().get<Engine::Render>(local).replaceLastRender(2);
             GET_EVENT_REG.registerEvent(event);
-        } else if (GameCore::event->mouseIsOn(surface(position, vector2D(73 * size.x, 30 * size.y)))) {
+        } else if (GameCore::event->mouseIsOn(surface(position, vector2D(73 * scale.x, 30 * scale.y)))) {
             GameCore::engine.getComponentManager().get<Engine::Render>(local).replaceLastRender(1);
         } else {
             GameCore::engine.getComponentManager().get<Engine::Render>(local).replaceLastRender(0);

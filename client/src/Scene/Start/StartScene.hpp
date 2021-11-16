@@ -14,7 +14,6 @@
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
-#include "Events/TimerEvent.hpp"
 
 namespace Scene
 {
@@ -25,6 +24,9 @@ namespace Scene
         virtual ~StartScene() = default;
 
         virtual void open();
+
+      private:
+        std::string _audio;
     };
 }
 

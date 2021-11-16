@@ -16,13 +16,13 @@ static const SystemPriority priority = SystemPriority::HIGH;
 PhysicsSystem::PhysicsSystem()
     : AbstractSystem<PhysicsSystem>(refreshFreq, priority)
 {
-    this->setRequirements<Position, Velocity>();
+    this->setRequirements<Engine::Position, Engine::Velocity>();
 }
 
 void PhysicsSystem::run(const std::vector<Engine::Entity> &entities)
 {
     for (const Entity &entity : entities) {
-        auto [position, velocity] = GET_COMP_M.getList<Position, Velocity>(entity);
+        auto [position, velocity] = GET_COMP_M.getList<Engine::Position, Engine::Velocity>(entity);
         position.x += velocity.x;
         position.y += velocity.y;
     }

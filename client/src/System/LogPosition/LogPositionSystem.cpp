@@ -19,13 +19,13 @@ static const Engine::Time freq = static_cast<Engine::Time>(1000);
 
 LogPositionSystem::LogPositionSystem() : Engine::AbstractSystem<LogPositionSystem>(freq, SystemPriority::LOW)
 {
-    this->setRequirements<Engine::Position, Engine::Velocity>();
+    this->setRequirements<Engine::Velocity, Engine::Velocity>();
 }
 
 void LogPositionSystem::run(const vector<Entity> &entities)
 {
     for (const Entity &entity : entities) {
-        auto [position, velocity] = GET_COMP_M.getList<Position, Velocity>(entity);
+        auto [position, velocity] = GET_COMP_M.getList<Engine::Velocity, Engine::Velocity>(entity);
 
         cerr << "Log : Entity[id=" << entity << "] " << position << " " << velocity << endl;
     }

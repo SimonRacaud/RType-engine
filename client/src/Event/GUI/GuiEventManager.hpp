@@ -12,6 +12,8 @@
 #define GUIEVENTMANAGER_HPP
 
 #include "SetProgressBarValue.hpp"
+#include "SelectPreviousScene.hpp"
+#include "SelectScene.hpp"
 #include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 
 class GuiEventManager {
@@ -20,6 +22,9 @@ class GuiEventManager {
     virtual ~GuiEventManager() = default;
 
     void setProgressBarValue(const SetProgressBarValue *evt);
+
+    void selectScene(const SelectScene *evt);
+    void selectPreviousScene(const SelectPreviousScene *);
 };
 
 #endif // GUIEVENTMANAGER_HPP

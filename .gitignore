@@ -4,7 +4,8 @@ r-type_server
 r-type_client
 cmake-build-debug
 build
-doc/*.svg
+.notes
+Testing
 
 ### C ###
 # Prerequisites

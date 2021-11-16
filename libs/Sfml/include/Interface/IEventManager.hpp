@@ -12,7 +12,6 @@
 #include "Item/vector2D.hpp"
 #include "Item/surface.hpp"
 
-template<typename renderTool>
 class IEventManager
 {
     public:
@@ -23,6 +22,7 @@ class IEventManager
             KEY_DOWN,
             KEY_LEFT,
             KEY_RIGHT,
+            KEY_SPACE,
             MOUSE_EVENT,
             MOUSE_CLICK_LEFT,
             MOUSE_CLICK_RIGHT,
@@ -33,11 +33,12 @@ class IEventManager
     public:
         ~IEventManager() = default;
         // GLOBAL
-        virtual void refresh(renderTool &) = 0;
+        virtual void refresh() = 0;
 
         // KEY
         virtual bool isKeyPressed(const keyEvent_e &) const = 0;
         virtual bool isKeyReleased(const keyEvent_e &) const = 0;
+        virtual bool isStateChange(const keyEvent_e &) const = 0;
 
         // MOUSE
         virtual vector2D getMousePos() const = 0;

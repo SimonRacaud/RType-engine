@@ -78,7 +78,7 @@ void ConfigFile::emptyManagement(std::string &line) const
 
 void ConfigFile::formatManagement(std::string &line) const
 {
-    if (!ConfigFileTools::matchWithRegex("^\"[a-zA-Z_]+\": .*$", line))
+    if (!ConfigFileTools::matchWithRegex("^\"[a-zA-Z_0-9]+\": .*$", line))
         throw std::invalid_argument("Incorrect line: " + line);
 }
 

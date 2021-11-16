@@ -46,9 +46,16 @@ void AnimationManager::setScale(const vector2f &scale)
     this->_size = scale;
 }
 
+void AnimationManager::setOffsetPosition(const vector2D &offset)
+{
+    _offsetPos = offset;
+}
+
 void AnimationManager::setPosition(const vector2D &pos)
 {
     this->_pos = pos;
+    if (_sprite && _texture)
+        this->_sprite->setPosition(sf::Vector2f(this->_pos.x + _offsetPos.x, this->_pos.y + _offsetPos.y));
 }
 
 void AnimationManager::setSrcPath(const std::string &path)
@@ -56,11 +63,11 @@ void AnimationManager::setSrcPath(const std::string &path)
     this->_path = path;
 }
 
-void AnimationManager::draw(renderToolSfml &render)
+void AnimationManager::draw()
 {
     if (!this->_sprite || !this->_texture)
         this->refresh();
-    dynamic_cast<WindowManager *>(render.get())->_window->draw(this->getNextSprite());
+    WindowManager::_window->draw(this->getNextSprite());
 }
 
 void AnimationManager::refresh()
@@ -72,7 +79,7 @@ void AnimationManager::refresh()
     if (!this->_texture->loadFromFile(this->_path))
         throw std::invalid_argument("Texture load failed " + this->_path);
     this->_sprite->setTexture(*(this->_texture.get()));
-    this->_sprite->setPosition(sf::Vector2f(this->_pos.x, this->_pos.y));
+    this->_sprite->setPosition(sf::Vector2f(this->_pos.x + _offsetPos.x, this->_pos.y + _offsetPos.y));
     if (this->_size.x && this->_size.y)
         this->_sprite->setScale(sf::Vector2f(this->_size.x, this->_size.y));
 }
@@ -130,4 +137,14 @@ surface AnimationManager::defaultMove(surface focus, size_t offset)
     size_t y = focus.pos.y;
 
     return surface(vector2D(x, y), vector2D(size_x, size_y));
+}
+
+void AnimationManager::setSize(const vector2D &)
+{
+    throw std::invalid_argument("Not already dev");
+}
+
+const vector2D &AnimationManager::getSize()
+{
+    throw std::invalid_argument("Not already dev");
 }

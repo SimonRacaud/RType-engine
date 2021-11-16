@@ -14,7 +14,7 @@
 
 namespace Engine
 {
-    using DrawableObj = std::shared_ptr<IDrawable<renderToolSfml>>;
+    using DrawableObj = std::shared_ptr<IDrawable>;
     struct Render : public BaseComponent<Render> {
         Render(DrawableObj src) : _pos({0}), _src({src}) {}
         Render(std::vector<DrawableObj> &src, const std::vector<size_t> &pos = {}) : _pos({}), _src(std::move(src))
@@ -43,7 +43,9 @@ namespace Engine
 
         void removeRender(size_t pos)
         {
-            std::remove(this->_pos.begin(), this->_pos.end(), pos);
+            for (size_t i = 0; i < _pos.size(); i++)
+                if (_pos[i] == pos)
+                    _pos.erase(_pos.begin() + i);
         }
 
         std::vector<size_t> _pos;

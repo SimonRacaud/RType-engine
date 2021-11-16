@@ -29,6 +29,9 @@ class AudioEventManager
         void volumeAudio(const AudioEventVolume *e);
 
     private:
+        static void initEvent();
+
+    private:
         std::unordered_map<std::string, std::unique_ptr<IAudioManager>> _list;
 };
 

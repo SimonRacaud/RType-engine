@@ -20,12 +20,16 @@ EventManager::EventManager(const EventManager &src): _mouse(src._mouse), _keySta
 EventManager::~EventManager()
 {
     this->_keyStackPressed.clear();
+    this->_keyStackReleased.clear();
 }
 
-void EventManager::refresh(renderToolSfml &render)
+void EventManager::refresh()
 {
+    this->_prevKeyStackPressed = this->_keyStackPressed;
+    this->_prevKeyStackReleased = this->_keyStackReleased;
     this->_keyStackPressed.clear();
-    this->fetchEvent(render);
+    this->_keyStackReleased.clear();
+    this->fetchEvent();
 }
 
 bool EventManager::isKeyPressed(const IEventManager::keyEvent_e &key) const
@@ -46,6 +50,24 @@ bool EventManager::isKeyReleased(const keyEvent_e &key) const
     auto pos = std::find(this->_keyStackReleased.begin(), this->_keyStackReleased.end(), key);
 
     return pos != this->_keyStackReleased.end();
+}
+
+bool EventManager::isStateChange(const keyEvent_e &key) const
+{
+    bool pressed = this->isKeyPressed(key);
+    bool released = this->isKeyReleased(key);
+    bool status = false;
+
+    if (pressed) {
+        auto pos = std::find(this->_prevKeyStackReleased.begin(), this->_prevKeyStackReleased.end(), key);
+
+        status = pos != this->_prevKeyStackReleased.end();
+    } else if (released) {
+        auto pos = std::find(this->_prevKeyStackPressed.begin(), this->_prevKeyStackPressed.end(), key);
+
+        status = pos != this->_prevKeyStackPressed.end();
+    }
+    return status;
 }
 
 vector2D EventManager::getMousePos() const
@@ -77,15 +99,14 @@ bool EventManager::isValideEnum(const IEventManager::keyEvent_e &key) const
     return active && !invalid;
 }
 
-void EventManager::fetchEvent(renderToolSfml &render)
+void EventManager::fetchEvent()
 {
-    auto tmp = dynamic_cast<WindowManager *>(render.get());
     sf::Event event;
     
-    while (tmp->_window->pollEvent(event)) {
+    while (WindowManager::_window->pollEvent(event)) {
         switch (event.type)
         {
-            case sf::Event::Event::Closed: tmp->close(); break;
+            case sf::Event::Event::Closed: WindowManager::_window->close(); break;
             case sf::Event::MouseMoved: this->mouseFetch(event); break;
             case sf::Event::EventType::KeyPressed: this->keyboardPressedFetch(event); break;
             case sf::Event::EventType::KeyReleased: this->keyboardReleasedFetch(event); break;

@@ -18,6 +18,7 @@
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
 #include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
+#include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
 #include "DLLoader.hpp"
 
@@ -33,12 +34,13 @@ class GameCore
     public:
         static Engine::IGameEngine &engine;
         static std::shared_ptr<IWindowManager> window;
-        static std::unique_ptr<IEventManager<renderToolSfml>> event;
+        static std::unique_ptr<IEventManager> event;
         static std::unique_ptr<ConfigFile> config;
 
     private:
         AudioEventManager _audio;
         GuiEventManager _guiEventManager;
+        EmptyClusterManager _emptyCluster;
 };
 
 #endif

@@ -14,6 +14,7 @@
     HOME,               \
     SETTINGS,           \
     ROOM_LIST,          \
+    ROOM_LIST_ITEMS,    \
     ROOM_CREATE         \
 
 #include "ClusterName.hpp"

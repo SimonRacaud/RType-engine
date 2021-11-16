@@ -28,6 +28,9 @@ EntityManager::~EntityManager() noexcept
 Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster,
     EntityName name, bool setNetworkId)
 {
+    if (this->exist(name)) {
+        throw InvalidParameterException("EntityManager::create entity name already used.");
+    }
     return _entities.create(cluster, name, destructor, setNetworkId);
 }
 
@@ -88,9 +91,9 @@ bool EntityManager::exist(Entity entity)
     return _entities.exist(entity);
 }
 
-bool EntityManager::exist(EntityName name, ClusterName cluster)
+bool EntityManager::exist(EntityName name)
 {
-    return _entities.exist(name, cluster);
+    return _entities.exist(name);
 }
 
 Entity EntityManager::getId(NetworkId id)

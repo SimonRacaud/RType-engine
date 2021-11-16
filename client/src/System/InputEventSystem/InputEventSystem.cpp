@@ -23,7 +23,7 @@ void System::InputEventSystem::run(const std::vector<Engine::Entity> &entities)
 
             eventModule._func(entity);
         }
-        GameCore::event->refresh(GameCore::window);
+        GameCore::event->refresh();
     } else {
         throw std::invalid_argument("Invalid event -> nullptr");
     }
