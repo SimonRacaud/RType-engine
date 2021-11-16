@@ -46,6 +46,7 @@ set(CLIENT_SRCS
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
+        client/src/EntityFactory/EntityFactory.cpp
 
         client/src/Entities/Button/Button.cpp
         client/src/Entities/Player/Player.cpp
