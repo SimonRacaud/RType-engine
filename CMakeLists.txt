@@ -94,6 +94,8 @@ set(SERVER_SRCS
         ./server/src/ServerCore/ServerCore.cpp
         ./server/src/EnemyLoader/EnemyLoader.cpp
         ./server/src/StateMachine/StateMachine.cpp
+
+        server/src/ServerNetworkCore/ServerNetworkCore.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
