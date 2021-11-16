@@ -21,6 +21,7 @@
 #include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
 #include "DLLoader.hpp"
+#include "ClientNetworkCore/ClientNetworkCore.hpp"
 
 class GameCore
 {
@@ -36,8 +37,8 @@ class GameCore
         static std::shared_ptr<IWindowManager> window;
         static std::unique_ptr<IEventManager> event;
         static std::unique_ptr<ConfigFile> config;
-
-    private:
+        static ClientNetworkCore networkCore;
+  private:
         AudioEventManager _audio;
         GuiEventManager _guiEventManager;
         EmptyClusterManager _emptyCluster;
