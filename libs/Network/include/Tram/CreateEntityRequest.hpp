@@ -22,27 +22,48 @@
 namespace Tram
 {
     using std::string;
-#define ENTITY_TYPE_LEN 10
+
+    #ifndef ENTITY_TYPE_LEN
+        #define ENTITY_TYPE_LEN 10
+    #endif
+    #ifndef IP_LENGTH
+        #define IP_LENGTH 129
+    #endif
 
     class CreateEntityRequest : public Serializable {
       public:
         CreateEntityRequest();
-        CreateEntityRequest(size_t roomId, uint32_t entityId, string entityType, Time timestamp);
+        // slave client -> server |or| server -> slave clients |or| master client -> server
+        CreateEntityRequest(size_t roomId, uint32_t id, string entityType, Time timestamp);
+        // (slave client ->) server -> master client
+        CreateEntityRequest(size_t roomId, uint32_t id, string entityType, Time timestamp,
+            size_t port, std::string const &ip);
+        // server -> master client
+        CreateEntityRequest(size_t roomId, string entityType, Time timestamp);
 
         size_t roomId{0};
         /**
-         * @brief private id of the entity
+         * @brief private id of the entity (slave client -> server)
+         * @brief network id of the entity (server -> slave client or master client -> server)
+         * @brief -1 if (server -> master client)
          */
-        uint32_t entityId{0};
-        /**
-         * @brief type of the entity factory ex: "player", "enemy"
-         * @brief a confirmer
-         */
-        char entityType[ENTITY_TYPE_LEN]{0};
+        int64_t id{-1};
         /**
          * @brief timestamp de creation de l'entité (rollback)
          */
         Time timestamp{};
+        /**
+         * @brief emitter client ip + post (slave client -> server -> master client)
+         */
+        size_t port{0};
+        /**
+         * @brief type of the entity factory ex: "player", "enemy"
+         */
+        char entityType[ENTITY_TYPE_LEN]{0};
+        /**
+         * \brief emitter client ip + post (slave client -> server -> master client)
+         */
+        char ip[IP_LENGTH]{0};
 
         [[nodiscard]] uint8_t *serialize() const override;
         void deserialize(uint8_t *buffer) override;

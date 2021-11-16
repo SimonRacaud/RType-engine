@@ -25,23 +25,23 @@ namespace Tram
 {
     enum class TramType {
         NONE,
-        GET_ROOM_LIST,
-        ROOM_LIST,
-        CREATE_ROOM,
-        JOIN_ROOM,
-        JOIN_ROOM_REPLY,
-        QUIT_ROOM,
-        CREATE_ENTITY,
-        CREATE_ENTITY_REPLY,
-        DESTROY_ENTITY,
-        SYNC_COMPONENT
+        GET_ROOM_LIST,  // server
+        ROOM_LIST,      // client
+        CREATE_ROOM,    // server
+        JOIN_ROOM,      // server
+        JOIN_ROOM_REPLY, // client
+        QUIT_ROOM,      // server
+        CREATE_ENTITY_REQUEST,  // client, server
+        CREATE_ENTITY_REPLY, // client, server
+        DESTROY_ENTITY, // client, server
+        SYNC_COMPONENT  // client, server
     };
 
     const std::unordered_map<TramType, std::string> TramTypeString{{TramType::NONE, "NONE"},
         {TramType::GET_ROOM_LIST, "GET_ROOM_LIST"}, {TramType::ROOM_LIST, "ROOM_LIST"},
         {TramType::CREATE_ROOM, "CREATE_ROOM"}, {TramType::JOIN_ROOM, "JOIN_ROOM"},
         {TramType::JOIN_ROOM_REPLY, "JOIN_ROOM_REPLY"}, {TramType::QUIT_ROOM, "QUIT_ROOM"},
-        {TramType::CREATE_ENTITY, "CREATE_ENTITY"}, {TramType::CREATE_ENTITY_REPLY, "CREATE_ENTITY_REPLY"},
+        {TramType::CREATE_ENTITY_REQUEST, "CREATE_ENTITY"}, {TramType::CREATE_ENTITY_REPLY, "CREATE_ENTITY_REPLY"},
         {TramType::DESTROY_ENTITY, "DESTROY_ENTITY"}, {TramType::SYNC_COMPONENT, "SYNC_COMPONENT"}};
     std::ostream &operator<<(std::ostream &stream, const Tram::TramType tram);
 
@@ -49,7 +49,7 @@ namespace Tram
     class Serializable : public Network::ISerializable {
       public:
         explicit Serializable() = default;
-        explicit Serializable(TramType type, size_t size = 0);
+        explicit Serializable(TramType type, size_t size = sizeof(Serializable));
         explicit Serializable(uint8_t *data);
 
         /**

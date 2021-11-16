@@ -60,8 +60,10 @@ void ComponentSync::deserialize(uint8_t *buffer)
 ComponentSync &ComponentSync::operator=(const ComponentSync &other)
 {
     // copy header
-    this->roomId = other.roomId;
     this->size = other.size;
+    this->type = other.type;
+    // copy body
+    this->roomId = other.roomId;
     this->networkId = other.networkId;
     this->timestamp = other.timestamp;
     this->componentType = other.componentType;

@@ -94,7 +94,7 @@ namespace Engine
          * @return shared_ptr<AbstractScene<SceneType>>
          */
         template <class SceneType>
-        shared_ptr<AbstractScene<SceneType>> get();
+        AbstractScene<SceneType> &get();
 
       private:
         /**
@@ -167,7 +167,7 @@ namespace Engine
     }
 
     template <class SceneType>
-    shared_ptr<AbstractScene<SceneType>> SceneManager::get()
+    AbstractScene<SceneType> &SceneManager::get()
     {
         this->_checkType<SceneType>();
 
@@ -177,7 +177,7 @@ namespace Engine
         if (it == _scenes.end())
             throw InvalidParameterException(
                 "Could not get pointer to non existing scene");
-        return reinterpret_cast<AbstractScene<SceneType>>(*it);
+        return *reinterpret_cast<AbstractScene<SceneType> *>((*it).get());
     }
 
     template <class SceneType> bool SceneManager::isCurrent() const

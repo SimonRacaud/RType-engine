@@ -107,8 +107,7 @@ bool EntityRegister::exist(EntityName name) const
         if (name == EntityName::EMPTY) {
             return false;
         }
-        this->getId(name);
-        return true;
+        return this->getId(name) ? true : true;
     } catch (NotFoundException const &) {}
     return false;
 }
