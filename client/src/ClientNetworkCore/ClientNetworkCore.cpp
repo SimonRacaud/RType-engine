@@ -107,9 +107,9 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
     if (data.accept == true) {
         this->_roomId = data.roomId;
         this->_engine.getSceneManager().select<Scene::GameScene>(); // Go to the game scene
-        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
-            (&this->_engine.getSceneManager().get<Scene::GameScene>())
-            );
+//        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
+//            (&this->_engine.getSceneManager().get<Scene::GameScene>())
+//            );
         //ptr->setTimeStart(data.startTimestamp); TODO => give to the game scene
     } else {
         std::cerr << "Room connection refused." << std::endl;
@@ -145,8 +145,8 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
     if ((int)data.roomId != this->_roomId) {
         return; // abort
     }
-    Engine::Entity id = this->_engine.getEntityManager().getId(data.networkId);
-    void *component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
+//    Engine::Entity id = this->_engine.getEntityManager().getId(data.networkId);
+//    void *component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
     //data.timestamp
     //ComponentRollback::apply(id, data.componentType, component); // TODO
 }
