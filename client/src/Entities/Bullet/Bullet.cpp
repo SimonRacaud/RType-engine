@@ -6,7 +6,6 @@
 */
 
 #include "Bullet.hpp"
-#include "GameCore/GameCore.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 #include "Entities/Explosion/Explosion.hpp"
 
@@ -66,4 +65,10 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
         }
     });
     componentManager.add<Engine::Render>(entity, bullet);
+    _entity = entity;
+}
+
+void Bullet::setNetworkId(uint32_t entityId)
+{
+    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }

@@ -20,6 +20,11 @@ class Equipment {
   public:
     Equipment(ClusterName cluster, const vector2D &position);
     virtual ~Equipment() = default;
+
+    void setNetworkId(uint32_t entityId);
+
+    private:
+        Engine::Entity _entity;
 };
 
 #endif // EQUIPEMENT_HPP

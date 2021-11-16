@@ -150,6 +150,12 @@ Player::Player(ClusterName cluster,
 		}
 		GET_EVENT_REG.registerEvent<NotMoving>(local);
 	});
+    _entity = entity;
+}
+
+void Player::setNetworkId(uint32_t entityId)
+{
+    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }
 
 Player::~Player()

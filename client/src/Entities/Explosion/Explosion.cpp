@@ -36,4 +36,10 @@ Explosion::Explosion(ClusterName cluster, const vector2D &pos)
         std::cout << "DESTROY -> EXPLOSION" << std::endl;
         GameCore::engine.getEntityManager().remove(a);
     });
+    _entity = entity;
+}
+
+void Explosion::setNetworkId(uint32_t entityId)
+{
+    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }

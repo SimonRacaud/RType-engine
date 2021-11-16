@@ -30,5 +30,10 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
     });
     componentManager.add<Engine::Render>(entity, enemyRender);
     componentManager.add<Component::EntityMask>(entity, Component::MASK::ENEMY);
-    
+    _entity = entity;
+}
+
+void Enemy::setNetworkId(uint32_t entityId)
+{
+    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }

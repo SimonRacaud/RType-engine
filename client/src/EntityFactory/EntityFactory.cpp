@@ -29,45 +29,45 @@ void EntityFactory::build(const std::string &entityType, uint32_t entityId)
 
 void EntityFactory::makeEnemy(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Enemy(clusterName, vector2D(0, 0), vector2D(0, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3, surface(vector2D(33, 18), vector2D(33, 18)));
+    Enemy(clusterName, vector2D(0, 0), vector2D(0, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3, surface(vector2D(33, 18), vector2D(33, 18))).setNetworkId(entityId);
 }
 
 void EntityFactory::makePlayer(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Player(clusterName, {120, 200}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    Player(clusterName, {120, 200}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif").setNetworkId(entityId);
 }
 
 void EntityFactory::makeBullet0(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Bullet(clusterName, 0, vector2D(0, 0), vector2D(0, 0));
+    Bullet(clusterName, 0, vector2D(0, 0), vector2D(0, 0)).setNetworkId(entityId);
 }
 
 void EntityFactory::makeBullet1(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Bullet(clusterName, 1, vector2D(0, 0), vector2D(0, 0));
+    Bullet(clusterName, 1, vector2D(0, 0), vector2D(0, 0)).setNetworkId(entityId);
 }
 
 void EntityFactory::makeBullet2(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Bullet(clusterName, 2, vector2D(0, 0), vector2D(0, 0));
+    Bullet(clusterName, 2, vector2D(0, 0), vector2D(0, 0)).setNetworkId(entityId);
 }
 
 void EntityFactory::makeBullet3(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Bullet(clusterName, 3, vector2D(0, 0), vector2D(0, 0));
+    Bullet(clusterName, 3, vector2D(0, 0), vector2D(0, 0)).setNetworkId(entityId);
 }
 
 void EntityFactory::makeBullet4(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Bullet(clusterName, 4, vector2D(0, 0), vector2D(0, 0));
+    Bullet(clusterName, 4, vector2D(0, 0), vector2D(0, 0)).setNetworkId(entityId);
 }
 
 void EntityFactory::makeEquipment(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Equipment(clusterName, vector2D(0, 0));
+    Equipment(clusterName, vector2D(0, 0)).setNetworkId(entityId);
 }
 
 void EntityFactory::makeExplosion(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Explosion(clusterName, vector2D(0, 0));
+    Explosion(clusterName, vector2D(0, 0)).setNetworkId(entityId);
 }

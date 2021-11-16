@@ -44,4 +44,10 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
     componentManager.add<Engine::Velocity>(entity, -1, 0);
     componentManager.add<Engine::Render>(entity, anim);
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, hit);
+    _entity = entity;
+}
+
+void Equipment::setNetworkId(uint32_t entityId)
+{
+    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }
