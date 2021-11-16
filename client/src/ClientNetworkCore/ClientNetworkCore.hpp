@@ -24,6 +24,7 @@
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
 #include "GameCore/GameCore.hpp"
+#include "EntityFactory/EntityFactory.hpp"
 
 #include "Network.hpp"
 
@@ -85,6 +86,7 @@ class ClientNetworkCore {
     Engine::IGameEngine &_engine;
     NetworkManager _tcpClient;
     NetworkManager _udpClient;
+    EntityFactory _factory;
     bool _loop{true};
     bool _isMaster{false};
     int _roomId{NO_ROOM};

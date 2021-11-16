@@ -18,7 +18,8 @@
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
     _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
-    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT)))
+    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT))),
+    _factory(Engine::ClusterName::GAME)
 {
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
     size_t serverPort = GameCore::config->getVar<size_t>("SERVER_PORT");
@@ -158,7 +159,8 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
     if ((int)data.roomId != this->_roomId) {
         return; // abort
     }
-    //EntityFactory::build(data.entityType, data.entityId) // TODO send to entity the global factory
+    // build the entity
+    this->_factory.build(data.entityType, data.id);
 }
 
 void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSync &data)
@@ -189,13 +191,11 @@ void ClientNetworkCore::receiveLoop()
         try {
             this->_receiveTcp();
         } catch (std::exception const &e) {
-            // TODO debug
             std::cerr << "ClientNetworkCore::receiveLoop TCP " << e.what() << std::endl;
         }
         try {
             this->_receiveUdp();
         } catch (std::exception const &e) {
-            // TODO debug
             std::cerr << "ClientNetworkCore::receiveLoop UDP " << e.what() << std::endl;
         }
     }
