@@ -31,6 +31,8 @@
 #include "Component/Shooting.hpp"
 #include "Component/EntityMask.hpp"
 #include "Component/InputEvent.hpp"
+#include "Component/EnemyType.hpp"
+#include "Component/SyncSend.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
@@ -74,9 +76,12 @@ void GameCore::run()
     componentManager.registerComponent<Engine::ScoreComponent>();
     componentManager.registerComponent<Engine::NumberComponent>();
     componentManager.registerComponent<Engine::EquipmentComponent>();
+    componentManager.registerComponent<Engine::SizeComponent>();
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Component::Shooting>();
     componentManager.registerComponent<Component::EntityMask>();
+    componentManager.registerComponent<Component::SyncSend>();
+    componentManager.registerComponent<Component::EnemyType>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
