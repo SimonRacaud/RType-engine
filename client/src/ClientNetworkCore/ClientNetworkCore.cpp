@@ -20,8 +20,16 @@ try : _engine(engine),
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
     size_t serverPort = GameCore::config->getVar<size_t>("SERVER_PORT");
 
-    this->_tcpClient.connect(serverIp, serverPort);
-    this->_udpClient.connect(serverIp, serverPort);
+    for (size_t count = 0; count < NB_CONNECTION_TRY; count++) {
+        try {
+            this->_tcpClient.connect(serverIp, serverPort);
+            this->_udpClient.connect(serverIp, serverPort);
+            break;
+        } catch (std::exception const &) {
+            std::cerr << "Network connection failed. Retry..." << std::endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        }
+    }
     SHOW_DEBUG("NETWORK: connected to server");
 } catch (std::exception const &e) {
     std::cerr << "ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
@@ -56,6 +64,7 @@ void ClientNetworkCore::quitRoom()
     this->_checkRoom();
     Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
     this->_udpClient.sendAll(tram);
+    this->_isMaster = false;
     SHOW_DEBUG("NETWORK: send quit room");
 }
 
@@ -111,9 +120,17 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
 //            (&this->_engine.getSceneManager().get<Scene::GameScene>())
 //            );
         //ptr->setTimeStart(data.startTimestamp); TODO => give to the game scene
+        if (data.playerNumber == 0) {
+            this->_isMaster = true;
+        }
     } else {
         std::cerr << "Room connection refused." << std::endl;
     }
+}
+
+bool ClientNetworkCore::isMaster() const
+{
+    return _isMaster;
 }
 
 void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &, Tram::CreateEntityReply &data)

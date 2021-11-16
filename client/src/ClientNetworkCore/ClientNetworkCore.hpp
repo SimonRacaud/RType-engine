@@ -28,7 +28,11 @@
 
 #include "Network.hpp"
 
+#include <chrono>
+#include <thread>
+
 #define NO_ROOM -1
+#define NB_CONNECTION_TRY 6
 
 using Network::InfoConnection;
 using IConnection = Network::IConnection<DataWrapper>;
@@ -58,6 +62,8 @@ class ClientNetworkCore {
      */
     void quit() noexcept;
 
+    bool isMaster() const;
+
   protected:
     void receiveRoomList(InfoConnection &info, Tram::GetRoomList &data);
     void receiveJoinRoomReply(InfoConnection &info, Tram::JoinCreateRoomReply &data);
@@ -81,6 +87,7 @@ class ClientNetworkCore {
     NetworkManager _tcpClient;
     NetworkManager _udpClient;
     bool _loop{true};
+    bool _isMaster{false};
     int _roomId{NO_ROOM};
 };
 
