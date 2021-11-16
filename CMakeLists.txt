@@ -121,7 +121,7 @@ set(GAME_ENGINE_DIR ${PROJECT_SOURCE_DIR}/libs/GameEngine)
 add_subdirectory(${PROJECT_SOURCE_DIR}/libs/GameEngine/)
 include_directories(${GAME_ENGINE_DIR}/include ${GAME_ENGINE_DIR}/src)
 target_link_libraries(${NAME_CLIENT} gameEngine)
-# target_link_libraries(${NAME_SERVER} gameEngine)
+target_link_libraries(${NAME_SERVER} gameEngine)
 
 ## Network
 set(NetworkDir ${PROJECT_SOURCE_DIR}/libs/Network)
