@@ -38,8 +38,8 @@ static const auto destruct = [] (Engine::Entity entity, Engine::EntityName name,
 
 void DebugScene::open()
 {
-    Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
+    //Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
+    //Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
 
     //Player p({40, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
     Player p2(this->getCluster(), {120, 200}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
@@ -76,7 +76,7 @@ void DebugScene::open()
     /**
      * Entities (must be in an entity's factory)
      */
-    Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
+    //Engine::Entity entity = entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::EMPTY, true);
 
     // entityManager.create(destruct, Engine::ClusterName::START, Engine::EntityName::TEST);
     // Engine::Entity entity2 = entityManager.create(nullptr, Engine::ClusterName::GLOBAL, Engine::EntityName::TEST);
