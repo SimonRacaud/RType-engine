@@ -188,9 +188,10 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             return info.ip == item.ip && info.port == item.port;
         });
         if (it != room->clients.end()) {
+            size_t clientIndex = (it - room->clients.begin());
             room->clients.erase(it);
             /// Remove the player on other clients:
-            // TODO
+            this->_removePlayer(room, clientIndex);
             if (room->clients.empty()) {
                 /// Close the room
                 this->_roomFreeIds.push_back(room->roomId); // the room id is free again
@@ -202,10 +203,36 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
     }
 }
 
+void ServerNetworkCore::_removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex)
+{
+    // find player network id
+    auto itPlayerNetId = std::find_if(room->clientPlayerNetworkIds.begin(), room->clientPlayerNetworkIds.end(),
+        [clientIndex](std::tuple<size_t, NetworkId> const& el) {
+            return std::get<0>(el) == clientIndex;
+        });
+
+    if (itPlayerNetId != room->clientPlayerNetworkIds.end()) {
+        // send remove request to all clients
+        NetworkId playerNetId = std::get<1>(*itPlayerNetId);
+        this->destroyEntity(room->roomId, playerNetId);
+    } else {
+        std::cerr << "ServerNetworkCore::_removePlayer Cannot remove client's player. player not found." << std::endl;
+    }
+}
+
 void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::CreateEntityReply &data)
 {
     shared_ptr<NetworkRoom> room = this->_getRoom(data.roomId);
 
+    // Intercept and Save client player's network id:
+    if (string(data.entityType) == "Player") {
+        for (size_t i = 0; i < room->clients.size(); i++) {
+            if (room->clients[i].ip == string(data.ip) && room->clients[i].port == data.port) {
+                room->clientPlayerNetworkIds.push_back(std::make_tuple(i, data.networkId));
+                break;
+            }
+        }
+    }
     if (room->masterClient == info) {
         if (data.entityId == -1) {
             // The request came from the server

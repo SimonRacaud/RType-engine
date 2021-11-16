@@ -13,9 +13,11 @@
 
 #include <stddef.h>
 #include <vector>
+#include <inttypes.h>
 #include "utils/timeDef.hpp"
 #include "InfoConnection.hpp"
 #include "Network.hpp"
+#include "global.hpp"
 
 using Network::InfoConnection;
 
@@ -30,8 +32,18 @@ struct NetworkRoom {
 
     size_t roomId;
     Time startTimestamp;
+    /**
+     * @brief main client of the game room
+     */
     InfoConnection masterClient;
+    /**
+     * @brief Client's ip + port
+     */
     std::vector<InfoConnection> clients;
+    /**
+     * @brief vector<clients index, network id>
+     */
+    std::vector<std::tuple<size_t, NetworkId>> clientPlayerNetworkIds;
 };
 
 #endif // NETWORKROOM_HPP

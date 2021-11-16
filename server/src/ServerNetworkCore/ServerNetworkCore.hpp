@@ -94,6 +94,8 @@ class ServerNetworkCore {
 
     shared_ptr<NetworkRoom> _getRoom(size_t roomId);
 
+    void _removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex);
+
   private:
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
