@@ -9,13 +9,15 @@
 */
 
 #include "ServerNetworkCore.hpp"
+#include <tuple>
 
 using namespace std;
 
 ServerNetworkCore::ServerNetworkCore()
 try :
     _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(TCP_PORT))),
-    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(UDP_PORT)))
+    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(UDP_PORT))),
+    _garbageEntity(std::make_pair(800, 800)) // TODO load from config file
 {
     this->_roomFreeIds.resize(MAX_ROOM);
     std::iota(std::begin(_roomFreeIds), std::end(_roomFreeIds), 0);
@@ -311,7 +313,8 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
             this->_tcpServer.send(data, client.ip, client.port);
         }
     }
-    // TODO : intercept position component here
+    // intercept Position component here (remove if out of bound)
+    this->_garbageEntity.processing(data, *this);
 }
 
 shared_ptr<NetworkRoom> ServerNetworkCore::_getRoom(size_t roomId)

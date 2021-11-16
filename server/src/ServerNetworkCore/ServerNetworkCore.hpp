@@ -28,6 +28,9 @@
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
 
+#include "IServerNetworkCore.hpp"
+#include "GarbageEntity/GarbageEntity.hpp"
+
 #include <vector>
 #include <memory>
 #include <numeric>
@@ -46,7 +49,7 @@ using AsioServerUDP = Network::AsioConnectionUDP<DataWrapper>;
 #define MAX_ROOM 10
 #define MAX_ROOM_CLIENT 4
 
-class ServerNetworkCore {
+class ServerNetworkCore : public IServerNetworkCore {
   public:
     ServerNetworkCore();
     virtual ~ServerNetworkCore() = default;
@@ -99,6 +102,7 @@ class ServerNetworkCore {
   private:
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
+    GarbageEntity _garbageEntity;
     bool _loop{true};
     vector<shared_ptr<NetworkRoom>> _rooms;
     vector<size_t> _roomFreeIds;
