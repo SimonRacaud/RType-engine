@@ -14,6 +14,7 @@
 #include "EngineCore.hpp"
 #include "Event/GUI/SelectScene.hpp"
 #include "CustomCluster.hpp"
+#include "GameCore/GameCore.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
@@ -22,7 +23,7 @@ try : _engine(engine),
     _factory(Engine::ClusterName::GAME)
 {
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
-    size_t serverPort = GameCore::config->getVar<size_t>("SERVER_PORT");
+    size_t serverPort = (size_t)GameCore::config->getVar<int>("SERVER_PORT");
 
     for (size_t count = 0; count < NB_CONNECTION_TRY; count++) {
         try {
@@ -36,7 +37,7 @@ try : _engine(engine),
     }
     SHOW_DEBUG("NETWORK: connected to server");
 } catch (std::exception const &e) {
-    std::cerr << "ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
+    std::cerr << "Fatal error ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
     exit(84); // TODO TUEZ LEEEE !!! WHAHAHAHAH
 }
 
@@ -127,6 +128,7 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
         if (data.playerNumber == 0) {
             this->_isMaster = true;
         }
+        // TODO save data.playerNumber for player entity factory
         // Change scene
         Engine::EngineFactory::getInstance().getEventRegister().registerEvent<SelectScene>(Engine::ClusterName::GAME);
     } else {

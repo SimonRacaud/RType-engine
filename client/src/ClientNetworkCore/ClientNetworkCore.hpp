@@ -23,8 +23,8 @@
 #include "Tram/JoinCreateRoomReply.hpp"
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
-#include "GameCore/GameCore.hpp"
 #include "EntityFactory/EntityFactory.hpp"
+#include "EngineCore.hpp"
 
 #include "Network.hpp"
 
