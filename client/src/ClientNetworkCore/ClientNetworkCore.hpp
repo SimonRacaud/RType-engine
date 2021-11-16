@@ -15,7 +15,6 @@
 #include "NetworkManager.hpp"
 #include "AsioClientTCP.hpp"
 #include "AsioConnectionUDP.hpp"
-#include "EngineCore.hpp"
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
 #include "Tram/CreateEntityRequest.hpp"

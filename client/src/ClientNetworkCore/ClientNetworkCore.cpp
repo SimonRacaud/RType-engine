@@ -11,6 +11,9 @@
 #include "ClientNetworkCore.hpp"
 #include "Scene/RoomList/RoomListScene.hpp"
 #include "Scene/Game/GameScene.hpp"
+#include "EngineCore.hpp"
+#include "Event/GUI/SelectScene.hpp"
+#include "CustomCluster.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
@@ -116,13 +119,15 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
     if (data.accept == true) {
         this->_roomId = data.roomId;
         this->_engine.getSceneManager().select<Scene::GameScene>(); // Go to the game scene
-//        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
-//            (&this->_engine.getSceneManager().get<Scene::GameScene>())
-//            );
-        //ptr->setTimeStart(data.startTimestamp); TODO => give to the game scene
+        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
+            (&this->_engine.getSceneManager().get<Scene::GameScene>())
+            );
+        ptr->setTimeStart(data.startTimestamp); // set game scene countdown
         if (data.playerNumber == 0) {
             this->_isMaster = true;
         }
+        // Change scene
+        Engine::EngineFactory::getInstance().getEventRegister().registerEvent<SelectScene>(Engine::ClusterName::GAME);
     } else {
         std::cerr << "Room connection refused." << std::endl;
     }
