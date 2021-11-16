@@ -5,8 +5,8 @@
 ** SyncSendSystem.cpp
 */
 
-#include "Component/SyncSend.hpp"
 #include "SyncSendSystem.hpp"
+#include "Component/SyncSend.hpp"
 
 System::SyncSendSystem::SyncSendSystem() : Engine::AbstractSystem<SyncSendSystem>()
 {

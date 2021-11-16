@@ -7,7 +7,7 @@
 
 #include "Player.hpp"
 #include "Component/Render.hpp"
-#include "Component/EntityMask.hpp"
+#include "Component/SyncSend.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/Hitbox.hpp"
@@ -110,7 +110,7 @@ Player::Player(ClusterName cluster,
 	componentManager.add<Engine::ScoreComponent>(entity);
 	componentManager.add<Engine::EquipmentComponent>(entity);
 	componentManager.add<Component::Shooting>(entity);
-	//componentManager.add<Engine::EntityLinkComponent>();
+	componentManager.add<Component::SyncSend>(entity, Component::MASK::PLAYER, Component::toSync::POSITION | Component::toSync::VELOCITY | Component::toSync::SCORE);
 	componentManager.add<Engine::InputEvent>(entity, [](const Engine::Entity &local) {
 		auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
 		auto &render = GET_COMP_M.get<Engine::Render>(local);
