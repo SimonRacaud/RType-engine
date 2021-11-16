@@ -13,9 +13,9 @@ JoinCreateRoomReply::JoinCreateRoomReply()
 {
 }
 
-JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp)
+JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp, int playerNumber)
     : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply)), accept(accept), roomId(roomId),
-      startTimestamp(timestamp)
+      startTimestamp(timestamp), playerNumber(playerNumber)
 {
 }
 
@@ -35,6 +35,7 @@ void JoinCreateRoomReply::deserialize(uint8_t *buffer)
     this->roomId = ptr->roomId;
     this->accept = ptr->accept;
     this->startTimestamp = ptr->startTimestamp;
+    this->playerNumber = ptr->playerNumber;
 }
 size_t JoinCreateRoomReply::length() const
 {

@@ -153,7 +153,7 @@ void ServerNetworkCore::receiveGetRoomList(InfoConnection &info)
 void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
 {
     if (this->_roomFreeIds.empty()) {
-        Tram::JoinCreateRoomReply tram(false, 0, 0);
+        Tram::JoinCreateRoomReply tram(false);
         this->_udpServer.send(tram, info.ip, info.port);
     } else {
         size_t roomId = this->_roomFreeIds.back();
@@ -171,13 +171,12 @@ void ServerNetworkCore::receiveJoinRoom(InfoConnection &info, Tram::JoinRoom &da
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
 
     if (room->clients.size() >= MAX_ROOM_CLIENT || room->startTimestamp >= GET_NOW) {
-        Tram::JoinCreateRoomReply tram(false, roomId, 0);
+        Tram::JoinCreateRoomReply tram(false, roomId);
         this->_udpServer.send(tram, info.ip, info.port);
     } else {
-        Tram::JoinCreateRoomReply tram(true, roomId, room->startTimestamp);
+        Tram::JoinCreateRoomReply tram(true, roomId, room->startTimestamp, (room->clients.size() + 1));
         this->_udpServer.send(tram, info.ip, info.port);
         room->clients.push_back(info);
-        // TODO : send player creation request
     }
 }
 
@@ -259,8 +258,13 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
 
     if (room->masterClient == info) {
         /// Request from master client
-        // TODO - if enemy => remove him ?
-        // TODO - broadcast to others clients
+        // TODO - if enemy => remove him ? (on server)
+        // => broadcast to others clients
+        for (InfoConnection const &client : room->clients) {
+            if (!(client == info)) { // not master client
+                this->_tcpServer.send(data, client.ip, client.port);
+            }
+        }
     } else {
         /// Request from slave client - Forbidden
         std::cerr << "ServerNetworkCore::receiveDestroyEntity A client is cheating ! Ignore request" << std::endl;
@@ -274,7 +278,13 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
     // From Master client : must be a component from a player entity, a bullet, equipment.
     // From Slave client : must be a component from a player entity.
 
-    // TODO : broadcast to other clients
+    // => Broadcast to other clients
+    for (InfoConnection const &client : room->clients) {
+        if (!(client == info)) { // not emitter client
+            this->_tcpServer.send(data, client.ip, client.port);
+        }
+    }
+    // TODO : intercept position component here
 }
 
 shared_ptr<NetworkRoom> ServerNetworkCore::_getRoom(size_t roomId)
