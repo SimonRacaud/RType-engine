@@ -48,6 +48,9 @@ else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()
 
+## LIB
+target_link_libraries(${NAME} ${CONAN_LIBS})
+
 ##
 ## CRITERION
 ## (c++17)
