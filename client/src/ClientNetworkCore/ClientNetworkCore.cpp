@@ -13,19 +13,19 @@
 #include "Scene/Game/GameScene.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
-    : _engine(engine)
+try : _engine(engine),
+    _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
+    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT)))
 {
-    try {
-        std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
-        size_t serverPort = GameCore::config->getVar<size_t>("SERVER_PORT");
+    std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
+    size_t serverPort = GameCore::config->getVar<size_t>("SERVER_PORT");
 
-        this->_tcpClient.connect(serverIp, serverPort);
-        this->_udpClient.connect(serverIp, serverPort);
-    } catch (std::exception const &e) {
-        std::cerr << "FATAL ERROR, server connection fail." << std::endl;
-        exit(84); // TUEZ LEEEE !!! WHAHAHAHAH
-    }
+    this->_tcpClient.connect(serverIp, serverPort);
+    this->_udpClient.connect(serverIp, serverPort);
     SHOW_DEBUG("NETWORK: connected to server");
+} catch (std::exception const &e) {
+    std::cerr << "ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
+    exit(84); // TODO TUEZ LEEEE !!! WHAHAHAHAH
 }
 
 ClientNetworkCore::~ClientNetworkCore() {}
@@ -147,6 +147,7 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
     }
     Engine::Entity id = this->_engine.getEntityManager().getId(data.networkId);
     void *component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
+    //data.timestamp
     //ComponentRollback::apply(id, data.componentType, component); // TODO
 }
 
@@ -178,7 +179,7 @@ void ClientNetworkCore::receiveLoop()
     }
 }
 
-void ClientNetworkCore::quit()
+void ClientNetworkCore::quit() noexcept
 {
     this->_loop = false;
 }
@@ -231,7 +232,7 @@ void ClientNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
             this->receiveJoinRoomReply(info, data);
             break;
         }
-        case Tram::TramType::CREATE_ENTITY: {
+        case Tram::TramType::CREATE_ENTITY_REQUEST: {
             Tram::CreateEntityRequest data;
             data.deserialize(buffer);
             this->receiveCreateEntityRequest(info, data);

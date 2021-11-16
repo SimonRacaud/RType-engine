@@ -13,6 +13,8 @@
 
 #include "InfoConnection.hpp"
 #include "NetworkManager.hpp"
+#include "AsioClientTCP.hpp"
+#include "AsioConnectionUDP.hpp"
 #include "EngineCore.hpp"
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
@@ -24,11 +26,18 @@
 #include "Tram/Serializable.hpp"
 #include "GameCore/GameCore.hpp"
 
+#include "Network.hpp"
+
 #define NO_ROOM -1
 
 using Network::InfoConnection;
+using IConnection = Network::IConnection<DataWrapper>;
+using AsioClientTCP = Network::AsioClientTCP<DataWrapper>;
+using AsioClientUDP = Network::AsioConnectionUDP<DataWrapper>;
 
 using std::to_string;
+using std::shared_ptr;
+using std::make_shared;
 
 class ClientNetworkCore {
   public:
@@ -47,7 +56,7 @@ class ClientNetworkCore {
     /**
      * @brief Stop receive loop
      */
-    void quit();
+    void quit() noexcept;
 
   protected:
     void receiveRoomList(InfoConnection &info, Tram::GetRoomList &data);
@@ -69,10 +78,10 @@ class ClientNetworkCore {
 
   private:
     Engine::IGameEngine &_engine;
-    bool _loop{true};
-    int _roomId{NO_ROOM};
     NetworkManager _tcpClient;
     NetworkManager _udpClient;
+    bool _loop{true};
+    int _roomId{NO_ROOM};
 };
 
 #endif // CLIENTNETWORKCORE_HPP
