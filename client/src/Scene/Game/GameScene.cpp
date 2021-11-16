@@ -60,20 +60,23 @@ void GameScene::open()
 
     componentManager.add<Engine::Render>(dynamicText, std::make_shared<TextManager>(position, vector2D(), color_e::WHITE, waitText, font));
     componentManager.add<Engine::Position>(dynamicText, (float)position.x, (float)position.y);
-    componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win](Engine::Entity a) {
-        static size_t i = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
+
+    ::Time timeUntilStart = !this->_timestampStart ? 0 : (GET_NOW - this->_timestampStart);
+    Engine::Entity startGame = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+    componentManager.add<Engine::Timer>(startGame, std::chrono::milliseconds(timeUntilStart), [this, timeUntilStart](Engine::Entity) {
+        GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
+            this->initGame();
+        });
+    });
+    componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win, timeUntilStart](Engine::Entity a) {
+        static size_t i = (timeUntilStart / 1000);
         Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
         Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
         std::string str(waitText + std::to_string(i));
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-
-        if (i-- == 0) {
-            GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
-                this->initGame();
-            });
-        }
+        i--;
     });
 
     // SYSTEM SELECT
@@ -106,4 +109,9 @@ void GameScene::initGame() const
         System::RenderSystem,
         System::InputEventSystem,
         System::ScrollSystem>();
+}
+
+void GameScene::setTimeStart(::Time timestamp)
+{
+    this->_timestampStart = timestamp;
 }

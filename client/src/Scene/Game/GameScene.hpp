@@ -16,6 +16,7 @@
 #include "EngineCore.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "utils/timeDef.hpp"
 
 namespace Scene
 {
@@ -27,8 +28,11 @@ namespace Scene
         virtual void open();
         void initGame() const;
 
+        void setTimeStart(Time timestamp);
+
       private:
         std::string _audio;
+        Time _timestampStart{0};
     };
 }
 
