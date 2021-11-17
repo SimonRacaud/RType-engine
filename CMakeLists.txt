@@ -44,6 +44,7 @@ set(CLIENT_SRCS
         client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
         client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
+        client/src/Event/RoomListEvent/RoomListEventManager/RoomListEventManager.cpp
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp

@@ -105,7 +105,7 @@ void GameCore::run()
     sceneManager.registerScene<Scene::GameScene>();
     sceneManager.registerScene<Scene::DebugScene>("Test");
 
-    sceneManager.select<Scene::GameScene>();
+    sceneManager.select<Scene::StartScene>();
 
     engine.exec();
 }
