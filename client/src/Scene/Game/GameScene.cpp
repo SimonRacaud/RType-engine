@@ -27,8 +27,10 @@
 #include "Event/EmptyCluster/EmptyCluster.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
-#include "System/InputEventSystem/InputEventSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
+#include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/NetworkReceive/NetworkReceiveSystem.hpp"
+#include "System/SyncSendSystem/SyncSendSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -58,7 +60,10 @@ void GameScene::open()
         System::RenderSystem,
         System::InputEventSystem,
         Engine::TimerSystem,
-        System::RenderSystem>();
+        System::ScrollSystem,
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem
+        >();
 }
 
 void GameScene::createWaitingScreen()

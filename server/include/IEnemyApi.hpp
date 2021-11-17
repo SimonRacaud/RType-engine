@@ -26,6 +26,7 @@ class IEnemyApi {
 		virtual float getShootingSpeed() const = 0;
 		virtual Component::Health &getHealth() = 0;
 		virtual Component::AnimationInfo getAnimInfo() const = 0;
+		virtual std::pair<float, float> getHitboxSize() const = 0;
 };
 
 #endif /* !IEnemyApi_HPP_ */

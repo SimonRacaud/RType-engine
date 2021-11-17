@@ -34,8 +34,10 @@
 #include "Component/EnemyType.hpp"
 #include "Component/SyncSend.hpp"
 
+#include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
+#include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
@@ -92,6 +94,8 @@ void GameCore::run()
     systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
     systemManager.registerSystem<System::ScrollSystem>();
+    systemManager.registerSystem<System::NetworkReceiveSystem>();
+    systemManager.registerSystem<System::SyncSendSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

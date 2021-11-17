@@ -22,6 +22,7 @@
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -68,7 +69,8 @@ void RoomListScene::open()
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
     systemManager.selectSystems<
         System::RenderSystem,
-        System::InputEventSystem>();
+        System::InputEventSystem,
+        System::NetworkReceiveSystem>();
 }
 
 void RoomListScene::reloadRoomList(std::vector<size_t> const &roomIdList)

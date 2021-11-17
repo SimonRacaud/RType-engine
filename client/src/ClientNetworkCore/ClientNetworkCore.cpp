@@ -189,6 +189,20 @@ void ClientNetworkCore::receiveDestroyEntity(InfoConnection &, Tram::DestroyEnti
     this->_engine.getEntityManager().remove(id);
 }
 
+void ClientNetworkCore::receive()
+{
+    try {
+        this->_receiveTcp();
+    } catch (std::exception const &e) {
+        std::cerr << "ClientNetworkCore::receiveLoop TCP " << e.what() << std::endl;
+    }
+    try {
+        this->_receiveUdp();
+    } catch (std::exception const &e) {
+        std::cerr << "ClientNetworkCore::receiveLoop UDP " << e.what() << std::endl;
+    }
+}
+
 void ClientNetworkCore::receiveLoop()
 {
     while (this->_loop) {
