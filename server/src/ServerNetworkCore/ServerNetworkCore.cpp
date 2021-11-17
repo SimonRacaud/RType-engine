@@ -240,9 +240,10 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
     if (room->masterClient == info) {
         if (data.entityId == -1) {
             // The request came from the server
-            // TODO : call game stage generator ? (must be enemy or equipment)
-
             if (data.accept == true ) {
+                if (string(data.entityType) == "Enemy") {
+                    // TODO : if enemy, call enemy manager (save network id)
+                }
                 // Broadcast entity creation to all slave clients
                 Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp);
                 for (InfoConnection const &client : room->clients) {
