@@ -11,7 +11,7 @@
 
 #include "Component/Render.hpp"
 #include "Component/SyncSend.hpp"
-#include "Component/EntityMask.hpp"
+#include "Components/EntityMask.hpp"
 #include "Components/Hitbox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"

@@ -8,7 +8,7 @@
 #ifndef ENTITYMASK_HPP_
 #define ENTITYMASK_HPP_
 
-#include "EngineCore.hpp"
+#include "BaseComponent/BaseComponent.hpp"
 
 namespace Component {
 	enum MASK {
