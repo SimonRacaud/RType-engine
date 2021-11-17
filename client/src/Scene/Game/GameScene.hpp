@@ -26,13 +26,17 @@ namespace Scene
         virtual ~GameScene() = default;
 
         virtual void open();
-        void initGame() const;
 
         void setTimeStart(Time timestamp);
+        void setPlayerNumber(int playerNumber);
+
+      private:
+        void initGame();
 
       private:
         std::string _audio;
-        Time _timestampStart{0};
+        Time _timestampStart;
+        int _playerNumber;
     };
 }
 

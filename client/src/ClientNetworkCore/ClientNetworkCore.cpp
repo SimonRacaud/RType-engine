@@ -139,7 +139,7 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
         if (data.playerNumber == 0) {
             this->_isMaster = true;
         }
-        // TODO save data.playerNumber for player entity factory
+        ptr->setPlayerNumber(data.playerNumber);
         // Change scene
         Engine::EngineFactory::getInstance().getEventRegister().registerEvent<SelectScene>(Engine::ClusterName::GAME);
     } else {

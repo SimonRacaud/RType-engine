@@ -35,7 +35,10 @@ using namespace Engine;
 using namespace std;
 
 GameScene::GameScene()
-    : Engine::AbstractScene<GameScene>(ClusterName::GAME), _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE"))
+    : Engine::AbstractScene<GameScene>(ClusterName::GAME),
+        _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE")),
+        _timestampStart(0),
+        _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
@@ -83,11 +86,18 @@ void GameScene::open()
     GameCore::engine.getSystemManager().selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem, System::RenderSystem>();
 }
 
-void GameScene::initGame() const
+void GameScene::initGame()
 {
+    const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
+
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
-    Player player(this->getCluster(), {120, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
+    this->setPlayerNumber(0); // TODO [remove] when the server is finished.
+    if (this->_playerNumber != -1) {
+        Player player(this->getCluster(), this->_playerNumber, playerPosition);
+    } else {
+        std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
+    }
     Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2),
         nullptr);
     Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
@@ -114,4 +124,9 @@ void GameScene::initGame() const
 void GameScene::setTimeStart(::Time timestamp)
 {
     this->_timestampStart = timestamp;
+}
+
+void GameScene::setPlayerNumber(int playerNumber)
+{
+    this->_playerNumber = playerNumber;
 }

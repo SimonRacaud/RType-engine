@@ -33,11 +33,6 @@ void EntityFactory::makeEnemy(Engine::ClusterName clusterName, uint32_t entityId
         surface(vector2D(33, 18), vector2D(33, 18))).setNetworkId(entityId);
 }
 
-void EntityFactory::makePlayer(Engine::ClusterName clusterName, uint32_t entityId)
-{
-    Player(clusterName, {120, 200}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif").setNetworkId(entityId);
-}
-
 void EntityFactory::makeBullet0(Engine::ClusterName clusterName, uint32_t entityId)
 {
     Bullet(clusterName, 0, vector2D(0, 0), vector2D(0, 0)).setNetworkId(entityId);
