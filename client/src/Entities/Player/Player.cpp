@@ -141,19 +141,26 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
         //TODO when adding [keybindings] change it here with GameCore setting
         if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_UP)) {
             GET_EVENT_REG.registerEvent<MoveUp>(local, speed);
-        } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
+        } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
+            GET_EVENT_REG.registerEvent<MoveDown>(local, speed);
+        }
+        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) && 
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN))) ||
+            (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
+                    (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)))) {
+            GET_EVENT_REG.registerEvent<NotMovingY>(local);
+        }
+        if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
             GET_EVENT_REG.registerEvent<MoveLeft>(local, speed);
         } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT)) {
             GET_EVENT_REG.registerEvent<MoveRight>(local, speed);
-        } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
-            GET_EVENT_REG.registerEvent<MoveDown>(local, speed);
-        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) ||
-                    GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_DOWN)) {
-            GET_EVENT_REG.registerEvent<NotMovingY>(local);
-        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) ||
-                    GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT)) {
+        }
+        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT))) ||
+                    (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
+                    (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)))) {
             GET_EVENT_REG.registerEvent<NotMovingX>(local);
-        } 
+        }
         //SHOOTING
         if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
             shooting._isCharging = true;
@@ -163,7 +170,7 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
             shooting._isCharging = false;
             render.removeRender(2);
             GET_EVENT_REG.registerEvent<SetProgressBarValue>(Engine::EntityName::BEAM_PROGRESS, 0);
-            GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);
+            GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local, Component::MASK::BULLET_PLAYER);
         } else if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE)
             && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
             auto now = std::chrono::steady_clock::now();
@@ -184,3 +191,7 @@ void Player::setNetworkId(uint32_t entityId)
     GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }
 
+Engine::Entity Player::getId() const
+{
+    return _entity;
+}

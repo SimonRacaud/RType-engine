@@ -19,8 +19,7 @@
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
     _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
-    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT))),
-    _factory(Engine::ClusterName::GAME)
+    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT)))
 {
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
     size_t serverPort = (size_t)GameCore::config->getVar<int>("SERVER_PORT");
@@ -167,13 +166,13 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
         /// Allocate a new network id, create the asked entity, send reply to the server.
         Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
         // TODO uncomment
-        //this->_factory.build(data.entityType, networkId, data.position, data.velocity, data.timestamp);
+        //GameCore::entityFactory.build(data.entityType, networkId, data.position, data.velocity, data.timestamp);
         Tram::CreateEntityReply tram(data.roomId, true, data.id, networkId, data.ip, data.port,
             data.timestamp, data.entityType, data.position, data.velocity);
     } else {
         /// Execute entity creation order
         // TODO uncomment
-        //this->_factory.build(data.entityType, data.id, data.position, data.velocity, data.timestamp);
+        //GameCore::entityFactory.build(data.entityType, data.id, data.position, data.velocity, data.timestamp);
     }
 }
 

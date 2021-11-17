@@ -113,7 +113,12 @@ void GameScene::initGame()
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
     if (this->_playerNumber != -1) {
-        Player player(this->getCluster(), this->_playerNumber, playerPosition);
+        try {
+            GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+        } catch (std::exception const &e) {
+            std::cerr << "GameScene::initGame : Fail to create player. " << e.what() << std::endl;
+            GET_EVENT_REG.registerEvent<SelectScene>(Engine::ClusterName::ROOM_LIST);
+        }
     } else {
         std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
     }
