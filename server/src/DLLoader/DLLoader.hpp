@@ -34,17 +34,9 @@ template <typename T> class DLLoader {
         LIBTYPE handle = NULL;
         T *(*instance)(void) = nullptr;
         T *ptr = NULL;
-        // const char *error = NULL;
 
         handle = OPENLIB(filePath.c_str());
-        // error = dlerror();
-        // if (!handle) {
-        //    std::cerr << "Could not retrieve handle from filepath : " <<
-        //    filePath << std::endl << "Error is : " << error << std::endl;
-        //    return nullptr;
-        //}
         *(void **) &instance = LIBFUNC(handle, entryName.c_str());
-        // error = dlerror();
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"
                       << std::endl;
@@ -53,6 +45,21 @@ template <typename T> class DLLoader {
         ptr = (instance) ();
         CLOSELIB(handle);
         return ptr;
+    }
+
+    static void getClosePoint(std::string filePath, std::string closePoint, T *ptr)
+    {
+        LIBTYPE handle = NULL;
+        void (*instance)(T *) = nullptr;
+
+        handle = OPENLIB(filePath.c_str());
+        *(void **) &instance = LIBFUNC(handle, closePoint.c_str());
+        if (!instance) {
+            std::cerr << "Could not retrieve instance from handler"
+                      << std::endl;    
+        }
+        (instance)(ptr);
+        CLOSELIB(handle);
     }
 };
 

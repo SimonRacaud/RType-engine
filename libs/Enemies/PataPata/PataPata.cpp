@@ -13,6 +13,11 @@ extern "C" {
 	PataPata *initApi() {
 		return new PataPata();
 	}
+
+	EXPORTED void closeApi(PataPata *ptr);
+	void closeApi(PataPata *ptr) {
+		delete ptr;
+	}
 }
 
 PataPata::PataPata()
@@ -67,4 +72,10 @@ Component::AnimationInfo PataPata::getAnimInfo() const
 std::pair<float, float> PataPata::getHitboxSize() const
 {
 	return std::make_pair<float, float>(25, 27);
+}
+
+void PataPata::closeApi(IEnemyApi *ptr)
+{
+	if (ptr)
+		delete reinterpret_cast<PataPata *>(ptr);
 }
