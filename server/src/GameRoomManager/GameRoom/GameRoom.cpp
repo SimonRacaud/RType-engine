@@ -47,6 +47,8 @@ void GameRoom::run()
 
     while (loop) {
         this->runStage();
+        // TODO CALL UPDATE ENEMY ACTION (POL'S METHODE)
+        // TODO SERVER SYNC
     }
 }
 
@@ -91,11 +93,13 @@ void GameRoom::factoryStage(const StageStep &step) const
     switch (step._type)
     {
         case EntityType::ENEMY:
+            // TODO CALL POL CREATE ENEMY
             std::cout << "ENEMY" << std::endl;
             break;
         case EntityType::EQUIPMENT:
+            // TODO CALL CREATE EQUIPEMENT
             std::cout << "EQUIPMENT" << std::endl;
             break;
-        default: throw std::invalid_argument(""); break;
+        default: throw std::invalid_argument("Invalid EntityType -> None register"); break;
     }
 }
