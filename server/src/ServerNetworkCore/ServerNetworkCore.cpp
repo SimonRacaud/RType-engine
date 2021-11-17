@@ -42,9 +42,7 @@ void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
-    for (Network::InfoConnection const &client : room->clients) {
-        this->_tcpServer.send(tram, client.ip, client.port);
-    }
+    this->_tcpServer.send(tram, room->masterClient.ip, room->masterClient.port);
 }
 
 void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
@@ -217,9 +215,8 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             }
             break;
         }
-} // namespace Tram
-
-        counter++;
+    }
+    counter++;
 }
 
 void ServerNetworkCore::_removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex)

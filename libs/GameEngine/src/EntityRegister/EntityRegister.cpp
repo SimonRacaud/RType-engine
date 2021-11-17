@@ -161,6 +161,11 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
     this->_bookedEntities[entity].setNetworkId(id);
 }
 
+NetworkId EntityRegister::getNetworkId()
+{
+    return _networkIdRegister.reserveId();
+}
+
 vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const
 {
     vector<Entity> list;

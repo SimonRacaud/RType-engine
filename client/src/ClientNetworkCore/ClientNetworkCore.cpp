@@ -9,7 +9,6 @@
 */
 
 #include "ClientNetworkCore.hpp"
-#include "../../../libs/GameEngine/src/Utils/SignalManager.hpp"
 #include "CustomCluster.hpp"
 #include "EngineCore.hpp"
 #include "Event/GUI/SelectScene.hpp"
@@ -164,7 +163,18 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
         return; // abort
     }
     // build the entity
-    this->_factory.build(data.entityType, data.id); // TODO data.position, data.velocity
+    if (this->isMaster()) {
+        /// Allocate a new network id, create the asked entity, send reply to the server.
+        Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
+        // TODO uncomment
+        //this->_factory.build(data.entityType, networkId, data.position, data.velocity, data.timestamp);
+        Tram::CreateEntityReply tram(data.roomId, true, data.id, networkId, data.ip, data.port,
+            data.timestamp, data.entityType, data.position, data.velocity);
+    } else {
+        /// Execute entity creation order
+        // TODO uncomment
+        //this->_factory.build(data.entityType, data.id, data.position, data.velocity, data.timestamp);
+    }
 }
 
 void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSync &data)

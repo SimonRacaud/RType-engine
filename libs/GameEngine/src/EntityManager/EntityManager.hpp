@@ -106,6 +106,11 @@ namespace Engine
          * @param networkId
          */
         void setNetworkId(Entity entity, NetworkId networkId);
+        /**
+         * @brief Generate a new network id
+         * @return
+         */
+        NetworkId getNetworkId();
 
         /**
          * @brief The network id of an entity. NotfoundException if it doesn't have one
