@@ -11,6 +11,7 @@
 #include "Exception/NotRegisteredException.hpp"
 #include <cstddef>
 #include <typeindex>
+#include <iostream>
 #include <typeinfo>
 
 #include "global.hpp"
@@ -55,7 +56,9 @@ namespace Engine
     Index BaseComponent<ComponentType>::getIndex()
     {
         if (BaseComponent<ComponentType>::_index == InvalidIndex) {
-            throw NotRegisteredException("Component not registered");
+            std::cerr << "[Game Engine] Fatal Error - Component \"" << typeid(ComponentType).name()
+                      << "\" not registered." << std::endl;
+            exit(84);
         }
         return BaseComponent<ComponentType>::_index;
     }
