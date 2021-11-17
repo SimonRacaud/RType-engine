@@ -9,21 +9,18 @@
 #define GAMEROOMMANAGER_HPP
 
 #include "GameRoom/GameRoom.hpp"
-#include "PortManager/PortManager.hpp"
 
 class GameRoomManager
 {
     public:
-        GameRoomManager(int, int);
+        GameRoomManager();
         ~GameRoomManager();
 
-        GameRoom::Id createRoom(GameRoom::PlayerList &);
-        void deleteRoom(GameRoom::Id);
+        void createRoom(size_t roomId);
+        void deleteRoom(size_t roomId);
 
     private:
-        GameRoom::Id _idReference;
         std::vector<GameRoom> _rooms;
-        PortManager _port;
 };
 
 #endif

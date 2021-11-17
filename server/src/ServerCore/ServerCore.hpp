@@ -11,6 +11,7 @@
 #include <memory>
 #include "ConfigFile.hpp"
 #include "GameRoomManager/GameRoomManager.hpp"
+#include "ServerNetworkCore/ServerNetworkCore.hpp"
 
 class ServerCore
 {
@@ -27,6 +28,7 @@ class ServerCore
 
     public:
         static std::unique_ptr<ConfigFile> config;
+        static std::unique_ptr<IServerNetworkCore> network;
 };
 
 #endif

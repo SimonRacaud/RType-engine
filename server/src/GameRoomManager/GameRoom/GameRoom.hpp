@@ -11,24 +11,16 @@
 #include <thread>
 #include <vector>
 #include <cstddef>
-
-#include "AsioServerTCP.hpp"
-#include "AsioConnectionUDP.hpp"
+#include "GameStage/GameStage.hpp"
 
 class GameRoom
 {
     public:
-        using Id = size_t;
-        using PlayerList = std::vector<int>;    // TODO CHANGE JUSt UNKNOWN FOR THE MOMENT
-        using ServerTypeTcp = int;              // Network::AsioServerTCP<1>;
-        using ServerTypeUdp = int;              // Network::AsioConnectionUDP<1>;
-
-    public:
-        GameRoom(PlayerList &player, Id id, ServerTypeTcp tcp, ServerTypeUdp udp);
+        GameRoom(size_t id);
         GameRoom(const GameRoom &);
         ~GameRoom();
 
-        Id getId() const;
+        size_t getId() const;
 
         void create();
         void run();
@@ -37,13 +29,14 @@ class GameRoom
         GameRoom &operator=(const GameRoom &);
 
     private:
-        void waitConnection();
+        void runStage();
+        void newStage();
+        void factoryStage(const StageStep &) const;
 
     private:
-        Id _id;
-        PlayerList _playerList;
-        ServerTypeTcp _tcp;
-        ServerTypeUdp _udp;
+        size_t _id;
+        GameStage _stage;
+        std::chrono::_V2::system_clock::time_point _start;
         std::thread _thread;
 };
 

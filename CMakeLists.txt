@@ -98,7 +98,6 @@ set(SERVER_SRCS
         ./server/src/StateMachine/StateMachine.cpp
         ./server/src/GameRoomManager/GameRoomManager.cpp
         ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
-        ./server/src/GameRoomManager/PortManager/PortManager.cpp
 
         server/src/ServerNetworkCore/ServerNetworkCore.cpp
         server/src/GarbageEntity/GarbageEntity.cpp
