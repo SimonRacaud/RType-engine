@@ -29,11 +29,7 @@
 
 #include "Network.hpp"
 
-#include <chrono>
-#include <thread>
-
 #define NO_ROOM -1
-#define NB_CONNECTION_TRY 6
 
 using Network::InfoConnection;
 using Network::netVector2f;
@@ -44,6 +40,8 @@ using AsioClientUDP = Network::AsioConnectionUDP<DataWrapper>;
 using std::to_string;
 using std::shared_ptr;
 using std::make_shared;
+
+#define MAX_CONNECT_TRY 5
 
 class ClientNetworkCore {
   public:
@@ -67,6 +65,8 @@ class ClientNetworkCore {
 
     bool isMaster() const;
 
+    void receiveLoop();
+
   protected:
     void receiveRoomList(InfoConnection &info, Tram::GetRoomList &data);
     void receiveJoinRoomReply(InfoConnection &info, Tram::JoinCreateRoomReply &data);
@@ -74,8 +74,6 @@ class ClientNetworkCore {
     void receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
-
-    void receiveLoop();
 
   private:
     void _receiveTcp();
