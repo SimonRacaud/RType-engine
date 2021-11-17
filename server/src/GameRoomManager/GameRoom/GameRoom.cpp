@@ -47,7 +47,7 @@ void GameRoom::run()
 
     while (loop) {
         this->runStage();
-        // TODO CALL UPDATE ENEMY ACTION (POL'S METHODE)
+        this->updateEnemy();
         // TODO SERVER SYNC
     }
 }
@@ -93,15 +93,31 @@ void GameRoom::factoryStage(const StageStep &step) const
     switch (step._type)
     {
         case EntityType::ENEMY:
-            // TODO CALL POL CREATE ENEMY
-            std::cout << "ENEMY" << std::endl;
-            ServerCore::network->createEntity(_id, "ENEMY", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
+        {
+            std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
+            ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
+        }
             break;
         case EntityType::EQUIPMENT:
-            // TODO CALL CREATE EQUIPEMENT
-            std::cout << "EQUIPMENT" << std::endl;
-            ServerCore::network->createEntity(_id, "EQUIPMENT", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
+        {
+            std::pair<int, int> velocityEquipment = ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY");
+            ServerCore::network->createEntity(_id, "Equipment", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEquipment.first, velocityEquipment.second));
+        }
             break;
-        default: throw std::invalid_argument("Invalid EntityType -> None register"); break;
+        default:
+            throw std::invalid_argument("Invalid EntityType -> None register");
+            break;
     }
+}
+
+void GameRoom::updateEnemy()
+{
+    // TODO CREATE ENEMY (POL'S METHODE)
+    // TODO CALL UPDATE ENEMY ACTION (POL'S METHODE)
+}
+
+void GameRoom::createEntityEnemy(uint32_t networkId)
+{
+    (void) networkId;
+    // TODO
 }
