@@ -32,6 +32,7 @@ namespace Scene
 
       private:
         void initGame();
+        void createWaitingScreen();
 
       private:
         std::string _audio;
