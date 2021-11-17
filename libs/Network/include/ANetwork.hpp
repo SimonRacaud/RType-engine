@@ -28,6 +28,33 @@ struct hash_pair {
 };
 #endif
 
+class myPair {
+  public:
+    myPair() = default;
+    myPair(std::string first, std::size_t second) : first(first), second(second)
+    {
+    }
+
+    ~myPair() = default;
+
+    myPair &operator=(const myPair &rhs)
+    {
+        this->first = rhs.first;
+        this->second = rhs.second;
+
+        return *this;
+    }
+
+    bool operator==(const myPair &rhs)
+    {
+        return this->first == rhs.first && this->second == rhs.second;
+    }
+
+  public:
+    std::string first;
+    std::size_t second{0};
+};
+
 namespace Network
 {
     template <PointerableUnknownLen Data> class AAsioConnection : public IConnection<Data> {
@@ -60,14 +87,12 @@ namespace Network
         {
             auto first(_connections.begin());
             auto last(_connections.end());
-            std::pair<const std::string, const std::size_t> value(ip, port);
+            myPair value(ip, port);
 
             first = std::find(first, last, value);
             if (first == last)
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            for (auto i = first; ++i != last;)
-                if (!(*i == value))
-                    (void) std::move(*i);
+            _connections.erase(first);
         }
 
         void disconnectAll() override
@@ -90,8 +115,9 @@ namespace Network
                        [=](const auto &connection) {
                            return ip == connection.first && port == connection.second;
                        })
-                    != AAsioConnection<Data>::_connections.end())
+                    != AAsioConnection<Data>::_connections.end()) {
                 return true;
+            }
             return false;
         }
 
@@ -116,9 +142,8 @@ namespace Network
         {
             while (_thread.joinable() && !AAsioConnection<Data>::_ioContext.stopped()) {
                 std::cout << "thread running" << std::endl;
-                //                _ioContext.run_one_for(std::chrono::seconds(1)); // todo might not work for big
-                //                packets
-                _ioContext.run_one();
+                _ioContext.run_one_for(std::chrono::seconds(1));
+                // todo might not work for big packets
             }
         }
 
@@ -161,7 +186,7 @@ namespace Network
         std::size_t _receivePacketSize{500};
         // todo change
 
-        ThreadSafety::LockedDeque<std::pair<const std::string, const std::size_t>> _connections;
+        ThreadSafety::LockedDeque<myPair /*std::pair<const std::string, const std::size_t>*/> _connections;
 
         // Asynchronous operations
         /**
