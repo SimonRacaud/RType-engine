@@ -91,7 +91,6 @@ void GameCore::run()
     systemManager.registerSystem<System::LogPositionSystem>();
     systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
-    systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<System::ScrollSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
