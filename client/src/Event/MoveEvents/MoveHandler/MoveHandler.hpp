@@ -15,8 +15,8 @@ void moveUp(const MoveUp *e);
 void moveDown(const MoveDown *e);
 void moveLeft(const MoveLeft *e);
 void moveRight(const MoveRight *e);
-void notMoving(const NotMoving *e);
-
+void notMovingY(const NotMovingY *e);
+void notMovingX(const NotMovingX *e);
 class MoveHandler {
 	public:
 		MoveHandler();

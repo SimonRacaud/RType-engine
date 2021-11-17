@@ -136,23 +136,26 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
     componentManager.add<Engine::InputEvent>(entity, [speed](const Engine::Entity &local) {
         auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
         auto &render = GET_COMP_M.get<Engine::Render>(local);
+        auto speed = 10;
 
         /// Player move
         //TODO when adding [keybindings] change it here with GameCore setting
         if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_UP)) {
             GET_EVENT_REG.registerEvent<MoveUp>(local, speed);
-        }
-        if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
+        } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
             GET_EVENT_REG.registerEvent<MoveLeft>(local, speed);
-        }
-        if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT)) {
+        } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT)) {
             GET_EVENT_REG.registerEvent<MoveRight>(local, speed);
-        }
-        if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
+        } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
             GET_EVENT_REG.registerEvent<MoveDown>(local, speed);
-        }
-        GET_EVENT_REG.registerEvent<NotMoving>(local);
-        /// Player shoot:
+        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) ||
+                    GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_DOWN)) {
+            GET_EVENT_REG.registerEvent<NotMovingY>(local);
+        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) ||
+                    GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT)) {
+            GET_EVENT_REG.registerEvent<NotMovingX>(local);
+        } 
+        //SHOOTING
         if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
             shooting._isCharging = true;
             render.setRender(2);
