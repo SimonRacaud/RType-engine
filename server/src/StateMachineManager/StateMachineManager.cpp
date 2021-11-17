@@ -105,3 +105,18 @@ std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> StateM
 	}
 	return allPairs;
 }
+
+
+std::vector<uint32_t> StateMachineManager::retreiveNetworkId()
+{
+	std::vector<uint32_t> allId;
+
+	for (auto machines : _loadedEnemies)
+		allId.push_back(machines._networkId);
+	return allId;
+}
+
+std::pair<Component::AnimationInfo, std::pair<float, float>> StateMachineManager::retreiveBasicComponents(const IEnemyApi *ptr)
+{
+	return std::make_pair<Component::AnimationInfo, std::pair<float, float>>(ptr->getAnimInfo(), ptr->getHitboxSize());
+}

@@ -22,10 +22,12 @@ class StateMachineManager {
 		void setMachineNetworkId(const IEnemyApi *ptr, uint32_t networkId);
 		void closeEnemyApi(IEnemyApi *ptr);
 		void runAllMachines();
+		std::vector<uint32_t> retreiveNetworkId();
 		std::vector<Engine::Position> retreivePosComponents();
 		std::vector<Engine::Velocity> retreiveVelComponents();
 		std::vector<Component::Health> retreiveHealthComponents();
 		std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> retreiveBasicComponents();
+		std::pair<Component::AnimationInfo, std::pair<float, float>> retreiveBasicComponents(const IEnemyApi *ptr);
 		std::vector<StateMachine>::iterator getMachineFromApi(const IEnemyApi *ptr);
 	protected:
 		std::vector<StateMachine> _loadedEnemies;

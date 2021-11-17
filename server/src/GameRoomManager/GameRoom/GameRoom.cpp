@@ -112,8 +112,20 @@ void GameRoom::factoryStage(const StageStep &step) const
 
 void GameRoom::updateEnemy()
 {
-    // TODO CREATE ENEMY (POL'S METHODE)
-    // TODO CALL UPDATE ENEMY ACTION (POL'S METHODE)
+    this->_stateMachine.runAllMachines();
+
+    auto listHealth = this->_stateMachine.retreiveHealthComponents();
+    auto listVel = this->_stateMachine.retreiveVelComponents();
+    auto listPos = this->_stateMachine.retreivePosComponents();
+    auto listId = this->_stateMachine.retreiveNetworkId();
+
+    if (listHealth.size() != listVel.size() || listHealth.size() != listPos.size() || listHealth.size() != listId.size())
+        throw std::invalid_argument("Invalid state machine value, vector have various size");
+    for (size_t it = 0; it < listId.size(); it++) {
+        ServerCore::network->syncComponent(_id, listId[it], typeid(Component::Health), sizeof(Component::Health), &(listHealth[it]));
+        ServerCore::network->syncComponent(_id, listId[it], typeid(Engine::Velocity), sizeof(Engine::Velocity), &(listVel[it]));
+        ServerCore::network->syncComponent(_id, listId[it], typeid(Engine::Position), sizeof(Engine::Position), &(listPos[it]));
+    }
 }
 
 void GameRoom::createEntityEnemy(uint32_t networkId)
@@ -121,9 +133,15 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
     if (!this->_enemyRequest.size())
         throw std::invalid_argument("Request enemy queue is empty, we can't create enemy");
 
+    // CREATE MACHINE
     std::string path = this->_enemyRequest.front();
     IEnemyApi *api = this->_stateMachine.loadEnemyApi(path);
 
     this->_enemyRequest.pop();
     this->_stateMachine.setMachineNetworkId(api, networkId);
+    
+    // SYNC BASIC
+    auto basic = this->_stateMachine.retreiveBasicComponents(api);
+    ServerCore::network->syncComponent(_id, networkId, typeid(Component::AnimationInfo), sizeof(Component::AnimationInfo), &(basic.first));
+    ServerCore::network->syncComponent(_id, networkId, typeid(std::pair<float, float>), sizeof(std::pair<float, float>), &(basic.second));
 }
