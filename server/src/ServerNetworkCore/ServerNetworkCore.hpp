@@ -55,7 +55,7 @@ class ServerNetworkCore : public IServerNetworkCore {
      * @param roomId
      * @param type Entity type name
      */
-    void createEntity(size_t roomId std::string, const &type);
+    void createEntity(size_t roomId, std::string const &type);
     /**
      * @brief Broadcast entity destruction request
      * @param roomId
