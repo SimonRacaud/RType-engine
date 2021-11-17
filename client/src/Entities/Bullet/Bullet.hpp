@@ -17,8 +17,9 @@ using Engine::ClusterName;
 class Bullet
 {
     public:
-        Bullet(ClusterName cluster, size_t charge, const vector2D &pos);
-        Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const vector2D &velocity);
+        Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const std::string &type);
+        Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const vector2D &velocity,
+            const std::string &type);
         ~Bullet() = default;
 
         void setNetworkId(uint32_t entityId);
