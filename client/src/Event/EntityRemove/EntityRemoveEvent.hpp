@@ -9,7 +9,7 @@
 #define ENTITYREMOVEEVENT_HPP_
 
 #include "EngineCore.hpp"
-#include "AbstractEvent/AbstractEvent.hpp"
+#include "Event/AbstractEvent/AbstractEvent.hpp"
 
 struct EntityRemoveEvent : public Engine::Event::AbstractEvent<EntityRemoveEvent> {
 		EntityRemoveEvent(Engine::Entity e) : _entity(e) {}
