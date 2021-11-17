@@ -45,10 +45,6 @@ using IConnection = Network::IConnection<DataWrapper>;
 using AsioServerTCP = Network::AsioServerTCP<DataWrapper>;
 using AsioServerUDP = Network::AsioConnectionUDP<DataWrapper>;
 
-// Add that to the config file
-#define MAX_ROOM 10
-#define MAX_ROOM_CLIENT 4
-
 class ServerNetworkCore : public IServerNetworkCore {
   public:
     ServerNetworkCore();
@@ -102,6 +98,7 @@ class ServerNetworkCore : public IServerNetworkCore {
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
     GarbageEntity _garbageEntity;
+    size_t _maxRoomClient;
     bool _loop{true};
     vector<shared_ptr<NetworkRoom>> _rooms;
     vector<size_t> _roomFreeIds;

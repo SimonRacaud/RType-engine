@@ -93,6 +93,7 @@ set(SERVER_SRCS
         ./server/src/GameStage/GameStage.cpp
         ./server/src/DLLoader/DLLoader.hpp
         ./server/src/ServerCore/ServerCore.cpp
+        ./server/src/ServerCore/ConfigFileExternal/ConfigFileExternal.cpp
         ./server/src/EnemyLoader/EnemyLoader.cpp
         ./server/src/StateMachine/StateMachine.cpp
         ./server/src/GameRoomManager/GameRoomManager.cpp

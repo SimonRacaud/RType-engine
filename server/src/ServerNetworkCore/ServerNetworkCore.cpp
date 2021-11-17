@@ -8,18 +8,20 @@
 ** \date 15/11/2021
 */
 
-#include "ServerNetworkCore.hpp"
 #include <tuple>
+#include "ServerNetworkCore.hpp"
+#include "ServerCore/ServerCore.hpp"
 
 using namespace std;
 
 ServerNetworkCore::ServerNetworkCore()
 try :
-    _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(TCP_PORT))),
-    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(UDP_PORT))),
-    _garbageEntity(std::make_pair(800, 800)) // TODO load from config file
+    _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(ServerCore::config->getVar<int>("PORT_TCP")))),
+    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(ServerCore::config->getVar<int>("PORT_UDP")))),
+    _garbageEntity(ServerCore::config->getVar<std::pair<int, int>>("WINDOW_SIZE")),
+    _maxRoomClient(ServerCore::config->getVar<int>("MAX_CLIENT_ROOM"))
 {
-    this->_roomFreeIds.resize(MAX_ROOM);
+    this->_roomFreeIds.resize(ServerCore::config->getVar<int>("ROOM_MAX"));
     std::iota(std::begin(_roomFreeIds), std::end(_roomFreeIds), 0);
 } catch (std::exception const &e) {
     std::cerr << "FATAL ERROR : network server connection init failed. " << e.what() << std::endl;
@@ -172,7 +174,7 @@ void ServerNetworkCore::receiveJoinRoom(InfoConnection &info, Tram::JoinRoom &da
     size_t roomId = data.roomId;
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
 
-    if (room->clients.size() >= MAX_ROOM_CLIENT || room->startTimestamp >= GET_NOW) {
+    if (room->clients.size() >= _maxRoomClient || room->startTimestamp >= GET_NOW) {
         Tram::JoinCreateRoomReply tram(false, roomId);
         this->_udpServer.send(tram, info.ip, info.port);
     } else {
