@@ -202,7 +202,6 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
 } // namespace Tram
 
         counter++;
-    }
 }
 
 void ServerNetworkCore::_removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex)
