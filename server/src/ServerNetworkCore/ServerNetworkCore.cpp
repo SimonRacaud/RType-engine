@@ -28,10 +28,11 @@ try :
     exit(84); // TODO : to improve
 }
 
-void ServerNetworkCore::createEntity(size_t roomId, NetworkId id, const std::string &type)
+void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
+    netVector2f const& position, netVector2f const& velocity)
 {
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
-    Tram::CreateEntityRequest tram(roomId, id, type, GET_NOW);
+    Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
     for (Network::InfoConnection const &client : room->clients) {
         this->_tcpServer.send(tram, client.ip, client.port);
@@ -245,7 +246,8 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
                     // TODO : if enemy, call enemy manager (save network id)
                 }
                 // Broadcast entity creation to all slave clients
-                Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp);
+                Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp,
+                    data.position, data.velocity);
                 for (InfoConnection const &client : room->clients) {
                     if (!(client == info)) { // not master client
                         this->_tcpServer.send(data, client.ip, client.port);
@@ -279,7 +281,7 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
         /// Request from slave client
         // => redirect to master client
         Tram::CreateEntityRequest tram(data.roomId, data.id, data.entityType,
-            data.timestamp, info.port, info.ip);
+            data.timestamp, info.port, info.ip, data.position, data.velocity);
         this->_tcpServer.send(tram, room->masterClient.ip, room->masterClient.port);
     }
 }

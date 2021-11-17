@@ -29,7 +29,8 @@ void EntityFactory::build(const std::string &entityType, uint32_t entityId)
 
 void EntityFactory::makeEnemy(Engine::ClusterName clusterName, uint32_t entityId)
 {
-    Enemy(clusterName, vector2D(0, 0), vector2D(0, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3, surface(vector2D(33, 18), vector2D(33, 18))).setNetworkId(entityId);
+    Enemy(clusterName, vector2D(0, 0), vector2D(0, 0), vector2f(1, 1), "asset/sprites/r-typesheet42.gif", 3,
+        surface(vector2D(33, 18), vector2D(33, 18))).setNetworkId(entityId);
 }
 
 void EntityFactory::makePlayer(Engine::ClusterName clusterName, uint32_t entityId)

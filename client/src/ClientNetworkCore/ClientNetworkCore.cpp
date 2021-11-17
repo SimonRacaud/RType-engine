@@ -9,12 +9,21 @@
 */
 
 #include "ClientNetworkCore.hpp"
-#include "Scene/RoomList/RoomListScene.hpp"
-#include "Scene/Game/GameScene.hpp"
+#include "../../../libs/GameEngine/src/Utils/SignalManager.hpp"
+#include "CustomCluster.hpp"
 #include "EngineCore.hpp"
 #include "Event/GUI/SelectScene.hpp"
-#include "CustomCluster.hpp"
 #include "GameCore/GameCore.hpp"
+#include "Scene/Game/GameScene.hpp"
+#include "Scene/RoomList/RoomListScene.hpp"
+#include <signal.h>
+
+static int connectionLoop = true;
+
+static void sig_handler(int) {
+    std::cerr << "STOP." << std::endl;
+    connectionLoop = false;
+}
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
@@ -25,15 +34,16 @@ try : _engine(engine),
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
     size_t serverPort = (size_t)GameCore::config->getVar<int>("SERVER_PORT");
 
-    for (size_t count = 0; count < NB_CONNECTION_TRY; count++) {
-        try {
-            this->_tcpClient.connect(serverIp, serverPort);
-            this->_udpClient.connect(serverIp, serverPort);
-            break;
-        } catch (std::exception const &) {
-            std::cerr << "Network connection failed. Retry..." << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-        }
+    signal(SIGINT, sig_handler); // TODO check windows with Pol
+    bool loop = true;
+    size_t count;
+    for (count = 0; loop && connectionLoop && count <= MAX_CONNECT_TRY; count++) {
+        break; // TODO : remove that line when the server is ready
+        loop = this->_tcpClient.connect(serverIp, serverPort);
+        loop = loop || this->_udpClient.connect(serverIp, serverPort);
+    }
+    if (!connectionLoop || count == MAX_CONNECT_TRY) {
+        throw std::runtime_error("No server connection. Exit.");
     }
     SHOW_DEBUG("NETWORK: connected to server");
 } catch (std::exception const &e) {
@@ -73,11 +83,12 @@ void ClientNetworkCore::quitRoom()
     SHOW_DEBUG("NETWORK: send quit room");
 }
 
-void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type)
+void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type,
+    netVector2f const &position, netVector2f const& velocity)
 {
     this->_checkRoom();
     long int timestamp = GET_NOW;
-    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp);
+    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp, position, velocity);
     this->_tcpClient.sendAll(tram);
     SHOW_DEBUG("NETWORK: send create entity");
 }
@@ -162,7 +173,7 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
         return; // abort
     }
     // build the entity
-    this->_factory.build(data.entityType, data.id);
+    this->_factory.build(data.entityType, data.id); // TODO data.position, data.velocity
 }
 
 void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSync &data)
