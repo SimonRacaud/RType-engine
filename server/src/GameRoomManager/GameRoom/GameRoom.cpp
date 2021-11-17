@@ -93,14 +93,20 @@ void GameRoom::factoryStage(const StageStep &step) const
     switch (step._type)
     {
         case EntityType::ENEMY:
+        {
             // TODO CALL POL CREATE ENEMY
-            auto velocity = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY")
-            ServerCore::network->createEntity(_id, "ENEMY", netVector2f(step._pos.first, step._pos.second), netVector2f(velocity.x, velocity.y));
+            std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
+            ServerCore::network->createEntity(_id, "ENEMY", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
+        }
             break;
         case EntityType::EQUIPMENT:
-            auto velocity = ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY")
-            ServerCore::network->createEntity(_id, "EQUIPMENT", netVector2f(step._pos.first, step._pos.second), netVector2f(velocity.x, velocity.y));
+        {
+            std::pair<int, int> velocityEquipment = ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY");
+            ServerCore::network->createEntity(_id, "EQUIPMENT", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEquipment.first, velocityEquipment.second));
+        }
             break;
-        default: throw std::invalid_argument("Invalid EntityType -> None register"); break;
+        default:
+            throw std::invalid_argument("Invalid EntityType -> None register");
+            break;
     }
 }
