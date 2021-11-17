@@ -11,15 +11,15 @@
 
 using namespace Network;
 
-class intWrapper {
+class intWrapperTCP {
   public:
-    intWrapper() = default;
-    explicit intWrapper(int val) : _val(val){};
-    ~intWrapper() = default;
+    intWrapperTCP() = default;
+    explicit intWrapperTCP(int val) : _val(val){};
+    ~intWrapperTCP() = default;
 
     [[nodiscard]] std::size_t length() const
     {
-        return sizeof(intWrapper);
+        return sizeof(intWrapperTCP);
     }
 
     [[nodiscard]] int getVal() const
@@ -29,15 +29,15 @@ class intWrapper {
 
     [[nodiscard]] uint8_t *serialize() const
     {
-        auto data(new uint8_t[sizeof(intWrapper)]);
+        auto data(new uint8_t[sizeof(intWrapperTCP)]);
 
         memcpy(data, &_val, sizeof(int));
         memcpy(data + sizeof(int), &_otherVal, sizeof(int));
         return data;
     }
-    intWrapper(uint8_t *data, const std::size_t len)
+    intWrapperTCP(uint8_t *data, const std::size_t len)
     {
-        if (len != sizeof(intWrapper))
+        if (len != sizeof(intWrapperTCP))
             return;
         memcpy(&_val, data, sizeof(int));
         memcpy(&_otherVal, data + sizeof(int), sizeof(int));
@@ -59,8 +59,8 @@ int testTCPclientConnectSendDisconnect()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    intWrapper myData(888);
-    AsioClientTCP<intWrapper> client;
+    intWrapperTCP myData(888);
+    AsioClientTCP<intWrapperTCP> client;
     usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
 

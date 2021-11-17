@@ -27,9 +27,6 @@ static uint8_t *startServerGetData()
         if (std::get<0>(recvData)) {
             return std::get<0>(recvData);
         }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
     }
     exit(84);
 }
@@ -121,5 +118,3 @@ int testTCPserverNetworkManagerDestroyEntity()
     }
     return 84;
 }
-
-// todo test all Trams

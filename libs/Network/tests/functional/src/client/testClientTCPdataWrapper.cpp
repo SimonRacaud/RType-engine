@@ -90,5 +90,3 @@ int testTCPclientDataWrapperDestroyEntity()
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
-
-// todo test all Trams
