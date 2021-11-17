@@ -90,7 +90,7 @@ void Player::configAppearance(Entity entity, vector2D const &position, Engine::C
     std::vector<size_t> ps;
     std::vector<Engine::DrawableObj> renderList;
     std::shared_ptr<AnimationManager> anim = std::make_shared<AnimationManager>();
-    vector2D playerEntitySize(33, 17);
+    vector2D playerEntitySize = GameCore::config->getVar<vector2D>("PLAYER_SPRITE_SIZE");
 
     if (playerNumber > 4) {
         throw std::invalid_argument("Player::configAppearance invalid player id number");

@@ -38,6 +38,7 @@
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
+#include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
@@ -96,6 +97,7 @@ void GameCore::run()
     systemManager.registerSystem<System::ScrollSystem>();
     systemManager.registerSystem<System::NetworkReceiveSystem>();
     systemManager.registerSystem<System::SyncSendSystem>();
+    systemManager.registerSystem<System::OutofBoundsSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

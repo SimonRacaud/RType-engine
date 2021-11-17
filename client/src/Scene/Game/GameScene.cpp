@@ -31,6 +31,7 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
+#include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -137,7 +138,8 @@ void GameScene::initGame()
         Engine::PhysicsSystem,
         System::RenderSystem,
         System::InputEventSystem,
-        System::ScrollSystem>();
+        System::ScrollSystem,
+        System::OutofBoundsSystem>();
 }
 
 void GameScene::setTimeStart(::Time timestamp)
