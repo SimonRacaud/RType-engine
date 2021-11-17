@@ -63,3 +63,8 @@ Component::AnimationInfo PataPata::getAnimInfo() const
 {
 	return Component::AnimationInfo("asset/sprites/r-typesheet5.gif", 8, {4, 5}, {25, 27});
 }
+
+std::pair<float, float> PataPata::getHitboxSize() const
+{
+	return std::make_pair<float, float>(25, 27);
+}

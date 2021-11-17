@@ -45,7 +45,7 @@ class PataPata : public IEnemyApi {
 		virtual float getShootingSpeed() const;
 		virtual Component::Health &getHealth();
 		virtual Component::AnimationInfo getAnimInfo() const;
-	
+		virtual std::pair<float, float> getHitboxSize() const;
 		private:
 			Engine::Position _position;
 			Engine::Velocity _velocity;

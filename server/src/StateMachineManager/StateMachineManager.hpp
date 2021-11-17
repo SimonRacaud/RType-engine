@@ -26,7 +26,7 @@ class StateMachineManager {
 		std::vector<Engine::Position> retreivePosComponents();
 		std::vector<Engine::Velocity> retreiveVelComponents();
 		std::vector<Component::Health> retreiveHealthComponents();
-		void retreiveBasicComponents();
+		std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> retreiveBasicComponents();
 		StateMachine getMachineFromApi(const IEnemyApi *ptr);
 	protected:
 		std::vector<StateMachine> _loadedEnemies;

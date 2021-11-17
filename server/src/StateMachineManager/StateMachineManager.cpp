@@ -72,20 +72,37 @@ void StateMachineManager::retreiveSynComponents()
 
 std::vector<Engine::Position> StateMachineManager::retreivePosComponents()
 {
+	std::vector<Engine::Position> allPos;
 
+	for (auto machines : _loadedEnemies)
+		allPos.push_back(machines._enemyApi->getPosition());
+	return allPos;
 }
 
 std::vector<Engine::Velocity> StateMachineManager::retreiveVelComponents()
 {
+	std::vector<Engine::Velocity> allVel;
 
+	for (auto machines : _loadedEnemies)
+		allVel.push_back(machines._enemyApi->getVelocity());
+	return allVel;
 }
 
 std::vector<Component::Health> StateMachineManager::retreiveHealthComponents()
 {
+	std::vector<Component::Health> allHealth;
 
+	for (auto machines : _loadedEnemies)
+		allHealth.push_back(machines._enemyApi->getHealth());
+	return allHealth;
 }
 
-void StateMachineManager::retreiveBasicComponents()
+std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> StateMachineManager::retreiveBasicComponents()
 {
+	std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> allPairs;
 
+	for (auto machines : _loadedEnemies) {
+		allPairs.push_back(std::make_pair<Component::AnimationInfo, std::pair<float, float>>(machines._enemyApi->getAnimInfo(), machines._enemyApi->getHitboxSize()));
+	}
+	return allPairs;
 }
