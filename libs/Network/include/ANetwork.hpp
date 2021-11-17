@@ -66,7 +66,7 @@ namespace Network
 
         virtual ~AAsioConnection()
         {
-            delete _recvBuf.first;
+            delete[] _recvBuf.first;
             stopRunAsync();
             disconnectAll();
         }
