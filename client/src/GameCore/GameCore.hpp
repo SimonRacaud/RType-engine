@@ -19,7 +19,7 @@
 #include "WindowManager/WindowManager.hpp"
 #include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
 #include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
-#include "Event/RoomListEvent/RoomListEventManager/RoomListEventManager.hpp"
+#include "Event/NetworkEvent/NetworkEventManager/NetworkEventManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
 #include "DLLoader.hpp"
 #include "ClientNetworkCore/ClientNetworkCore.hpp"
@@ -43,7 +43,7 @@ class GameCore
         static EntityFactory entityFactory;
   private:
         AudioEventManager _audio;
-        RoomListEventManager _room;
+        NetworkEventManager _network;
         GuiEventManager _guiEventManager;
         EmptyClusterManager _emptyCluster;
 };

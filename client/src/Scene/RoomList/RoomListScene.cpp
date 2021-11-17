@@ -19,7 +19,7 @@
 
 #include "Event/GUI/SelectPreviousScene.hpp"
 #include "Event/GUI/SelectScene.hpp"
-#include "Event/RoomListEvent/RoomListEventRefresh.hpp"
+#include "Event/NetworkEvent/RoomListEventRefresh.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
@@ -54,11 +54,12 @@ void RoomListScene::open()
     ImageView listBack(listBackgroundPath, vector2D(50, 170), vector2f(1, 1),
         this->getCluster());
 
-    std::vector<size_t> roomList;// = {0, 1, 2, 3, 42, 5}; // TODO get through the network
+    std::vector<size_t> roomList;
     this->reloadRoomList(roomList);
+    GameCore::networkCore.getRoomList();
 
     Button refresh(this->getCluster(), "REFRESH", vector2D(320, 600),
-        vector2f(2, 2), std::make_shared<RoomListEventRefresh>()); // TODO button event
+        vector2f(2, 2), std::make_shared<RoomListEventRefresh>());
     // footer
     Label mentionLabel(this->getCluster(), mention, vector2D(290, 780),
         vector2D(1, 1), color_e::GREEN);
