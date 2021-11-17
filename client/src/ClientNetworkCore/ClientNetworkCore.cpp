@@ -165,14 +165,13 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
     if (this->isMaster()) {
         /// Allocate a new network id, create the asked entity, send reply to the server.
         Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
-        // TODO uncomment
-        //GameCore::entityFactory.build(data.entityType, networkId, data.position, data.velocity, data.timestamp);
+        data.id = networkId;
+        GameCore::entityFactory.build(data);
         Tram::CreateEntityReply tram(data.roomId, true, data.id, networkId, data.ip, data.port,
             data.timestamp, data.entityType, data.position, data.velocity);
     } else {
         /// Execute entity creation order
-        // TODO uncomment
-        //GameCore::entityFactory.build(data.entityType, data.id, data.position, data.velocity, data.timestamp);
+        GameCore::entityFactory.build(data);
     }
 }
 
