@@ -6,16 +6,16 @@
 */
 
 #include "ServerCore.hpp"
+#include "ConfigFileExternal/ConfigFileExternal.hpp"
 
 std::unique_ptr<ConfigFile> ServerCore::config = std::make_unique<ConfigFile>("server.config");
 
 ServerCore::ServerCore() :
 _loop(true),
-_rooms(ServerCore::config->getVar<int>("PORT_PAGE_START"), ServerCore::config->getVar<int>("PORT_PAGE_END"))
+_rooms(0, 1)
 {
-    int port = config->getVar<int>("PORT_MAIN_SERVER");
+    config->setVarGetter<std::pair<int, int>>(ConfigFileExternal::getPairIntInt);
 
-    (void) port;
     // TODO create TCP server with port var
 }
 
