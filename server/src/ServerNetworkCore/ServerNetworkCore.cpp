@@ -199,6 +199,8 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             }
             break;
         }
+} // namespace Tram
+
         counter++;
     }
 }

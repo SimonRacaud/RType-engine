@@ -9,12 +9,22 @@
 #define STATEMACHINEMANAGER_HPP_
 
 #include "StateMachine/StateMachine.hpp"
+#include "Exception/RuntimeException.hpp"
+#include "DLLoader/DLLoader.hpp"
 
 class StateMachineManager {
 	public:
 		StateMachineManager();
 		~StateMachineManager();
-
+		
+		IEnemyApi *loadEnemyApi(const std::string &path);
+		void loadAllApiInFolder(const std::string folder);
+		void setMachineNetworkId(const IEnemyApi *ptr, uint32_t networkId);
+		void closeEnemyApi(IEnemyApi *ptr);
+		void runAllMachines();
+		void retreiveSynComponents();
+		void retreiveBasicComponents();
+		StateMachine getMachineFromApi(const IEnemyApi *ptr);
 	protected:
 		std::vector<StateMachine> _loadedEnemies;
 	private:
