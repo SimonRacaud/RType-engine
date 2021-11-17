@@ -5,12 +5,12 @@
 ** GameCore.cpp
 */
 
-#include "GameCore.hpp"
 
 #include <iostream>
-#include "global.hpp"
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
+#include "GameCore.hpp"
+#include "global.hpp"
 
 #include "ConfigFileExternal/ConfigFileExternal.hpp"
 
@@ -48,6 +48,7 @@ std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManage
 std::unique_ptr<IEventManager> GameCore::event = std::make_unique<EventManager>();
 std::unique_ptr<ConfigFile> GameCore::config = std::make_unique<ConfigFile>("client.config");
 ClientNetworkCore GameCore::networkCore = ClientNetworkCore(GameCore::engine);
+EntityFactory GameCore::entityFactory = EntityFactory(Engine::ClusterName::GAME);
 
 GameCore::GameCore()
 {

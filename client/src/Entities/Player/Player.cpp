@@ -161,7 +161,7 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
             shooting._isCharging = false;
             render.removeRender(2);
             GET_EVENT_REG.registerEvent<SetProgressBarValue>(Engine::EntityName::BEAM_PROGRESS, 0);
-            GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local);
+            GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local, Component::MASK::BULLET_PLAYER);
         } else if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE)
             && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
             auto now = std::chrono::steady_clock::now();

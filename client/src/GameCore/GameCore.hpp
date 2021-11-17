@@ -22,6 +22,7 @@
 #include "Event/GUI/GuiEventManager.hpp"
 #include "DLLoader.hpp"
 #include "ClientNetworkCore/ClientNetworkCore.hpp"
+#include "EntityFactory/EntityFactory.hpp"
 
 class GameCore
 {
@@ -38,6 +39,7 @@ class GameCore
         static std::unique_ptr<IEventManager> event;
         static std::unique_ptr<ConfigFile> config;
         static ClientNetworkCore networkCore;
+        static EntityFactory entityFactory;
   private:
         AudioEventManager _audio;
         GuiEventManager _guiEventManager;
