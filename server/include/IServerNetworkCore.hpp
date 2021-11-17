@@ -14,6 +14,7 @@
 #include <stddef.h>
 #include <string>
 #include "globalServer.hpp"
+#include "utils/netVector2f.hpp"
 
 class IServerNetworkCore {
   public:
@@ -25,7 +26,7 @@ class IServerNetworkCore {
      * @param id
      * @param type
      */
-    virtual void createEntity(size_t roomId, NetworkId id, std::string const &type) = 0;
+    virtual void createEntity(size_t roomId, std::string const &type, Network::netVector2f const& position, Network::netVector2f const& velocity) = 0;
     /**
      * @brief Broadcast entity destruction request
      * @param roomId
