@@ -136,7 +136,6 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
     componentManager.add<Engine::InputEvent>(entity, [speed](const Engine::Entity &local) {
         auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
         auto &render = GET_COMP_M.get<Engine::Render>(local);
-        auto speed = 10;
 
         /// Player move
         //TODO when adding [keybindings] change it here with GameCore setting
