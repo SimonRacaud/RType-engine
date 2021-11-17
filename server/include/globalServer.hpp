@@ -8,11 +8,12 @@
 ** \date 15/11/2021
 */
 
-#ifndef GLOBAL_HPP
-#define GLOBAL_HPP
+#ifndef GLOBAL_SERVER_HPP
+#define GLOBAL_SERVER_HPP
 
 #include <inttypes.h>
 #include <typeindex>
+#include <limits>
 
 using Entity = uint32_t;
 using NetworkId = uint32_t;

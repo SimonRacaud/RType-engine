@@ -13,7 +13,7 @@
 
 #include <stddef.h>
 #include <string>
-#include "global.hpp"
+#include "globalServer.hpp"
 
 class IServerNetworkCore {
   public:

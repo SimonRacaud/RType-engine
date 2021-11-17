@@ -11,13 +11,13 @@
 #ifndef NETWORKROOM_HPP
 #define NETWORKROOM_HPP
 
+#include <inttypes.h>
 #include <stddef.h>
 #include <vector>
-#include <inttypes.h>
-#include "utils/timeDef.hpp"
 #include "InfoConnection.hpp"
 #include "Network.hpp"
-#include "global.hpp"
+#include "globalServer.hpp"
+#include "utils/timeDef.hpp"
 
 using Network::InfoConnection;
 

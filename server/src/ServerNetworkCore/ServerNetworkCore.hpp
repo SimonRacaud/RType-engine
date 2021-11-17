@@ -12,7 +12,7 @@
 #define SERVERNETWORKCORE_HPP
 
 #include "NetworkRoom.hpp"
-#include "global.hpp"
+#include "globalServer.hpp"
 #include "InfoConnection.hpp"
 #include "NetworkManager.hpp"
 #include "AsioConnectionUDP.hpp"
