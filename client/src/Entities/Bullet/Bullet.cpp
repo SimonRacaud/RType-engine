@@ -73,6 +73,17 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
         static auto last = std::chrono::system_clock::from_time_t(0);
         auto &pos = GET_COMP_M.get<Engine::Position>(b);
         
+        auto mask = GET_COMP_M.get<Component::EntityMask>(a);
+        auto otherMask = GET_COMP_M.get<Component::EntityMask>(b);
+
+        if (mask._currentMask == Component::MASK::BULLET_ENEMY && otherMask._currentMask == Component::MASK::PLAYER) {
+            //TODO remove bullet
+        }
+        if (mask._currentMask == Component::MASK::BULLET_PLAYER && otherMask._currentMask == Component::MASK::ENEMY) {
+            //TODO remove bullet
+        }
+
+        //TODO put this in an EVENT
         std::chrono::duration<double> tmp = std::chrono::system_clock::now() - last;
         size_t nb_sec = tmp.count();
         std::cout << "EXPLOSION -----------------------> " << nb_sec << " && " << std::chrono::duration<double>(1).count() << std::endl;

@@ -56,7 +56,7 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
     auto mask = GET_COMP_M.get<Component::EntityMask>(b);
 
     if (mask._currentMask == Component::MASK::ENEMY) {
-        //KILL PLAYER
+        //TODO KILL PLAYER
     }
 }
 
