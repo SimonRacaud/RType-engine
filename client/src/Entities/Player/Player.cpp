@@ -146,16 +146,13 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
             GET_EVENT_REG.registerEvent<MoveRight>(local, speed);
         } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
             GET_EVENT_REG.registerEvent<MoveDown>(local, speed);
-        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP)) {
+        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) ||
+                    GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_DOWN)) {
             GET_EVENT_REG.registerEvent<NotMovingY>(local);
-        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT)) {
+        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) ||
+                    GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT)) {
             GET_EVENT_REG.registerEvent<NotMovingX>(local);
-        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT)) {
-            GET_EVENT_REG.registerEvent<NotMovingX>(local);
-        } else if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_DOWN)) {
-            GET_EVENT_REG.registerEvent<NotMovingY>(local);
-        }
-
+        } 
         //SHOOTING
         if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
             shooting._isCharging = true;
