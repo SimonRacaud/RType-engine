@@ -40,6 +40,7 @@ namespace Engine {
 
         virtual Entity getId(NetworkId id) = 0;
         virtual void setNetworkId(Entity entity, NetworkId networkId) = 0;
+        virtual NetworkId getNetworkId() = 0;
 
         /**
          * @brief The network id of an entity. NotfoundException if it doesn't have one

@@ -106,6 +106,11 @@ void EntityManager::setNetworkId(Entity entity, NetworkId networkId)
     _entities.setNetworkId(entity, networkId);
 }
 
+NetworkId EntityManager::getNetworkId()
+{
+    return _entities.getNetworkId();
+}
+
 void EntityManager::_allocate(std::size_t size)
 {
     _entities.allocate(size);
