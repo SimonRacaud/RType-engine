@@ -23,6 +23,9 @@ class StateMachineManager {
 		void closeEnemyApi(IEnemyApi *ptr);
 		void runAllMachines();
 		void retreiveSynComponents();
+		std::vector<Engine::Position> retreivePosComponents();
+		std::vector<Engine::Velocity> retreiveVelComponents();
+		std::vector<Component::Health> retreiveHealthComponents();
 		void retreiveBasicComponents();
 		StateMachine getMachineFromApi(const IEnemyApi *ptr);
 	protected:
