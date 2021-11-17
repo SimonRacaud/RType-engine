@@ -95,10 +95,12 @@ void GameRoom::factoryStage(const StageStep &step) const
         case EntityType::ENEMY:
             // TODO CALL POL CREATE ENEMY
             std::cout << "ENEMY" << std::endl;
+            ServerCore::network->createEntity(_id, "ENEMY", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
             break;
         case EntityType::EQUIPMENT:
             // TODO CALL CREATE EQUIPEMENT
             std::cout << "EQUIPMENT" << std::endl;
+            ServerCore::network->createEntity(_id, "EQUIPMENT", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
             break;
         default: throw std::invalid_argument("Invalid EntityType -> None register"); break;
     }
