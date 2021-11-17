@@ -6,12 +6,13 @@
 */
 
 #include "GameRoom.hpp"
+#include "ServerCore/ServerCore.hpp"
 
-GameRoom::GameRoom(size_t id) : _id(id)
+GameRoom::GameRoom(size_t id) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE"))
 {
 }
 
-GameRoom::GameRoom(const GameRoom &src) : _id(src._id)
+GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage)
 {
 }
 
@@ -58,5 +59,6 @@ void GameRoom::destroy()
 GameRoom &GameRoom::operator=(const GameRoom &src)
 {
     this->_id = src._id;
+    this->_stage = src._stage;
     return *this;
 }

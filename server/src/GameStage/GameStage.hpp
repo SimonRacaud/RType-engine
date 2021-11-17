@@ -15,6 +15,7 @@
 class GameStage : public IGameStage
 {
     public:
+        GameStage(const GameStage &);
         GameStage(const std::string &path);
         GameStage(std::vector<std::string> file);
         ~GameStage();
@@ -31,6 +32,8 @@ class GameStage : public IGameStage
 
         // ENDED DATA
         std::string getStageNext() const;
+
+        GameStage &operator=(const GameStage &);
 
     protected:
         void sort();

@@ -11,9 +11,7 @@
 #include <thread>
 #include <vector>
 #include <cstddef>
-
-#include "AsioServerTCP.hpp"
-#include "AsioConnectionUDP.hpp"
+#include "GameStage/GameStage.hpp"
 
 class GameRoom
 {
@@ -32,6 +30,7 @@ class GameRoom
 
     private:
         size_t _id;
+        GameStage _stage;
         std::thread _thread;
 };
 
