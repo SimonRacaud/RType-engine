@@ -66,6 +66,7 @@ class ClientNetworkCore {
     bool isMaster() const;
 
     void receiveLoop();
+    void receive();
 
   protected:
     void receiveRoomList(InfoConnection &info, Tram::GetRoomList &data);
