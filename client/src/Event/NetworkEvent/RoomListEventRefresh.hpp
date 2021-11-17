@@ -9,9 +9,6 @@
 #define ROOMLISTEVENTREFRESH_HPP
 
 #include "Event/IEvent.hpp"
-#include "Interface/IAudioManager.hpp"
-#include <memory>
-#include <string>
 
 class RoomListEventRefresh : public Engine::Event::IEvent
 {

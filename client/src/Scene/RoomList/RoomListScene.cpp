@@ -19,7 +19,7 @@
 
 #include "Event/GUI/SelectPreviousScene.hpp"
 #include "Event/GUI/SelectScene.hpp"
-#include "Event/RoomListEvent/RoomListEventRefresh.hpp"
+#include "Event/NetworkEvent/RoomListEventRefresh.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
@@ -49,16 +49,17 @@ void RoomListScene::open()
         vector2D(2, 2), color_e::GREEN);
     // body
     Button newGame(this->getCluster(), "NEW GAME", vector2D(20, 80),
-        vector2f(2, 2), std::make_shared<SelectScene>(ClusterName::GAME)); // TODO button event
+        vector2f(2, 2), std::make_shared<NewGameEvent>());
     // body - list
     ImageView listBack(listBackgroundPath, vector2D(50, 170), vector2f(1, 1),
         this->getCluster());
 
-    std::vector<size_t> roomList;// = {0, 1, 2, 3, 42, 5}; // TODO get through the network
+    std::vector<size_t> roomList;
     this->reloadRoomList(roomList);
+    GameCore::networkCore.getRoomList();
 
     Button refresh(this->getCluster(), "REFRESH", vector2D(320, 600),
-        vector2f(2, 2), std::make_shared<RoomListEventRefresh>()); // TODO button event
+        vector2f(2, 2), std::make_shared<RoomListEventRefresh>());
     // footer
     Label mentionLabel(this->getCluster(), mention, vector2D(290, 780),
         vector2D(1, 1), color_e::GREEN);
@@ -84,7 +85,7 @@ void RoomListScene::reloadRoomList(std::vector<size_t> const &roomIdList)
     size_t counter = 0;
     for (size_t id : roomIdList) {
         Button room(ClusterName::ROOM_LIST_ITEMS, "Room " + std::to_string(id),
-            vector2D(positionX, positionY), vector2f(2, 2), nullptr); // TODO button event
+            vector2D(positionX, positionY), vector2f(2, 2), std::make_unique<JoinRoomEvent>(id));
         positionY += 60;
         counter++;
         if (counter == 7) {
