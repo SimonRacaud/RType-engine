@@ -29,8 +29,14 @@ class GameRoom
         GameRoom &operator=(const GameRoom &);
 
     private:
+        void runStage();
+        void newStage();
+        void factoryStage(const StageStep &) const;
+
+    private:
         size_t _id;
         GameStage _stage;
+        std::chrono::_V2::system_clock::time_point _start;
         std::thread _thread;
 };
 

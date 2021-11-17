@@ -8,11 +8,11 @@
 #include "GameRoom.hpp"
 #include "ServerCore/ServerCore.hpp"
 
-GameRoom::GameRoom(size_t id) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE"))
+GameRoom::GameRoom(size_t id) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")), _start(std::chrono::system_clock::now())
 {
 }
 
-GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage)
+GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage), _start(src._start)
 {
 }
 
@@ -46,7 +46,7 @@ void GameRoom::run()
     bool loop = true;
 
     while (loop) {
-        // TODO RUN GAME STAGE
+        this->runStage();
     }
 }
 
@@ -60,5 +60,43 @@ GameRoom &GameRoom::operator=(const GameRoom &src)
 {
     this->_id = src._id;
     this->_stage = src._stage;
+    this->_start = src._start;
     return *this;
+}
+
+void GameRoom::runStage()
+{
+    std::chrono::duration<double> tmp = std::chrono::system_clock::now() - this->_start;
+    size_t nb_sec = tmp.count();
+    std::queue<StageStep> queue = this->_stage.getStageStepAt(nb_sec);
+
+    while (queue.size()) {
+        this->factoryStage(queue.front());
+        queue.pop();
+    }
+    if (this->_stage.isStageEnd())
+        this->newStage();
+}
+
+void GameRoom::newStage()
+{
+    if (!this->_stage.isStageEnd())
+        throw std::invalid_argument("Stage not ended");
+    this->_stage = GameStage(this->_stage.getStageNext());
+    this->_start = std::chrono::system_clock::now();
+}
+
+void GameRoom::factoryStage(const StageStep &step) const
+{
+    switch (step._type)
+    {
+        case EntityType::ENEMY:
+            std::cout << "ENEMY" << std::endl;
+            break;
+        case EntityType::EQUIPMENT:
+            std::cout << "EQUIPMENT" << std::endl;
+            break;
+        default:
+            break;
+    }
 }
