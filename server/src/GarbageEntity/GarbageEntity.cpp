@@ -15,18 +15,11 @@ GarbageEntity::~GarbageEntity()
 {
 }
 
-std::vector<Tram::DestroyEntity> GarbageEntity::processing(const std:vector<Tram::ComponentSync> &src)
+void GarbageEntity::processing(const Tram::ComponentSync &tram, IServerNetworkCore &networkCore)
 {
-    std::vector<Tram::DestroyEntity> output;
-
-    this->_list.clear();
-    for (auto &it : src) {
-        if (this->isOutOfRange(*(static_cast<Engine::Position *>(it.component)))) {
-            output.push_back(Tram::DestroyEntity(src.roomId, src.NetworkId));
-        }
+    if (this->isOutOfRange(*(static_cast<Engine::Position *>(tram.component)))) {
+        networkCore.destroyEntity(tram.roomId, tram.networkId);
     }
-    this->_list.clear();
-    return output;
 }
 
 bool GarbageEntity::isOutOfRange(Engine::Position current) const

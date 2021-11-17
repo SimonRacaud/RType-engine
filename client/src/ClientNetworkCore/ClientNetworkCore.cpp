@@ -9,22 +9,36 @@
 */
 
 #include "ClientNetworkCore.hpp"
-#include "Scene/RoomList/RoomListScene.hpp"
+#include "../../../libs/GameEngine/src/Utils/SignalManager.hpp"
+#include "CustomCluster.hpp"
+#include "EngineCore.hpp"
+#include "Event/GUI/SelectScene.hpp"
+#include "GameCore/GameCore.hpp"
 #include "Scene/Game/GameScene.hpp"
+#include "Scene/RoomList/RoomListScene.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
     _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
-    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT)))
+    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT))),
+    _factory(Engine::ClusterName::GAME)
 {
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
-    size_t serverPort = GameCore::config->getVar<size_t>("SERVER_PORT");
+    size_t serverPort = (size_t)GameCore::config->getVar<int>("SERVER_PORT");
 
-    this->_tcpClient.connect(serverIp, serverPort);
-    this->_udpClient.connect(serverIp, serverPort);
+    bool loop = true;
+    size_t count;
+    for (count = 0; loop && count <= MAX_CONNECT_TRY; count++) {
+        break; // TODO : remove that line when the server is ready
+        loop = this->_tcpClient.connect(serverIp, serverPort);
+        loop = loop || this->_udpClient.connect(serverIp, serverPort);
+    }
+    if (count == MAX_CONNECT_TRY) {
+        throw std::runtime_error("No server connection. Exit.");
+    }
     SHOW_DEBUG("NETWORK: connected to server");
 } catch (std::exception const &e) {
-    std::cerr << "ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
+    std::cerr << "Fatal error ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
     exit(84); // TODO TUEZ LEEEE !!! WHAHAHAHAH
 }
 
@@ -56,14 +70,16 @@ void ClientNetworkCore::quitRoom()
     this->_checkRoom();
     Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
     this->_udpClient.sendAll(tram);
+    this->_isMaster = false;
     SHOW_DEBUG("NETWORK: send quit room");
 }
 
-void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type)
+void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type,
+    netVector2f const &position, netVector2f const& velocity)
 {
     this->_checkRoom();
     long int timestamp = GET_NOW;
-    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp);
+    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp, position, velocity);
     this->_tcpClient.sendAll(tram);
     SHOW_DEBUG("NETWORK: send create entity");
 }
@@ -107,13 +123,24 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
     if (data.accept == true) {
         this->_roomId = data.roomId;
         this->_engine.getSceneManager().select<Scene::GameScene>(); // Go to the game scene
-//        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
-//            (&this->_engine.getSceneManager().get<Scene::GameScene>())
-//            );
-        //ptr->setTimeStart(data.startTimestamp); TODO => give to the game scene
+        Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
+            (&this->_engine.getSceneManager().get<Scene::GameScene>())
+            );
+        ptr->setTimeStart(data.startTimestamp); // set game scene countdown
+        if (data.playerNumber == 0) {
+            this->_isMaster = true;
+        }
+        ptr->setPlayerNumber(data.playerNumber);
+        // Change scene
+        Engine::EngineFactory::getInstance().getEventRegister().registerEvent<SelectScene>(Engine::ClusterName::GAME);
     } else {
         std::cerr << "Room connection refused." << std::endl;
     }
+}
+
+bool ClientNetworkCore::isMaster() const
+{
+    return _isMaster;
 }
 
 void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &, Tram::CreateEntityReply &data)
@@ -136,7 +163,8 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
     if ((int)data.roomId != this->_roomId) {
         return; // abort
     }
-    //EntityFactory::build(data.entityType, data.entityId) // TODO send to entity the global factory
+    // build the entity
+    this->_factory.build(data.entityType, data.id); // TODO data.position, data.velocity
 }
 
 void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSync &data)
@@ -167,13 +195,11 @@ void ClientNetworkCore::receiveLoop()
         try {
             this->_receiveTcp();
         } catch (std::exception const &e) {
-            // TODO debug
             std::cerr << "ClientNetworkCore::receiveLoop TCP " << e.what() << std::endl;
         }
         try {
             this->_receiveUdp();
         } catch (std::exception const &e) {
-            // TODO debug
             std::cerr << "ClientNetworkCore::receiveLoop UDP " << e.what() << std::endl;
         }
     }

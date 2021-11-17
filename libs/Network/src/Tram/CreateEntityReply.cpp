@@ -19,13 +19,16 @@ CreateEntityReply::CreateEntityReply()
 }
 
 CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networkId, const std::string &ip,
-    size_t port, Time timestamp, const std::string &entityType)
+    size_t port, Time timestamp, const std::string &entityType, netVector2f const& position,
+    netVector2f const& velocity)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply)),
       roomId(roomId),
       accept(accept),
       entityId(-1),
       networkId(networkId),
       timestamp(timestamp),
+      position(position),
+      velocity(velocity),
       port(port)
 {
     std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
@@ -33,13 +36,16 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networ
 }
 
 CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId,
-    const std::string &ip, size_t port, Time timestamp, const std::string &entityType)
+    const std::string &ip, size_t port, Time timestamp, const std::string &entityType, netVector2f const& position,
+    netVector2f const& velocity)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply)),
       roomId(roomId),
       accept(accept),
       entityId(entityId),
       networkId(networkId),
       timestamp(timestamp),
+      position(position),
+      velocity(velocity),
       port(port)
 {
     std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
@@ -68,6 +74,8 @@ void CreateEntityReply::deserialize(uint8_t *buffer)
     this->entityId = ptr->entityId;
     this->networkId = ptr->networkId;
     this->timestamp = ptr->timestamp;
+    this->position = ptr->position;
+    this->velocity = ptr->velocity;
     this->port = ptr->port;
     std::strcpy(this->ip, ptr->ip);
     std::strcpy(this->entityType, ptr->entityType);

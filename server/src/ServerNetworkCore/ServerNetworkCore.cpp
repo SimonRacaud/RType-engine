@@ -8,26 +8,39 @@
 ** \date 15/11/2021
 */
 
+#include <tuple>
 #include "ServerNetworkCore.hpp"
+#include "ServerCore/ServerCore.hpp"
 
 using namespace std;
 
+bool ServerNetworkCore::_loop = true;
+
+void ServerNetworkCore::sig_handler(int)
+{
+    ServerNetworkCore::_loop = false;
+}
+
 ServerNetworkCore::ServerNetworkCore()
 try :
-    _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(TCP_PORT))),
-    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(UDP_PORT)))
+    _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(ServerCore::config->getVar<int>("PORT_TCP")))),
+    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(ServerCore::config->getVar<int>("PORT_UDP")))),
+    _garbageEntity(ServerCore::config->getVar<std::pair<int, int>>("WINDOW_SIZE")),
+    _maxRoomClient(ServerCore::config->getVar<int>("MAX_CLIENT_ROOM"))
 {
-    this->_roomFreeIds.resize(MAX_ROOM);
+    this->_roomFreeIds.resize(ServerCore::config->getVar<int>("ROOM_MAX"));
     std::iota(std::begin(_roomFreeIds), std::end(_roomFreeIds), 0);
+    signal(SIGINT, ServerNetworkCore::sig_handler);
 } catch (std::exception const &e) {
     std::cerr << "FATAL ERROR : network server connection init failed. " << e.what() << std::endl;
     exit(84); // TODO : to improve
 }
 
-void ServerNetworkCore::createEntity(size_t roomId, NetworkId id, const std::string &type)
+void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
+    netVector2f const& position, netVector2f const& velocity)
 {
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
-    Tram::CreateEntityRequest tram(roomId, id, type, GET_NOW);
+    Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
     for (Network::InfoConnection const &client : room->clients) {
         this->_tcpServer.send(tram, client.ip, client.port);
@@ -160,6 +173,9 @@ void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
 
         this->_roomFreeIds.pop_back();
         this->_rooms.push_back(std::make_shared<NetworkRoom>(roomId, info));
+        // CREATE ROOM
+        this->_roomManager.createRoom(roomId);
+        // END
         Tram::JoinRoom data(roomId);
         this->receiveJoinRoom(info, data);
     }
@@ -170,7 +186,7 @@ void ServerNetworkCore::receiveJoinRoom(InfoConnection &info, Tram::JoinRoom &da
     size_t roomId = data.roomId;
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
 
-    if (room->clients.size() >= MAX_ROOM_CLIENT || room->startTimestamp >= GET_NOW) {
+    if (room->clients.size() >= _maxRoomClient || room->startTimestamp >= GET_NOW) {
         Tram::JoinCreateRoomReply tram(false, roomId);
         this->_udpServer.send(tram, info.ip, info.port);
     } else {
@@ -193,7 +209,9 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             /// Remove the player on other clients:
             this->_removePlayer(room, clientIndex);
             if (room->clients.empty()) {
-                /// Close the room
+                // CLOSE ROOM
+                this->_roomManager.deleteRoom(room->roomId);
+                // END
                 this->_roomFreeIds.push_back(room->roomId); // the room id is free again
                 this->_rooms.erase(this->_rooms.begin() + counter); // remove the room
             }
@@ -237,11 +255,13 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
     if (room->masterClient == info) {
         if (data.entityId == -1) {
             // The request came from the server
-            // TODO : call game stage generator ? (must be enemy or equipment)
-
             if (data.accept == true ) {
+                if (string(data.entityType) == "Enemy") {
+                    // TODO : if enemy, call enemy manager (save network id)
+                }
                 // Broadcast entity creation to all slave clients
-                Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp);
+                Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp,
+                    data.position, data.velocity);
                 for (InfoConnection const &client : room->clients) {
                     if (!(client == info)) { // not master client
                         this->_tcpServer.send(data, client.ip, client.port);
@@ -275,7 +295,7 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
         /// Request from slave client
         // => redirect to master client
         Tram::CreateEntityRequest tram(data.roomId, data.id, data.entityType,
-            data.timestamp, info.port, info.ip);
+            data.timestamp, info.port, info.ip, data.position, data.velocity);
         this->_tcpServer.send(tram, room->masterClient.ip, room->masterClient.port);
     }
 }
@@ -312,7 +332,8 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
             this->_tcpServer.send(data, client.ip, client.port);
         }
     }
-    // TODO : intercept position component here
+    // intercept Position component here (remove if out of bound)
+    this->_garbageEntity.processing(data, *this);
 }
 
 shared_ptr<NetworkRoom> ServerNetworkCore::_getRoom(size_t roomId)

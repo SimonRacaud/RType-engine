@@ -12,6 +12,7 @@
 #include <functional>
 #include <unordered_map>
 #include "CustomCluster.hpp"
+#include "Tram/CreateEntityRequest.hpp"
 
 class EntityFactory
 {
@@ -19,11 +20,10 @@ class EntityFactory
         EntityFactory(Engine::ClusterName clusterName);
         ~EntityFactory() = default;
 
-        void build(const std::string &, uint32_t entityId);
+        void build(const std::string &entityType, uint32_t entityId);
 
     private:
         static void makeEnemy(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makePlayer(Engine::ClusterName clusterName, uint32_t entityId);
         static void makeBullet0(Engine::ClusterName clusterName, uint32_t entityId);
         static void makeBullet1(Engine::ClusterName clusterName, uint32_t entityId);
         static void makeBullet2(Engine::ClusterName clusterName, uint32_t entityId);
@@ -37,7 +37,6 @@ class EntityFactory
         Engine::ClusterName _clusterName;
         const std::unordered_map<std::string, std::function<void (Engine::ClusterName clusterName, uint32_t entityId)>> _factory = {
             {"Enemy", EntityFactory::makeEnemy},
-            {"Player", EntityFactory::makePlayer},
             {"Bullet0", EntityFactory::makeBullet0},
             {"Bullet1", EntityFactory::makeBullet1},
             {"Bullet2", EntityFactory::makeBullet2},

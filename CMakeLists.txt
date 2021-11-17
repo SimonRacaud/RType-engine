@@ -90,22 +90,22 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
-        #./server/src/GarbageEntity/GarbageEntity.cpp
         ./server/src/GameStage/GameStage.cpp
         ./server/src/DLLoader/DLLoader.hpp
         ./server/src/ServerCore/ServerCore.cpp
+        ./server/src/ServerCore/ConfigFileExternal/ConfigFileExternal.cpp
         ./server/src/EnemyLoader/EnemyLoader.cpp
         ./server/src/StateMachine/StateMachine.cpp
         ./server/src/GameRoomManager/GameRoomManager.cpp
         ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
-        ./server/src/GameRoomManager/PortManager/PortManager.cpp
 
         server/src/ServerNetworkCore/ServerNetworkCore.cpp
+        server/src/GarbageEntity/GarbageEntity.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC server/src server/include lib/Network)
+target_include_directories(${NAME_SERVER} PUBLIC server/src server/include libs/Network)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

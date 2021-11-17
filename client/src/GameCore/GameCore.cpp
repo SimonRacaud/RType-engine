@@ -31,6 +31,8 @@
 #include "Component/Shooting.hpp"
 #include "Component/EntityMask.hpp"
 #include "Component/InputEvent.hpp"
+#include "Component/EnemyType.hpp"
+#include "Component/SyncSend.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
@@ -43,6 +45,7 @@ Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager> GameCore::event = std::make_unique<EventManager>();
 std::unique_ptr<ConfigFile> GameCore::config = std::make_unique<ConfigFile>("client.config");
+ClientNetworkCore GameCore::networkCore = ClientNetworkCore(GameCore::engine);
 
 GameCore::GameCore()
 {
@@ -74,9 +77,12 @@ void GameCore::run()
     componentManager.registerComponent<Engine::ScoreComponent>();
     componentManager.registerComponent<Engine::NumberComponent>();
     componentManager.registerComponent<Engine::EquipmentComponent>();
+    componentManager.registerComponent<Engine::SizeComponent>();
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Component::Shooting>();
     componentManager.registerComponent<Component::EntityMask>();
+    componentManager.registerComponent<Component::SyncSend>();
+    componentManager.registerComponent<Component::EnemyType>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
@@ -85,7 +91,6 @@ void GameCore::run()
     systemManager.registerSystem<System::LogPositionSystem>();
     systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
-    systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<System::ScrollSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();

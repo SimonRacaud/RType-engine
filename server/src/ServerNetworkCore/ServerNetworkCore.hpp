@@ -12,7 +12,7 @@
 #define SERVERNETWORKCORE_HPP
 
 #include "NetworkRoom.hpp"
-#include "global.hpp"
+#include "globalServer.hpp"
 #include "InfoConnection.hpp"
 #include "NetworkManager.hpp"
 #include "AsioConnectionUDP.hpp"
@@ -28,6 +28,12 @@
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
 
+#include "IServerNetworkCore.hpp"
+#include "GarbageEntity/GarbageEntity.hpp"
+#include "GameRoomManager/GameRoomManager.hpp"
+
+#include "utils/netVector2f.hpp"
+
 #include <vector>
 #include <memory>
 #include <numeric>
@@ -38,15 +44,12 @@ using std::shared_ptr;
 using std::make_shared;
 
 using Network::InfoConnection;
+using Network::netVector2f;
 using IConnection = Network::IConnection<DataWrapper>;
 using AsioServerTCP = Network::AsioServerTCP<DataWrapper>;
 using AsioServerUDP = Network::AsioConnectionUDP<DataWrapper>;
 
-// Add that to the config file
-#define MAX_ROOM 10
-#define MAX_ROOM_CLIENT 4
-
-class ServerNetworkCore {
+class ServerNetworkCore : public IServerNetworkCore {
   public:
     ServerNetworkCore();
     virtual ~ServerNetworkCore() = default;
@@ -54,10 +57,10 @@ class ServerNetworkCore {
     /**
      * @brief Broadcast entity creation request
      * @param roomId
-     * @param id
-     * @param type
+     * @param type Entity type name
      */
-    void createEntity(size_t roomId, NetworkId id, std::string const &type);
+    void createEntity(size_t roomId, std::string const &type, netVector2f const& position,
+        netVector2f const& velocity);
     /**
      * @brief Broadcast entity destruction request
      * @param roomId
@@ -75,6 +78,10 @@ class ServerNetworkCore {
     void syncComponent(size_t roomId, NetworkId id, std::type_index const &componentType,
         size_t componentSize, void *component);
 
+    void receiveLoop();
+
+    static bool _loop;
+
   protected:
     void receiveGetRoomList(InfoConnection &info);
     void receiveCreateRoom(InfoConnection &info);
@@ -85,9 +92,8 @@ class ServerNetworkCore {
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
 
-    void receiveLoop();
-
   private:
+    static void sig_handler(int);
     void _receiveFromChannel(NetworkManager &net);
     void _tramHandler(Tram::Serializable &header, InfoConnection &info,
         uint8_t *buffer);
@@ -99,7 +105,9 @@ class ServerNetworkCore {
   private:
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
-    bool _loop{true};
+    GarbageEntity _garbageEntity;
+    GameRoomManager _roomManager;
+    size_t _maxRoomClient;
     vector<shared_ptr<NetworkRoom>> _rooms;
     vector<size_t> _roomFreeIds;
 };

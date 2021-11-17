@@ -55,6 +55,7 @@ namespace Engine
         #define SHOW_DEBUG_COMPONENT(message) if (DEBUG_COMPONENT) SHOW_DEBUG(message)
     #else
         #define SHOW_DEBUG(message)
+        #define SHOW_DEBUG_COMPONENT(message)
     #endif
     #define TYPE_STR(type) std::to_string(type.hash_code())
 } // namespace Engine

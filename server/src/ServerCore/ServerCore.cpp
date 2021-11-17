@@ -6,27 +6,23 @@
 */
 
 #include "ServerCore.hpp"
+#include "ConfigFileExternal/ConfigFileExternal.hpp"
 
 std::unique_ptr<ConfigFile> ServerCore::config = std::make_unique<ConfigFile>("server.config");
+std::unique_ptr<IServerNetworkCore> ServerCore::network = std::make_unique<ServerNetworkCore>();
 
 ServerCore::ServerCore() :
 _loop(true),
-_rooms(ServerCore::config->getVar<int>("PORT_PAGE_START"), ServerCore::config->getVar<int>("PORT_PAGE_END"))
+_rooms()
 {
-    int port = config->getVar<int>("PORT_MAIN_SERVER");
-
-    (void) port;
-    // TODO create TCP server with port var
+    config->setVarGetter<std::pair<int, int>>(ConfigFileExternal::getPairIntInt);
 }
 
 ServerCore::~ServerCore()
 {
-    // TODO close TCP server
 }
 
 void ServerCore::run(void)
 {
-    while (_loop) {
-        // TODO MAIN SERVER && DISPATCHER
-    }
+    network->receiveLoop();
 }
