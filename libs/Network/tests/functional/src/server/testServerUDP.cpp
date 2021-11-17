@@ -40,6 +40,7 @@ class intWrapper {
         memcpy(data + sizeof(int), &_otherVal, sizeof(int));
         return data;
     }
+
     intWrapper(uint8_t *data, const std::size_t len)
     {
         if (len != sizeof(intWrapper)) {
@@ -77,9 +78,6 @@ int testUDPserverAcceptReceive()
                 break;
             }
         }
-        //  todo set clock to avoid infinite loop
-        //     in shell script ?
-        //     with Clock class ?
     }
     return 84;
 }

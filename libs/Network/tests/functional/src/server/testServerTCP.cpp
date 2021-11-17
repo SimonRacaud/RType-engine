@@ -67,7 +67,6 @@ int testTCPserverAcceptReceive()
     AsioServerTCP<intWrapper> server(portServer);
     intWrapper my_var;
 
-
     while (true) {
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
@@ -78,9 +77,6 @@ int testTCPserverAcceptReceive()
                 break;
             }
         }
-        //  todo set clock to avoid infinite loop
-        //     in shell script ?
-        //     with Clock class ?
     }
     return 84;
 }

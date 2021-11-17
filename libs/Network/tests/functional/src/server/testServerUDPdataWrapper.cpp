@@ -24,9 +24,6 @@ static DataWrapper startServerGetData()
         if (std::get<1>(recvData)) {
             return std::get<0>(recvData);
         }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
     }
     exit(84);
 }
@@ -124,5 +121,3 @@ int testUDPserverDataWrapperDestroyEntity()
     }
     return 84;
 }
-
-// todo test all Trams
