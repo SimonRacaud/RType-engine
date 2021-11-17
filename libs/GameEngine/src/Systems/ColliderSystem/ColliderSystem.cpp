@@ -22,10 +22,11 @@ void ColliderSystem::run(const vector<Entity> &entities)
 		for (Entity other : entities) {
 			if (other == e || GET_ENTITY_M.getCluster(e) != GET_ENTITY_M.getCluster(other))
 				continue;
-			auto [position1, hitbox1] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox>(e);
-			auto [position2, hitbox2] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox>(other);
+			auto [position1, hitbox1, mask1] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox, Component::EntityMask>(e);
+			auto [position2, hitbox2, mask2] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox, Component::EntityMask>(other);
 
-			if (position1.x < position2.x + hitbox2.x &&
+			if (mask1 != mask2 &&
+				position1.x < position2.x + hitbox2.x &&
 				position1.x + hitbox1.x > position2.x &&
 				position1.y < position2.y + hitbox2.y &&
 				position1.y + hitbox1.y > position2.y) {
