@@ -19,6 +19,8 @@ class GameRoomManager
         void createRoom(size_t roomId);
         void deleteRoom(size_t roomId);
 
+        void createEntityEnemy(size_t roomId, uint32_t networkId);
+
     private:
         std::vector<GameRoom> _rooms;
 };

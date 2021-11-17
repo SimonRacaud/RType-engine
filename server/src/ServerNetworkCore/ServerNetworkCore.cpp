@@ -257,6 +257,7 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
             // The request came from the server
             if (data.accept == true ) {
                 if (string(data.entityType) == "Enemy") {
+                    this->_roomManager.createEntityEnemy(data.roomId, data.networkId);
                     // TODO : if enemy, call enemy manager (save network id)
                 }
                 // Broadcast entity creation to all slave clients
