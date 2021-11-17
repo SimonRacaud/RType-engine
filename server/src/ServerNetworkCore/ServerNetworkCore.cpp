@@ -14,6 +14,13 @@
 
 using namespace std;
 
+bool ServerNetworkCore::_loop = true;
+
+void ServerNetworkCore::sig_handler(int)
+{
+    ServerNetworkCore::_loop = false;
+}
+
 ServerNetworkCore::ServerNetworkCore()
 try :
     _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(ServerCore::config->getVar<int>("PORT_TCP")))),
@@ -23,6 +30,7 @@ try :
 {
     this->_roomFreeIds.resize(ServerCore::config->getVar<int>("ROOM_MAX"));
     std::iota(std::begin(_roomFreeIds), std::end(_roomFreeIds), 0);
+    signal(SIGINT, ServerNetworkCore::sig_handler);
 } catch (std::exception const &e) {
     std::cerr << "FATAL ERROR : network server connection init failed. " << e.what() << std::endl;
     exit(84); // TODO : to improve
@@ -165,6 +173,9 @@ void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
 
         this->_roomFreeIds.pop_back();
         this->_rooms.push_back(std::make_shared<NetworkRoom>(roomId, info));
+        // CREATE ROOM
+        this->_roomManager.createRoom(roomId);
+        // END
         Tram::JoinRoom data(roomId);
         this->receiveJoinRoom(info, data);
     }
@@ -198,7 +209,9 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             /// Remove the player on other clients:
             this->_removePlayer(room, clientIndex);
             if (room->clients.empty()) {
-                /// Close the room
+                // CLOSE ROOM
+                this->_roomManager.deleteRoom(room->roomId);
+                // END
                 this->_roomFreeIds.push_back(room->roomId); // the room id is free again
                 this->_rooms.erase(this->_rooms.begin() + counter); // remove the room
             }

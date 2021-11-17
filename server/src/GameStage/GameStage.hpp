@@ -15,6 +15,7 @@
 class GameStage : public IGameStage
 {
     public:
+        GameStage(const GameStage &);
         GameStage(const std::string &path);
         GameStage(std::vector<std::string> file);
         ~GameStage();
@@ -31,6 +32,8 @@ class GameStage : public IGameStage
 
         // ENDED DATA
         std::string getStageNext() const;
+
+        GameStage &operator=(const GameStage &);
 
     protected:
         void sort();
@@ -52,12 +55,8 @@ class GameStage : public IGameStage
         EndedData _ended;
         size_t _pos;
         const std::vector<std::pair<std::string, EntityType>> _link = {
-            {"BONUS_HP", EntityType::BONUS_HP},
-            {"BONUS_SPEED", EntityType::BONUS_SPEED},
-            {"ENEMY_PLANE_1", EntityType::ENEMY_PLANE_1},
-            {"ENEMY_PLANE_2", EntityType::ENEMY_PLANE_2},
-            {"ENEMY_ALIEN_EASY", EntityType::ENEMY_ALIEN_EASY},
-            {"ENEMY_ALIEN_HARD", EntityType::ENEMY_ALIEN_HARD},
+            {"ENEMY", EntityType::ENEMY},
+            {"EQUIPMENT", EntityType::EQUIPMENT},
         };
 };
 
