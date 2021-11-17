@@ -120,3 +120,11 @@ std::pair<Component::AnimationInfo, std::pair<float, float>> StateMachineManager
 {
 	return std::make_pair<Component::AnimationInfo, std::pair<float, float>>(ptr->getAnimInfo(), ptr->getHitboxSize());
 }
+
+IEnemyApi *StateMachineManager::getEnemyApi(uint32_t networkId)
+{
+	for (auto machines : _loadedEnemies)
+		if (machines._networkId == networkId)
+			return machines._enemyApi;
+	throw Engine::RuntimeException("Not machine with this network id");
+}

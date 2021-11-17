@@ -27,6 +27,7 @@ class GameRoom
         void run();
         void destroy();
         void createEntityEnemy(uint32_t networkId);
+        void destroyEntityEnemy(uint32_t networkId);
 
         GameRoom &operator=(const GameRoom &);
 
