@@ -52,6 +52,12 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
 {
 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
 	Player::animationPlayer(cluster, a) || Player::animationPlayer(cluster, b);
+    
+    auto mask = GET_COMP_M.get<Component::EntityMask>(b);
+
+    if (mask._currentMask == Component::MASK::ENEMY) {
+        //KILL PLAYER
+    }
 }
 
 Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
@@ -144,10 +150,12 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
         } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
             GET_EVENT_REG.registerEvent<MoveDown>(local, speed);
         }
-        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) && 
-            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN))) ||
-            (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
-                    (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)))) {
+        if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) && 
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN))) {
+            GET_EVENT_REG.registerEvent<NotMovingY>(local);
+        }
+        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_DOWN) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_UP)))) {
             GET_EVENT_REG.registerEvent<NotMovingY>(local);
         }
         if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
@@ -155,10 +163,12 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
         } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT)) {
             GET_EVENT_REG.registerEvent<MoveRight>(local, speed);
         }
-        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) &&
-            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT))) ||
-                    (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
-                    (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)))) {
+        if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT))) {
+                GET_EVENT_REG.registerEvent<NotMovingX>(local);
+        }
+        if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT))) {
             GET_EVENT_REG.registerEvent<NotMovingX>(local);
         }
         //SHOOTING
