@@ -39,6 +39,7 @@ void StateMachineManager::closeEnemyApi(IEnemyApi *ptr)
 	auto index = std::distance(_loadedEnemies.begin(), machine);
 
 	DLLoader<IEnemyApi>::getClosePoint(_apiPaths[index], "closeApi", ptr);
+	_loadedEnemies.erase(machine);
 }
 
 void StateMachineManager::setMachineNetworkId(const IEnemyApi *ptr, uint32_t networkId)
@@ -104,4 +105,27 @@ std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> StateM
 		allPairs.push_back(std::make_pair<Component::AnimationInfo, std::pair<float, float>>(machines._enemyApi->getAnimInfo(), machines._enemyApi->getHitboxSize()));
 	}
 	return allPairs;
+}
+
+
+std::vector<uint32_t> StateMachineManager::retreiveNetworkId()
+{
+	std::vector<uint32_t> allId;
+
+	for (auto machines : _loadedEnemies)
+		allId.push_back(machines._networkId);
+	return allId;
+}
+
+std::pair<Component::AnimationInfo, std::pair<float, float>> StateMachineManager::retreiveBasicComponents(const IEnemyApi *ptr)
+{
+	return std::make_pair<Component::AnimationInfo, std::pair<float, float>>(ptr->getAnimInfo(), ptr->getHitboxSize());
+}
+
+IEnemyApi *StateMachineManager::getEnemyApi(uint32_t networkId)
+{
+	for (auto machines : _loadedEnemies)
+		if (machines._networkId == networkId)
+			return machines._enemyApi;
+	throw Engine::RuntimeException("Not machine with this network id");
 }

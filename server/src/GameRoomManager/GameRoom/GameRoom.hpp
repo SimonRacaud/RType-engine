@@ -27,6 +27,7 @@ class GameRoom
         void run();
         void destroy();
         void createEntityEnemy(uint32_t networkId);
+        void destroyEntityEnemy(uint32_t networkId);
 
         GameRoom &operator=(const GameRoom &);
 
@@ -41,6 +42,7 @@ class GameRoom
         GameStage _stage;
         std::chrono::_V2::system_clock::time_point _start;
         StateMachineManager _stateMachine;
+        std::queue<std::string> _enemyRequest;
         std::thread _thread;
 };
 

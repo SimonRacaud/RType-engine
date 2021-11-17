@@ -9,7 +9,7 @@
 #define SYNCSEND_HPP
 
 #include "build.hpp"
-#include "EntityMask.hpp"
+#include "Components/EntityMask.hpp"
 #include "BaseComponent/BaseComponent.hpp"
 
 namespace Component

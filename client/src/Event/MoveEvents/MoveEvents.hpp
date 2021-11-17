@@ -43,9 +43,16 @@ struct MoveDown : public Engine::Event::AbstractEvent<MoveDown> {
 	float _speed;
 };
 
-struct NotMoving : public Engine::Event::AbstractEvent<NotMoving> {
-	NotMoving(Engine::Entity entity) : _entityId(entity) {}
-	~NotMoving() = default;
+struct NotMovingY : public Engine::Event::AbstractEvent<NotMovingY> {
+	NotMovingY(Engine::Entity entity) : _entityId(entity) {}
+	~NotMovingY() = default;
+
+	Engine::Entity _entityId;
+};
+
+struct NotMovingX : public Engine::Event::AbstractEvent<NotMovingX> {
+	NotMovingX(Engine::Entity entity) : _entityId(entity) {}
+	~NotMovingX() = default;
 
 	Engine::Entity _entityId;
 };

@@ -18,6 +18,8 @@
 
 using Engine::ClusterName;
 
+float lerp(float minValue, float maxValue, float norm);
+
 class Player {
 	public:
         Player(ClusterName cluster, int playerNumber, const vector2D &position,

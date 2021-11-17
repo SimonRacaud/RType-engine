@@ -29,7 +29,7 @@
 #include "Component/Render.hpp"
 #include "Component/Scroll.hpp"
 #include "Component/Shooting.hpp"
-#include "Component/EntityMask.hpp"
+#include "Components/EntityMask.hpp"
 #include "Component/InputEvent.hpp"
 #include "Component/EnemyType.hpp"
 #include "Component/SyncSend.hpp"
