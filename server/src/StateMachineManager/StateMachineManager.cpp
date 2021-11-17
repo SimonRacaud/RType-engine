@@ -39,6 +39,7 @@ void StateMachineManager::closeEnemyApi(IEnemyApi *ptr)
 	auto index = std::distance(_loadedEnemies.begin(), machine);
 
 	DLLoader<IEnemyApi>::getClosePoint(_apiPaths[index], "closeApi", ptr);
+	_loadedEnemies.erase(machine);
 }
 
 void StateMachineManager::setMachineNetworkId(const IEnemyApi *ptr, uint32_t networkId)
