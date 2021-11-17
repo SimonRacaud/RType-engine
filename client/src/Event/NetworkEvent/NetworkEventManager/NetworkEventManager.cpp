@@ -25,3 +25,8 @@ void NetworkEventManager::NewGame(const NewGameEvent *)
 {
     GameCore::networkCore.createRoom();
 }
+
+void NetworkEventManager::JoinRoom(const JoinRoomEvent *e)
+{
+    GameCore::networkCore.joinRoom(e->_roomId);
+}
