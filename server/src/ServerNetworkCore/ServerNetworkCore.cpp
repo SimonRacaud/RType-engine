@@ -26,10 +26,10 @@ try :
     exit(84); // TODO : to improve
 }
 
-void ServerNetworkCore::createEntity(size_t roomId, NetworkId id, const std::string &type)
+void ServerNetworkCore::createEntity(size_t roomId, const std::string &type)
 {
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
-    Tram::CreateEntityRequest tram(roomId, id, type, GET_NOW);
+    Tram::CreateEntityRequest tram(roomId, type, GET_NOW);
 
     for (Network::InfoConnection const &client : room->clients) {
         this->_tcpServer.send(tram, client.ip, client.port);

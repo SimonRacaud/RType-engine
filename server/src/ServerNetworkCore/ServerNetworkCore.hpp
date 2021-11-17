@@ -57,10 +57,9 @@ class ServerNetworkCore : public IServerNetworkCore {
     /**
      * @brief Broadcast entity creation request
      * @param roomId
-     * @param id
-     * @param type
+     * @param type Entity type name
      */
-    void createEntity(size_t roomId, NetworkId id, std::string const &type);
+    void createEntity(size_t roomId std::string const &type);
     /**
      * @brief Broadcast entity destruction request
      * @param roomId
@@ -78,6 +77,8 @@ class ServerNetworkCore : public IServerNetworkCore {
     void syncComponent(size_t roomId, NetworkId id, std::type_index const &componentType,
         size_t componentSize, void *component);
 
+    void receiveLoop();
+
   protected:
     void receiveGetRoomList(InfoConnection &info);
     void receiveCreateRoom(InfoConnection &info);
@@ -87,8 +88,6 @@ class ServerNetworkCore : public IServerNetworkCore {
     void receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data);
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
-
-    void receiveLoop();
 
   private:
     void _receiveFromChannel(NetworkManager &net);
