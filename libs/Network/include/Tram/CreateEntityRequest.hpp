@@ -18,6 +18,7 @@
 #include <utility>
 #include "Tram/Serializable.hpp"
 #include "utils/timeDef.hpp"
+#include "utils/netVector2f.hpp"
 
 namespace Tram
 {
@@ -30,16 +31,21 @@ namespace Tram
         #define IP_LENGTH 129
     #endif
 
+    using Network::netVector2f;
+
     class CreateEntityRequest : public Serializable {
       public:
         CreateEntityRequest();
         // slave client -> server |or| server -> slave clients |or| master client -> server
-        CreateEntityRequest(size_t roomId, uint32_t id, string entityType, Time timestamp);
+        CreateEntityRequest(size_t roomId, uint32_t id, string entityType, Time timestamp, netVector2f const& position,
+            netVector2f const& velocity);
         // (slave client ->) server -> master client
         CreateEntityRequest(size_t roomId, uint32_t id, string entityType, Time timestamp,
-            size_t port, std::string const &ip);
+            size_t port, std::string const &ip, netVector2f const& position,
+            netVector2f const& velocity);
         // server -> master client
-        CreateEntityRequest(size_t roomId, string entityType, Time timestamp);
+        CreateEntityRequest(size_t roomId, string entityType, Time timestamp, netVector2f const& position,
+            netVector2f const& velocity);
 
         size_t roomId{0};
         /**
@@ -56,6 +62,14 @@ namespace Tram
          * @brief emitter client ip + post (slave client -> server -> master client)
          */
         size_t port{0};
+        /**
+         * @brief entity init position
+         */
+        Network::netVector2f position;
+        /**
+         * @brief entity init velocity
+         */
+        Network::netVector2f velocity;
         /**
          * @brief type of the entity factory ex: "player", "enemy"
          */

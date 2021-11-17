@@ -31,6 +31,8 @@
 #include "IServerNetworkCore.hpp"
 #include "GarbageEntity/GarbageEntity.hpp"
 
+#include "utils/netVector2f.hpp"
+
 #include <vector>
 #include <memory>
 #include <numeric>
@@ -41,6 +43,7 @@ using std::shared_ptr;
 using std::make_shared;
 
 using Network::InfoConnection;
+using Network::netVector2f;
 using IConnection = Network::IConnection<DataWrapper>;
 using AsioServerTCP = Network::AsioServerTCP<DataWrapper>;
 using AsioServerUDP = Network::AsioConnectionUDP<DataWrapper>;
@@ -55,7 +58,8 @@ class ServerNetworkCore : public IServerNetworkCore {
      * @param roomId
      * @param type Entity type name
      */
-    void createEntity(size_t roomId, std::string const &type);
+    void createEntity(size_t roomId, std::string const &type, netVector2f const& position,
+        netVector2f const& velocity);
     /**
      * @brief Broadcast entity destruction request
      * @param roomId

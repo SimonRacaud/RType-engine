@@ -73,11 +73,12 @@ void ClientNetworkCore::quitRoom()
     SHOW_DEBUG("NETWORK: send quit room");
 }
 
-void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type)
+void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type,
+    netVector2f const &position, netVector2f const& velocity)
 {
     this->_checkRoom();
     long int timestamp = GET_NOW;
-    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp);
+    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp, position, velocity);
     this->_tcpClient.sendAll(tram);
     SHOW_DEBUG("NETWORK: send create entity");
 }
@@ -162,7 +163,7 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
         return; // abort
     }
     // build the entity
-    this->_factory.build(data.entityType, data.id);
+    this->_factory.build(data.entityType, data.id); // TODO data.position, data.velocity
 }
 
 void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSync &data)

@@ -17,11 +17,14 @@ CreateEntityRequest::CreateEntityRequest()
 }
 
 CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t id, string entityType,
-    Time timestamp)
+    Time timestamp, netVector2f const& position, netVector2f const& velocity)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REQUEST, sizeof(CreateEntityRequest)),
       roomId(roomId),
       id(id),
-      timestamp(timestamp)
+      timestamp(timestamp),
+      port(0),
+      position(position),
+      velocity(velocity)
 {
     if (entityType.empty()) {
         this->entityType[0] = '\0';
@@ -32,12 +35,14 @@ CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t id, string enti
 }
 
 CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t id, string entityType, Time timestamp,
-    size_t port, std::string const &ip)
+    size_t port, std::string const &ip, netVector2f const& position, netVector2f const& velocity)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REQUEST, sizeof(CreateEntityRequest)),
       roomId(roomId),
       id(id),
       timestamp(timestamp),
-      port(port)
+      port(port),
+      position(position),
+      velocity(velocity)
 {
     if (entityType.empty()) {
         this->entityType[0] = '\0';
@@ -47,12 +52,15 @@ CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t id, string enti
     std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
 }
 
-CreateEntityRequest::CreateEntityRequest(size_t roomId, string entityType, Time timestamp)
+CreateEntityRequest::CreateEntityRequest(size_t roomId, string entityType, Time timestamp, netVector2f const& position,
+    netVector2f const& velocity)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REQUEST, sizeof(CreateEntityRequest)),
       roomId(roomId),
       id(-1),
       timestamp(timestamp),
-      port(0)
+      port(0),
+      position(position),
+      velocity(velocity)
 {
     this->ip[0] = '\0';
     if (entityType.empty()) {
@@ -84,6 +92,8 @@ void CreateEntityRequest::deserialize(uint8_t *buffer)
     std::strcpy(this->entityType, ptr->entityType);
     this->timestamp = ptr->timestamp;
     this->port = ptr->port;
+    this->position = ptr->position;
+    this->velocity = ptr->velocity;
     std::strcpy(this->ip, ptr->ip);
 }
 
