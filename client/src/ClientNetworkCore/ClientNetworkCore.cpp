@@ -85,9 +85,14 @@ void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type,
 void ClientNetworkCore::destroyEntity(Engine::NetworkId id)
 {
     this->_checkRoom();
-    Tram::DestroyEntity tram(this->_roomId, id);
-    this->_tcpClient.sendAll(tram);
-    SHOW_DEBUG("NETWORK: send destroy entity");
+    if (this->isMaster()) {
+        Engine::Entity entityId = this->_engine.getEntityManager().getId(id);
+
+        this->_engine.getEntityManager().remove(entityId);
+        Tram::DestroyEntity tram(this->_roomId, id);
+        this->_tcpClient.sendAll(tram);
+        SHOW_DEBUG("NETWORK: send destroy entity");
+    }
 }
 
 void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index const &componentType,
