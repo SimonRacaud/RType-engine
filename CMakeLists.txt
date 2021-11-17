@@ -67,7 +67,7 @@ set(CLIENT_SRCS
         client/src/Entities/Progress/ProgressBar.cpp
         client/src/Event/GUI/GuiEventManager.cpp
         client/src/Entities/Equipment/Equipment.cpp
-
+        client/src/Util/MathLerp.cpp
         client/src/ClientNetworkCore/ClientNetworkCore.cpp
         )
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})

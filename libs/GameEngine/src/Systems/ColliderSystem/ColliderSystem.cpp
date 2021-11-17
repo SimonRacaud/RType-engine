@@ -25,7 +25,7 @@ void ColliderSystem::run(const vector<Entity> &entities)
 			auto [position1, hitbox1, mask1] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox, Component::EntityMask>(e);
 			auto [position2, hitbox2, mask2] = GET_COMP_M.getList<Engine::Position, Engine::Hitbox, Component::EntityMask>(other);
 
-			if (mask1 != mask2 &&
+			if (mask1._currentMask != mask2._currentMask &&
 				position1.x < position2.x + hitbox2.x &&
 				position1.x + hitbox1.x > position2.x &&
 				position1.y < position2.y + hitbox2.y &&

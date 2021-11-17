@@ -7,7 +7,7 @@
 
 #include "Enemy.hpp"
 #include "Component/Render.hpp"
-#include "Component/EntityMask.hpp"
+#include "Components/EntityMask.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
 Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2D &velocity, const vector2f &scale, const std::string &path, size_t nbStep, const surface &focus)
