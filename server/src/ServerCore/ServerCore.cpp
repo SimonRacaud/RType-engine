@@ -24,7 +24,5 @@ ServerCore::~ServerCore()
 
 void ServerCore::run(void)
 {
-    while (_loop) {
-        // TODO
-    }
+    network->receiveLoop();
 }

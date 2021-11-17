@@ -79,6 +79,8 @@ class ServerNetworkCore : public IServerNetworkCore {
 
     void receiveLoop();
 
+    static bool _loop;
+
   protected:
     void receiveGetRoomList(InfoConnection &info);
     void receiveCreateRoom(InfoConnection &info);
@@ -90,6 +92,7 @@ class ServerNetworkCore : public IServerNetworkCore {
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
 
   private:
+    static void sig_handler(int);
     void _receiveFromChannel(NetworkManager &net);
     void _tramHandler(Tram::Serializable &header, InfoConnection &info,
         uint8_t *buffer);
@@ -103,7 +106,6 @@ class ServerNetworkCore : public IServerNetworkCore {
     NetworkManager _udpServer;
     GarbageEntity _garbageEntity;
     size_t _maxRoomClient;
-    bool _loop{true};
     vector<shared_ptr<NetworkRoom>> _rooms;
     vector<size_t> _roomFreeIds;
 };

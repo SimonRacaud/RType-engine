@@ -14,6 +14,13 @@
 
 using namespace std;
 
+bool ServerNetworkCore::_loop = true;
+
+void ServerNetworkCore::sig_handler(int)
+{
+    ServerNetworkCore::_loop = false;
+}
+
 ServerNetworkCore::ServerNetworkCore()
 try :
     _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(ServerCore::config->getVar<int>("PORT_TCP")))),
@@ -23,6 +30,7 @@ try :
 {
     this->_roomFreeIds.resize(ServerCore::config->getVar<int>("ROOM_MAX"));
     std::iota(std::begin(_roomFreeIds), std::end(_roomFreeIds), 0);
+    signal(SIGINT, ServerNetworkCore::sig_handler);
 } catch (std::exception const &e) {
     std::cerr << "FATAL ERROR : network server connection init failed. " << e.what() << std::endl;
     exit(84); // TODO : to improve

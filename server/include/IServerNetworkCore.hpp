@@ -43,6 +43,8 @@ class IServerNetworkCore {
      */
     virtual void syncComponent(size_t roomId, NetworkId id, std::type_index const &componentType,
         size_t componentSize, void *component) = 0;
+
+    virtual void receiveLoop() = 0;
 };
 
 #endif // ISERVERNETWORKCORE_HPP
