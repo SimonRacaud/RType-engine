@@ -173,6 +173,9 @@ void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
 
         this->_roomFreeIds.pop_back();
         this->_rooms.push_back(std::make_shared<NetworkRoom>(roomId, info));
+        // CREATE ROOM
+        this->_roomManager.createRoom(roomId);
+        // END
         Tram::JoinRoom data(roomId);
         this->receiveJoinRoom(info, data);
     }
@@ -206,7 +209,9 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             /// Remove the player on other clients:
             this->_removePlayer(room, clientIndex);
             if (room->clients.empty()) {
-                /// Close the room
+                // CLOSE ROOM
+                this->_roomManager.deleteRoom(room->roomId);
+                // END
                 this->_roomFreeIds.push_back(room->roomId); // the room id is free again
                 this->_rooms.erase(this->_rooms.begin() + counter); // remove the room
             }

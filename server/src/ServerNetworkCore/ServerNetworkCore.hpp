@@ -30,6 +30,7 @@
 
 #include "IServerNetworkCore.hpp"
 #include "GarbageEntity/GarbageEntity.hpp"
+#include "GameRoomManager/GameRoomManager.hpp"
 
 #include "utils/netVector2f.hpp"
 
@@ -105,6 +106,7 @@ class ServerNetworkCore : public IServerNetworkCore {
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
     GarbageEntity _garbageEntity;
+    GameRoomManager _roomManager;
     size_t _maxRoomClient;
     vector<shared_ptr<NetworkRoom>> _rooms;
     vector<size_t> _roomFreeIds;
