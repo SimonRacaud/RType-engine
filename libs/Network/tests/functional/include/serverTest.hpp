@@ -43,4 +43,6 @@ int testUDPserverNetworkManagerJoinCreateRoomReply();
 int testUDPserverNetworkManagerComponentSync();
 int testUDPserverNetworkManagerDestroyEntity();
 
+int testUDPserverDisconnection();
+
 #endif // R_TYPE_SERVERTEST_HPP
