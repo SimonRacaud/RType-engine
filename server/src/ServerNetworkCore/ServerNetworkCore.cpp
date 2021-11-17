@@ -306,6 +306,7 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
         /// Request from master client
         // TODO - if enemy => remove him ? (on server)
         // => broadcast to others clients
+        this->_roomManager.destroyEntityEnemy(data.roomId, data.networkId);
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
                 this->_tcpServer.send(data, client.ip, client.port);

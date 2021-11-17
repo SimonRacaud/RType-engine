@@ -49,3 +49,14 @@ void GameRoomManager::createEntityEnemy(size_t roomId, uint32_t networkId)
     }
     throw std::invalid_argument("Invalid id, no room found, no enemy created");
 }
+
+void GameRoomManager::destroyEntityEnemy(size_t roomId, uint32_t networkId)
+{
+    for (size_t it = 0; it < _rooms.size(); it++) {
+        if (_rooms[it].getId() == roomId) {
+            _rooms[it].destroyEntityEnemy(networkId);
+            return;
+        }
+    }
+    throw std::invalid_argument("Invalid id, no room found, no enemy destroyed");
+}

@@ -145,3 +145,8 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
     ServerCore::network->syncComponent(_id, networkId, typeid(Component::AnimationInfo), sizeof(Component::AnimationInfo), &(basic.first));
     ServerCore::network->syncComponent(_id, networkId, typeid(std::pair<float, float>), sizeof(std::pair<float, float>), &(basic.second));
 }
+
+void GameRoom::destroyEntityEnemy(uint32_t networkId)
+{
+    this->_stateMachine.closeEnemyApi(this->_stateMachine.getEnemyApi(networkId));
+}

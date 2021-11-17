@@ -17,6 +17,7 @@ class StateMachineManager {
 		StateMachineManager();
 		~StateMachineManager();
 		
+		IEnemyApi *getEnemyApi(uint32_t networkId);
 		IEnemyApi *loadEnemyApi(const std::string &path);
 		void loadAllApiInFolder(const std::string folder);
 		void setMachineNetworkId(const IEnemyApi *ptr, uint32_t networkId);
