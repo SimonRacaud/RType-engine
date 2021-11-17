@@ -118,6 +118,12 @@ void GameRoom::updateEnemy()
 
 void GameRoom::createEntityEnemy(uint32_t networkId)
 {
-    (void) networkId;
-    // TODO
+    if (!this->_enemyRequest.size())
+        throw std::invalid_argument("Request enemy queue is empty, we can't create enemy");
+
+    std::string path = this->_enemyRequest.front();
+    IEnemyApi *api = this->_stateMachine.loadEnemyApi(path);
+
+    this->_enemyRequest.pop();
+    this->_stateMachine.setMachineNetworkId(api, networkId);
 }

@@ -41,6 +41,7 @@ class GameRoom
         GameStage _stage;
         std::chrono::_V2::system_clock::time_point _start;
         StateMachineManager _stateMachine;
+        std::queue<std::string> _enemyRequest;
         std::thread _thread;
 };
 
