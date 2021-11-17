@@ -27,7 +27,7 @@ try : _engine(engine),
     bool loop = true;
     size_t count;
     for (count = 0; loop && count <= MAX_CONNECT_TRY; count++) {
-        break; // TODO : remove that line when the server is ready
+        //break; // TODO : remove that line when the server is ready
         loop = this->_tcpClient.connect(serverIp, serverPort);
         loop = loop || this->_udpClient.connect(serverIp, serverPort);
     }
