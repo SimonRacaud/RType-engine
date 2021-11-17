@@ -66,9 +66,7 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
         }
     });
     componentManager.add<Engine::Render>(entity, bullet);
-    // TODO IF MASTER
-    bool isMaster = false;
-    if (isMaster) {
+    if (GameCore::networkCore.isMaster()) {
         componentManager.add<Component::SyncSend>(entity, Component::MASK::BULLET, Component::toSync::POSITION | Component::toSync::VELOCITY);
     }
     _entity = entity;

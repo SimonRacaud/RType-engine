@@ -47,9 +47,7 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
     componentManager.add<Engine::Render>(entity, anim);
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, hit);
 
-    // TODO IF MASTER
-    bool isMaster = false;
-    if (isMaster) {
+    if (GameCore::networkCore.isMaster()) {
         componentManager.add<Component::SyncSend>(entity, Component::MASK::EQUIPMENT, Component::toSync::POSITION | Component::toSync::VELOCITY);
     }
     _entity = entity;
