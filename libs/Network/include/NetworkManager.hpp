@@ -5,7 +5,7 @@
 ** TODO: add description
 */
 #ifndef R_TYPE_NETWORKMANAGER_HPP
-#define R_TYPE_NETWORKMANAGER_HPP -
+#define R_TYPE_NETWORKMANAGER_HPP
 
 #include <queue>
 #include <tuple>
@@ -59,7 +59,6 @@ class NetworkManager {
     std::unordered_map<std::pair<std::string, std::size_t>, Tram::TramBuffer, hash_pair> _tramBuffers;
     DataWrapper _dataWrapper;
     std::shared_ptr<Network::IConnection<DataWrapper>> _connector{nullptr};
-
 };
 
 template <Pointerable Data> void NetworkManager::send(Data &data, const std::string &ip, const std::size_t port)
@@ -67,8 +66,9 @@ template <Pointerable Data> void NetworkManager::send(Data &data, const std::str
     if (!_connector)
         throw std::logic_error("No connector in NetworkManager");
     if (!_connector->isConnected(ip, port)) {
-        if (!_connector->connect(ip, port))
+        if (!_connector->connect(ip, port)) {
             throw Network::invalidConnection(Network::connectionFailed::_baseMessageFormat, ip, port);
+        }
     }
     _dataWrapper.deserialize(data.serialize(), data.length());
     _connector->send(_dataWrapper, ip, port);

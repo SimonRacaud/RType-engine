@@ -227,7 +227,7 @@ namespace Network
 
             AAsioConnection<Data>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
-            _socketConnections.push_back(newConnection);
+            _socketConnections.emplace_back(newConnection);
             asyncReceive(newConnection);
         }
 
