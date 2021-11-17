@@ -14,7 +14,6 @@
 #include <chrono>
 
 using Time = long int;
-using DurationCast = std::chrono::duration<Time>;
 using steadyClock = std::chrono::steady_clock;
 using TimePoint = std::chrono::time_point<steadyClock>;
 

@@ -162,7 +162,9 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
             GET_EVENT_REG.registerEvent<NotMovingX>(local);
         }
         //SHOOTING
-        if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE) && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && !shooting._isCharging) {
+        if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE)
+            && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE)
+            && !shooting._isCharging) {
             shooting._isCharging = true;
             render.setRender(2);
             GET_EVENT_REG.registerEvent<ChargeShot>(local);
@@ -173,11 +175,11 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
             GET_EVENT_REG.registerEvent<ReleaseChargedShot>(local, Component::MASK::BULLET_PLAYER);
         } else if (!GameCore::event->isStateChange(IEventManager::keyEvent_e::KEY_SPACE)
             && GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_SPACE) && shooting._isCharging) {
-            auto now = std::chrono::steady_clock::now();
             auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
+            Engine::TimePoint now = Engine::Clock::now();
 
-            size_t nb_milli = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
-            size_t value = (nb_milli * 100 / 5000);
+            size_t nb_milli = DurationCast(now - shooting._chargeStart).count();
+            size_t value = (((float)nb_milli / 5000) * 100);
 
             if (value > 100)
                 value = 100;
