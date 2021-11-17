@@ -12,7 +12,7 @@ std::unique_ptr<ConfigFile> ServerCore::config = std::make_unique<ConfigFile>("s
 
 ServerCore::ServerCore() :
 _loop(true),
-_rooms(0, 1)
+_rooms()
 {
     config->setVarGetter<std::pair<int, int>>(ConfigFileExternal::getPairIntInt);
 

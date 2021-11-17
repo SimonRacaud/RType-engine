@@ -7,22 +7,20 @@
 
 #include "GameRoom.hpp"
 
-GameRoom::GameRoom(PlayerList &player, Id id, ServerTypeTcp tcp, ServerTypeUdp udp) : _id(id), _playerList(player), _tcp(std::move(tcp)), _udp(std::move(udp))
+GameRoom::GameRoom(size_t id) : _id(id)
 {
-    // TODO START SERVER TCP && UDP
 }
 
-GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _playerList(src._playerList), _tcp(std::move(src._tcp)), _udp(std::move(src._udp))
+GameRoom::GameRoom(const GameRoom &src) : _id(src._id)
 {
 }
 
 GameRoom::~GameRoom()
 {
     this->destroy();
-    // TODO CLOSE SERVER TCP && UDP
 }
 
-GameRoom::Id GameRoom::getId() const
+size_t GameRoom::getId() const
 {
     return _id;
 }
@@ -46,9 +44,8 @@ void GameRoom::run()
 {
     bool loop = true;
 
-    this->waitConnection();
     while (loop) {
-        // TODO RUN GAME && SERVER
+        // TODO RUN GAME STAGE
     }
 }
 
@@ -58,18 +55,8 @@ void GameRoom::destroy()
         this->_thread.join();
 }
 
-void GameRoom::waitConnection()
-{
-    for (auto &it : this->_playerList) {
-        // TODO ACCEPT USER CONECTION (UDP - TCP)
-    }
-}
-
 GameRoom &GameRoom::operator=(const GameRoom &src)
 {
     this->_id = src._id;
-    this->_playerList = src._playerList;
-    this->_udp = std::move(src._udp);
-    this->_tcp = std::move(src._tcp);
     return *this;
 }
