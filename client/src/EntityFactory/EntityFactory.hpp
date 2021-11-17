@@ -15,7 +15,7 @@
 #include "Tram/CreateEntityRequest.hpp"
 #include "utils/netVector2f.hpp"
 #include "Item/vector2D.hpp"
-#include "Component/EntityMask.hpp"
+#include "Components/EntityMask.hpp"
 
 using Network::netVector2f;
 using Tram::CreateEntityRequest;
