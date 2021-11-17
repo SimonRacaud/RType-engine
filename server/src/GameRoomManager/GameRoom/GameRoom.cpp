@@ -96,7 +96,6 @@ void GameRoom::factoryStage(const StageStep &step) const
         case EntityType::EQUIPMENT:
             std::cout << "EQUIPMENT" << std::endl;
             break;
-        default:
-            break;
+        default: throw std::invalid_argument(""); break;
     }
 }
