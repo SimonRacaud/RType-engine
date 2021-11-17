@@ -16,14 +16,6 @@
 #include "GameCore/GameCore.hpp"
 #include "Scene/Game/GameScene.hpp"
 #include "Scene/RoomList/RoomListScene.hpp"
-#include <signal.h>
-
-static int connectionLoop = true;
-
-static void sig_handler(int) {
-    std::cerr << "STOP." << std::endl;
-    connectionLoop = false;
-}
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
@@ -34,15 +26,14 @@ try : _engine(engine),
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
     size_t serverPort = (size_t)GameCore::config->getVar<int>("SERVER_PORT");
 
-    signal(SIGINT, sig_handler); // TODO check windows with Pol
     bool loop = true;
     size_t count;
-    for (count = 0; loop && connectionLoop && count <= MAX_CONNECT_TRY; count++) {
+    for (count = 0; loop && count <= MAX_CONNECT_TRY; count++) {
         break; // TODO : remove that line when the server is ready
         loop = this->_tcpClient.connect(serverIp, serverPort);
         loop = loop || this->_udpClient.connect(serverIp, serverPort);
     }
-    if (!connectionLoop || count == MAX_CONNECT_TRY) {
+    if (count == MAX_CONNECT_TRY) {
         throw std::runtime_error("No server connection. Exit.");
     }
     SHOW_DEBUG("NETWORK: connected to server");
