@@ -69,7 +69,8 @@ set(CLIENT_SRCS
         client/src/Entities/Equipment/Equipment.cpp
         client/src/Util/MathLerp.cpp
         client/src/ClientNetworkCore/ClientNetworkCore.cpp
-        client/src/System/NetworkReceive/NetworkReceiveSystem.cpp)
+        client/src/System/NetworkReceive/NetworkReceiveSystem.cpp
+        client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp)
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
