@@ -25,6 +25,7 @@ class Player {
 		~Player() = default;
 
         void setNetworkId(uint32_t entityId);
+        Engine::Entity getId() const;
 
 	protected:
       void configAppearance(Engine::Entity entity, vector2D const &position,

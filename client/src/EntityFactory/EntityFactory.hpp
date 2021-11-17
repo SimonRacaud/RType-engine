@@ -14,6 +14,8 @@
 #include "CustomCluster.hpp"
 #include "Tram/CreateEntityRequest.hpp"
 #include "utils/netVector2f.hpp"
+#include "Item/vector2D.hpp"
+#include "Component/EntityMask.hpp"
 
 using Network::netVector2f;
 using Tram::CreateEntityRequest;
@@ -26,8 +28,9 @@ class EntityFactory
 
         void build(CreateEntityRequest const& request);
 
-        void create(const std::string &entityType, netVector2f const& position,
-            netVector2f const& velocity);
+        void createPlayer(vector2D const& position, vector2D const& velocity, int playerNumber);
+        void createBullet(vector2D const& position, vector2D const& velocity, Component::MASK owner,
+            size_t charge);
 
     private:
         static void makePlayer(Engine::ClusterName clusterName, CreateEntityRequest const& request);

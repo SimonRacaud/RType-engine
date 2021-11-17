@@ -15,6 +15,9 @@
 #include "Entities/Explosion/Explosion.hpp"
 #include "Entities/Equipment/Equipment.hpp"
 
+#include "ClientNetworkCore/ClientNetworkCore.hpp"
+#include "GameCore/GameCore.hpp"
+
 EntityFactory::EntityFactory(Engine::ClusterName clusterName) : _clusterName(clusterName)
 {
 }
@@ -33,10 +36,49 @@ void EntityFactory::build(const CreateEntityRequest &request)
     }
 }
 
-void EntityFactory::create(const std::string &entityType, const netVector2f &position,
-    const netVector2f &velocity)
+void EntityFactory::createBullet(const vector2D &position, const vector2D &velocity,
+    Component::MASK owner, size_t charge)
 {
-    // TODO
+    std::string bulletType = "Bullet" + std::to_string(charge);
+    std::string bulletOwner;
+    if (owner == Component::MASK::BULLET_PLAYER) {
+        bulletOwner = "Player";
+    } else if (owner == Component::MASK::BULLET_ENEMY) {
+        bulletOwner = "Enemy";
+    } else {
+        throw std::invalid_argument("EntityFactory::createBullet invalid owner");
+    }
+    bulletType += bulletOwner;
+    Bullet bullet(_clusterName, charge, position, velocity, bulletOwner);
+    Engine::Entity entity = bullet.getId();
+    const netVector2f pos(position.x, position.y);
+    const netVector2f veloc(velocity.x, velocity.y);
+    if (GameCore::networkCore.isMaster()) {
+        Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
+
+        GameCore::engine.getEntityManager().setNetworkId(entity, networkId); // apply network id
+        GameCore::networkCore.createEntity(networkId, bulletType, pos, veloc); // send notification
+    } else {
+        GameCore::networkCore.createEntity(entity, bulletType, pos, veloc); // send request
+    }
+}
+
+void EntityFactory::createPlayer(const vector2D &position, const vector2D &velocity, int playerNumber)
+{
+    Player player(_clusterName, playerNumber, position, velocity);
+    Engine::Entity entity = player.getId();
+    const std::string playerType = "Player" + std::to_string(playerNumber);
+    const netVector2f pos(position.x, position.y);
+    const netVector2f veloc(velocity.x, velocity.y);
+
+    if (GameCore::networkCore.isMaster()) {
+        Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
+
+        GameCore::engine.getEntityManager().setNetworkId(entity, networkId); // apply network id
+        GameCore::networkCore.createEntity(networkId, playerType, pos, veloc); // send notification
+    } else {
+        GameCore::networkCore.createEntity(entity, playerType, pos, veloc); // send request
+    }
 }
 
 void EntityFactory::makePlayer(Engine::ClusterName clusterName, const CreateEntityRequest &request)

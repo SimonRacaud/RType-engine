@@ -23,6 +23,7 @@ class Bullet
         ~Bullet() = default;
 
         void setNetworkId(uint32_t entityId);
+        Engine::Entity getId() const;
 
     private:
         Engine::Entity _entity;

@@ -182,3 +182,7 @@ void Player::setNetworkId(uint32_t entityId)
     GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }
 
+Engine::Entity Player::getId() const
+{
+    return _entity;
+}

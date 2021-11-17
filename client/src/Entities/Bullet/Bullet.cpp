@@ -90,3 +90,8 @@ void Bullet::setNetworkId(uint32_t entityId)
 {
     GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
 }
+
+Engine::Entity Bullet::getId() const
+{
+    return _entity;
+}
