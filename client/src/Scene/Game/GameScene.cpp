@@ -47,13 +47,8 @@ GameScene::GameScene()
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
 }
 
-#include "utils/timeDef.hpp" // TODO [remove] when the server is finished
-
 void GameScene::open()
 {
-    this->setTimeStart(GET_NOW + 5000); // TODO [remove] that line when the server is working
-    this->setPlayerNumber(0); // TODO [remove] when the server is finished.
-
     this->createWaitingScreen();
 }
 

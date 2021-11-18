@@ -21,5 +21,5 @@ EnemyServer::EnemyServer(Engine::ClusterName clusterName, const vector2D &pos, c
         ServerCore::engine.getEntityManager().remove(b);
         // ADD EXPLOSION ANIMATION
     });
-    // TODO ADD SyncSendComponent, StateMachine WHEN READY
+    // ADD SyncSendComponent, StateMachine WHEN READY
 }
