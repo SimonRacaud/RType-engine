@@ -10,12 +10,11 @@
 #include <functional>
 #include "EngineCore.hpp"
 #include <unordered_map>
+#include "Tram/ComponentSync.hpp"
 
 class ComponentRollback {
   public:
-    static void Apply(Engine::Entity id, size_t componentTypeHash, void *component, long int timestamp);
-
-    //    GET_COMP_M
+    static void Apply(Tram::ComponentSync const &tram);
 
   private:
     static void RollbackPosition(Engine::Entity id, void *component, long int timestamp);
@@ -23,11 +22,6 @@ class ComponentRollback {
   private:
     static const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *, long int)>>
         hashcodeComponents;
-    // component position to be changed
-
-    // componentManager :
-    //  component velocity
-    // temps
 };
 
 #endif // R_TYPE_SERVER_COMPONENTROLLBACK_HPP
