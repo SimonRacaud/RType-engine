@@ -21,7 +21,6 @@
 #include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
 #include "Event/NetworkEvent/NetworkEventManager/NetworkEventManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
-#include "DLLoader.hpp"
 #include "ClientNetworkCore/ClientNetworkCore.hpp"
 #include "EntityFactory/EntityFactory.hpp"
 

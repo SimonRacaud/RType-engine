@@ -13,7 +13,7 @@ enum class EntityType
 {
     ENEMY,
     EQUIPMENT,
-    MAX_VALUE
+    ENTITY_TYPE_MAX_VALUE,
 };
 
 #endif

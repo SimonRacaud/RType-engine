@@ -15,7 +15,7 @@ enum class color_e
     GREEN,
     BLACK,
     WHITE,
-    MAX_VALUE
+    COLOR_MAX_VALUE,
 };
 
 #endif

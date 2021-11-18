@@ -8,7 +8,6 @@
 #ifndef IENEMYAPI_HPP_
 #define IENEMYAPI_HPP_
 
-#include "EngineCore.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/Position.hpp"
 #include "Components/Health.hpp"

@@ -13,7 +13,8 @@
 #include <memory>
 #if defined(WIN32) || defined(_WIN32) \
     || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <windows.h>
+    //Include asio.hpp because if we put Windows.h we get double include error for windows compilation
+    #include <asio.hpp> //for windows.h
     #define LIBTYPE          HINSTANCE
     #define OPENLIB(libname) LoadLibrary(libname)
     #define LIBFUNC(lib, fn) GetProcAddress((lib), (fn))

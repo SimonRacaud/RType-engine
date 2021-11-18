@@ -20,7 +20,7 @@ namespace Component {
 					try {
 						std::memcpy(_path, path.c_str(), path.length());
 					} catch (...) {
-						throw Engine::FatalErrorException("Could not copy animation path, because it is too long");
+						throw std::exception("Could not copy animation path, because it is too long");
 					}
 				}
 			virtual ~AnimationInfo() = default;
