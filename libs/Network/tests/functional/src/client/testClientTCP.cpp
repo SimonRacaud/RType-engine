@@ -7,8 +7,8 @@
 
 #include <cstring>
 #include "AsioClientTCP.hpp"
-#include "DataWrapper.hpp"
 #include "clientTest.hpp"
+#include "intWrapper.hpp"
 
 using namespace Network;
 
@@ -23,8 +23,8 @@ int testTCPclientConnectSendDisconnect()
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    intWrapperTCPclient myData(888);
-    AsioClientTCP<intWrapperTCPclient> client;
+    intWrapper myData(888);
+    AsioClientTCP<intWrapper> client;
     usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
 

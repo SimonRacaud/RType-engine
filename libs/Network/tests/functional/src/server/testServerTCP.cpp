@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include "AsioServerTCP.hpp"
-#include "DataWrapper.hpp"
+#include "intWrapper.hpp"
 #include "serverTest.hpp"
 #include <unordered_map>
 
@@ -22,9 +22,9 @@ using namespace Network;
 int testTCPserverAcceptReceive()
 {
     const std::size_t portServer(8080);
-    std::tuple<intWrapperTCPserver, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<intWrapperTCPserver> server(portServer);
-    intWrapperTCPserver my_var;
+    std::tuple<intWrapper, std::size_t, std::string, std::size_t> recvData;
+    AsioServerTCP<intWrapper> server(portServer);
+    intWrapper my_var;
 
     while (true) {
         recvData = server.receiveAny();
