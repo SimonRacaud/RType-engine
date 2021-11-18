@@ -80,8 +80,8 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     });
     /// NETWORK
     if (GameCore::networkCore.isMaster()) {
-        componentManager.add<Component::SyncSend>(entity, mask,
-            Component::toSync::POSITION | Component::toSync::VELOCITY);
+        componentManager.add<Component::SyncSend>(entity,
+            Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY);
     }
     _entity = entity;
 }

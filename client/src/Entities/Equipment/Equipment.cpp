@@ -48,7 +48,8 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, hit);
 
     if (GameCore::networkCore.isMaster()) {
-        componentManager.add<Component::SyncSend>(entity, Component::MASK::EQUIPMENT, Component::toSync::POSITION | Component::toSync::VELOCITY);
+        componentManager.add<Component::SyncSend>(entity,
+            Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY);
     }
     _entity = entity;
 }
