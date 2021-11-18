@@ -39,7 +39,7 @@ namespace Network
             if (AAsioConnection<Data>::isConnected(ip, port)) {
                 return true;
             } else {
-                this->send(Data(), ip, port);
+                sendPing(ip, port);
                 return AAsioConnection<Data>::connect(ip, port);
             }
         }
@@ -50,7 +50,7 @@ namespace Network
                 return;
             }
 
-            this->send(Data(), ip, port);
+            sendPing(ip, port);
             AAsioConnection<Data>::disconnect(ip, port);
         }
 
@@ -114,6 +114,13 @@ namespace Network
         }
 
       private:
+        void sendPing(const std::string &ip, const std::size_t port)
+        {
+            udp::endpoint remoteEndpoint(asio::ip::make_address(ip), port);
+            asio::const_buffer buffer(nullptr, 0);
+
+            _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
+        }
         /**
          * @brief Initialize asynchronous data acceptance from every connection
          */

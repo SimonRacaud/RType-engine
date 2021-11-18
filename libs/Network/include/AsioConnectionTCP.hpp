@@ -252,11 +252,6 @@ namespace Network
             if (pos != _socketConnections.end()) {
                 _socketConnections.erase(pos);
             }
-            std::cout << "disconnection effective" << std::endl;
-            for (const auto &socket_connection : _socketConnections) {
-                std::cout << socket_connection->remote_endpoint().address().to_string() << std::endl;
-            }
-            _mutex.unlock();
         }
 
       private:

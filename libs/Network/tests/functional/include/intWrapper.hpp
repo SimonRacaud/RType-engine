@@ -23,6 +23,7 @@ class intWrapper {
     {
         return _val;
     }
+
     [[nodiscard]] int getOtherVal() const
     {
         return _otherVal;
@@ -36,6 +37,7 @@ class intWrapper {
         memcpy(data + sizeof(int), &_otherVal, sizeof(int));
         return data;
     }
+
     intWrapper(uint8_t *data, const std::size_t len)
     {
         if (len != sizeof(intWrapper)) {

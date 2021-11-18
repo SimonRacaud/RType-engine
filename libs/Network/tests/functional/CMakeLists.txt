@@ -176,10 +176,11 @@ set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
 set(SH_ADD_CMD -c)
 
 ##### TEST THAT TESTS WORK
-#add_test(TestTheTest bin/client 0)
-#set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
+add_test(TestTheTest bin/client 0)
+set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
 
-##### REAL TESTS
+
+## REAL TESTS
 set(TEST_NB 1)
 set(TEST simpleSendReceiveTCP)
 add_test(NAME ${TEST}
@@ -190,9 +191,9 @@ set_tests_properties(${TEST}
                      TIMEOUT ${TEST_TIMEOUT})
 
 
-####### TESTS IN LOOP
+# TESTS IN LOOP
 
-##### TESTS TRAM BUFFER
+# TESTS TRAM BUFFER
 set(TEST_NBS 2;3;4;5;6;7;8)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
@@ -283,7 +284,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
                          TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
-##### TESTS TRAM BUFFER
+# TESTS TRAM BUFFER
 set(TEST_NBS 1;2;3;4)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
