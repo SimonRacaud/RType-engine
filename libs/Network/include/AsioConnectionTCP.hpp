@@ -39,30 +39,18 @@ namespace Network
          */
         void disconnect(const std::string &ip, const std::size_t port) override
         {
-            auto first(_socketConnections.begin());
-            auto last(_socketConnections.end());
             auto connection(getConnection(ip, port));
 
-            if (!connection)
+            if (!connection) {
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            first = std::find(first, last, connection);
-            if (first == last)
-                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            this->send(Data(), ip, port);
-            AAsioConnection<Data>::disconnect(
-                connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
-            if (first != last)
-                for (auto i = first; ++i != last;)
-                    if (!(*i == connection))
-                        (void) std::move(*i);
+            }
+            disconnect(connection);
         }
 
         void disconnectAll() override
         {
-            AAsioConnection<Data>::disconnectAll();
-
-            for (const auto &connection : _socketConnections) {
-                disconnect(connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
+            for (auto &connection : _socketConnections) {
+                disconnect(connection);
             }
         }
 
@@ -181,6 +169,11 @@ namespace Network
             std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
+                std::cerr << "Asio : " << err.message() << std::endl;
+                if (err.value() == asio::error::operation_aborted) {
+                    disconnect(connection);
+                    return;
+                }
                 if (err.value() == asio::error::misc_errors::eof) {
                     return;
                 }
@@ -229,6 +222,16 @@ namespace Network
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
             _socketConnections.emplace_back(newConnection);
             asyncReceive(newConnection);
+        }
+
+      private:
+        void disconnect(std::shared_ptr<tcp::socket> &connection)
+        {
+            AAsioConnection<Data>::disconnect(
+                connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
+            connection->close();
+            auto pos(std::find(_socketConnections.begin(), _socketConnections.end(), connection));
+            _socketConnections.erase(pos);
         }
 
       private:
