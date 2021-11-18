@@ -23,7 +23,7 @@ float lerp(float minValue, float maxValue, float norm);
 class Player {
 	public:
         Player(ClusterName cluster, int playerNumber, const vector2D &position,
-            const vector2D &velocity = {0, 0});
+            const vector2D &velocity = {0, 0}, bool isLocalPlayer = false);
 		~Player() = default;
 
         void setNetworkId(uint32_t entityId);

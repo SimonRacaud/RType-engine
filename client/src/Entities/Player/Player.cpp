@@ -55,7 +55,7 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
 }
 
 Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
-    const vector2D &velocity)
+    const vector2D &velocity, bool isLocalPlayer)
 {
     const vector2D hitboxSize(40, 40);
 
@@ -77,8 +77,12 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
     componentManager.add<Engine::ScoreComponent>(entity);
     componentManager.add<Engine::EquipmentComponent>(entity);
     componentManager.add<Component::Shooting>(entity);
-    componentManager.add<Component::SyncSend>(entity,
-        Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY | Component::SyncComponentType::SCORE);
+    if (isLocalPlayer) {
+        componentManager.add<Component::SyncSend>(entity,
+            Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY
+                | Component::SyncComponentType::SCORE);
+        // + Component::SyncComponentType::EQUIPMENT_COMP ?
+    }
     this->configEvent(entity, componentManager);
     _entity = entity;
 }
