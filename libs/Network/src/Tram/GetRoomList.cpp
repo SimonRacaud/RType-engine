@@ -42,7 +42,7 @@ void GetRoomList::deserialize(uint8_t *buffer)
     auto *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
     this->nbItem = ptr->nbItem;
-    std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
+    std::memcpy(this->list, ptr->list, sizeof(size_t) * this->nbItem);
 }
 
 size_t GetRoomList::length() const
