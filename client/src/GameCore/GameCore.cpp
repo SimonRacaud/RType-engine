@@ -47,6 +47,7 @@
 #include "Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.hpp"
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
+#include "Event/EntityHit/EntityHitManager/EntityHitManager.hpp"
 
 //SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
@@ -80,6 +81,7 @@ void GameCore::run()
     EntityRemoveManager entityRemoveManager;
     MoveHandler handler;
     ShootEventsManager shootEventsManager;
+    EntityHitManager entityHitManager;
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Timer>();
