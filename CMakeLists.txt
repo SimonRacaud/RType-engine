@@ -46,6 +46,7 @@ set(CLIENT_SRCS
         client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
         client/src/Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.cpp
         client/src/Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.cpp
+        client/src/Event/EntityHit/EntityHitManager/EntityHitManager.cpp
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp

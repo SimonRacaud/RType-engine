@@ -26,6 +26,8 @@
 #include "Event/ShootEvents/ShootEvents.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 #include "Event/EntityRemove/EntityRemoveEvent.hpp"
+#include "Event/EntityHit/EntityHitEvents.hpp"
+#include "Component/Damage.hpp"
 #include <stdexcept>
 
 using namespace Engine;
@@ -60,6 +62,9 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
     if (mask._currentMask == Component::MASK::ENEMY) {
         GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
         GET_EVENT_REG.registerEvent<EntityRemoveEvent>(b);
+    }
+    if (mask._currentMask == Component::MASK::BULLET_ENEMY) {
+        GET_EVENT_REG.registerEvent<EntityHit>(a, GET_COMP_M.get<Component::Damage>(b)._damage);
     }
 }
 
