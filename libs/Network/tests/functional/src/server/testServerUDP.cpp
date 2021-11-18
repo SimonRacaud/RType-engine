@@ -12,15 +12,15 @@
 
 using namespace Network;
 
-class intWrapper {
+class intWrapperUDPserver {
   public:
-    intWrapper() = default;
-    explicit intWrapper(int val) : _val(val){};
-    ~intWrapper() = default;
+    intWrapperUDPserver() = default;
+    explicit intWrapperUDPserver(int val) : _val(val){};
+    ~intWrapperUDPserver() = default;
 
     [[nodiscard]] std::size_t length() const
     {
-        return sizeof(intWrapper);
+        return sizeof(intWrapperUDPserver);
     }
 
     [[nodiscard]] int getVal() const
@@ -34,15 +34,16 @@ class intWrapper {
 
     [[nodiscard]] uint8_t *serialize() const
     {
-        auto data(new uint8_t[sizeof(intWrapper)]);
+        auto data(new uint8_t[sizeof(intWrapperUDPserver)]);
 
         memcpy(data, &_val, sizeof(int));
         memcpy(data + sizeof(int), &_otherVal, sizeof(int));
         return data;
     }
-    intWrapper(uint8_t *data, const std::size_t len)
+
+    intWrapperUDPserver(uint8_t *data, const std::size_t len)
     {
-        if (len != sizeof(intWrapper)) {
+        if (len != sizeof(intWrapperUDPserver)) {
             return;
         }
         memcpy(&_val, data, sizeof(int));
@@ -63,9 +64,9 @@ class intWrapper {
 int testUDPserverAcceptReceive()
 {
     const std::size_t portServer(8080);
-    std::tuple<intWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioConnectionUDP<intWrapper> server(portServer);
-    intWrapper my_var;
+    std::tuple<intWrapperUDPserver, std::size_t, std::string, std::size_t> recvData;
+    AsioConnectionUDP<intWrapperUDPserver> server(portServer);
+    intWrapperUDPserver my_var;
 
     while (true) {
         recvData = server.receiveAny();
@@ -77,9 +78,6 @@ int testUDPserverAcceptReceive()
                 break;
             }
         }
-        //  todo set clock to avoid infinite loop
-        //     in shell script ?
-        //     with Clock class ?
     }
     return 84;
 }

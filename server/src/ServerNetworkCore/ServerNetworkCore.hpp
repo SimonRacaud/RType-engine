@@ -33,6 +33,7 @@
 #include "GameRoomManager/GameRoomManager.hpp"
 
 #include "utils/netVector2f.hpp"
+#include "Debug.hpp"
 
 #include <vector>
 #include <memory>

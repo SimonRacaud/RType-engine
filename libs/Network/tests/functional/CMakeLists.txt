@@ -57,6 +57,8 @@ set(SRCS_SERVER
     ${SERVER_DIR}testServerUDP.cpp
     ${SERVER_DIR}testServerUDPdataWrapper.cpp
     ${SERVER_DIR}testServerUDPnetworkManager.cpp
+    ${SERVER_DIR}testServerUDPdisconnection.cpp
+    ${SERVER_DIR}testServerTCPdisconnection.cpp
     )
 
 add_executable(${SERVER}
@@ -96,6 +98,8 @@ set(SRCS_CLIENT
     ${CLIENT_DIR}testClientUDP.cpp
     ${CLIENT_DIR}testClientUDPdataWrapper.cpp
     ${CLIENT_DIR}testClientUDPnetworkManager.cpp
+    ${CLIENT_DIR}testClientUDPdisconnection.cpp
+    ${CLIENT_DIR}testClientTCPdisconnection.cpp
     )
 
 ## TARGET
@@ -244,6 +248,33 @@ set(TEST_NBS 24;25;26;27;28;29;30)
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
     set(TEST test_UDP_networkManager_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+endforeach ()
+
+
+set(TEST_NBS 31)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_UDP_disconnection_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+endforeach ()
+
+set(TEST_NBS 32)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_TCP_disconnection_${TEST_NB})
     add_test(NAME ${TEST}
              COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
              ${CLIENT_TEST_BIN} ${TEST_NB})

@@ -13,8 +13,7 @@
 
 #include <stddef.h>
 
-#define UDP_PORT (size_t)8091
-#define TCP_PORT (size_t)8090
+#define CLIENT_UDP_PORT (size_t)8082
 
 /**
  * @brief Time between the creation of the room and the beginning of the game

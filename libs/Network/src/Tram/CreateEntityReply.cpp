@@ -31,8 +31,8 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networ
       velocity(velocity),
       port(port)
 {
-    std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
-    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN);
+    std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
+    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }
 
 CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId,
@@ -48,8 +48,8 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entity
       velocity(velocity),
       port(port)
 {
-    std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
-    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN);
+    std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
+    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }
 
 uint8_t *CreateEntityReply::serialize() const

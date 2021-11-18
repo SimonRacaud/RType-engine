@@ -21,15 +21,11 @@ static uint8_t *startServerGetData()
     std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioServerTCP<DataWrapper>>(portServer));
     NetworkManager serverManager(server);
 
-
     while (true) {
         recvData = serverManager.receive();
         if (std::get<0>(recvData)) {
             return std::get<0>(recvData);
         }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
     }
     exit(84);
 }
@@ -52,6 +48,7 @@ int testTCPserverNetworkManagerJoinRoom()
 
 int testTCPserverNetworkManagerGetRoomList()
 {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
     Tram::GetRoomList my_data{startServerGetData()};
 
     if (my_data.nbItem == 2 && my_data.list[0] == 222 && my_data.list[1] == 444) {
@@ -72,10 +69,10 @@ int testTCPserverNetworkManagerCreateEntityReply()
 
 int testTCPserverNetworkManagerCreateEntityRequest()
 {
-    Tram::CreateEntityRequest my_data{startServerGetData()};
+    Tram::CreateEntityRequest my_data(startServerGetData());
 
-    if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
-        && my_data.timestamp == std::chrono::milliseconds(321)) {
+    if (my_data.roomId == 123 && my_data.id == 456 && std::string(my_data.entityType) == std::string("789")
+        && my_data.timestamp == 321) {
         return 0;
     }
     return 84;
@@ -83,10 +80,9 @@ int testTCPserverNetworkManagerCreateEntityRequest()
 
 int testTCPserverNetworkManagerJoinCreateRoomReply()
 {
-    Tram::JoinCreateRoomReply my_data{startServerGetData()};
+    Tram::JoinCreateRoomReply my_data(startServerGetData());
 
-    if (my_data.accept == true && my_data.roomId == 123456789
-        && my_data.startTimestamp == std::chrono::milliseconds(987)) {
+    if (my_data.accept == true && my_data.roomId == 123456789 && my_data.startTimestamp == 987) {
         return 0;
     }
     return 84;
@@ -114,12 +110,10 @@ int testTCPserverNetworkManagerComponentSync()
 
 int testTCPserverNetworkManagerDestroyEntity()
 {
-    Tram::DestroyEntity my_data{startServerGetData()};
+    Tram::DestroyEntity my_data(startServerGetData());
 
     if (my_data.roomId == 987654321 && my_data.networkId == 665544) {
         return 0;
     }
     return 84;
 }
-
-// todo test all Trams

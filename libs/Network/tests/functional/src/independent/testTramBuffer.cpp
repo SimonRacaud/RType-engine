@@ -12,7 +12,7 @@
 
 int testTramBufferComplete()
 {
-    Tram::JoinCreateRoomReply myData(true, 12, std::chrono::milliseconds(34));
+    Tram::JoinCreateRoomReply myData(true, 12, 34);
     Tram::TramBuffer myBuffer;
 
     myBuffer.SetData(myData.serialize(), myData.length());
@@ -23,7 +23,7 @@ int testTramBufferComplete()
 
 int testTramBufferIncomplete()
 {
-    Tram::JoinCreateRoomReply myData(true, 12, std::chrono::milliseconds(34));
+    Tram::JoinCreateRoomReply myData(true, 12, 34);
     Tram::TramBuffer myBuffer;
     uint8_t *serializedData(myData.serialize());
     std::size_t truncatedSize(myData.length() / 2);
@@ -38,7 +38,7 @@ int testTramBufferIncomplete()
 
 int testTramBufferTruncatedSet()
 {
-    Tram::JoinCreateRoomReply myData(true, 12, std::chrono::milliseconds(34));
+    Tram::JoinCreateRoomReply myData(true, 12, 34);
     Tram::TramBuffer myBuffer;
     uint8_t *serializedData(myData.serialize());
     std::size_t truncatedSize(myData.length() / 2);
@@ -54,7 +54,7 @@ int testTramBufferTruncatedSet()
 
 int testTramBuffer2Sets()
 {
-    Tram::JoinCreateRoomReply myData(true, 12, std::chrono::milliseconds(34));
+    Tram::JoinCreateRoomReply myData(true, 12, 34);
     Tram::TramBuffer myBuffer;
     uint8_t *serializedData(myData.serialize());
     auto *serializedDataTwice(new uint8_t[(myData.length() * 2)]);

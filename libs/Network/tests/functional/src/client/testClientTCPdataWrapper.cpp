@@ -24,7 +24,8 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
     if (!connected)
         return 84;
     client.send(wrapper, ipServer, portServer);
-    client.disconnect(ipServer, portServer);
+    if (client.isConnected(ipServer, portServer))
+        client.disconnect(ipServer, portServer);
     return 0;
 }
 
@@ -38,14 +39,16 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
  */
 int testTCPclientDataWrapperJoinRoom()
 {
-    Tram::JoinRoom my_data{51};
+    Tram::JoinRoom my_data(51);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 
 int testTCPclientDataWrapperGetRoomList()
 {
-    std::vector<std::size_t> listOfRooms{222, 444};
+    std::vector<std::size_t> listOfRooms;
+    listOfRooms.emplace_back(222);
+    listOfRooms.emplace_back(444);
     Tram::GetRoomList my_data{listOfRooms};
 
     return startClientSendData(my_data.serialize(), my_data.length());
@@ -53,19 +56,19 @@ int testTCPclientDataWrapperGetRoomList()
 
 int testTCPclientDataWrapperCreateEntityReply()
 {
-    Tram::CreateEntityReply my_data{123, true, 456, 789};
+    Tram::CreateEntityReply my_data(123, true, 456, 789, "ip", 8080, 321, "type", netVector2f(0, 0), netVector2f(0, 0));
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testTCPclientDataWrapperCreateEntityRequest()
 {
-    Tram::CreateEntityRequest my_data{123, 456, "789", std::chrono::milliseconds(321)};
+    Tram::CreateEntityRequest my_data(123, 456, "789", 321, netVector2f(0, 0), netVector2f(0, 0));
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testTCPclientDataWrapperJoinCreateRoomReply()
 {
-    Tram::JoinCreateRoomReply my_data{true, 123456789, std::chrono::milliseconds(987)};
+    Tram::JoinCreateRoomReply my_data(true, 123456789, 987);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
@@ -86,9 +89,7 @@ int testTCPclientDataWrapperComponentSync()
 }
 int testTCPclientDataWrapperDestroyEntity()
 {
-    Tram::DestroyEntity my_data{987654321, 665544};
+    Tram::DestroyEntity my_data(987654321, 665544);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
-
-// todo test all Trams

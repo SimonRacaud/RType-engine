@@ -8,8 +8,8 @@
 #ifndef BABEL_ASIOCONNECTIONTCP_HPP
 #define BABEL_ASIOCONNECTIONTCP_HPP
 
-#include <iostream>
 #include <functional>
+#include <iostream>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -40,27 +40,19 @@ namespace Network
          */
         void disconnect(const std::string &ip, const std::size_t port) override
         {
-            auto first(_socketConnections.begin());
-            auto last(_socketConnections.end());
             auto connection(getConnection(ip, port));
 
-            if (!connection)
+            if (!connection) {
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            first = std::find(first, last, connection);
-            if (first == last)
-                throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            AAsioConnection<Data>::disconnect(
-                connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
-            if (first != last)
-                for (auto i = first; ++i != last;)
-                    if (!(*i == connection))
-                        (void) std::move(*i);
+            }
+            disconnect(connection);
         }
 
         void disconnectAll() override
         {
-            AAsioConnection<Data>::disconnectAll();
-            _socketConnections.clear();
+            for (auto &connection : _socketConnections) {
+                disconnect(connection);
+            }
         }
 
         /**
@@ -178,10 +170,17 @@ namespace Network
             std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
-                if (err.value() == asio::error::misc_errors::eof) {
+                std::cerr << "Asio : " << err.message() << std::endl;
+                if (err.value() == asio::error::operation_aborted) {
+                    disconnect(connection);
                     return;
                 }
+                if (err.value() == asio::error::misc_errors::eof) {
+                    disconnect(connection);
+                    return; // todo disconnect() ?
+                }
             }
+
             if (!receivedPacketSize) {
                 return;
             }
@@ -224,8 +223,40 @@ namespace Network
 
             AAsioConnection<Data>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
-            _socketConnections.push_back(newConnection);
+            _socketConnections.emplace_back(newConnection);
             asyncReceive(newConnection);
+        }
+
+      private:
+        void disconnect(std::shared_ptr<tcp::socket> &connection)
+        {
+            asio::ip::tcp::endpoint connectionEndpoint;
+            std::string connectionIp;
+            std::size_t connectionPort(0);
+
+            try {
+                connectionEndpoint = connection->remote_endpoint();
+                connectionIp = connectionEndpoint.address().to_string();
+                connectionPort = connectionEndpoint.port();
+                if (AAsioConnection<Data>::isConnected(connectionIp, connectionPort))
+                    AAsioConnection<Data>::disconnect(connectionIp, connectionPort);
+            } catch (const std::system_error &) {
+            }
+            if (connection && connection->is_open()) {
+                try {
+                    connection->close();
+                } catch (const std::system_error &) {
+                }
+            }
+            auto pos(std::find(_socketConnections.begin(), _socketConnections.end(), connection));
+            if (pos != _socketConnections.end()) {
+                _socketConnections.erase(pos);
+            }
+            std::cout << "disconnection effective" << std::endl;
+            for (const auto &socket_connection : _socketConnections) {
+                std::cout << socket_connection->remote_endpoint().address().to_string() << std::endl;
+            }
+            _mutex.unlock();
         }
 
       private:
@@ -233,6 +264,7 @@ namespace Network
          * @brief deque of connected sockets
          */
         ThreadSafety::LockedDeque<std::shared_ptr<tcp::socket>> _socketConnections;
+        std::mutex _mutex;
     };
 
 } // namespace Network

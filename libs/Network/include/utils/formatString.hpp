@@ -18,6 +18,8 @@ namespace std
     }
 } // namespace std
 
+#include <iostream> // todo remove after debug
+
 class formatString {
   public:
     /**
@@ -33,8 +35,9 @@ class formatString {
     template <typename T, typename... Types>
     static std::string format(std::string fmt, T toPlace, Types... otherToPlace)
     {
-        if (fmt.find(formatIdentifier) != std::string::npos)
-            fmt.replace(fmt.find(formatIdentifier), formatIdentifier.size(), std::to_string(toPlace));
+        if (fmt.find(formatString::formatIdentifier) != std::string::npos)
+            fmt.replace(fmt.find(formatString::formatIdentifier), formatString::formatIdentifier.size(),
+                std::to_string(toPlace));
         else
             return fmt;
         return formatString::format(fmt, otherToPlace...);
@@ -42,8 +45,8 @@ class formatString {
 
     static std::string removeIdentifiers(std::string fmt)
     {
-        while (fmt.find(formatIdentifier)) {
-            fmt.replace(fmt.find(formatIdentifier), formatIdentifier.size(), "");
+        while (fmt.find(formatString::formatIdentifier) != std::string::npos) {
+            fmt.replace(fmt.find(formatString::formatIdentifier), formatString::formatIdentifier.size(), "");
         }
         return fmt;
     }

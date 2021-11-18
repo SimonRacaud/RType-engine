@@ -8,6 +8,8 @@
 #ifndef R_TYPE_CLIENTTEST_HPP
 #define R_TYPE_CLIENTTEST_HPP
 
+#include <cstring>
+
 int testTCPclientConnectSendDisconnect();
 
 int testTCPclientDataWrapperJoinRoom();
@@ -43,5 +45,8 @@ int testUDPclientNetworkManagerCreateEntityRequest();
 int testUDPclientNetworkManagerJoinCreateRoomReply();
 int testUDPclientNetworkManagerComponentSync();
 int testUDPclientNetworkManagerDestroyEntity();
+
+int testUDPclientDisconnection();
+int testTCPclientDisconnection();
 
 #endif // R_TYPE_CLIENTTEST_HPP
