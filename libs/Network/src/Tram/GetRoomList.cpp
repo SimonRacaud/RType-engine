@@ -23,7 +23,7 @@ GetRoomList::GetRoomList(const std::vector<size_t> &roomIdList)
         this->list[i] = roomIdList[i];
     }
     this->nbItem = listSize;
-    Serializable::size += (sizeof(size_t) * this->nbItem);
+    this->size = sizeof(GetRoomList) + (sizeof(size_t) * this->nbItem);
 }
 
 GetRoomList::~GetRoomList()
@@ -62,7 +62,7 @@ void GetRoomList::deserialize(uint8_t *buffer)
             this->list, buffer + sizeof(GetRoomList),
             sizeof(size_t) * this->nbItem);
     }
-    Serializable::size = sizeof(GetRoomList) + (sizeof(size_t) * this->nbItem);
+    this->size = sizeof(GetRoomList) + (sizeof(size_t) * this->nbItem);
 }
 
 size_t GetRoomList::length() const
