@@ -21,16 +21,17 @@
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
     _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
-    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(UDP_PORT)))
+    _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(CLIENT_UDP_PORT)))
 {
     std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
-    size_t serverPort = (size_t)GameCore::config->getVar<int>("SERVER_PORT");
+    size_t serverPortTcp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_TCP");
+    size_t serverPortUdp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_UDP");
 
     bool loop = true;
     size_t count;
     for (count = 0; loop && count <= MAX_CONNECT_TRY; count++) {
-        loop = this->_tcpClient.connect(serverIp, serverPort);
-        loop = loop || this->_udpClient.connect(serverIp, serverPort);
+        loop = this->_tcpClient.connect(serverIp, serverPortTcp);
+        loop = loop || this->_udpClient.connect(serverIp, serverPortUdp);
     }
     if (count == MAX_CONNECT_TRY) {
         throw std::runtime_error("No server connection. Exit.");
