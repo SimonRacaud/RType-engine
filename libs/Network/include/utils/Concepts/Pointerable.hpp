@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2021
 ** Pointerable.hpp
 ** File description:
-** TODO: add description
+** add description
 */
 #ifndef R_TYPE_POINTERABLE_HPP
 #define R_TYPE_POINTERABLE_HPP
