@@ -67,7 +67,7 @@ void GetRoomList::deserialize(uint8_t *buffer)
 
 size_t GetRoomList::length() const
 {
-    return Serializable::size;
+    return sizeof(GetRoomList) + (this->nbItem * sizeof(size_t));
 }
 
 GetRoomList::GetRoomList(uint8_t *buffer)
