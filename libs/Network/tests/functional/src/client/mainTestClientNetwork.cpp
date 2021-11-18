@@ -57,6 +57,7 @@ static const std::unordered_map<int, std::function<int(void)>> testFunctions{
     {++testNb, testUDPclientNetworkManagerComponentSync},
     {++testNb, testUDPclientNetworkManagerDestroyEntity},
     {++testNb, testUDPclientDisconnection},
+    {++testNb, testTCPclientDisconnection},
 
 };
 

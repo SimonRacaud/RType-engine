@@ -176,6 +176,7 @@ namespace Network
                     return;
                 }
                 if (err.value() == asio::error::misc_errors::eof) {
+                    disconnect(connection);
                     return; // todo disconnect() ?
                 }
             }
@@ -229,11 +230,33 @@ namespace Network
       private:
         void disconnect(std::shared_ptr<tcp::socket> &connection)
         {
-            AAsioConnection<Data>::disconnect(
-                connection->remote_endpoint().address().to_string(), connection->remote_endpoint().port());
-            connection->close();
+            asio::ip::tcp::endpoint connectionEndpoint;
+            std::string connectionIp;
+            std::size_t connectionPort(0);
+
+            try {
+                connectionEndpoint = connection->remote_endpoint();
+                connectionIp = connectionEndpoint.address().to_string();
+                connectionPort = connectionEndpoint.port();
+                if (AAsioConnection<Data>::isConnected(connectionIp, connectionPort))
+                    AAsioConnection<Data>::disconnect(connectionIp, connectionPort);
+            } catch (const std::system_error &) {
+            }
+            if (connection->is_open()) {
+                try {
+                    connection->close();
+                } catch (const std::system_error &) {
+                }
+            }
             auto pos(std::find(_socketConnections.begin(), _socketConnections.end(), connection));
-            _socketConnections.erase(pos);
+            if (pos != _socketConnections.end()) {
+                _socketConnections.erase(pos);
+            }
+            std::cout << "disconnection effective" << std::endl;
+            for (const auto &socket_connection : _socketConnections) {
+                std::cout << socket_connection->remote_endpoint().address().to_string() << std::endl;
+            }
+            _mutex.unlock();
         }
 
       private:
@@ -241,6 +264,7 @@ namespace Network
          * @brief deque of connected sockets
          */
         ThreadSafety::LockedDeque<std::shared_ptr<tcp::socket>> _socketConnections;
+        std::mutex _mutex;
     };
 
 } // namespace Network
