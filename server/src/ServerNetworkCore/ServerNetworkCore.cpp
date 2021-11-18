@@ -28,6 +28,7 @@ try :
     _garbageEntity(ServerCore::config->getVar<std::pair<int, int>>("WINDOW_SIZE")),
     _maxRoomClient(ServerCore::config->getVar<int>("MAX_CLIENT_ROOM"))
 {
+    PUT_DEBUG("INITIALIZED.");
     this->_roomFreeIds.resize(ServerCore::config->getVar<int>("ROOM_MAX"));
     std::iota(std::begin(_roomFreeIds), std::end(_roomFreeIds), 0);
     signal(SIGINT, ServerNetworkCore::sig_handler);
@@ -39,6 +40,7 @@ try :
 void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
     netVector2f const& position, netVector2f const& velocity)
 {
+    PUT_DEBUG("[Send] Create entity : roomId=" + to_string(roomId) + ", type=" + type + ".");
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
@@ -47,6 +49,7 @@ void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
 
 void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
 {
+    PUT_DEBUG("[Send] Destroy entity : roomId=" + to_string(roomId) + ", networkId=" + to_string(id) + ".");
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     Tram::DestroyEntity tram(roomId, id);
 
@@ -58,6 +61,8 @@ void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
 void ServerNetworkCore::syncComponent(size_t roomId, NetworkId id,
     std::type_index const &componentType, size_t componentSize, void *component)
 {
+    PUT_DEBUG("[Send] Sync component : roomId=" + to_string(roomId) + ", networkId=" + to_string(id) + ", componentType="
+        + to_string(componentType.hash_code()) + ".");
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     long int timestamp = GET_NOW;
     Tram::ComponentSync tram(roomId, id, timestamp, componentType, componentSize, component);
@@ -96,6 +101,7 @@ void ServerNetworkCore::_receiveFromChannel(NetworkManager &net)
         throw std::runtime_error("ServerNetworkCore::_receiveFromChannel invalid magic number");
     }
     InfoConnection info(std::get<0>(client), std::get<1>(client));
+    PUT_DEBUG("Receive packet from IP=" + info.ip + ", PORT=" + to_string(info.port) + ".");
     this->_tramHandler(header, info, buffer);
 }
 
@@ -152,6 +158,7 @@ void ServerNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
 
 void ServerNetworkCore::receiveGetRoomList(InfoConnection &info)
 {
+    PUT_DEBUG("Receive [GetRoomList].");
     std::vector<size_t> roomList;
 
     for (shared_ptr<NetworkRoom> const &room : _rooms) {
@@ -163,9 +170,12 @@ void ServerNetworkCore::receiveGetRoomList(InfoConnection &info)
 
 void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
 {
+    PUT_DEBUG("Receive [CreateRoom] .");
+
     if (this->_roomFreeIds.empty()) {
         Tram::JoinCreateRoomReply tram(false);
         this->_udpServer.send(tram, info.ip, info.port);
+        PUT_DEBUG("[CreateRoom] creation refused.");
     } else {
         size_t roomId = this->_roomFreeIds.back();
 
@@ -176,26 +186,31 @@ void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
         // END
         Tram::JoinRoom data(roomId);
         this->receiveJoinRoom(info, data);
+        PUT_DEBUG("[CreateRoom] RoomId="+ to_string(roomId)+" created.");
     }
 }
 
 void ServerNetworkCore::receiveJoinRoom(InfoConnection &info, Tram::JoinRoom &data)
 {
+    PUT_DEBUG("Receive [JoinRoom] roomId="+to_string(data.roomId)+".");
     size_t roomId = data.roomId;
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
 
     if (room->clients.size() >= _maxRoomClient || room->startTimestamp >= GET_NOW) {
         Tram::JoinCreateRoomReply tram(false, roomId);
         this->_udpServer.send(tram, info.ip, info.port);
+        PUT_DEBUG("[JoinRoom] refused.");
     } else {
         Tram::JoinCreateRoomReply tram(true, roomId, room->startTimestamp, (room->clients.size() + 1));
         this->_udpServer.send(tram, info.ip, info.port);
         room->clients.push_back(info);
+        PUT_DEBUG("[JoinRoom] accepted.");
     }
 }
 
 void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
 {
+    PUT_DEBUG("Receive [QuitRoom] IP="+info.ip+", PORT="+to_string(info.port)+".");
     size_t counter = 0;
     for (shared_ptr<NetworkRoom> &room : _rooms) {
         auto it = std::find_if(room->clients.begin(), room->clients.end(), [info](InfoConnection const &item) {
@@ -206,12 +221,14 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             room->clients.erase(it);
             /// Remove the player on other clients:
             this->_removePlayer(room, clientIndex);
+            PUT_DEBUG("[QuitRoom] The client quit roomId="+ to_string(room->roomId) +".");
             if (room->clients.empty()) {
                 // CLOSE ROOM
                 this->_roomManager.deleteRoom(room->roomId);
                 // END
                 this->_roomFreeIds.push_back(room->roomId); // the room id is free again
                 this->_rooms.erase(this->_rooms.begin() + counter); // remove the room
+                PUT_DEBUG("[QuitRoom] Closing roomId="+to_string(room->roomId)+".");
             }
             break;
         }
@@ -221,12 +238,12 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
 
 void ServerNetworkCore::_removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex)
 {
+    PUT_DEBUG("Remove player.");
     // find player network id
     auto itPlayerNetId = std::find_if(room->clientPlayerNetworkIds.begin(), room->clientPlayerNetworkIds.end(),
         [clientIndex](std::tuple<size_t, NetworkId> const& el) {
             return std::get<0>(el) == clientIndex;
         });
-
     if (itPlayerNetId != room->clientPlayerNetworkIds.end()) {
         // send remove request to all clients
         NetworkId playerNetId = std::get<1>(*itPlayerNetId);
@@ -238,6 +255,9 @@ void ServerNetworkCore::_removePlayer(shared_ptr<NetworkRoom> &room, size_t clie
 
 void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::CreateEntityReply &data)
 {
+    PUT_DEBUG("Receive [CreateEntityReply] roomId="+ to_string(data.roomId) +", entity="+data.entityType
+        +", accept="+to_string(data.accept)+", networkId="+to_string(data.networkId)
+        +", entityId="+to_string(data.entityId)+".");
     shared_ptr<NetworkRoom> room = this->_getRoom(data.roomId);
 
     // Intercept and Save client player's network id:
@@ -245,6 +265,7 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
         for (size_t i = 0; i < room->clients.size(); i++) {
             if (room->clients[i].ip == string(data.ip) && room->clients[i].port == data.port) {
                 room->clientPlayerNetworkIds.push_back(std::make_tuple(i, data.networkId));
+                PUT_DEBUG("[CreateEntityReply] Intercept player.");
                 break;
             }
         }
@@ -255,7 +276,7 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
             if (data.accept == true ) {
                 if (string(data.entityType) == "Enemy") {
                     this->_roomManager.createEntityEnemy(data.roomId, data.networkId);
-                    // TODO : if enemy, call enemy manager (save network id)
+                    PUT_DEBUG("[CreateEntityReply] Create entity enemy.");
                 }
                 // Broadcast entity creation to all slave clients
                 Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp,
@@ -279,6 +300,8 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
 
 void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data)
 {
+    PUT_DEBUG("Receive [CreateEntityRequest] roomId="+to_string(data.roomId)+", entity="+data.entityType
+        +", id="+to_string(data.id)+".");
     shared_ptr<NetworkRoom> room = this->_getRoom(data.roomId);
 
     if (room->masterClient == info) {
@@ -300,13 +323,13 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
 
 void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data)
 {
+    PUT_DEBUG("Receive [DestroyEntity] roomId="+to_string(data.roomId)+", networkId="+to_string(data.networkId)+".");
     shared_ptr<NetworkRoom> room = this->_getRoom(data.roomId);
 
     if (room->masterClient == info) {
         /// Request from master client
-        // TODO - if enemy => remove him ? (on server)
-        // => broadcast to others clients
         this->_roomManager.destroyEntityEnemy(data.roomId, data.networkId);
+        // => broadcast to others clients
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
                 this->_tcpServer.send(data, client.ip, client.port);
@@ -320,6 +343,8 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
 
 void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data)
 {
+    PUT_DEBUG("Receive [SyncComponent] roomId="+to_string(data.roomId)+", networkId="+to_string(data.networkId)
+        +", componentType="+to_string(data.componentType)+", componentSize="+to_string(data.componentSize)+".");
     shared_ptr<NetworkRoom> room = this->_getRoom(data.roomId);
 
     // From Master client : must be a component from a player entity, a bullet, equipment.
