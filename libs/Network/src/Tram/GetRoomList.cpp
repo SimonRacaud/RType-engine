@@ -41,7 +41,7 @@ uint8_t *GetRoomList::serialize() const
     std::memcpy(buffer, (void *) this, sizeof(GetRoomList));
     // list
     ptr->list = reinterpret_cast<size_t *>(buffer + sizeof(GetRoomList));
-    if (this->list != nullptr) {
+    if (this->list != nullptr && this->nbItem) {
         std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
     } else {
         ptr->list = nullptr;
@@ -54,7 +54,7 @@ void GetRoomList::deserialize(uint8_t *buffer)
     auto *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
     this->nbItem = ptr->nbItem;
-    if (ptr->list == nullptr) {
+    if (ptr->nbItem == 0) {
         this->list = nullptr;
     } else {
         this->list = new size_t[this->nbItem];
