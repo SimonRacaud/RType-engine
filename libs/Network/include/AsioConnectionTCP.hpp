@@ -175,9 +175,10 @@ namespace Network
                     return;
                 }
                 if (err.value() == asio::error::misc_errors::eof) {
-                    return;
+                    return; // todo disconnect() ?
                 }
             }
+
             if (!receivedPacketSize) {
                 return;
             }
