@@ -13,6 +13,7 @@
 
 
 void entityHit(const EntityHit *e);
+void playerHitEquipment(const PlayerEquipmentHit *e);
 
 class EntityHitManager {
 	public:

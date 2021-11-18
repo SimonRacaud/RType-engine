@@ -26,3 +26,11 @@ void entityHit(const EntityHit *e)
 		GET_EVENT_REG.registerEvent<EntityRemoveEvent>(e->_entity);
 	}
 }
+
+void playerHitEquipment(const PlayerEquipmentHit *e)
+{
+	auto &equip = GET_COMP_M.get<Engine::EquipmentComponent>(e->_entity);
+
+	GET_EVENT_REG.registerEvent<EntityRemoveEvent>(e->_equipment);
+	equip.counter++;
+}

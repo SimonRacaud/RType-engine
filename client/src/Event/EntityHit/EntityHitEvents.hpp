@@ -19,4 +19,12 @@ struct EntityHit : public Engine::Event::AbstractEvent<EntityHit> {
 	int _damage;
 };
 
+struct PlayerEquipmentHit : public Engine::Event::AbstractEvent<PlayerEquipmentHit> {
+	PlayerEquipmentHit(Engine::Entity e, Engine::Entity equipment) : _entity(e), _equipment(equipment) {}
+	virtual ~PlayerEquipmentHit() = default;
+
+	Engine::Entity _entity;
+	Engine::Entity _equipment;
+};
+
 #endif /* !ENTITYHITEVENTS_HPP_ */

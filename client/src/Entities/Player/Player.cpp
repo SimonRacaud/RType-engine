@@ -66,6 +66,9 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
     if (mask._currentMask == Component::MASK::BULLET_ENEMY) {
         GET_EVENT_REG.registerEvent<EntityHit>(a, GET_COMP_M.get<Component::Damage>(b)._damage);
     }
+    if (mask._currentMask == Component::MASK::EQUIPMENT) {
+        GET_EVENT_REG.registerEvent<PlayerEquipmentHit>(a, b);   
+    }
 }
 
 Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
