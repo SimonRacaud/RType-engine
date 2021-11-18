@@ -39,7 +39,6 @@ namespace Network
         {
             if (error)
                 return; // todo check errors
-
             AsioConnectionTCP<Data>::addConnection(newConnection);
 
             startAccept();

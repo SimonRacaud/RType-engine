@@ -24,7 +24,8 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
     if (!connected)
         return 84;
     client.send(wrapper, ipServer, portServer);
-    client.disconnect(ipServer, portServer);
+    if (client.isConnected(ipServer, portServer))
+        client.disconnect(ipServer, portServer);
     return 0;
 }
 
