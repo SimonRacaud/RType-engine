@@ -11,7 +11,7 @@
 using namespace Network;
 
 invalidConnection::invalidConnection(const std::string &message, const std::string &ip, std::size_t port)
-    : _message(formatString::format(message, port, ip))
+    : _message(formatString::format(message, ip, port))
 {
     formatString::removeIdentifiers(_message);
 }
@@ -22,7 +22,7 @@ const char *invalidConnection::what() const noexcept
 }
 
 connectionFailed::connectionFailed(const std::string &message, const std::string &ip, std::size_t port)
-    : _message(formatString::format(message, port, ip))
+    : _message(formatString::format(message, ip, port))
 {
     formatString::removeIdentifiers(_message);
 }
