@@ -8,8 +8,8 @@
 #ifndef BABEL_ASIOCONNECTIONTCP_HPP
 #define BABEL_ASIOCONNECTIONTCP_HPP
 
-#include <iostream>
 #include <functional>
+#include <iostream>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -242,7 +242,7 @@ namespace Network
                     AAsioConnection<Data>::disconnect(connectionIp, connectionPort);
             } catch (const std::system_error &) {
             }
-            if (connection->is_open()) {
+            if (connection && connection->is_open()) {
                 try {
                     connection->close();
                 } catch (const std::system_error &) {

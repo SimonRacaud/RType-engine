@@ -19,7 +19,6 @@ static DataWrapper startServerGetData()
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
     AsioServerTCP<DataWrapper> server(portServer);
 
-
     while (true) {
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
@@ -85,8 +84,7 @@ int testTCPserverDataWrapperJoinCreateRoomReply()
     DataWrapper my_wrapper(startServerGetData());
     Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
 
-    if (my_data.accept == true && my_data.roomId == 123456789
-        && my_data.startTimestamp == 987) {
+    if (my_data.accept == true && my_data.roomId == 123456789 && my_data.startTimestamp == 987) {
         return 0;
     }
     return 84;

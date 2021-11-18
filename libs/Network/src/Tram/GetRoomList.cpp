@@ -34,6 +34,7 @@ uint8_t *GetRoomList::serialize() const
     auto *buffer = new uint8_t[size];
 
     std::memcpy(buffer, (void *) this, sizeof(GetRoomList));
+
     return buffer;
 }
 
@@ -42,7 +43,7 @@ void GetRoomList::deserialize(uint8_t *buffer)
     auto *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
     this->nbItem = ptr->nbItem;
-    std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
+    std::memcpy(this->list, ptr->list, sizeof(size_t) * this->nbItem);
 }
 
 size_t GetRoomList::length() const
@@ -50,8 +51,7 @@ size_t GetRoomList::length() const
     return sizeof(GetRoomList);
 }
 
-GetRoomList::GetRoomList(uint8_t *buffer)
-    : Tram::Serializable(Tram::TramType::GET_ROOM_LIST, sizeof(GetRoomList))
+GetRoomList::GetRoomList(uint8_t *buffer) : Tram::Serializable(Tram::TramType::GET_ROOM_LIST, sizeof(GetRoomList))
 {
     GetRoomList::deserialize(buffer);
 }
