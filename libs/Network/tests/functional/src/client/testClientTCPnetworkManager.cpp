@@ -46,7 +46,10 @@ int testTCPclientNetworkManagerJoinRoom()
 
 int testTCPclientNetworkManagerGetRoomList()
 {
-    std::vector<std::size_t> listOfRooms(222, 444);
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
+    std::vector<std::size_t> listOfRooms;
+    listOfRooms.emplace_back(222);
+    listOfRooms.emplace_back(444);
     Tram::GetRoomList my_data{listOfRooms};
 
     return startClientSendData(my_data);
@@ -54,7 +57,8 @@ int testTCPclientNetworkManagerGetRoomList()
 
 int testTCPclientNetworkManagerCreateEntityReply()
 {
-    Tram::CreateEntityReply my_data(123, true, 456, 789, "127.0.0.1", 8080, 321, "type", netVector2f(0, 0), netVector2f(0, 0));
+    Tram::CreateEntityReply my_data(
+        123, true, 456, 789, "127.0.0.1", 8080, 321, "type", netVector2f(0, 0), netVector2f(0, 0));
     return startClientSendData(my_data);
 }
 

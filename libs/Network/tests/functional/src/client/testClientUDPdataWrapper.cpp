@@ -46,7 +46,10 @@ int testUDPclientDataWrapperJoinRoom()
 
 int testUDPclientDataWrapperGetRoomList()
 {
-    std::vector<std::size_t> listOfRooms{222, 444};
+    std::vector<std::size_t> listOfRooms;
+    listOfRooms.emplace_back(222);
+    listOfRooms.emplace_back(444);
+
     Tram::GetRoomList my_data{listOfRooms};
 
     return startClientSendData(my_data.serialize(), my_data.length());
