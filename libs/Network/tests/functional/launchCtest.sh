@@ -16,7 +16,7 @@ fi
 
 find . -name "CMakeCache\.txt" -type f -delete
 
-export CXX=clang++
+export CXX=g++-10
 
 cmake .. && make -j 10
 

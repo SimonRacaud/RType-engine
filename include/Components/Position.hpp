@@ -8,14 +8,21 @@
 #ifndef POSITION_HPP
 #define POSITION_HPP
 
+#include <cstring>
 #include "BaseComponent/BaseComponent.hpp"
 
 namespace Engine
 {
     struct Position : public Engine::BaseComponent<Position> {
-        Position(float x, float y) : x(x), y(y) {}
+        Position(float x, float y) : x(x), y(y)
+        {
+        }
+        explicit Position(void *buf)
+        {
+            memcpy((void *) this, buf, sizeof(Position));
+        }
         Position() = default;
-        virtual ~Position() = default;
+        ~Position() override = default;
 
         float x{0};
         float y{0};

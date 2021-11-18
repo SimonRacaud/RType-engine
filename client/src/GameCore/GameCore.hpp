@@ -25,6 +25,8 @@
 #include "ClientNetworkCore/ClientNetworkCore.hpp"
 #include "EntityFactory/EntityFactory.hpp"
 
+#include <memory>
+
 class GameCore
 {
     public:

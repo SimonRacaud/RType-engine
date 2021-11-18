@@ -59,7 +59,7 @@ namespace Tram
         /**
          * @brief Tram total size
          */
-        size_t size{0};
+        size_t size{sizeof(Serializable)};
         /**
          * @brief Tram type
          */

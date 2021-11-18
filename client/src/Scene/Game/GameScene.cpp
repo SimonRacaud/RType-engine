@@ -47,24 +47,9 @@ GameScene::GameScene()
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
 }
 
-#include "utils/timeDef.hpp" // TODO [remove] when the server is finished
-
 void GameScene::open()
 {
-    this->setTimeStart(GET_NOW + 5000); // TODO [remove] that line when the server is working
-    this->setPlayerNumber(0); // TODO [remove] when the server is finished.
-
     this->createWaitingScreen();
-
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem
-        >();
 }
 
 void GameScene::createWaitingScreen()
@@ -105,6 +90,13 @@ void GameScene::createWaitingScreen()
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
         i--;
     });
+    // SYSTEM SELECT
+    GameCore::engine.getSystemManager().selectSystems<
+        System::RenderSystem,
+        System::InputEventSystem,
+        Engine::TimerSystem,
+        System::NetworkReceiveSystem
+        >();
 }
 
 void GameScene::initGame()
@@ -123,8 +115,7 @@ void GameScene::initGame()
     } else {
         std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
     }
-    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2),
-        nullptr);
+    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), std::make_unique<QuitEvent>());
     Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::NB_PLAYER);
     Label playerScore(this->getCluster(), "000", vector2D(200, 770),
@@ -138,13 +129,17 @@ void GameScene::initGame()
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECT
-    Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<
-        Engine::PhysicsSystem,
+    GameCore::engine.getSystemManager().selectSystems<
         System::RenderSystem,
         System::InputEventSystem,
+        Engine::TimerSystem,
+        Engine::ColliderSystem,
+        Engine::PhysicsSystem,
         System::ScrollSystem,
-        System::OutofBoundsSystem>();
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem,
+        System::OutofBoundsSystem
+        >();
 }
 
 void GameScene::setTimeStart(::Time timestamp)

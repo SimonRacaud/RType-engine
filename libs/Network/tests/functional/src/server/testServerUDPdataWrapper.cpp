@@ -72,8 +72,8 @@ int testUDPserverDataWrapperCreateEntityRequest()
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
 
-    if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
-        && my_data.timestamp == std::chrono::milliseconds(321)) {
+    if (my_data.roomId == 123 && my_data.id == 456 && std::string(my_data.entityType) == std::string("789")
+        && my_data.timestamp == 321) {
         return 0;
     }
     return 84;
@@ -85,7 +85,7 @@ int testUDPserverDataWrapperJoinCreateRoomReply()
     Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
 
     if (my_data.accept == true && my_data.roomId == 123456789
-        && my_data.startTimestamp == std::chrono::milliseconds(987)) {
+        && my_data.startTimestamp == 987) {
         return 0;
     }
     return 84;

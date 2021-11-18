@@ -15,6 +15,7 @@
 #include "Components/ScoreComponent.hpp"
 #include "Component/InputEvent.hpp"
 #include "Component/Shooting.hpp"
+#include "Components/Health.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
 #include "Entities/Explosion/Explosion.hpp"
@@ -24,6 +25,9 @@
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
 #include "Event/ShootEvents/ShootEvents.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
+#include "Event/EntityRemove/EntityRemoveEvent.hpp"
+#include "Event/EntityHit/EntityHitEvents.hpp"
+#include "Component/Damage.hpp"
 #include <stdexcept>
 
 using namespace Engine;
@@ -52,15 +56,26 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
 {
 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
 	Player::animationPlayer(cluster, a) || Player::animationPlayer(cluster, b);
+    
+    auto mask = GET_COMP_M.get<Component::EntityMask>(b);
+
+    if (mask._currentMask == Component::MASK::ENEMY) {
+        GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
+        GET_EVENT_REG.registerEvent<EntityRemoveEvent>(b);
+    }
+    if (mask._currentMask == Component::MASK::BULLET_ENEMY) {
+        GET_EVENT_REG.registerEvent<EntityHit>(a, GET_COMP_M.get<Component::Damage>(b)._damage);
+    }
+    if (mask._currentMask == Component::MASK::EQUIPMENT) {
+        GET_EVENT_REG.registerEvent<PlayerEquipmentHit>(a, b);   
+    }
 }
 
 Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
-    const vector2D &velocity)
+    const vector2D &velocity, bool isLocalPlayer)
 {
     const vector2D hitboxSize(40, 40);
 
-    MoveHandler handler;
-    ShootEventsManager shootEventsManager;
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
@@ -70,6 +85,7 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
     componentManager.add<Component::EntityMask>(entity, Component::MASK::PLAYER);
     componentManager.add<Engine::Position>(entity, position.x, position.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
+    componentManager.add<Component::Health>(entity, GameCore::config->getVar<int>("PLAYER_HEALTH"));
     componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y,
         [cluster](Engine::Entity a, Engine::Entity b) {
             Player::hit(cluster, a, b);
@@ -77,7 +93,12 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
     componentManager.add<Engine::ScoreComponent>(entity);
     componentManager.add<Engine::EquipmentComponent>(entity);
     componentManager.add<Component::Shooting>(entity);
-    componentManager.add<Component::SyncSend>(entity, Component::MASK::PLAYER, Component::toSync::POSITION | Component::toSync::VELOCITY | Component::toSync::SCORE);
+    if (isLocalPlayer) {
+        componentManager.add<Component::SyncSend>(entity,
+            Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY
+                | Component::SyncComponentType::SCORE);
+        // + Component::SyncComponentType::EQUIPMENT_COMP ?
+    }
     this->configEvent(entity, componentManager);
     _entity = entity;
 }
@@ -144,10 +165,12 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
         } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN)) {
             GET_EVENT_REG.registerEvent<MoveDown>(local, speed);
         }
-        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) && 
-            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN))) ||
-            (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
-                    (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)))) {
+        if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_UP) && 
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_DOWN))) {
+            GET_EVENT_REG.registerEvent<NotMovingY>(local);
+        }
+        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_DOWN) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_UP)))) {
             GET_EVENT_REG.registerEvent<NotMovingY>(local);
         }
         if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)) {
@@ -155,10 +178,12 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
         } else if (GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT)) {
             GET_EVENT_REG.registerEvent<MoveRight>(local, speed);
         }
-        if ((GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) &&
-            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT))) ||
-                    (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
-                    (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT)))) {
+        if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_LEFT) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_RIGHT))) {
+                GET_EVENT_REG.registerEvent<NotMovingX>(local);
+        }
+        if (GameCore::event->isKeyReleased(IEventManager::keyEvent_e::KEY_RIGHT) &&
+            (!GameCore::event->isKeyPressed(IEventManager::keyEvent_e::KEY_LEFT))) {
             GET_EVENT_REG.registerEvent<NotMovingX>(local);
         }
         //SHOOTING

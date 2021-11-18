@@ -18,6 +18,14 @@ namespace System
             SyncSendSystem();
 
             void run(const std::vector<Engine::Entity> &entities);
+
+            virtual void onManagedEntityAdded(Engine::Entity) override;
+
+          private:
+            void syncEntity(Engine::Entity entity);
+
+          private:
+            bool _isMaster{false};
     };
 }
 

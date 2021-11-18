@@ -45,6 +45,9 @@ set(CLIENT_SRCS
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
         client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
         client/src/Event/NetworkEvent/NetworkEventManager/NetworkEventManager.cpp
+        client/src/Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.cpp
+        client/src/Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.cpp
+        client/src/Event/EntityHit/EntityHitManager/EntityHitManager.cpp
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
@@ -71,7 +74,8 @@ set(CLIENT_SRCS
         client/src/Util/MathLerp.cpp
         client/src/ClientNetworkCore/ClientNetworkCore.cpp
         client/src/System/NetworkReceive/NetworkReceiveSystem.cpp
-        client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp)
+        client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp
+        client/src/Rollback/ComponentRollback.cpp)
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)

@@ -54,19 +54,19 @@ int testUDPclientDataWrapperGetRoomList()
 
 int testUDPclientDataWrapperCreateEntityReply()
 {
-    Tram::CreateEntityReply my_data{123, true, 456, 789};
+    Tram::CreateEntityReply my_data(123, true, 456, 789, "ip", 8080, 321, "type", netVector2f(0, 0), netVector2f(0, 0));
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testUDPclientDataWrapperCreateEntityRequest()
 {
-    Tram::CreateEntityRequest my_data{123, 456, "789", std::chrono::milliseconds(321)};
+    Tram::CreateEntityRequest my_data(123, 456, "789", 321, netVector2f(0, 0), netVector2f(0, 0));
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testUDPclientDataWrapperJoinCreateRoomReply()
 {
-    Tram::JoinCreateRoomReply my_data{true, 123456789, std::chrono::milliseconds(987)};
+    Tram::JoinCreateRoomReply my_data(true, 123456789, 987);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
@@ -87,7 +87,7 @@ int testUDPclientDataWrapperComponentSync()
 }
 int testUDPclientDataWrapperDestroyEntity()
 {
-    Tram::DestroyEntity my_data{987654321, 665544};
+    Tram::DestroyEntity my_data(987654321, 665544);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
