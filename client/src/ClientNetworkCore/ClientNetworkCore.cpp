@@ -27,11 +27,11 @@ try : _engine(engine),
     size_t serverPortTcp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_TCP");
     size_t serverPortUdp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_UDP");
 
-    bool loop = true;
+    bool loop = false;
     size_t count;
-    for (count = 0; loop && count <= MAX_CONNECT_TRY; count++) {
+    for (count = 0; !loop && count <= MAX_CONNECT_TRY; count++) {
         loop = this->_tcpClient.connect(serverIp, serverPortTcp);
-        loop = loop || this->_udpClient.connect(serverIp, serverPortUdp);
+        loop = loop && this->_udpClient.connect(serverIp, serverPortUdp);
     }
     if (count == MAX_CONNECT_TRY) {
         throw std::runtime_error("No server connection. Exit.");
@@ -283,7 +283,7 @@ void ClientNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
     uint8_t *buffer)
 {
     switch (header.type) {
-        case Tram::TramType::ROOM_LIST: {
+        case Tram::TramType::GET_ROOM_LIST: {
             Tram::GetRoomList data;
             data.deserialize(buffer);
             this->receiveRoomList(info, data);

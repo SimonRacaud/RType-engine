@@ -78,12 +78,12 @@ void ServerNetworkCore::receiveLoop()
         try {
             this->_receiveFromChannel(this->_tcpServer);
         } catch (std::exception const &e) {
-            std::cerr << "ServerNetworkCore::receiveLoop : tcp error" << std::endl;
+            std::cerr << "ServerNetworkCore::receiveLoop : tcp error. " << e.what() << std::endl;
         }
         try {
             this->_receiveFromChannel(this->_udpServer);
         } catch (std::exception const &e) {
-            std::cerr << "ServerNetworkCore::receiveLoop : udp error" << std::endl;
+            std::cerr << "ServerNetworkCore::receiveLoop : udp error. " << e.what() << std::endl;
         }
     }
 }
@@ -109,7 +109,7 @@ void ServerNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
     uint8_t *buffer)
 {
     switch (header.type) {
-        case Tram::TramType::GET_ROOM_LIST: {
+        case Tram::TramType::ROOM_LIST: {
             this->receiveGetRoomList(info);
             break;
         }
