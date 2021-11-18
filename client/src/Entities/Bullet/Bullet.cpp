@@ -15,6 +15,10 @@
 #include "Components/Hitbox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/EntityMask.hpp"
+#include "Component/Damage.hpp"
+#include "Event/ExplosionEvents/ExplosionEvents.hpp"
+#include "Event/EntityRemove/EntityRemoveEvent.hpp"
 
 Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const std::string &type)
 {
@@ -55,6 +59,7 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     Component::MASK mask;
     if (type == "Player") {
         mask = Component::MASK::BULLET_PLAYER;
+        componentManager.add<Component::Damage>(entity, GameCore::config->getVar<int>("BULLET_DAMAGE"));
     } else if (type == "Enemy") {
         mask = Component::MASK::BULLET_ENEMY;
     } else {
@@ -66,17 +71,16 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     vector2D size = focusSize[charge];
     /// HITBOX
-    componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [cluster](Engine::Entity, Engine::Entity b) {
-        static auto last = std::chrono::system_clock::from_time_t(0);
-        auto &pos = GET_COMP_M.get<Engine::Position>(b);
+    componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [cluster](Engine::Entity a, Engine::Entity b) {        
+        auto mask = GET_COMP_M.get<Component::EntityMask>(a);
+        auto otherMask = GET_COMP_M.get<Component::EntityMask>(b);
 
-        std::chrono::duration<double> tmp = std::chrono::system_clock::now() - last;
-        size_t nb_sec = tmp.count();
-        std::cout << "EXPLOSION -----------------------> " << nb_sec << " && " << std::chrono::duration<double>(1).count() << std::endl;
-        if (nb_sec > std::chrono::duration<double>(1).count()) {
-            Explosion(cluster, vector2D(pos.x, pos.y));
-            last = std::chrono::system_clock::now();
+        if ((mask._currentMask == Component::MASK::BULLET_ENEMY && otherMask._currentMask == Component::MASK::PLAYER) ||
+            (mask._currentMask == Component::MASK::BULLET_PLAYER && otherMask._currentMask == Component::MASK::ENEMY)) {
+            GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
         }
+        GET_EVENT_REG.registerEvent<BulletExplosion>(b);
+
     });
     /// NETWORK
     if (GameCore::networkCore.isMaster()) {

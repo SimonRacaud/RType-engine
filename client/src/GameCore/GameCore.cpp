@@ -33,6 +33,7 @@
 #include "Component/InputEvent.hpp"
 #include "Component/EnemyType.hpp"
 #include "Component/SyncSend.hpp"
+#include "Component/Damage.hpp"
 
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
@@ -42,6 +43,11 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
+#include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
+#include "Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.hpp"
+#include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
+#include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
+#include "Event/EntityHit/EntityHitManager/EntityHitManager.hpp"
 
 //SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
@@ -70,6 +76,13 @@ void GameCore::run()
     //reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
     //reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
+    //EVENTS MANAGERS THAT WILL REGISTER THE CALLBACKS
+    ExplosionEventsManager explosionManager;
+    EntityRemoveManager entityRemoveManager;
+    MoveHandler handler;
+    ShootEventsManager shootEventsManager;
+    EntityHitManager entityHitManager;
+
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::Render>();
@@ -87,6 +100,7 @@ void GameCore::run()
     componentManager.registerComponent<Component::EntityMask>();
     componentManager.registerComponent<Component::SyncSend>();
     componentManager.registerComponent<Component::EnemyType>();
+    componentManager.registerComponent<Component::Damage>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
