@@ -27,21 +27,47 @@
 #include "Event/EmptyCluster/EmptyCluster.hpp"
 
 #include "System/RenderSystem/RenderSystem.hpp"
-#include "System/InputEventSystem/InputEventSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
+#include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/NetworkReceive/NetworkReceiveSystem.hpp"
+#include "System/SyncSendSystem/SyncSendSystem.hpp"
+#include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
 using namespace std;
 
 GameScene::GameScene()
-    : Engine::AbstractScene<GameScene>(ClusterName::GAME), _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE"))
+    : Engine::AbstractScene<GameScene>(ClusterName::GAME),
+        _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE")),
+        _timestampStart(0),
+        _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
 }
 
+#include "utils/timeDef.hpp" // TODO [remove] when the server is finished
+
 void GameScene::open()
+{
+    this->setTimeStart(GET_NOW + 5000); // TODO [remove] that line when the server is working
+    this->setPlayerNumber(0); // TODO [remove] when the server is finished.
+
+    this->createWaitingScreen();
+
+    // SYSTEM SELECT
+    GameCore::engine.getSystemManager().selectSystems<
+        System::RenderSystem,
+        System::InputEventSystem,
+        Engine::TimerSystem,
+        System::ScrollSystem,
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem
+        >();
+}
+
+void GameScene::createWaitingScreen()
 {
     vector2D win = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
     const std::string waitText = GameCore::config->getVar<std::string>("CLIENT_WAIT_LABEL");
@@ -49,8 +75,7 @@ void GameScene::open()
 
     // ENTITY CREATE
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
-    Button back(this->getCluster(), "Quit", vector2D(win.x / 2, win.y / 1.5), vector2f(1, 1), nullptr);
-
+    Button back(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3), std::make_shared<SelectPreviousScene>());
     // MANUAL COMPONENT BUILD
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
@@ -60,33 +85,45 @@ void GameScene::open()
 
     componentManager.add<Engine::Render>(dynamicText, std::make_shared<TextManager>(position, vector2D(), color_e::WHITE, waitText, font));
     componentManager.add<Engine::Position>(dynamicText, (float)position.x, (float)position.y);
-    componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win](Engine::Entity a) {
-        static size_t i = GameCore::config->getVar<int>("CLIENT_WAIT_BEFORE_START");
+
+    ::Time timeUntilStart = (!this->_timestampStart || this->_timestampStart < GET_NOW) ? 0
+                                                                                        : (this->_timestampStart - GET_NOW);
+    Engine::Entity startGame = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+    componentManager.add<Engine::Timer>(startGame, std::chrono::milliseconds(timeUntilStart), [this, timeUntilStart](Engine::Entity) {
+        GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
+            this->initGame(); // launch the game !
+        });
+    });
+    // Animated text : countdown
+    componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win, timeUntilStart](Engine::Entity a) {
+        static size_t i = (timeUntilStart / 1000);
         Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
         Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
         std::string str(waitText + std::to_string(i));
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-
-        if (i-- == 0) {
-            GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
-                this->initGame();
-            });
-        }
+        i--;
     });
-
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem, System::RenderSystem>();
 }
 
-void GameScene::initGame() const
+void GameScene::initGame()
 {
+    const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
+
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
-    Player player(this->getCluster(), {120, 80}, {10, 10}, {40, 40}, "asset/sprites/r-typesheet1.gif");
-    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2),
-        nullptr);
+    if (this->_playerNumber != -1) {
+        try {
+            GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+        } catch (std::exception const &e) {
+            std::cerr << "GameScene::initGame : Fail to create player. " << e.what() << std::endl;
+            GET_EVENT_REG.registerEvent<SelectScene>(Engine::ClusterName::ROOM_LIST);
+        }
+    } else {
+        std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
+    }
+    Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), std::make_unique<QuitEvent>());
     Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::NB_PLAYER);
     Label playerScore(this->getCluster(), "000", vector2D(200, 770),
@@ -105,5 +142,16 @@ void GameScene::initGame() const
         Engine::PhysicsSystem,
         System::RenderSystem,
         System::InputEventSystem,
-        System::ScrollSystem>();
+        System::ScrollSystem,
+        System::OutofBoundsSystem>();
+}
+
+void GameScene::setTimeStart(::Time timestamp)
+{
+    this->_timestampStart = timestamp;
+}
+
+void GameScene::setPlayerNumber(int playerNumber)
+{
+    this->_playerNumber = playerNumber;
 }

@@ -45,11 +45,5 @@ size_t Serializable::length() const
 }
 Serializable::Serializable(uint8_t *data)
 {
-    auto *ptr = reinterpret_cast<Serializable *>(data); // todo data is truncated
-
-    if (this->magic != ptr->magic) {
-        throw std::invalid_argument("header::deserialize invalid magic number");
-    }
-    this->size = ptr->size;
-    this->type = ptr->type;
+    Serializable::deserialize(data);
 }

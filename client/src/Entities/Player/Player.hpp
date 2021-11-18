@@ -18,16 +18,22 @@
 
 using Engine::ClusterName;
 
+float lerp(float minValue, float maxValue, float norm);
+
 class Player {
 	public:
-		Player(ClusterName cluster, const vector2D &position,
-          const vector2f &size, const vector2D &hitboxSize,
-          const std::string &sprite);
-		~Player();
+        Player(ClusterName cluster, int playerNumber, const vector2D &position,
+            const vector2D &velocity = {0, 0}, bool isLocalPlayer = false);
+		~Player() = default;
 
         void setNetworkId(uint32_t entityId);
+        Engine::Entity getId() const;
 
 	protected:
+      void configAppearance(Engine::Entity entity, vector2D const &position,
+          Engine::ComponentManager &componentManager, int playerNumber);
+      void configEvent(Engine::Entity entity, Engine::ComponentManager &componentManager);
+
 	private:
 		static void hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b);
 		static bool animationPlayer(Engine::ClusterName cluster, Engine::Entity once);

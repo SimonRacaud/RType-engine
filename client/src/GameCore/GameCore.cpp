@@ -5,12 +5,12 @@
 ** GameCore.cpp
 */
 
-#include "GameCore.hpp"
 
 #include <iostream>
-#include "global.hpp"
 #include "CustomCluster.hpp"
 #include "CustomEntityName.hpp"
+#include "GameCore.hpp"
+#include "global.hpp"
 
 #include "ConfigFileExternal/ConfigFileExternal.hpp"
 
@@ -29,20 +29,33 @@
 #include "Component/Render.hpp"
 #include "Component/Scroll.hpp"
 #include "Component/Shooting.hpp"
-#include "Component/EntityMask.hpp"
+#include "Components/EntityMask.hpp"
 #include "Component/InputEvent.hpp"
+#include "Component/EnemyType.hpp"
+#include "Component/SyncSend.hpp"
+#include "Component/Damage.hpp"
 
+#include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScrollSystem/ScrollSystem.hpp"
+#include "System/SyncSendSystem/SyncSendSystem.hpp"
+#include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
+#include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
+#include "Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.hpp"
+#include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
+#include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
+#include "Event/EntityHit/EntityHitManager/EntityHitManager.hpp"
 
 //SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
 std::shared_ptr<IWindowManager> GameCore::window = std::make_shared<WindowManager>();
 std::unique_ptr<IEventManager> GameCore::event = std::make_unique<EventManager>();
 std::unique_ptr<ConfigFile> GameCore::config = std::make_unique<ConfigFile>("client.config");
+ClientNetworkCore GameCore::networkCore(GameCore::engine);
+EntityFactory GameCore::entityFactory(Engine::ClusterName::GAME);
 
 GameCore::GameCore()
 {
@@ -63,6 +76,13 @@ void GameCore::run()
     //reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
     //reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
 
+    //EVENTS MANAGERS THAT WILL REGISTER THE CALLBACKS
+    ExplosionEventsManager explosionManager;
+    EntityRemoveManager entityRemoveManager;
+    MoveHandler handler;
+    ShootEventsManager shootEventsManager;
+    EntityHitManager entityHitManager;
+
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Timer>();
     componentManager.registerComponent<Engine::Render>();
@@ -74,9 +94,13 @@ void GameCore::run()
     componentManager.registerComponent<Engine::ScoreComponent>();
     componentManager.registerComponent<Engine::NumberComponent>();
     componentManager.registerComponent<Engine::EquipmentComponent>();
+    componentManager.registerComponent<Engine::SizeComponent>();
     componentManager.registerComponent<Component::Scroll>();
     componentManager.registerComponent<Component::Shooting>();
     componentManager.registerComponent<Component::EntityMask>();
+    componentManager.registerComponent<Component::SyncSend>();
+    componentManager.registerComponent<Component::EnemyType>();
+    componentManager.registerComponent<Component::Damage>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
@@ -85,8 +109,10 @@ void GameCore::run()
     systemManager.registerSystem<System::LogPositionSystem>();
     systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<Engine::TimerSystem>();
-    systemManager.registerSystem<Engine::ColliderSystem>();
     systemManager.registerSystem<System::ScrollSystem>();
+    systemManager.registerSystem<System::NetworkReceiveSystem>();
+    systemManager.registerSystem<System::SyncSendSystem>();
+    systemManager.registerSystem<System::OutofBoundsSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
@@ -96,7 +122,7 @@ void GameCore::run()
     sceneManager.registerScene<Scene::GameScene>();
     sceneManager.registerScene<Scene::DebugScene>("Test");
 
-    sceneManager.select<Scene::GameScene>();
+    sceneManager.select<Scene::StartScene>();
 
     engine.exec();
 }

@@ -47,7 +47,7 @@ namespace Engine {
 
 				template<class EventType>
 				void removeCallback(std::shared_ptr<IEventCallback> callback) {
-					//TODO implement operator == for callbacks
+					// implement operator == for callbacks
 					// std::shared_ptr<IEventCallback> func = _registeredCallbacks[std::type_index(typeid(EventType))];
 
 					// if (func == _registeredCallbacks.end()) {

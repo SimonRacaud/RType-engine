@@ -45,6 +45,8 @@ void GameEngine::exec()
         }
     } catch (BasicException const &e) {
         std::cerr << "[Engine Exception] " << e.what() << std::endl;
+    } catch (std::exception const &e) {
+        std::cerr << "GameEngine::exec External exception. " << e.what() << std::endl;
     }
 }
 

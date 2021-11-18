@@ -20,6 +20,9 @@
 
 namespace Tram
 {
+    /**
+     * @brief Get room list reply (server -> client)
+     */
     class GetRoomList : public Tram::Serializable {
       public:
         GetRoomList();

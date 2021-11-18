@@ -35,7 +35,7 @@ struct AttackPata : public Engine::Event::AbstractEvent<AttackPata> {
 class PataPata : public IEnemyApi {
 	public:
 		PataPata();
-		~PataPata();
+		virtual ~PataPata() = default;
 
 		virtual void idle(const IEnemyApi *ptr) override;
 		virtual void move(const IEnemyApi *ptr) override;
@@ -45,7 +45,8 @@ class PataPata : public IEnemyApi {
 		virtual float getShootingSpeed() const;
 		virtual Component::Health &getHealth();
 		virtual Component::AnimationInfo getAnimInfo() const;
-	
+		virtual std::pair<float, float> getHitboxSize() const;
+
 		private:
 			Engine::Position _position;
 			Engine::Velocity _velocity;

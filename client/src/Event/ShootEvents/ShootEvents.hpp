@@ -26,10 +26,11 @@ struct ChargeShot : public Engine::Event::AbstractEvent<ChargeShot> {
 };
 
 struct ReleaseChargedShot : public Engine::Event::AbstractEvent<ReleaseChargedShot> {
-	ReleaseChargedShot(Engine::Entity e) : _entity(e) {}
+	ReleaseChargedShot(Engine::Entity e, Component::MASK owner) : _entity(e), _owner(owner) {}
 	virtual ~ReleaseChargedShot() = default;
 
 	Engine::Entity _entity;
+    Component::MASK _owner;
 };
 
 #endif /* !SHOOTEVENTS_HPP_ */

@@ -126,6 +126,7 @@ namespace Engine
          * @param id
          */
         void setNetworkId(Entity entity, NetworkId id);
+        NetworkId getNetworkId();
 
         /**
          * @throws NotFoundException

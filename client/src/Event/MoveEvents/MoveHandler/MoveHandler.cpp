@@ -13,7 +13,8 @@ MoveHandler::MoveHandler()
 	GET_EVENT_REG.registerCallback(std::function<void(const MoveDown *)>(moveDown));
 	GET_EVENT_REG.registerCallback(std::function<void(const MoveLeft *)>(moveLeft));
 	GET_EVENT_REG.registerCallback(std::function<void(const MoveRight *)>(moveRight));
-	GET_EVENT_REG.registerCallback(std::function<void(const NotMoving *)>(notMoving));
+	GET_EVENT_REG.registerCallback(std::function<void(const NotMovingY *)>(notMovingY));
+	GET_EVENT_REG.registerCallback(std::function<void(const NotMovingX *)>(notMovingX));
 }
 
 void moveUp(const MoveUp *e)
@@ -40,17 +41,16 @@ void moveRight(const MoveRight *e)
 	velocity.x = e->_speed;
 }
 
-void notMoving(const NotMoving *e)
+void notMovingY(const NotMovingY *e)
 {
 	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
-	if (velocity.x > 0) {
-		velocity.x -= 0.3f;
-	} else if (velocity.x < 0) {
-		velocity.x += 0.3f;
-	}
-	if (velocity.y > 0) {
-		velocity.y -= 0.3f;
-	} else if (velocity.y < 0) {
-		velocity.y += 0.3f;
-	}
+
+	velocity.y = 0.3f;
+}
+
+void notMovingX(const NotMovingX *e)
+{
+	Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
+
+	velocity.x = 0.3f;
 }

@@ -37,12 +37,17 @@ set(CLIENT_SRCS
 
         client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
+        client/src/System/SyncSendSystem/SyncSendSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp
         client/src/Event/MoveEvents/MoveHandler/MoveHandler.cpp
         client/src/Event/ShootEvents/ShootEventsManager/ShootEventsManager.cpp
+        client/src/Event/NetworkEvent/NetworkEventManager/NetworkEventManager.cpp
+        client/src/Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.cpp
+        client/src/Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.cpp
+        client/src/Event/EntityHit/EntityHitManager/EntityHitManager.cpp
 
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
@@ -57,13 +62,20 @@ set(CLIENT_SRCS
 
         client/src/Component/Scroll.hpp
         client/src/System/ScrollSystem/ScrollSystem.cpp
-        client/src/Scene/Home/HomeScene.cpp client/src/Scene/Home/HomeScene.hpp client/src/Scene/Settings/SettingsScene.cpp client/src/Scene/Settings/SettingsScene.hpp client/src/Scene/Game/GameScene.cpp client/src/Scene/Game/GameScene.hpp client/src/Scene/RoomList/RoomListScene.cpp client/src/Scene/RoomList/RoomListScene.hpp
-        server/src/DLLoader/DLLoader.hpp
+        client/src/Scene/Home/HomeScene.cpp
+        client/src/Scene/Settings/SettingsScene.cpp
+        client/src/Scene/Game/GameScene.cpp
+        client/src/Scene/RoomList/RoomListScene.cpp
         client/src/Entities/ImageView/ImageView.cpp
         client/src/Entities/Label/Label.cpp
         client/src/Entities/Progress/ProgressBar.cpp
         client/src/Event/GUI/GuiEventManager.cpp
-        client/src/Entities/Equipment/Equipment.cpp)
+        client/src/Entities/Equipment/Equipment.cpp
+        client/src/Util/MathLerp.cpp
+        client/src/ClientNetworkCore/ClientNetworkCore.cpp
+        client/src/System/NetworkReceive/NetworkReceiveSystem.cpp
+        client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp
+        client/src/Rollback/ComponentRollback.cpp)
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
@@ -84,17 +96,23 @@ set_target_properties(${NAME_CLIENT}
 ## SOURCES
 set(SERVER_SRCS
         ./server/src/main.cpp
-        #./server/src/GarbageEntity/GarbageEntity.cpp
         ./server/src/GameStage/GameStage.cpp
         ./server/src/DLLoader/DLLoader.hpp
         ./server/src/ServerCore/ServerCore.cpp
+        ./server/src/ServerCore/ConfigFileExternal/ConfigFileExternal.cpp
         ./server/src/EnemyLoader/EnemyLoader.cpp
         ./server/src/StateMachine/StateMachine.cpp
+        ./server/src/GameRoomManager/GameRoomManager.cpp
+        ./server/src/GameRoomManager/GameRoom/GameRoom.cpp
+
+        server/src/ServerNetworkCore/ServerNetworkCore.cpp
+        server/src/GarbageEntity/GarbageEntity.cpp
+        server/src/StateMachineManager/StateMachineManager.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
 
-target_include_directories(${NAME_SERVER} PUBLIC server/src server/include lib/Network)
+target_include_directories(${NAME_SERVER} PUBLIC server/src server/include libs/Network)
 
 if(MSVC)
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)

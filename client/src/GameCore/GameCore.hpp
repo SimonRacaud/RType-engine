@@ -19,8 +19,13 @@
 #include "WindowManager/WindowManager.hpp"
 #include "Event/AudioEvent/AudioEventManager/AudioEventManager.hpp"
 #include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
+#include "Event/NetworkEvent/NetworkEventManager/NetworkEventManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
 #include "DLLoader.hpp"
+#include "ClientNetworkCore/ClientNetworkCore.hpp"
+#include "EntityFactory/EntityFactory.hpp"
+
+#include <memory>
 
 class GameCore
 {
@@ -36,9 +41,11 @@ class GameCore
         static std::shared_ptr<IWindowManager> window;
         static std::unique_ptr<IEventManager> event;
         static std::unique_ptr<ConfigFile> config;
-
-    private:
+        static ClientNetworkCore networkCore;
+        static EntityFactory entityFactory;
+  private:
         AudioEventManager _audio;
+        NetworkEventManager _network;
         GuiEventManager _guiEventManager;
         EmptyClusterManager _emptyCluster;
 };

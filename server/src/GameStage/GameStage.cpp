@@ -10,6 +10,10 @@
 #include <sstream>
 #include "GameStage.hpp"
 
+GameStage::GameStage(const GameStage &src) : _content(src._content), _step(src._step), _header(src._header), _ended(src._ended), _pos(src._pos)
+{
+}
+
 GameStage::GameStage(const std::string &path) : _content(this->readFile(path))
 {
     if (!this->_content.size())
@@ -230,4 +234,14 @@ bool GameStage::matchWithRegex(const std::string &sample, const std::string &reg
     std::regex wrapper(regex);
 
     return std::regex_search(sample, wrapper);
+}
+
+GameStage &GameStage::operator=(const GameStage &src)
+{
+    this->_content = src._content;
+    this->_header = src._header;
+    this->_ended = src._ended;
+    this->_step = src._step;
+    this->_pos = src._pos;
+    return *this;
 }

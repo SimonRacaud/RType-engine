@@ -107,8 +107,7 @@ bool EntityRegister::exist(EntityName name) const
         if (name == EntityName::EMPTY) {
             return false;
         }
-        this->getId(name);
-        return true;
+        return this->getId(name) ? true : true;
     } catch (NotFoundException const &) {}
     return false;
 }
@@ -160,6 +159,11 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
     }
     this->_networkIdRegister.reserveId(id);
     this->_bookedEntities[entity].setNetworkId(id);
+}
+
+NetworkId EntityRegister::getNetworkId()
+{
+    return _networkIdRegister.reserveId();
 }
 
 vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const

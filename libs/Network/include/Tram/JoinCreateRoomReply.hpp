@@ -23,11 +23,24 @@ namespace Tram
     class JoinCreateRoomReply : public Tram::Serializable {
       public:
         JoinCreateRoomReply();
-        JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp);
+        JoinCreateRoomReply(bool accept, size_t roomId = 0, Time timestamp = 0, int playerNumber = -1);
 
+        /**
+         * @brief If the connection is accepted
+         */
         bool accept{false};
+        /**
+         * @brief The room id
+         */
         size_t roomId{0};
+        /**
+         * @brief The moment the game will start.
+         */
         Time startTimestamp{0};
+        /**
+         * @brief The player id [0-3] (for the skin color)
+         */
+        int playerNumber{-1};
 
         [[nodiscard]] uint8_t *serialize() const override;
         void deserialize(uint8_t *buffer) override;
