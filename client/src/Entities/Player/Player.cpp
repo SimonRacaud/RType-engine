@@ -24,6 +24,7 @@
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
 #include "Event/ShootEvents/ShootEvents.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
+#include "Event/EntityRemove/EntityRemoveEvent.hpp"
 #include <stdexcept>
 
 using namespace Engine;
@@ -56,7 +57,8 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
     auto mask = GET_COMP_M.get<Component::EntityMask>(b);
 
     if (mask._currentMask == Component::MASK::ENEMY) {
-        GET_ENTITY_M.remove(a);
+        GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
+        GET_EVENT_REG.registerEvent<EntityRemoveEvent>(b);
     }
 }
 
@@ -65,8 +67,6 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
 {
     const vector2D hitboxSize(40, 40);
 
-    MoveHandler handler;
-    ShootEventsManager shootEventsManager;
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);

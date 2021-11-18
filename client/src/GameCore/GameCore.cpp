@@ -45,6 +45,8 @@
 #include "SfmlApiManager/SfmlApiManager.cpp"
 #include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
 #include "Event/EntityRemove/EntityRemoveManager.hpp/EntityRemoveManager.hpp"
+#include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
+#include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 
 //SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
@@ -76,6 +78,8 @@ void GameCore::run()
     //EVENTS MANAGERS THAT WILL REGISTER THE CALLBACKS
     ExplosionEventsManager explosionManager;
     EntityRemoveManager entityRemoveManager;
+    MoveHandler handler;
+    ShootEventsManager shootEventsManager;
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Timer>();
