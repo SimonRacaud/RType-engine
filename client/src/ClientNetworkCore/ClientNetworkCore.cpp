@@ -15,6 +15,7 @@
 #include "GameCore/GameCore.hpp"
 #include "Scene/Game/GameScene.hpp"
 #include "Scene/RoomList/RoomListScene.hpp"
+#include "Rollback/ComponentRollback.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
 try : _engine(engine),
@@ -186,10 +187,8 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
     if ((int)data.roomId != this->_roomId) {
         return; // abort
     }
-//    Engine::Entity id = this->_engine.getEntityManager().getId(data.networkId);
-//    void *component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
-    //data.timestamp
-    //ComponentRollback::apply(id, data.componentType, component); // TODO
+    data.component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
+    ComponentRollback::Apply(data); // Apply component on local engine
 }
 
 void ClientNetworkCore::receiveDestroyEntity(InfoConnection &, Tram::DestroyEntity &data)
