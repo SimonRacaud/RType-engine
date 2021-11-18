@@ -20,7 +20,7 @@ using NetworkId = uint32_t;
 
 using Index = uint32_t;
 using TypeIdx = std::type_index;
-static constexpr Index InvalidIndex = std::numeric_limits<Index>::max();
+static constexpr Index InvalidIndex = (std::numeric_limits<Index>::max)();
 #define GET_TYPE_IDX(type) std::type_index(typeid(type))
 
 #endif // GLOBAL_HPP

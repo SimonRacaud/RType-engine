@@ -6,7 +6,7 @@
 */
 
 #include "Tram/Serializable.hpp"
-
+#include <sstream>
 using namespace Tram;
 
 std::ostream &Tram::operator<<(std::ostream &stream, const Tram::TramType tram)

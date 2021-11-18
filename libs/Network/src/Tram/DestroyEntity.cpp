@@ -20,10 +20,10 @@ DestroyEntity::DestroyEntity(size_t roomId, uint32_t networkId)
 
 uint8_t *DestroyEntity::serialize() const
 {
-    size_t size = this->length();
-    auto *buffer = new uint8_t[size];
+    size_t len = this->length();
+    auto *buffer = new uint8_t[len];
 
-    std::memcpy(buffer, (void *) this, size);
+    std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
 void DestroyEntity::deserialize(uint8_t *buffer)

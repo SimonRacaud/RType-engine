@@ -33,8 +33,8 @@ GetRoomList::~GetRoomList()
 
 uint8_t *GetRoomList::serialize() const
 {
-    size_t size = this->length();
-    auto *buffer = new uint8_t[size];
+    size_t len = this->length();
+    auto *buffer = new uint8_t[len];
     auto *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
     // nb item

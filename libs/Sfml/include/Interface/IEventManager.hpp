@@ -15,23 +15,20 @@
 class IEventManager
 {
     public:
-        enum class keyEvent_e
-        {
-            KEY_EVENT,
+        enum class keyEvent_e {
+            KEY_EVENT_GAME,
             KEY_UP,
             KEY_DOWN,
             KEY_LEFT,
             KEY_RIGHT,
             KEY_SPACE,
-            MOUSE_EVENT,
+            MOUSE_EVENT_GAME,
             MOUSE_CLICK_LEFT,
             MOUSE_CLICK_RIGHT,
             MOUSE_CLICK_MIDDLE,
-            MAX_VALUE
+            MAX_VALUE,
         };
-
-    public:
-        ~IEventManager() = default;
+        virtual ~IEventManager() = default;
         // GLOBAL
         virtual void refresh() = 0;
 

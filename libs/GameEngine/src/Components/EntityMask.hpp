@@ -11,7 +11,7 @@
 #include "BaseComponent/BaseComponent.hpp"
 
 namespace Component {
-	enum MASK {
+	enum class MASK {
 		EQUIPMENT,
 		PLAYER,
 		BULLET_ENEMY,

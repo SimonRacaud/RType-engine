@@ -40,7 +40,7 @@ class GameRoom
     private:
         size_t _id;
         GameStage _stage;
-        std::chrono::_V2::system_clock::time_point _start;
+        std::chrono::system_clock::time_point _start;
         StateMachineManager _stateMachine;
         std::queue<std::string> _enemyRequest;
         std::thread _thread;
