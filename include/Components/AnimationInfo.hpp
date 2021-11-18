@@ -21,7 +21,7 @@ namespace Component
         AnimationInfo(std::string path, int nbFrames, vector2D animPos, vector2D animSize)
             : _nbFrames(nbFrames), _animPos(animPos), _animSize(animSize)
         {
-            if (_path.size() >= ANIM_INFO_PATH_SIZE) {
+            if (path.size() >= ANIM_INFO_PATH_SIZE) {
                 throw Engine::FatalErrorException("AnimationInfo : Could not copy animation path, because it's too long");
             }
             std::memcpy(_path, path.c_str(), path.length());
