@@ -32,12 +32,8 @@ uint8_t *GetRoomList::serialize() const
 {
     size_t size = this->length();
     auto *buffer = new uint8_t[size];
-    auto *ptr = reinterpret_cast<GetRoomList *>(buffer);
 
-    // nb item
     std::memcpy(buffer, (void *) this, sizeof(GetRoomList));
-    // list
-    std::memcpy(ptr->list, this->list, sizeof(size_t) * this->nbItem);
     return buffer;
 }
 
