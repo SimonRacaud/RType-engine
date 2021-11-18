@@ -30,7 +30,7 @@ namespace Tram
         ~GetRoomList() override;
 
         size_t nbItem{0};
-        size_t *list{nullptr};
+        size_t list[10];
 
         [[nodiscard]] uint8_t *serialize() const override;
         void deserialize(uint8_t *buffer) override;
