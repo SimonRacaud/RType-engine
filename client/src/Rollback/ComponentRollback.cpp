@@ -2,19 +2,26 @@
 ** EPITECH PROJECT, 2021
 ** ComponentRollback.cpp
 ** File description:
-** TODO: add description
+** Apply component received from the network to the local game engine
 */
 
 #include "ComponentRollback.hpp"
+
+#include "Components/Health.hpp"
+#include "Components/AnimationInfo.hpp"
 
 /**
  * @brief Refresh rate of the physic system in milliseconds
  */
 static const float PhysicSystemRefreshRate = 10;
 
-const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *, long int)>>
-    ComponentRollback::hashcodeComponents{
-        {Engine::Position::type.hash_code(), ComponentRollback::RollbackPosition}
+const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *, long int)>> ComponentRollback::hashcodeComponents{
+        {Engine::Position::type.hash_code(), ComponentRollback::RollbackPosition},
+        {Engine::Velocity::type.hash_code(), ComponentRollback::ApplyComponent<Engine::Velocity>},
+        {Engine::ScoreComponent::type.hash_code(), ComponentRollback::ApplyComponent<Engine::ScoreComponent>},
+        {Engine::EquipmentComponent::type.hash_code(), ComponentRollback::ApplyComponent<Engine::EquipmentComponent>},
+        {Component::Health::type.hash_code(), ComponentRollback::ApplyComponent<Component::Health>},
+        {Component::AnimationInfo::type.hash_code(), ComponentRollback::ApplyComponent<Component::AnimationInfo>}
     };
 
 void ComponentRollback::Apply(Tram::ComponentSync const &tram)
