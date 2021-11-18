@@ -66,6 +66,12 @@ namespace ThreadSafety
             return std::deque<T>::end();
         }
 
+        const_iterator erase(const_iterator pos)
+        {
+            std::scoped_lock lock(_mutex);
+            return std::deque<T>::erase(pos);
+        }
+
       private:
         /**
          * @brief mutex should make this class thread safe
