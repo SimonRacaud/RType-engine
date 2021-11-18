@@ -6,8 +6,7 @@
 */
 
 #include "ExplosionEventsManager.hpp"
-
-#include "Explosion/Explosion.hpp"
+#include "Entities/Explosion/Explosion.hpp"
 
 ExplosionEventsManager::ExplosionEventsManager()
 {

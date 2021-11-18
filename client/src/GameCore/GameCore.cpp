@@ -44,7 +44,7 @@
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
 #include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
-#include "Event/EntityRemove/EntityRemoveManager.hpp/EntityRemoveManager.hpp"
+#include "Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.hpp"
 #include "Event/MoveEvents/MoveHandler/MoveHandler.hpp"
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 

@@ -76,7 +76,7 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
         auto otherMask = GET_COMP_M.get<Component::EntityMask>(b);
 
         if ((mask._currentMask == Component::MASK::BULLET_ENEMY && otherMask._currentMask == Component::MASK::PLAYER) ||
-            mask._currentMask == Component::MASK::BULLET_PLAYER && otherMask._currentMask == Component::MASK::ENEMY) {
+            (mask._currentMask == Component::MASK::BULLET_PLAYER && otherMask._currentMask == Component::MASK::ENEMY)) {
             GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
         }
         GET_EVENT_REG.registerEvent<BulletExplosion>(b);

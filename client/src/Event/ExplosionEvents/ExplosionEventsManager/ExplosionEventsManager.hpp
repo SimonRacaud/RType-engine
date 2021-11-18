@@ -8,8 +8,8 @@
 #ifndef EXPLOSIONEVENTSMANAGER_HPP_
 #define EXPLOSIONEVENTSMANAGER_HPP_
 
-#include "GameCore.hpp"
-#include "ExplosionEvents.hpp"
+#include "GameCore/GameCore.hpp"
+#include "Event/ExplosionEvents/ExplosionEvents.hpp"
 
 void bulletExplosion(const BulletExplosion *e);
 

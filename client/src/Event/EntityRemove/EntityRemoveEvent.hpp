@@ -8,7 +8,7 @@
 #ifndef ENTITYREMOVEEVENT_HPP_
 #define ENTITYREMOVEEVENT_HPP_
 
-#include "EngineCore.hpp"
+#include "GameCore/GameCore.hpp"
 #include "Event/AbstractEvent/AbstractEvent.hpp"
 
 struct EntityRemoveEvent : public Engine::Event::AbstractEvent<EntityRemoveEvent> {

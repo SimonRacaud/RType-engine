@@ -15,6 +15,7 @@
 #include "Components/ScoreComponent.hpp"
 #include "Component/InputEvent.hpp"
 #include "Component/Shooting.hpp"
+#include "Components/Health.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
 #include "Entities/Explosion/Explosion.hpp"
@@ -76,6 +77,7 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
     componentManager.add<Component::EntityMask>(entity, Component::MASK::PLAYER);
     componentManager.add<Engine::Position>(entity, position.x, position.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
+    componentManager.add<Component::Health>(entity, GameCore::config->getVar<int>("PLAYER_HEALTH"));
     componentManager.add<Engine::Hitbox>(entity, hitboxSize.x, hitboxSize.y,
         [cluster](Engine::Entity a, Engine::Entity b) {
             Player::hit(cluster, a, b);

@@ -8,8 +8,8 @@
 #ifndef ENTITYREMOVEMANAGER_HPP_
 #define ENTITYREMOVEMANAGER_HPP_
 
-#include "GameCore.hpp"
-#include "EntityRemoveEvent.hpp"
+#include "GameCore/GameCore.hpp"
+#include "Event/EntityRemove/EntityRemoveEvent.hpp"
 
 void entityRemove(const EntityRemoveEvent *e);
 
