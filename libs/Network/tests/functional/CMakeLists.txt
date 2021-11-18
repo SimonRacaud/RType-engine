@@ -194,7 +194,7 @@ set_tests_properties(${TEST}
 # TESTS IN LOOP
 
 # TESTS TRAM BUFFER
-set(TEST_NBS 2;3;4;5;6;7;8)
+set(TEST_NBS 2;3;4;5;6;8)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -208,7 +208,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
 
 endforeach ()
 
-set(TEST_NBS 9;10;11;12;13;14;15)
+set(TEST_NBS 9;10;11;12;13;15)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -231,7 +231,7 @@ set_tests_properties(${TEST}
                      PROPERTIES WILL_FAIL FALSE
                      TIMEOUT ${TEST_TIMEOUT})
 
-set(TEST_NBS 17;18;19;20;21;22;23)
+set(TEST_NBS 17;18;19;20;21;23)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -244,7 +244,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
                          TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
-set(TEST_NBS 24;25;26;27;28;29;30)
+set(TEST_NBS 24;25;26;27;28;30)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
