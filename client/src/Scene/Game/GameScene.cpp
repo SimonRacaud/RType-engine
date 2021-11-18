@@ -55,16 +55,6 @@ void GameScene::open()
     this->setPlayerNumber(0); // TODO [remove] when the server is finished.
 
     this->createWaitingScreen();
-
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem
-        >();
 }
 
 void GameScene::createWaitingScreen()
@@ -105,6 +95,13 @@ void GameScene::createWaitingScreen()
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
         i--;
     });
+    // SYSTEM SELECT
+    GameCore::engine.getSystemManager().selectSystems<
+        System::RenderSystem,
+        System::InputEventSystem,
+        Engine::TimerSystem,
+        System::NetworkReceiveSystem
+        >();
 }
 
 void GameScene::initGame()
@@ -137,13 +134,17 @@ void GameScene::initGame()
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECT
-    Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();
-    systemManager.selectSystems<
-        Engine::PhysicsSystem,
+    GameCore::engine.getSystemManager().selectSystems<
         System::RenderSystem,
         System::InputEventSystem,
+        Engine::TimerSystem,
+        Engine::ColliderSystem,
+        Engine::PhysicsSystem,
         System::ScrollSystem,
-        System::OutofBoundsSystem>();
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem,
+        System::OutofBoundsSystem
+        >();
 }
 
 void GameScene::setTimeStart(::Time timestamp)
