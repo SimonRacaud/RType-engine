@@ -15,7 +15,7 @@ namespace Engine {
       public:
         InvalidTypeException(std::string const &message = "Invalid type error")
             : BasicException(message) {}
-        virtual ~InvalidTypeException() = default
+        virtual ~InvalidTypeException() = default;
     };
 }
 
