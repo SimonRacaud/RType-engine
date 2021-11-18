@@ -43,6 +43,8 @@
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
+#include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
+#include "Event/EntityRemove/EntityRemoveManager.hpp/EntityRemoveManager.hpp"
 
 //SfmlApiManager *sfmlManagerEntry = DLLoader<SfmlApiManager>::getEntryPoint("./build/lib/libSfml.so", "initApi");
 Engine::IGameEngine &GameCore::engine = Engine::EngineFactory::getInstance();
@@ -70,6 +72,10 @@ void GameCore::run()
     //reg->registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, "asset/music/song.ogg");
     //reg->registerEvent<AudioEventVolume>("asset/music/song.ogg", 100);
     //reg->registerEvent<AudioEventPlay>("asset/music/song.ogg");
+
+    //EVENTS MANAGERS THAT WILL REGISTER THE CALLBACKS
+    ExplosionEventsManager explosionManager;
+    EntityRemoveManager entityRemoveManager;
 
     Engine::ComponentManager &componentManager = engine.getComponentManager();
     componentManager.registerComponent<Engine::Timer>();
