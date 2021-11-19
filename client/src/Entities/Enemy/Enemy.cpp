@@ -29,16 +29,16 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     componentManager.add<Component::Health>(entity, 1);
-    componentManager.add<Engine::Hitbox>(entity, focus.size.x, focus.size.y, [](Engine::Entity a, Engine::Entity b) {
-        Component::EntityMask otherMask = GET_COMP_M.get<Component::EntityMask>(b);
-        auto &health = GET_COMP_M.get<Component::Health>(a);
+    componentManager.add<Engine::Hitbox>(entity, focus.size.x, focus.size.y, [](Engine::Entity self, Engine::Entity other) {
+        Component::EntityMask otherMask = GET_COMP_M.get<Component::EntityMask>(other);
+        auto &health = GET_COMP_M.get<Component::Health>(self);
 
         if (otherMask._currentMask == Component::MASK::BULLET_PLAYER) {
-            auto dmg = GET_COMP_M.get<Component::Damage>(b);
+            auto dmg = GET_COMP_M.get<Component::Damage>(other);
 
             health._health -= dmg._damage;
             if (health._health <= 0) {
-                GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
+                GET_EVENT_REG.registerEvent<EntityRemoveEvent>(self);
             }
             try {
                 /// Increase player score
