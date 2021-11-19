@@ -42,6 +42,8 @@
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
+
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
 #include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
@@ -115,6 +117,7 @@ void GameCore::run()
     systemManager.registerSystem<System::NetworkReceiveSystem>();
     systemManager.registerSystem<System::SyncSendSystem>();
     systemManager.registerSystem<System::OutofBoundsSystem>();
+    systemManager.registerSystem<System::ScoreSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();

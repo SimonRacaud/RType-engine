@@ -32,6 +32,7 @@
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -138,7 +139,8 @@ void GameScene::initGame()
         System::ScrollSystem,
         System::NetworkReceiveSystem,
         System::SyncSendSystem,
-        System::OutofBoundsSystem
+        System::OutofBoundsSystem,
+        System::ScoreSystem
         >();
 }
 
