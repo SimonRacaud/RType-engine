@@ -103,10 +103,13 @@ Engine::Entity Bullet::getId() const
 
 bool Bullet::displayExplosion(Component::MASK a, Component::MASK b)
 {
+    using Component::MASK;
     bool bulletA = a == Component::MASK::BULLET_ENEMY || a == Component::MASK::BULLET_PLAYER;
     bool bulletB = b == Component::MASK::BULLET_ENEMY || b == Component::MASK::BULLET_PLAYER;
     bool playerA = a == Component::MASK::PLAYER && b == Component::MASK::BULLET_PLAYER;
     bool playerB = b == Component::MASK::PLAYER && a == Component::MASK::BULLET_PLAYER;
+    bool aIsCharacter = a == MASK::PLAYER || a == MASK::ENEMY;
+    bool bIsCharacter = b == MASK::PLAYER || b == MASK::ENEMY;
 
-    return !(bulletA && bulletB) && !(playerA || playerB);
+    return !(bulletA && bulletB) && !(playerA || playerB) && (aIsCharacter || bIsCharacter);
 }
