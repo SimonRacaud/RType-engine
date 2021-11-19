@@ -45,17 +45,16 @@ uint8_t *ComponentSync::serialize() const
     auto component = reinterpret_cast<ComponentSync *>(buffer);
 
     std::memcpy(buffer, (uint8_t *) this, sizeof(ComponentSync));         // copy header
-
-//    component->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header component
+    component->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header component
     std::memcpy(component->component, this->component, this->componentSize);    // copy body
     return buffer;
 }
 
 void ComponentSync::deserialize(uint8_t *buffer)
 {
-    auto ptr = reinterpret_cast<ComponentSync *>(buffer);
-
-    *this = *ptr;
+    std::memcpy((uint8_t *)this, buffer, sizeof(ComponentSync));
+    this->component = new uint8_t[this->componentSize];
+    std::memcpy(this->component, buffer + sizeof(ComponentSync), this->componentSize);
 }
 
 ComponentSync &ComponentSync::operator=(const ComponentSync &other)
@@ -70,13 +69,11 @@ ComponentSync &ComponentSync::operator=(const ComponentSync &other)
     this->componentType = other.componentType;
     this->componentSize = other.componentSize;
 
-    std::cout << "[COMPONENT SYNC] : roomId : " << roomId << ", networkId : " << networkId << ", componentType: " << componentType << ", componentSize : " << componentSize << std::endl;
     if (other.component == nullptr) {
         this->component = nullptr;
     } else {
         this->component = new uint8_t[this->componentSize];                 // alloc body
         std::memset(this->component, 0, this->componentSize);
-        std::cout << sbrk(0) << std::endl;
         std::memcpy(this->component, &other.component, this->componentSize); // copy body
     }
     return *this;
