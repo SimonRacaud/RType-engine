@@ -9,7 +9,7 @@
 */
 
 #include "Tram/ComponentSync.hpp"
-
+#include "unistd.h"
 using namespace Tram;
 
 ComponentSync::ComponentSync() : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync))
@@ -38,13 +38,16 @@ uint8_t *ComponentSync::serialize() const
     if (this->component == nullptr) {
         throw std::logic_error("ComponentSync::serialize null component");
     }
-    auto *buffer = new uint8_t[this->length() + this->componentSize];
-    std::memset(buffer, 0, this->length() + this->componentSize);
-    auto ptr = reinterpret_cast<ComponentSync *>(buffer);
+    
+    uint8_t *buffer = new uint8_t[this->length()];
+    
+    std::memset(buffer, 0, this->length());
+    auto component = reinterpret_cast<ComponentSync *>(buffer);
 
     std::memcpy(buffer, (uint8_t *) this, sizeof(ComponentSync));         // copy header
-    ptr->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header ptr
-    std::memcpy(ptr->component, this->component, this->componentSize);    // copy body
+
+//    component->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header component
+    std::memcpy(component->component, this->component, this->componentSize);    // copy body
     return buffer;
 }
 
@@ -66,11 +69,15 @@ ComponentSync &ComponentSync::operator=(const ComponentSync &other)
     this->timestamp = other.timestamp;
     this->componentType = other.componentType;
     this->componentSize = other.componentSize;
+
+    std::cout << "[COMPONENT SYNC] : roomId : " << roomId << ", networkId : " << networkId << ", componentType: " << componentType << ", componentSize : " << componentSize << std::endl;
     if (other.component == nullptr) {
         this->component = nullptr;
     } else {
         this->component = new uint8_t[this->componentSize];                 // alloc body
-        std::memcpy(this->component, other.component, this->componentSize); // copy body
+        std::memset(this->component, 0, this->componentSize);
+        std::cout << sbrk(0) << std::endl;
+        std::memcpy(this->component, &other.component, this->componentSize); // copy body
     }
     return *this;
 }
