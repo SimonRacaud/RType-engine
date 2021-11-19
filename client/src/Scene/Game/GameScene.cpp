@@ -32,6 +32,7 @@
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -140,7 +141,6 @@ void GameScene::initGame()
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
-
 }
 
 void GameScene::setTimeStart(::Time timestamp)
