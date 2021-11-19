@@ -57,7 +57,7 @@ namespace Network
         void disconnectAll() override
         {
             for (const auto &item : AAsioConnection<Data>::_connections) {
-                disconnect(item.first, item.second);
+                disconnect(item.ip, item.port);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Network
         void sendAll(const Data &buf) override
         {
             for (const auto &connection : AAsioConnection<Data>::_connections) {
-                send(buf, connection.first, connection.second);
+                send(buf, connection.ip, connection.port);
             }
         }
 

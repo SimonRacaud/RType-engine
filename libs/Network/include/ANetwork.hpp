@@ -12,6 +12,7 @@
 #include <thread>
 #include "Exceptions/NetworkException.hpp"
 #include "INetwork.hpp"
+#include "InfoConnection.hpp"
 #include "utils/ThreadSafety/LockedDeque.hpp"
 #include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
@@ -27,33 +28,6 @@ struct hash_pair {
     }
 };
 #endif
-
-class myPair {
-  public:
-    myPair() = default;
-    myPair(std::string first, std::size_t second) : first(first), second(second)
-    {
-    }
-
-    ~myPair() = default;
-
-    myPair &operator=(const myPair &rhs)
-    {
-        this->first = rhs.first;
-        this->second = rhs.second;
-
-        return *this;
-    }
-
-    bool operator==(const myPair &rhs)
-    {
-        return this->first == rhs.first && this->second == rhs.second;
-    }
-
-  public:
-    std::string first;
-    std::size_t second{0};
-};
 
 namespace Network
 {
@@ -87,7 +61,7 @@ namespace Network
         {
             auto first(_connections.begin());
             auto last(_connections.end());
-            myPair value(ip, port);
+            Network::InfoConnection value(ip, port);
 
             first = std::find(first, last, value);
             if (first == last)
@@ -113,12 +87,17 @@ namespace Network
             if (!AAsioConnection<Data>::_connections.empty()
                 && std::find_if(_connections.begin(), _connections.end(),
                        [=](const auto &connection) {
-                           return ip == connection.first && port == connection.second;
+                           return ip == connection.ip && port == connection.port;
                        })
                     != AAsioConnection<Data>::_connections.end()) {
                 return true;
             }
             return false;
+        }
+
+        const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const
+        {
+            return _connections;
         }
 
       private:
@@ -190,7 +169,7 @@ namespace Network
         std::size_t _receivePacketSize{500};
         // todo change
 
-        ThreadSafety::LockedDeque<myPair /*std::pair<const std::string, const std::size_t>*/> _connections;
+        ThreadSafety::LockedDeque<Network::InfoConnection> _connections;
 
         // Asynchronous operations
         bool _runningAsync{false};

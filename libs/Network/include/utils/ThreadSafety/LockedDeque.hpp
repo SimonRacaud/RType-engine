@@ -72,6 +72,8 @@ namespace ThreadSafety
             return std::deque<T>::erase(pos);
         }
 
+
+
       private:
         /**
          * @brief mutex should make this class thread safe
