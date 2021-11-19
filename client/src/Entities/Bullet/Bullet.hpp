@@ -26,6 +26,9 @@ class Bullet
         Engine::Entity getId() const;
 
     private:
+        static bool displayExplosion(Component::MASK, Component::MASK);
+
+    private:
         Engine::Entity _entity;
 };
 
