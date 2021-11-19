@@ -104,6 +104,9 @@ class ServerNetworkCore : public IServerNetworkCore {
     void _removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex);
 
   private:
+    size_t _portUdp;
+    size_t _portTcp;
+    size_t _portUdpClient;
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
     GarbageEntity _garbageEntity;

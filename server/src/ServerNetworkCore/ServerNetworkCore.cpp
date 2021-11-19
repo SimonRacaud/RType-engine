@@ -23,8 +23,11 @@ void ServerNetworkCore::sig_handler(int)
 
 ServerNetworkCore::ServerNetworkCore()
 try :
-    _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(ServerCore::config->getVar<int>("PORT_TCP")))),
-    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(ServerCore::config->getVar<int>("PORT_UDP")))),
+    _portUdp(ServerCore::config->getVar<int>("PORT_UDP")),
+    _portTcp(ServerCore::config->getVar<int>("PORT_TCP")),
+    _portUdpClient(ServerCore::config->getVar<int>("PORT_UDP_CLIENT")),
+    _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(_portTcp))),
+    _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(_portUdp))),
     _garbageEntity(ServerCore::config->getVar<std::pair<int, int>>("WINDOW_SIZE")),
     _maxRoomClient(ServerCore::config->getVar<int>("MAX_CLIENT_ROOM"))
 {
@@ -44,7 +47,7 @@ void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
-    this->_tcpServer.send(tram, room->masterClient.ip, room->masterClient.port);
+    this->_tcpServer.send(tram, room->masterClient.ip, _portTcp);
 }
 
 void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
@@ -54,7 +57,7 @@ void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
     Tram::DestroyEntity tram(roomId, id);
 
     for (Network::InfoConnection const &client : room->clients) {
-        this->_tcpServer.send(tram, client.ip, client.port);
+        this->_tcpServer.send(tram, client.ip, _portTcp);
     }
 }
 
@@ -68,7 +71,7 @@ void ServerNetworkCore::syncComponent(size_t roomId, NetworkId id,
     Tram::ComponentSync tram(roomId, id, timestamp, componentType, componentSize, component);
 
     for (Network::InfoConnection const &client : room->clients) {
-        this->_udpServer.send(tram, client.ip, client.port);
+        this->_udpServer.send(tram, client.ip, _portUdpClient);
     }
 }
 
@@ -165,7 +168,7 @@ void ServerNetworkCore::receiveGetRoomList(InfoConnection &info)
         roomList.push_back(room->roomId);
     }
     Tram::GetRoomList tram(roomList);
-    this->_udpServer.send(tram, info.ip, info.port);
+    this->_udpServer.send(tram, info.ip, _portUdpClient);
 }
 
 void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
@@ -174,7 +177,7 @@ void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
 
     if (this->_roomFreeIds.empty()) {
         Tram::JoinCreateRoomReply tram(false);
-        this->_udpServer.send(tram, info.ip, info.port);
+        this->_udpServer.send(tram, info.ip, _portUdpClient);
         PUT_DEBUG("[CreateRoom] creation refused.");
     } else {
         size_t roomId = this->_roomFreeIds.back();
@@ -198,11 +201,11 @@ void ServerNetworkCore::receiveJoinRoom(InfoConnection &info, Tram::JoinRoom &da
 
     if (room->clients.size() >= _maxRoomClient || room->startTimestamp <= GET_NOW) {
         Tram::JoinCreateRoomReply tram(false, roomId);
-        this->_udpServer.send(tram, info.ip, info.port);
+        this->_udpServer.send(tram, info.ip, _portUdpClient);
         PUT_DEBUG("[JoinRoom] refused.");
     } else {
         Tram::JoinCreateRoomReply tram(true, roomId, room->startTimestamp, (room->clients.size() + 1));
-        this->_udpServer.send(tram, info.ip, info.port);
+        this->_udpServer.send(tram, info.ip, _portUdpClient);
         room->clients.push_back(info);
         PUT_DEBUG("[JoinRoom] accepted.");
     }
@@ -283,14 +286,14 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
                     data.position, data.velocity);
                 for (InfoConnection const &client : room->clients) {
                     if (!(client == info)) { // not master client
-                        this->_tcpServer.send(data, client.ip, client.port);
+                        this->_tcpServer.send(data, client.ip, _portTcp);
                     }
                 }
             }
         } else {
             // The request came from a slave client
             // redirect response to the source emitter
-            this->_tcpServer.send(data, data.ip, data.port);
+            this->_tcpServer.send(data, data.ip, _portTcp);
         }
     } else {
         // impossible (the response come from a slave client)
@@ -309,7 +312,7 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
         // => broadcast to others clients
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
-                this->_tcpServer.send(data, client.ip, client.port);
+                this->_tcpServer.send(data, client.ip, _portTcp);
             }
         }
     } else {
@@ -317,7 +320,7 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
         // => redirect to master client
         Tram::CreateEntityRequest tram(data.roomId, data.id, data.entityType,
             data.timestamp, info.port, info.ip, data.position, data.velocity);
-        this->_tcpServer.send(tram, room->masterClient.ip, room->masterClient.port);
+        this->_tcpServer.send(tram, room->masterClient.ip, _portTcp);
     }
 }
 
@@ -332,7 +335,7 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
         // => broadcast to others clients
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
-                this->_tcpServer.send(data, client.ip, client.port);
+                this->_tcpServer.send(data, client.ip, _portTcp);
             }
         }
     } else {
@@ -353,7 +356,7 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
     // => Broadcast to other clients
     for (InfoConnection const &client : room->clients) {
         if (!(client == info)) { // not emitter client
-            this->_udpServer.send(data, client.ip, client.port);
+            this->_udpServer.send(data, client.ip, _portUdpClient);
         }
     }
     // intercept Position component here (remove if out of bound)
