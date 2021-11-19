@@ -16,7 +16,7 @@ namespace Component
     enum SyncComponentType : int
     {
         VELOCITY = 0b1,
-        POSITION = 0b11,
+        POSITION = 0b10,
         SCORE = 0b100,
         EQUIPMENT_COMP = 0b1000,
         HEALTH = 0b10000,
