@@ -68,7 +68,7 @@ void ServerNetworkCore::syncComponent(size_t roomId, NetworkId id,
     Tram::ComponentSync tram(roomId, id, timestamp, componentType, componentSize, component);
 
     for (Network::InfoConnection const &client : room->clients) {
-        this->_tcpServer.send(tram, client.ip, client.port);
+        this->_udpServer.send(tram, client.ip, client.port);
     }
 }
 
@@ -353,7 +353,7 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
     // => Broadcast to other clients
     for (InfoConnection const &client : room->clients) {
         if (!(client == info)) { // not emitter client
-            this->_tcpServer.send(data, client.ip, client.port);
+            this->_udpServer.send(data, client.ip, client.port);
         }
     }
     // intercept Position component here (remove if out of bound)
