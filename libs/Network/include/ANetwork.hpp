@@ -39,6 +39,7 @@ namespace Network
         virtual ~AAsioConnection()
         {
             delete[] _recvBuf.first;
+            _recvBuf.first = nullptr;
             stopRunAsync();
             disconnectAll();
         }

@@ -19,7 +19,7 @@ namespace Component
         POSITION = 0b11,
         SCORE = 0b100,
         EQUIPMENT_COMP = 0b1000,
-        HEALTH = 0b10110,
+        HEALTH = 0b10000,
         ANIMATION_INFO = 0b100000,
     };
     /**
