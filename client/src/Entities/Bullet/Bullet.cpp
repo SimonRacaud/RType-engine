@@ -90,7 +90,7 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     _entity = entity;
 }
 
-void Bullet::setNetworkId(uint32_t entityId)
+void Bullet::setNetworkId(uint32_t)
 {
     GameCore::engine.getEntityManager().setNetworkId(_entity);
 }

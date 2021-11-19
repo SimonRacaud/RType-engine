@@ -214,7 +214,7 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
     });
 }
 
-void Player::setNetworkId(uint32_t entityId)
+void Player::setNetworkId(uint32_t)
 {
     GameCore::engine.getEntityManager().setNetworkId(_entity);
 }
