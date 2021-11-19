@@ -60,7 +60,7 @@ void GameScene::createWaitingScreen()
 
     // ENTITY CREATE
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
-    Button back(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3), std::make_shared<SelectPreviousScene>());
+    Button back(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3), std::make_unique<QuitEvent>());
     // MANUAL COMPONENT BUILD
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
