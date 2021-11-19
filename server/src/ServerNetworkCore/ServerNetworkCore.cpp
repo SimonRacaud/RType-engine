@@ -126,6 +126,7 @@ void ServerNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
     uint8_t *buffer)
 {
     switch (header.type) {
+        std::cout << "HEADER === " << header.type << std::endl;
         case Tram::TramType::ROOM_LIST: {
             this->receiveGetRoomList(info);
             break;
