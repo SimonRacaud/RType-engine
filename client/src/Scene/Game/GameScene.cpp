@@ -116,7 +116,7 @@ void GameScene::initGame()
         std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
     }
     Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), std::make_unique<QuitEvent>());
-    Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
+    Label numberPlayer(this->getCluster(), std::to_string(_playerNumber) + " P -", vector2D(10, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::NB_PLAYER);
     Label playerScore(this->getCluster(), "000", vector2D(200, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::SCORE);
