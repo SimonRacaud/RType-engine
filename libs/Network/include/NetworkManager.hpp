@@ -86,11 +86,12 @@ template <Pointerable Data> void NetworkManager::sendAll(Data &data)
 
 template <Pointerable Data> void NetworkManager::send(Data &data, const std::string &ip)
 {
-    auto connections(_connector->getConnections());
+    const ThreadSafety::LockedDeque<Network::InfoConnection> &connections = _connector->getConnections();
 
     for (const auto &connection : connections) {
         if (connection.ip == ip) {
-            _connector->send(data, connection.ip, connection.port);
+            _dataWrapper.deserialize(data.serialize(), data.length());
+            _connector->send(_dataWrapper, connection.ip, connection.port);
         }
     }
 }
