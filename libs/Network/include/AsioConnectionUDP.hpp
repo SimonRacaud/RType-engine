@@ -141,9 +141,12 @@ namespace Network
             if (err) {
                 std::cerr << "Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
+                    resetReceive();
+                    if (AAsioConnection<Data>::isConnected(senderIp, senderPort)) {
+                        AAsioConnection<Data>::disconnect(senderIp, senderPort);
+                    }
                     return;
                 }
-                resetReceive();
             }
 
             if (!receivedPacketSize && !senderIp.empty() && senderPort) {
@@ -153,6 +156,7 @@ namespace Network
                     AAsioConnection<Data>::connect(senderIp, senderPort);
                 }
                 resetReceive();
+                return;
             }
 
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(senderIp, senderPort),
@@ -162,8 +166,6 @@ namespace Network
 
         void resetReceive()
         {
-            //            _senderEndpoint.address();
-            //            _senderEndpoint.port(0);
             memset(AAsioConnection<Data>::_recvBuf.first, 0, AAsioConnection<Data>::_recvBuf.second);
             asyncReceiveAny();
         }

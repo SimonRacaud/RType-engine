@@ -140,19 +140,19 @@ namespace Network
          */
         void realRunAsync()
         {
-            _running = true;
+            _runningAsync = true;
 
             usleep(3000); // wait for the io operations to settle
-            while (_thread.joinable() && _running) {
+
+            while (_thread.joinable() && _runningAsync) {
                 _ioContext.run_one_for(std::chrono::seconds(1));
                 // todo might not work for big packets
             }
-            _running = false;
         }
 
         void stopRunAsync()
         {
-            _running = false;
+            _runningAsync = false;
             if (!_thread.joinable()) {
                 return;
             }
@@ -193,7 +193,7 @@ namespace Network
         ThreadSafety::LockedDeque<myPair /*std::pair<const std::string, const std::size_t>*/> _connections;
 
         // Asynchronous operations
-        bool _running{false};
+        bool _runningAsync{false};
         /**
          * @property Contain data received from connections through
          *  asynchronous operations
