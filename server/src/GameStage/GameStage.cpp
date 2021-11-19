@@ -225,7 +225,7 @@ std::vector<std::string> GameStage::readFile(const std::string &filepath) const
         while (getline(myfile, line))
             fileContent.push_back(line);
     } else
-        throw std::invalid_argument("Fail to open file: " + filepath);
+        throw std::invalid_argument("Fail to open stage file: " + filepath);
     return fileContent;
 }
 
