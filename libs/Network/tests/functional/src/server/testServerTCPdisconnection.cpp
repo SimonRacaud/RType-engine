@@ -23,6 +23,7 @@ static std::shared_ptr<IConnection<DataWrapper>> startServer()
 
 int testTCPserverDisconnection()
 {
+    std::cout << __PRETTY_FUNCTION__ << std::endl;
     auto network(startServer());
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> dataReceived;
     std::string ipClient;
@@ -35,9 +36,6 @@ int testTCPserverDisconnection()
             ipClient = std::get<2>(dataReceived);
             portClient = std::get<3>(dataReceived);
             connection = network->isConnected(ipClient, portClient);
-            std::cout << ipClient << std::endl;
-            std::cout << portClient << std::endl;
-            std::cout << std::boolalpha << connection << std::endl;
         }
         if (connection && !network->isConnected(ipClient, portClient)) {
             return 0;

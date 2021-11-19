@@ -165,7 +165,7 @@ target_link_libraries(${INDEPENDENT} PUBLIC ${CONAN_LIBS})
 
 
 ############## TESTS
-set(TEST_TIMEOUT 1)
+set(TEST_TIMEOUT 2)
 include(CTest)
 enable_testing()
 
@@ -176,10 +176,11 @@ set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
 set(SH_ADD_CMD -c)
 
 ##### TEST THAT TESTS WORK
-#add_test(TestTheTest bin/client 0)
-#set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
+add_test(TestTheTest bin/client 0)
+set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
 
-##### REAL TESTS
+
+## REAL TESTS
 set(TEST_NB 1)
 set(TEST simpleSendReceiveTCP)
 add_test(NAME ${TEST}
@@ -190,10 +191,10 @@ set_tests_properties(${TEST}
                      TIMEOUT ${TEST_TIMEOUT})
 
 
-####### TESTS IN LOOP
+# TESTS IN LOOP
 
-##### TESTS TRAM BUFFER
-set(TEST_NBS 2;3;4;5;6;7;8)
+# TESTS TRAM BUFFER
+set(TEST_NBS 2;3;4;5;6;8)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -207,7 +208,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
 
 endforeach ()
 
-set(TEST_NBS 9;10;11;12;13;14;15)
+set(TEST_NBS 9;10;11;12;13;15)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -230,7 +231,7 @@ set_tests_properties(${TEST}
                      PROPERTIES WILL_FAIL FALSE
                      TIMEOUT ${TEST_TIMEOUT})
 
-set(TEST_NBS 17;18;19;20;21;22;23)
+set(TEST_NBS 17;18;19;20;21;23)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -243,7 +244,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
                          TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
-set(TEST_NBS 24;25;26;27;28;29;30)
+set(TEST_NBS 24;25;26;27;28;30)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
@@ -283,7 +284,7 @@ foreach (num IN ZIP_LISTS TEST_NBS)
                          TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
-##### TESTS TRAM BUFFER
+# TESTS TRAM BUFFER
 set(TEST_NBS 1;2;3;4)
 
 foreach (num IN ZIP_LISTS TEST_NBS)
