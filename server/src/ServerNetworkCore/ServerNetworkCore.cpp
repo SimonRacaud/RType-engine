@@ -47,7 +47,12 @@ void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
-    this->_tcpServer.send(tram, room->masterClient.ip, _portTcp);
+    try {
+        this->_tcpServer.send(tram, room->masterClient.ip, _portTcp);
+    } catch (Network::invalidConnection const &) {
+        std::cerr << "Unexpected client disconnection." << std::endl;
+        this->_closeGameRoom(roomId);
+    }
 }
 
 void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
@@ -57,7 +62,11 @@ void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
     Tram::DestroyEntity tram(roomId, id);
 
     for (Network::InfoConnection const &client : room->clients) {
-        this->_tcpServer.send(tram, client.ip, _portTcp);
+        try {
+            this->_tcpServer.send(tram, client.ip, _portTcp);
+        } catch (Network::invalidConnection const &) {
+            std::cerr << "Unexpected disconnection send tcp" << std::endl;
+        }
     }
 }
 
@@ -71,7 +80,12 @@ void ServerNetworkCore::syncComponent(size_t roomId, NetworkId id,
     Tram::ComponentSync tram(roomId, id, timestamp, componentType, componentSize, component);
 
     for (Network::InfoConnection const &client : room->clients) {
-        this->_udpServer.send(tram, client.ip, _portUdpClient);
+        try {
+            this->_udpServer.send(tram, client.ip, _portUdpClient);
+        } catch (Network::invalidConnection const &) {
+            std::cerr << "Unexpected client disconnection" << std::endl;
+            this->_removeClient(roomId, client.ip);
+        }
     }
 }
 
@@ -226,12 +240,7 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
             this->_removePlayer(room, clientIndex);
             PUT_DEBUG("[QuitRoom] The client quit roomId="+ to_string(room->roomId) +".");
             if (room->clients.empty()) {
-                // CLOSE ROOM
-                this->_roomManager.deleteRoom(room->roomId);
-                // END
-                this->_roomFreeIds.push_back(room->roomId); // the room id is free again
-                this->_rooms.erase(this->_rooms.begin() + counter); // remove the room
-                PUT_DEBUG("[QuitRoom] Closing roomId="+to_string(room->roomId)+".");
+                this->_closeGameRoom(room->roomId);
             }
             break;
         }
@@ -372,4 +381,43 @@ shared_ptr<NetworkRoom> ServerNetworkCore::_getRoom(size_t roomId)
         throw std::invalid_argument("ServerNetworkCore::_checkRoomId room id not found");
     }
     return *it;
+}
+
+void ServerNetworkCore::_closeGameRoom(size_t roomId)
+{
+    auto it = std::find_if(_rooms.begin(), _rooms.end(), [roomId](shared_ptr<NetworkRoom> const& room) {
+        return room->roomId == roomId;
+    });
+
+    if (it == _rooms.end()) {
+        return;
+    }
+    if (!(*it)->clients.empty()) {
+        // send to clients "end-game" notification
+        Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
+        for (Network::InfoConnection &client : (*it)->clients) {
+            this->_udpServer.send(tram, client.ip, _portUdp);
+        }
+    }
+    // CLOSE ROOM
+    this->_roomManager.deleteRoom(roomId);
+    // END
+    this->_roomFreeIds.push_back(roomId); // the room id is free again
+    this->_rooms.erase(it); // remove the room
+    PUT_DEBUG("[QuitRoom] Closing roomId="+to_string(roomId)+".");
+}
+
+void ServerNetworkCore::_removeClient(size_t roomId, const string &ip)
+{
+    shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
+
+    auto it = std::find_if(room->clients.begin(), room->clients.end(), [ip](const Network::InfoConnection &info) {
+        return info.ip == ip;
+    });
+    if (it != room->clients.end()) {
+        room->clients.erase(it);
+        if (room->masterClient.ip == ip) {
+            this->_closeGameRoom(roomId);
+        }
+    }
 }
