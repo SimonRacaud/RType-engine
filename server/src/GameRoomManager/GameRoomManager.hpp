@@ -9,6 +9,10 @@
 #define GAMEROOMMANAGER_HPP
 
 #include "GameRoom/GameRoom.hpp"
+#include <memory>
+
+using std::unique_ptr;
+using std::make_unique;
 
 class GameRoomManager
 {
@@ -23,7 +27,7 @@ class GameRoomManager
         void destroyEntityEnemy(size_t roomId, uint32_t networkId);
 
     private:
-        std::vector<GameRoom> _rooms;
+        std::vector<unique_ptr<GameRoom>> _rooms;
 };
 
 #endif
