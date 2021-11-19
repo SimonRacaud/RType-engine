@@ -105,12 +105,11 @@ namespace Network
         void send(const Data &buf, const std::string &ip, const std::size_t port) override
         {
             udp::endpoint remoteEndpoint(asio::ip::make_address(ip), port);
-            asio::const_buffer buffer;
 
             if (buf.length()) {
-                buffer = asio::buffer(buf.serialize(), buf.length());
+                auto buffer = asio::buffer(buf.serialize(), buf.length());
+                _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
             }
-            _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
         }
 
       private:

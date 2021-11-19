@@ -22,6 +22,17 @@ namespace ThreadSafety
         LockedDeque() = default;
         ~LockedDeque() = default;
 
+        LockedDeque(const LockedDeque<T> &rhs)
+        {
+            std::scoped_lock lock(_mutex);
+
+            for (const auto &item : rhs) {
+                this->template emplace_back(*item);
+            }
+        }
+
+        // todo operator=()
+
         // Capacity
         [[nodiscard]] bool empty() const noexcept
         {
@@ -71,8 +82,6 @@ namespace ThreadSafety
             std::scoped_lock lock(_mutex);
             return std::deque<T>::erase(pos);
         }
-
-
 
       private:
         /**

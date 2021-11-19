@@ -47,6 +47,7 @@ class NetworkManager {
     bool connect(const std::string &ip, std::size_t port);
 
     template <Pointerable Data> void send(Data &data, const std::string &ip, std::size_t port);
+    template <Pointerable Data> void send(Data &data, const std::string &ip);
     template <Pointerable Data> void sendAll(Data &data);
 
     /**

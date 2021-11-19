@@ -58,3 +58,14 @@ bool NetworkManager::connect(const std::string &ip, const std::size_t port)
         throw std::logic_error("No connector in NetworkManager");
     return _connector->connect(ip, port);
 }
+
+template <Pointerable Data> void NetworkManager::send(Data &data, const std::string &ip)
+{
+    auto connections(_connector->getConnections());
+
+    for (const auto &connection : connections) {
+        if (connection.ip == ip) {
+            _connector->send(data, connection.ip, connection.port);
+        }
+    }
+}

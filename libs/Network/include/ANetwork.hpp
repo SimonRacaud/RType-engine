@@ -12,8 +12,6 @@
 #include <thread>
 #include "Exceptions/NetworkException.hpp"
 #include "INetwork.hpp"
-#include "InfoConnection.hpp"
-#include "utils/ThreadSafety/LockedDeque.hpp"
 #include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
 #ifndef MY_MAP
