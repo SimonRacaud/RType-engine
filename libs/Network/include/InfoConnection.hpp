@@ -12,7 +12,7 @@
 #define INFOCONNECTION_HPP
 
 #include <string>
-#include <stddef.h>
+#include <cstddef>
 
 namespace Network {
     struct InfoConnection {

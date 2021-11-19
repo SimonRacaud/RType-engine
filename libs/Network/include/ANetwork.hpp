@@ -141,9 +141,9 @@ namespace Network
         void realRunAsync()
         {
             _runningAsync = true;
+            const std::chrono::duration<double> waitAsyncSetup(0.01);
 
-            usleep(3000); // wait for the io operations to settle
-
+            std::this_thread::sleep_for(waitAsyncSetup);
             while (_thread.joinable() && _runningAsync) {
                 _ioContext.run_one_for(std::chrono::seconds(1));
                 // todo might not work for big packets

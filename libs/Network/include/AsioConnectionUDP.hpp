@@ -139,7 +139,7 @@ namespace Network
             auto senderPort(_senderEndpoint.port());
 
             if (err) {
-                std::cerr << "Asio : " << err.message() << std::endl;
+                std::cerr << "UDP Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
                     resetReceive();
                     if (AAsioConnection<Data>::isConnected(senderIp, senderPort)) {

@@ -27,7 +27,7 @@ namespace Network
             try {
                 newConnection->connect(serverEndpoint);
             } catch (const std::system_error &) {
-                std::cerr << "Failed to connect with server" << std::endl;
+                std::cerr << "TCP client Asio : Failed to connect with server" << std::endl;
                 _connectionTimer.setElapsedTime();
                 if (_ping.count() > _connectionTimer.getElapsedTime().count()) {
                     std::this_thread::sleep_for(_ping - _connectionTimer.getElapsedTime());

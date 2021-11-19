@@ -170,7 +170,7 @@ namespace Network
             std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
-                std::cerr << "Asio : " << err.message() << std::endl;
+                std::cerr << "TCP Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
                     disconnect(connection);
                     return;
