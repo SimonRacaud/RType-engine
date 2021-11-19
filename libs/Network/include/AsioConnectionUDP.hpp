@@ -97,6 +97,9 @@ namespace Network
 
         void sendAll(const Data &buf) override
         {
+            if (AAsioConnection<Data>::_connections.empty()) {
+                throw std::runtime_error("AsioConnectionUDP::sendAll No connection available.");
+            }
             for (const auto &connection : AAsioConnection<Data>::_connections) {
                 send(buf, connection.first, connection.second);
             }

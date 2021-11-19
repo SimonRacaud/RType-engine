@@ -48,6 +48,8 @@ class ClientNetworkCore {
     ClientNetworkCore(Engine::IGameEngine &engine);
     virtual ~ClientNetworkCore();
 
+    void connect();
+
     void getRoomList();
     void createRoom();
     void joinRoom(size_t id);

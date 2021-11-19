@@ -23,20 +23,7 @@ try : _engine(engine),
     _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
     _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(CLIENT_UDP_PORT)))
 {
-    std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
-    size_t serverPortTcp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_TCP");
-    size_t serverPortUdp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_UDP");
-
-    bool loop = false;
-    size_t count;
-    for (count = 0; !loop && count <= MAX_CONNECT_TRY; count++) {
-        loop = this->_tcpClient.connect(serverIp, serverPortTcp);
-        loop = loop && this->_udpClient.connect(serverIp, serverPortUdp);
-    }
-    if (count == MAX_CONNECT_TRY) {
-        throw std::runtime_error("No server connection. Exit.");
-    }
-    PUT_DEBUG("Network connected.");
+    this->connect();
 } catch (std::exception const &e) {
     std::cerr << "Fatal error ClientNetworkCore::ClientNetworkCore " << e.what() << std::endl;
     exit(84); // TODO TUEZ LEEEE !!! WHAHAHAHAH
@@ -44,35 +31,79 @@ try : _engine(engine),
 
 ClientNetworkCore::~ClientNetworkCore() {}
 
+void ClientNetworkCore::connect()
+{
+    size_t serverPortTcp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_TCP");
+    size_t serverPortUdp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_UDP");
+    std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
+    bool loop = false;
+    size_t count;
+
+    try {
+        for (count = 0; !loop && count <= MAX_CONNECT_TRY; count++) {
+            loop = this->_tcpClient.connect(serverIp, serverPortTcp);
+            loop = loop && this->_udpClient.connect(serverIp, serverPortUdp);
+        }
+    } catch (std::exception const &e) {
+        std::cerr << "ClientNetworkCore::connect " << e.what() << std::endl;
+        throw std::runtime_error("ClientNetworkCore::connect Connection failed. Exit.");
+    }
+    if (count == MAX_CONNECT_TRY) {
+        throw std::runtime_error("ClientNetworkCore::connect Connection failed. Exit.");
+    }
+    PUT_DEBUG("Network connected.");
+}
+
+
 void ClientNetworkCore::getRoomList()
 {
     PUT_DEBUG("Send [GetRoomList].");
-    Tram::Serializable tram(Tram::TramType::ROOM_LIST);
-    this->_udpClient.sendAll(tram);
+    try {
+        Tram::Serializable tram(Tram::TramType::ROOM_LIST);
+        this->_udpClient.sendAll(tram);
+    } catch (std::runtime_error const &) {
+        std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+        GameCore::engine.quit();
+    }
     SHOW_DEBUG("NETWORK: send get room list");
 }
 
 void ClientNetworkCore::createRoom()
 {
     PUT_DEBUG("Send [CreateRoom].");
-    Tram::Serializable tram(Tram::TramType::CREATE_ROOM);
-    this->_udpClient.sendAll(tram);
+    try {
+        Tram::Serializable tram(Tram::TramType::CREATE_ROOM);
+        this->_udpClient.sendAll(tram);
+    } catch (std::runtime_error const &) {
+        std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+        GameCore::engine.quit();
+    }
     SHOW_DEBUG("NETWORK: send create room");
 }
 
 void ClientNetworkCore::joinRoom(size_t id)
 {
     PUT_DEBUG("Send [JoinRoom] roomId="+to_string(id)+".");
-    Tram::JoinRoom tram(id);
-    this->_udpClient.sendAll(tram);
+    try {
+        Tram::JoinRoom tram(id);
+        this->_udpClient.sendAll(tram);
+    } catch (std::runtime_error const &) {
+        std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+        GameCore::engine.quit();
+    }
 }
 
 void ClientNetworkCore::quitRoom()
 {
     this->_checkRoom();
     PUT_DEBUG("Send [QuitRoom].");
-    Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
-    this->_udpClient.sendAll(tram);
+    try {
+        Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
+        this->_udpClient.sendAll(tram);
+    } catch (std::runtime_error const &) {
+        std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+        GameCore::engine.quit();
+    }
     this->_isMaster = false;
 }
 
@@ -82,8 +113,13 @@ void ClientNetworkCore::createEntity(Engine::Entity entity, std::string type,
     this->_checkRoom();
     PUT_DEBUG("Send [CreateEntity] entity="+to_string(entity)+", type="+type+".");
     long int timestamp = GET_NOW;
-    Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp, position, velocity);
-    this->_tcpClient.sendAll(tram);
+    try {
+        Tram::CreateEntityRequest tram(this->_roomId, entity, type, timestamp, position, velocity);
+        this->_tcpClient.sendAll(tram);
+    } catch (std::runtime_error const &) {
+        std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+        GameCore::engine.quit();
+    }
 }
 
 void ClientNetworkCore::destroyEntity(Engine::NetworkId id)
@@ -94,8 +130,13 @@ void ClientNetworkCore::destroyEntity(Engine::NetworkId id)
         Engine::Entity entityId = this->_engine.getEntityManager().getId(id);
 
         this->_engine.getEntityManager().remove(entityId);
-        Tram::DestroyEntity tram(this->_roomId, id);
-        this->_tcpClient.sendAll(tram);
+        try {
+            Tram::DestroyEntity tram(this->_roomId, id);
+            this->_tcpClient.sendAll(tram);
+        } catch (std::runtime_error const &) {
+            std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+            GameCore::engine.quit();
+        }
     } else {
         throw std::runtime_error("ClientNetworkCore::destroyEntity method called on slave client.");
     }
@@ -108,8 +149,13 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
     PUT_DEBUG("Send [SyncComponent] networkId="+to_string(id)+", componentType="+to_string(componentType.hash_code())
         +", componentName="+to_string(componentType.name()) + ", componentSize="+to_string(componentSize)+".");
     long int timestamp = GET_NOW;
-    Tram::ComponentSync tram(this->_roomId, id, timestamp, componentType, componentSize, component);
-    this->_udpClient.sendAll(tram);
+    try {
+        Tram::ComponentSync tram(this->_roomId, id, timestamp, componentType, componentSize, component);
+        this->_udpClient.sendAll(tram);
+    } catch (std::runtime_error const &) {
+        std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
+        GameCore::engine.quit();
+    }
 }
 
 void ClientNetworkCore::receiveRoomList(InfoConnection &, Tram::GetRoomList &data)
@@ -329,3 +375,4 @@ void ClientNetworkCore::_checkRoom()
         throw std::runtime_error("ClientNetworkCore not connected to any room.");
     }
 }
+
