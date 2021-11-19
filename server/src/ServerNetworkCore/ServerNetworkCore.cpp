@@ -95,8 +95,7 @@ void ServerNetworkCore::receiveLoop()
         try {
             this->_receiveFromChannel(this->_tcpServer);
         } catch (std::exception const &e) {
-            (void)e;
-            //std::cerr << "ServerNetworkCore::receiveLoop : tcp error. " << e.what() << std::endl;
+            std::cerr << "ServerNetworkCore::receiveLoop : tcp error. " << e.what() << std::endl;
         }
         try {
             this->_receiveFromChannel(this->_udpServer);
