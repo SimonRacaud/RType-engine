@@ -14,7 +14,7 @@ GameStage::GameStage(const GameStage &src) : _content(src._content), _step(src._
 {
 }
 
-GameStage::GameStage(const std::string &path) : _content(this->readFile(path))
+GameStage::GameStage(const std::string &path) : _content(this->readFile(path)), _step({}), _header(), _ended(), _pos(0)
 {
     if (!this->_content.size())
         throw std::invalid_argument("Empty file content");
