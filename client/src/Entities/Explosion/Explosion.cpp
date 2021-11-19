@@ -41,5 +41,5 @@ Explosion::Explosion(ClusterName cluster, const vector2D &pos)
 
 void Explosion::setNetworkId(uint32_t entityId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().setNetworkId(_entity);
 }

@@ -35,6 +35,7 @@
 #include "Component/SyncSend.hpp"
 #include "Component/Damage.hpp"
 #include "Components/Health.hpp"
+#include "Components/AnimationInfo.hpp"
 
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
@@ -42,6 +43,8 @@
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
+
 #include "SfmlApiManager/SfmlApiManager.hpp"
 #include "SfmlApiManager/SfmlApiManager.cpp"
 #include "Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.hpp"
@@ -103,6 +106,7 @@ void GameCore::run()
     componentManager.registerComponent<Component::EnemyType>();
     componentManager.registerComponent<Component::Damage>();
     componentManager.registerComponent<Component::Health>();
+    componentManager.registerComponent<Component::AnimationInfo>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();
@@ -115,6 +119,7 @@ void GameCore::run()
     systemManager.registerSystem<System::NetworkReceiveSystem>();
     systemManager.registerSystem<System::SyncSendSystem>();
     systemManager.registerSystem<System::OutofBoundsSystem>();
+    systemManager.registerSystem<System::ScoreSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     sceneManager.registerScene<Scene::StartScene>();
@@ -124,7 +129,7 @@ void GameCore::run()
     sceneManager.registerScene<Scene::GameScene>();
     sceneManager.registerScene<Scene::DebugScene>("Test");
 
-    sceneManager.select<Scene::StartScene>();
+    sceneManager.select<Scene::RoomListScene>();
 
     engine.exec();
 }

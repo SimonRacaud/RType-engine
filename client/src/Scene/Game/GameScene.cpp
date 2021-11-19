@@ -32,6 +32,7 @@
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -91,11 +92,23 @@ void GameScene::createWaitingScreen()
         i--;
     });
     // SYSTEM SELECT
+    // GameCore::engine.getSystemManager().selectSystems<
+    //     System::RenderSystem,
+    //     System::InputEventSystem,
+    //     Engine::TimerSystem,
+    //     System::NetworkReceiveSystem
+    //     >();
+    // SYSTEM SELECT
     GameCore::engine.getSystemManager().selectSystems<
         System::RenderSystem,
         System::InputEventSystem,
         Engine::TimerSystem,
-        System::NetworkReceiveSystem
+        Engine::ColliderSystem,
+        Engine::PhysicsSystem,
+        System::ScrollSystem,
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem,
+        System::OutofBoundsSystem
         >();
 }
 
@@ -116,7 +129,7 @@ void GameScene::initGame()
         std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
     }
     Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), std::make_unique<QuitEvent>());
-    Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
+    Label numberPlayer(this->getCluster(), std::to_string(_playerNumber) + " P -", vector2D(10, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::NB_PLAYER);
     Label playerScore(this->getCluster(), "000", vector2D(200, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::SCORE);
@@ -128,18 +141,6 @@ void GameScene::initGame()
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        Engine::ColliderSystem,
-        Engine::PhysicsSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem,
-        System::OutofBoundsSystem
-        >();
 }
 
 void GameScene::setTimeStart(::Time timestamp)

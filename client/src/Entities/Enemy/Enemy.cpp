@@ -40,6 +40,12 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
             if (health._health <= 0) {
                 GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
             }
+            try {
+                /// Increase player score
+                Engine::Entity player = GET_ENTITY_M.getId(Engine::EntityName::LOCAL_PLAYER);
+                auto &score = GET_COMP_M.get<Engine::ScoreComponent>(player);
+                score.value += (size_t) GameCore::config->getVar<int>("SCORE_INC");
+            } catch (std::exception const &) {}
         }
     });
     componentManager.add<Engine::Render>(entity, enemyRender);
@@ -49,5 +55,5 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
 
 void Enemy::setNetworkId(uint32_t entityId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().setNetworkId(_entity);
 }

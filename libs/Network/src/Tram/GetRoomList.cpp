@@ -33,6 +33,7 @@ uint8_t *GetRoomList::serialize() const
     size_t size = this->length();
     auto *buffer = new uint8_t[size];
 
+    std::memset(buffer, 0, size);
     std::memcpy(buffer, (void *) this, sizeof(GetRoomList));
 
     return buffer;

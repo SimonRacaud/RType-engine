@@ -125,7 +125,7 @@ namespace Engine
          * @param entity
          * @param id
          */
-        void setNetworkId(Entity entity, NetworkId id);
+        void setNetworkId(Entity entity);
         NetworkId getNetworkId();
 
         /**

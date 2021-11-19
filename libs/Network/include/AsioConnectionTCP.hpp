@@ -111,6 +111,9 @@ namespace Network
 
         void sendAll(const Data &buf) override
         {
+            if (_socketConnections.empty()) {
+                throw std::runtime_error("AsioConnectionTCP::sendAll No connection available.");
+            }
             for (auto &connection : _socketConnections) {
                 send(buf, connection);
             }

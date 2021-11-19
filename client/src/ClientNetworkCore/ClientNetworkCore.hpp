@@ -48,6 +48,8 @@ class ClientNetworkCore {
     ClientNetworkCore(Engine::IGameEngine &engine);
     virtual ~ClientNetworkCore();
 
+    void connect();
+
     void getRoomList();
     void createRoom();
     void joinRoom(size_t id);
@@ -75,6 +77,7 @@ class ClientNetworkCore {
     void receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
+    void receiveQuitRoom(InfoConnection &);
 
   private:
     void _receiveTcp();

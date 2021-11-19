@@ -42,6 +42,7 @@ uint8_t *ComponentSync::serialize() const
         throw std::logic_error("ComponentSync::serialize null component");
     }
     auto *buffer = new uint8_t[this->length() + this->componentSize];
+    std::memset(buffer, 0, this->length() + this->componentSize);
     auto ptr = reinterpret_cast<ComponentSync *>(buffer);
 
     std::memcpy(buffer, (uint8_t *) this, sizeof(ComponentSync));         // copy header

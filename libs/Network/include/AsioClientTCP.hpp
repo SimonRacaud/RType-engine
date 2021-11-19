@@ -21,6 +21,9 @@ namespace Network
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
+            if (AAsioConnection<Data>::isConnected(ip, port)) {
+                return true;
+            }
             tcp::endpoint serverEndpoint(asio::ip::make_address(ip), port);
             auto newConnection(std::make_shared<tcp::socket>(AAsioConnection<Data>::_ioContext));
 

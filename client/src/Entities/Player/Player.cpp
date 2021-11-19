@@ -78,7 +78,8 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
 
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
+    Engine::EntityName name = isLocalPlayer ? Engine::EntityName::LOCAL_PLAYER : Engine::EntityName::EMPTY;
+    Engine::Entity entity = entityManager.create(nullptr, cluster, name);
 
     this->configAppearance(entity, position, componentManager, playerNumber);
 
@@ -215,7 +216,7 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
 
 void Player::setNetworkId(uint32_t entityId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().setNetworkId(_entity);
 }
 
 Engine::Entity Player::getId() const

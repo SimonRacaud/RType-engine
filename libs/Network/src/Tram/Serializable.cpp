@@ -7,6 +7,7 @@
 
 #include "Tram/Serializable.hpp"
 #include <sstream>
+
 using namespace Tram;
 
 std::ostream &Tram::operator<<(std::ostream &stream, const Tram::TramType tram)
@@ -24,6 +25,7 @@ uint8_t *Serializable::serialize() const
     size_t length = this->length();
     auto *buffer = new uint8_t[length];
 
+    std::memset(buffer, 0, length);
     std::memcpy(buffer, (void *) this, length);
     return buffer;
 }
