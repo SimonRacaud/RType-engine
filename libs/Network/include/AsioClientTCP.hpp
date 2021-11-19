@@ -35,6 +35,7 @@ namespace Network
                 }
                 return false;
             }
+
             AsioConnectionTCP<Data>::addConnection(newConnection);
             return true;
         }
