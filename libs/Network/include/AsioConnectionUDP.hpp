@@ -168,8 +168,10 @@ namespace Network
 
         void resetReceive()
         {
-            memset(AAsioConnection<Data>::_recvBuf.first, 0, AAsioConnection<Data>::_recvBuf.second);
-            asyncReceiveAny();
+            if (AAsioConnection<Data>::_recvBuf.first != nullptr) {
+                memset(AAsioConnection<Data>::_recvBuf.first, 0, AAsioConnection<Data>::_recvBuf.second);
+                asyncReceiveAny();
+            }
         }
 
       private:
