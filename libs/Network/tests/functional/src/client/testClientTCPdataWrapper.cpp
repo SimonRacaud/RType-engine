@@ -9,6 +9,7 @@
 #include "AsioClientTCP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
+#include "intWrapper.hpp"
 
 using namespace Network;
 
@@ -75,18 +76,14 @@ int testTCPclientDataWrapperJoinCreateRoomReply()
 }
 int testTCPclientDataWrapperComponentSync()
 {
-    // size_t roomId{0}
-    // size_t size{0}
-    // uint32_t networkId{0}
-    // Time timestamp{0}
-    // size_t componentType{0}
-    // size_t componentSize{0}
-    // void *component{nullptr}
-    //    Tram::ComponentSync my_data{963, 852, 456, 789};
+    auto *ptr = new TestComponent(753951);
+    Time time = (Time) 424242;
+    auto type = std::type_index(typeid(TestComponent));
+    const size_t compSize = sizeof(TestComponent);
 
-    //    return startClientSendData(my_data.serialize(), my_data.length());
-    //    return startClientSendData(nullptr, 0);
-    return 84;
+    Tram::ComponentSync my_data(43, 42, time, type, compSize, (void *) ptr);
+
+    return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testTCPclientDataWrapperDestroyEntity()
 {

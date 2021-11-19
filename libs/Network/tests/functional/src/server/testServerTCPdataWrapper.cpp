@@ -9,6 +9,7 @@
 #include "AsioServerTCP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
+#include "intWrapper.hpp"
 #include <unordered_map>
 
 using namespace Network;
@@ -92,22 +93,32 @@ int testTCPserverDataWrapperJoinCreateRoomReply()
 
 int testTCPserverDataWrapperComponentSync()
 {
-    // size_t roomId{0}
-    // size_t size{0}
-    // uint32_t networkId{0}
-    // Time timestamp{0}
-    // size_t componentType{0}
-    // size_t componentSize{0}
-    // void *component{nullptr}
-    //    DataWrapper my_wrapper(startServerGetData());
-    //    Tram::ComponentSync my_data{my_wrapper.serialize()};
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::ComponentSync sync(my_wrapper.serialize());
+    Time time = (Time) 424242;
+    auto type = std::type_index(typeid(TestComponent));
+    const size_t compSize = sizeof(TestComponent);
+    auto component((TestComponent *) sync.component);
 
-    //    if (!my_wrapper.serialize())
-    //        return 0;
-    //    if (my_data.roomId == 123 && my_data.accept == true && my_data.entityId == 456 && my_data.networkId == 789) {
-    //        return 0;
-    //    }
-    return 84;
+    std::cout << " sync.roomId : " << sync.roomId << std::endl;
+    if (sync.roomId != 43)
+        return 84;
+    std::cout << " sync.networkId : " << sync.networkId << std::endl;
+    if (sync.networkId != 42)
+        return 84;
+    std::cout << " sync.timestamp : " << sync.timestamp << std::endl;
+    if (sync.timestamp != time)
+        return 84;
+    std::cout << " sync.componentType : " << sync.componentType << std::endl;
+    if (sync.componentType != type.hash_code())
+        return 84;
+    std::cout << " sync.componentSize : " << sync.componentSize << std::endl;
+    if (sync.componentSize != compSize)
+        return 84;
+    std::cout << " component->_number : " << component->_number << std::endl;
+    if (component->_number != 753951)
+        return 84;
+    return 0;
 }
 
 int testTCPserverDataWrapperDestroyEntity()
