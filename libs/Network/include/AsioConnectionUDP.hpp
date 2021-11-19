@@ -157,6 +157,7 @@ namespace Network
 
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(senderIp, senderPort),
                 std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
+            resetReceive();
         }
 
         void resetReceive()
