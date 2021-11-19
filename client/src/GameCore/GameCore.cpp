@@ -35,6 +35,7 @@
 #include "Component/SyncSend.hpp"
 #include "Component/Damage.hpp"
 #include "Components/Health.hpp"
+#include "Components/AnimationInfo.hpp"
 
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
@@ -103,6 +104,7 @@ void GameCore::run()
     componentManager.registerComponent<Component::EnemyType>();
     componentManager.registerComponent<Component::Damage>();
     componentManager.registerComponent<Component::Health>();
+    componentManager.registerComponent<Component::AnimationInfo>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
     systemManager.registerSystem<System::RenderSystem>();

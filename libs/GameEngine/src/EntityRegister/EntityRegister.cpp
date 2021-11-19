@@ -143,7 +143,7 @@ size_t EntityRegister::getClusterSize(ClusterName cluster) const
     return this->getClusterEntityList(cluster).size();
 }
 
-void EntityRegister::setNetworkId(Entity entity, NetworkId id)
+void EntityRegister::setNetworkId(Entity entity)
 {
     if (this->exist(entity) == false) {
         throw InvalidParameterException("EntityRegister::setNetworkId the "
@@ -157,7 +157,7 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
     } catch (NotFoundException const &e) {
         (void) e;
     }
-    this->_networkIdRegister.reserveId(id);
+    NetworkId id = this->_networkIdRegister.reserveId();
     this->_bookedEntities[entity].setNetworkId(id);
 }
 

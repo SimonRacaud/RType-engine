@@ -106,7 +106,7 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
 {
     this->_checkRoom();
     PUT_DEBUG("Send [SyncComponent] networkId="+to_string(id)+", componentType="+to_string(componentType.hash_code())
-        +", componentSize="+to_string(componentSize)+".");
+        +", componentName="+to_string(componentType.name()) + ", componentSize="+to_string(componentSize)+".");
     long int timestamp = GET_NOW;
     Tram::ComponentSync tram(this->_roomId, id, timestamp, componentType, componentSize, component);
     this->_udpClient.sendAll(tram);
@@ -136,7 +136,7 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
             (&this->_engine.getSceneManager().get<Scene::GameScene>())
             );
         ptr->setTimeStart(data.startTimestamp); // set game scene countdown
-        if (data.playerNumber == 0) {
+        if (data.playerNumber == 1) {
             this->_isMaster = true;
             PUT_DEBUG("The client is Master.")
         }
@@ -161,7 +161,7 @@ void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &, Tram::CreateE
     PUT_DEBUG("Receive [CreateEntityReply] accept="+to_string(data.accept)+", entityId="+to_string(data.entityId)
         +", networkId="+to_string(data.networkId)+", entityType="+to_string(data.entityType)+".");
     if (data.accept) {
-        this->_engine.getEntityManager().setNetworkId(data.entityId, data.networkId); // apply network id
+        this->_engine.getEntityManager().setNetworkId(data.entityId); // apply network id
     } else {
         // rollback entity creation
         this->_engine.getEntityManager().remove(data.entityId);

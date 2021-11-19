@@ -49,5 +49,5 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
 
 void Enemy::setNetworkId(uint32_t entityId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().setNetworkId(_entity);
 }

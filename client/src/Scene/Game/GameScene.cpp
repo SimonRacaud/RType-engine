@@ -91,11 +91,23 @@ void GameScene::createWaitingScreen()
         i--;
     });
     // SYSTEM SELECT
+    // GameCore::engine.getSystemManager().selectSystems<
+    //     System::RenderSystem,
+    //     System::InputEventSystem,
+    //     Engine::TimerSystem,
+    //     System::NetworkReceiveSystem
+    //     >();
+    // SYSTEM SELECT
     GameCore::engine.getSystemManager().selectSystems<
         System::RenderSystem,
         System::InputEventSystem,
         Engine::TimerSystem,
-        System::NetworkReceiveSystem
+        Engine::ColliderSystem,
+        Engine::PhysicsSystem,
+        System::ScrollSystem,
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem,
+        System::OutofBoundsSystem
         >();
 }
 
@@ -128,18 +140,7 @@ void GameScene::initGame()
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        Engine::ColliderSystem,
-        Engine::PhysicsSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem,
-        System::OutofBoundsSystem
-        >();
+
 }
 
 void GameScene::setTimeStart(::Time timestamp)

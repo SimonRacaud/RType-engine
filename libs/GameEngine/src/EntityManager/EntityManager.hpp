@@ -105,7 +105,7 @@ namespace Engine
          * @param entity
          * @param networkId
          */
-        void setNetworkId(Entity entity, NetworkId networkId);
+        void setNetworkId(Entity entity);
         /**
          * @brief Generate a new network id
          * @return

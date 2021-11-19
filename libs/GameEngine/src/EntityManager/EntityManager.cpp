@@ -101,9 +101,9 @@ Entity EntityManager::getId(NetworkId id)
     return _entities.getId(id);
 }
 
-void EntityManager::setNetworkId(Entity entity, NetworkId networkId)
+void EntityManager::setNetworkId(Entity entity)
 {
-    _entities.setNetworkId(entity, networkId);
+    _entities.setNetworkId(entity);
 }
 
 NetworkId EntityManager::getNetworkId()
