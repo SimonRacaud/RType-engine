@@ -77,6 +77,7 @@ class ClientNetworkCore {
     void receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
+    void receiveQuitRoom(InfoConnection &);
 
   private:
     void _receiveTcp();

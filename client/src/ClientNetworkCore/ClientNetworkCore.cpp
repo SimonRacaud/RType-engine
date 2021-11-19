@@ -255,6 +255,12 @@ void ClientNetworkCore::receiveDestroyEntity(InfoConnection &, Tram::DestroyEnti
     this->_engine.getEntityManager().remove(id);
 }
 
+void ClientNetworkCore::receiveQuitRoom(InfoConnection &)
+{
+    PUT_DEBUG("Receive [QuitRoom] Game room closed.");
+    GET_EVENT_REG.registerEvent<SelectScene>(Engine::ClusterName::HOME); // TODO : go to the end-game scene
+}
+
 void ClientNetworkCore::receive()
 {
     try {
@@ -364,6 +370,10 @@ void ClientNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
             this->receiveSyncComponent(info, data);
             break;
         }
+        case Tram::TramType::QUIT_ROOM: {
+            this->receiveQuitRoom(info);
+            break;
+        }
         default:
             throw std::runtime_error("ClientNetworkCore::_tramHandler invalid tram type");
     }
@@ -375,4 +385,3 @@ void ClientNetworkCore::_checkRoom()
         throw std::runtime_error("ClientNetworkCore not connected to any room.");
     }
 }
-
