@@ -13,14 +13,16 @@
 
 #include <cstddef>
 #include <string>
+#include <utility>
 
 namespace Network
 {
     struct InfoConnection {
         InfoConnection() = default;
-        InfoConnection(std::string const &ip, size_t port) : ip(ip), port(port)
-        {
-        }
+        InfoConnection(InfoConnection const& other): ip(other.ip), port(other.port) {}
+
+        InfoConnection(std::string const &ip, size_t port) : ip(std::move(ip)), port(port) {}
+
         bool operator==(InfoConnection const &other)
         {
             return other.ip == this->ip && other.port == this->port;
