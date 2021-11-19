@@ -369,7 +369,9 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
         }
     }
     // intercept Position component here (remove if out of bound)
-    this->_garbageEntity.processing(data, *this);
+    if (data.componentType == Engine::Position::type.hash_code()) {
+        this->_garbageEntity.processing(data, *this);
+    }
 }
 
 shared_ptr<NetworkRoom> ServerNetworkCore::_getRoom(size_t roomId)
