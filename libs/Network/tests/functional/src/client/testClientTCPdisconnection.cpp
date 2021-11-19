@@ -25,6 +25,8 @@ static std::shared_ptr<IConnection<DataWrapper>> startClient()
 
     manager.connect(ipServer, portServer);
     manager.send(data, ipServer, portServer);
+    usleep(300000); // wait for the server to receive
+
     return manager.setConnector(nullptr);
 }
 

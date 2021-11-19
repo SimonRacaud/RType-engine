@@ -165,7 +165,7 @@ target_link_libraries(${INDEPENDENT} PUBLIC ${CONAN_LIBS})
 
 
 ############## TESTS
-set(TEST_TIMEOUT 1)
+set(TEST_TIMEOUT 2)
 include(CTest)
 enable_testing()
 

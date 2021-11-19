@@ -26,6 +26,7 @@ template <Pointerable Data> static int startClientSendData(Data &dataToSend)
         return 84;
     }
     clientManager.sendAll(dataToSend);
+    usleep(300000); // wait for the server to receive
     return 0;
 }
 
