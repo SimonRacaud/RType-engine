@@ -25,7 +25,7 @@ namespace Network
 
         bool operator==(InfoConnection const &other) const
         {
-            return other.ip == this->ip && other.port == this->port;
+            return other.ip == this->ip;
         }
 
         ~InfoConnection() = default;
