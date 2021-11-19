@@ -60,28 +60,33 @@ void GuiEventManager::setProgressBarValue(const SetProgressBarValue *evt)
 
 void GuiEventManager::selectScene(const SelectScene *evt)
 {
-    switch (evt->getCluster()) {
-        case Engine::ClusterName::HOME:
-            GameCore::engine.getSceneManager().select<Scene::HomeScene>(evt->getCloseCurrent());
-            break;
-        case Engine::ClusterName::ROOM_LIST:
-            GameCore::engine.getSceneManager().select<Scene::RoomListScene>(evt->getCloseCurrent());
-            break;
-        case Engine::ClusterName::SETTINGS:
-            GameCore::engine.getSceneManager().select<Scene::SettingsScene>(evt->getCloseCurrent());
-            break;
-        case Engine::ClusterName::GAME:
-            GameCore::engine.getSceneManager().select<Scene::GameScene>(evt->getCloseCurrent());
-            break;
-        case Engine::ClusterName::GLOBAL:
-            GameCore::engine.quit();
-            break;
-        default:
-            std::cerr << "GuiEventManager::selectScene : scene not handled" << std::endl;
+    try {
+        switch (evt->getCluster()) {
+            case Engine::ClusterName::HOME:
+                GameCore::engine.getSceneManager().select<Scene::HomeScene>(evt->getCloseCurrent());
+                break;
+            case Engine::ClusterName::ROOM_LIST:
+                GameCore::engine.getSceneManager().select<Scene::RoomListScene>(evt->getCloseCurrent());
+                break;
+            case Engine::ClusterName::SETTINGS:
+                GameCore::engine.getSceneManager().select<Scene::SettingsScene>(evt->getCloseCurrent());
+                break;
+            case Engine::ClusterName::GAME:
+                GameCore::engine.getSceneManager().select<Scene::GameScene>(evt->getCloseCurrent());
+                break;
+            case Engine::ClusterName::GLOBAL: GameCore::engine.quit(); break;
+            default: std::cerr << "GuiEventManager::selectScene : scene not handled" << std::endl;
+        }
+    } catch (std::exception const &e) {
+        std::cerr << "GuiEventManager::selectScene " << e.what() << std::endl;
     }
 }
 
 void GuiEventManager::selectPreviousScene(const SelectPreviousScene *)
 {
-    GameCore::engine.getSceneManager().selectPrevious();
+    try {
+        GameCore::engine.getSceneManager().selectPrevious();
+    } catch (std::exception const &e) {
+        std::cerr << "GuiEventManager::selectPreviousScene " << e.what() << std::endl;
+    }
 }
