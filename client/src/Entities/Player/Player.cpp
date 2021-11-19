@@ -78,7 +78,8 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
 
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
+    Engine::EntityName name = isLocalPlayer ? Engine::EntityName::LOCAL_PLAYER : Engine::EntityName::EMPTY;
+    Engine::Entity entity = entityManager.create(nullptr, cluster, name);
 
     this->configAppearance(entity, position, componentManager, playerNumber);
 
