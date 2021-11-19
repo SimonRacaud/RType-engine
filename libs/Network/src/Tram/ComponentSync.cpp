@@ -30,10 +30,7 @@ ComponentSync::ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, 
 
 ComponentSync::~ComponentSync()
 {
-    if (component != nullptr) {
-        delete static_cast<uint8_t *>(component);
-        component = nullptr;
-    }
+
 }
 
 uint8_t *ComponentSync::serialize() const
