@@ -18,7 +18,7 @@
 class GarbageEntity
 {
     public:
-        GarbageEntity(const std::pair<size_t, size_t> &windowSize);
+        GarbageEntity(const std::pair<size_t, size_t> &windowSize, size_t xMarge = 0, size_t yMarge = 0);
         ~GarbageEntity();
 
         void processing(const Tram::ComponentSync &tram, IServerNetworkCore &networkCore);
@@ -28,6 +28,7 @@ class GarbageEntity
 
     private:
         std::pair<size_t, size_t> _win;
+        std::pair<size_t, size_t> _marge;
 };
 
 #endif

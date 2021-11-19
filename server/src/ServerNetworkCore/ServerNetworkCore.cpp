@@ -28,7 +28,7 @@ try :
     _portUdpClient(ServerCore::config->getVar<int>("PORT_UDP_CLIENT")),
     _tcpServer(shared_ptr<IConnection>(make_shared<AsioServerTCP>(_portTcp))),
     _udpServer(shared_ptr<IConnection>(make_shared<AsioServerUDP>(_portUdp))),
-    _garbageEntity(ServerCore::config->getVar<std::pair<int, int>>("WINDOW_SIZE")),
+    _garbageEntity(ServerCore::config->getVar<std::pair<int, int>>("WINDOW_SIZE"), 100, 0),
     _maxRoomClient(ServerCore::config->getVar<int>("MAX_CLIENT_ROOM"))
 {
     PUT_DEBUG("INITIALIZED.");
