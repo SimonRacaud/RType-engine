@@ -196,7 +196,7 @@ void ServerNetworkCore::receiveJoinRoom(InfoConnection &info, Tram::JoinRoom &da
     size_t roomId = data.roomId;
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
 
-    if (room->clients.size() >= _maxRoomClient || room->startTimestamp >= GET_NOW) {
+    if (room->clients.size() >= _maxRoomClient || room->startTimestamp <= GET_NOW) {
         Tram::JoinCreateRoomReply tram(false, roomId);
         this->_udpServer.send(tram, info.ip, info.port);
         PUT_DEBUG("[JoinRoom] refused.");
