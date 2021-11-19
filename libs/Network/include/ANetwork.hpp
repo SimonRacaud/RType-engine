@@ -140,15 +140,19 @@ namespace Network
          */
         void realRunAsync()
         {
-            while (_thread.joinable() && !AAsioConnection<Data>::_ioContext.stopped()) {
-                std::cout << "thread running" << std::endl;
+            _running = true;
+
+            usleep(3000); // wait for the io operations to settle
+            while (_thread.joinable() && _running) {
                 _ioContext.run_one_for(std::chrono::seconds(1));
                 // todo might not work for big packets
             }
+            _running = false;
         }
 
         void stopRunAsync()
         {
+            _running = false;
             if (!_thread.joinable()) {
                 return;
             }
@@ -189,6 +193,7 @@ namespace Network
         ThreadSafety::LockedDeque<myPair /*std::pair<const std::string, const std::size_t>*/> _connections;
 
         // Asynchronous operations
+        bool _running{false};
         /**
          * @property Contain data received from connections through
          *  asynchronous operations

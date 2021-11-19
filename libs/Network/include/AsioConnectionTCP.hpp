@@ -177,7 +177,7 @@ namespace Network
                 }
                 if (err.value() == asio::error::misc_errors::eof) {
                     disconnect(connection);
-                    return; // todo disconnect() ?
+                    return;
                 }
             }
 
