@@ -132,7 +132,6 @@ void ClientNetworkCore::receiveJoinRoomReply(InfoConnection &, Tram::JoinCreateR
         ", PlayerId="+to_string(data.playerNumber)+".");
     if (data.accept == true) {
         this->_roomId = data.roomId;
-        this->_engine.getSceneManager().select<Scene::GameScene>(); // Go to the game scene
         Scene::GameScene *ptr = reinterpret_cast<Scene::GameScene *>(
             (&this->_engine.getSceneManager().get<Scene::GameScene>())
             );
