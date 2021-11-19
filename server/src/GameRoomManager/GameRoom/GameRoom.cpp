@@ -43,9 +43,7 @@ void GameRoom::create()
 
 void GameRoom::run()
 {
-    bool loop = true;
-
-    while (loop) {
+    while (this->_loop) {
         this->runStage();
         this->updateEnemy();
         // TODO SERVER SYNC
@@ -54,8 +52,10 @@ void GameRoom::run()
 
 void GameRoom::destroy()
 {
-    if (this->_thread.joinable())
+    if (this->_thread.joinable()) {
+        this->_loop = false;
         this->_thread.join();
+    }
 }
 
 GameRoom &GameRoom::operator=(const GameRoom &src)

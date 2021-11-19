@@ -44,6 +44,7 @@ class GameRoom
         StateMachineManager _stateMachine;
         std::queue<std::string> _enemyRequest;
         std::thread _thread;
+        bool _loop{true};
 };
 
 #endif
