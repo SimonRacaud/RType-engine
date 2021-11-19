@@ -48,7 +48,7 @@ void ServerNetworkCore::createEntity(size_t roomId, const std::string &type,
     Tram::CreateEntityRequest tram(roomId, type, GET_NOW, position, velocity);
 
     try {
-        this->_tcpServer.send(tram, room->masterClient.ip, _portTcp);
+        this->_tcpServer.send(tram, room->masterClient.ip);
     } catch (Network::invalidConnection const &) {
         std::cerr << "Unexpected client disconnection." << std::endl;
         this->_closeGameRoom(roomId);
@@ -63,7 +63,7 @@ void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
 
     for (Network::InfoConnection const &client : room->clients) {
         try {
-            this->_tcpServer.send(tram, client.ip, _portTcp);
+            this->_tcpServer.send(tram, client.ip);
         } catch (Network::invalidConnection const &) {
             std::cerr << "Unexpected disconnection send tcp" << std::endl;
         }
@@ -296,14 +296,14 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
                     data.position, data.velocity);
                 for (InfoConnection const &client : room->clients) {
                     if (!(client == info)) { // not master client
-                        this->_tcpServer.send(data, client.ip, _portTcp);
+                        this->_tcpServer.send(data, client.ip);
                     }
                 }
             }
         } else {
             // The request came from a slave client
             // redirect response to the source emitter
-            this->_tcpServer.send(data, data.ip, _portTcp);
+            this->_tcpServer.send(data, data.ip);
         }
     } else {
         // impossible (the response come from a slave client)
