@@ -53,11 +53,6 @@ void RoomListScene::open()
     // body - list
     ImageView listBack(listBackgroundPath, vector2D(50, 170), vector2f(1, 1),
         this->getCluster());
-
-    std::vector<size_t> roomList;
-    this->reloadRoomList(roomList);
-    GameCore::networkCore.getRoomList();
-
     Button refresh(this->getCluster(), "REFRESH", vector2D(320, 600),
         vector2f(2, 2), std::make_shared<RoomListEventRefresh>());
     // footer
@@ -73,6 +68,8 @@ void RoomListScene::open()
         System::RenderSystem,
         System::InputEventSystem,
         System::NetworkReceiveSystem>();
+    // NETWORK INIT REQUEST
+    GameCore::networkCore.getRoomList();
 }
 
 void RoomListScene::reloadRoomList(std::vector<size_t> const &roomIdList)
