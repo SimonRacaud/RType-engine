@@ -322,7 +322,7 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
         // => broadcast to others clients
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
-                this->_tcpServer.send(data, client.ip, _portTcp);
+                this->_tcpServer.send(data, client.ip);
             }
         }
     } else {
@@ -330,7 +330,7 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
         // => redirect to master client
         Tram::CreateEntityRequest tram(data.roomId, data.id, data.entityType,
             data.timestamp, info.port, info.ip, data.position, data.velocity);
-        this->_tcpServer.send(tram, room->masterClient.ip, _portTcp);
+        this->_tcpServer.send(tram, room->masterClient.ip);
     }
 }
 
@@ -345,7 +345,7 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
         // => broadcast to others clients
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
-                this->_tcpServer.send(data, client.ip, _portTcp);
+                this->_tcpServer.send(data, client.ip);
             }
         }
     } else {
