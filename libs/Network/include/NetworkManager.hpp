@@ -83,4 +83,16 @@ template <Pointerable Data> void NetworkManager::sendAll(Data &data)
     _dataWrapper.deserialize(data.serialize(), data.length());
     _connector->sendAll(_dataWrapper);
 }
+
+template <Pointerable Data> void NetworkManager::send(Data &data, const std::string &ip)
+{
+    auto connections(_connector->getConnections());
+
+    for (const auto &connection : connections) {
+        if (connection.ip == ip) {
+            _connector->send(data, connection.ip, connection.port);
+        }
+    }
+}
+
 #endif // R_TYPE_NETWORKMANAGER_HPP

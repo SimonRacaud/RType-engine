@@ -95,8 +95,7 @@ void ServerNetworkCore::receiveLoop()
         try {
             this->_receiveFromChannel(this->_tcpServer);
         } catch (std::exception const &e) {
-            (void)e;
-            //std::cerr << "ServerNetworkCore::receiveLoop : tcp error. " << e.what() << std::endl;
+            std::cerr << "ServerNetworkCore::receiveLoop : tcp error. " << e.what() << std::endl;
         }
         try {
             this->_receiveFromChannel(this->_udpServer);
@@ -232,7 +231,7 @@ void ServerNetworkCore::receiveQuitRoom(InfoConnection &info)
     PUT_DEBUG("Receive [QuitRoom] IP="+info.ip+", PORT="+to_string(info.port)+".");
     size_t counter = 0;
     for (shared_ptr<NetworkRoom> &room : _rooms) {
-        auto it = std::find_if(room->clients.begin(), room->clients.end(), [info](InfoConnection const &item) {
+        auto it = std::find_if(room->clients.begin(), room->clients.end(), [&info](InfoConnection const &item) {
             return info.ip == item.ip && info.port == item.port;
         });
         if (it != room->clients.end()) {
