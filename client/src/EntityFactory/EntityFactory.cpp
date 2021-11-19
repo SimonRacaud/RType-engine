@@ -86,8 +86,8 @@ void EntityFactory::makePlayer(Engine::ClusterName clusterName, const CreateEnti
     std::regex regex("^Player([0-4])$");
     std::smatch match;
 
-    if (std::regex_search(type, match, regex)) {
-        int playerId = std::stoi(match[0]);
+    if (std::regex_search(type, match, regex) && match.size() >= 2) {
+        int playerId = std::stoi(match[1]);
         vector2D position(request.position.x, request.position.y);
         vector2D velocity(request.velocity.x, request.velocity.y);
 
@@ -116,9 +116,9 @@ void EntityFactory::makeBullet(Engine::ClusterName clusterName, CreateEntityRequ
     std::regex regex("^Bullet([0-4])?(Enemy|Player)$");
     std::smatch match;
 
-    if (std::regex_search(type, match, regex)) {
-        size_t bulletType = (size_t)std::stoi(match[0]);
-        const std::string owner = match[1];
+    if (std::regex_search(type, match, regex) && match.size() == 3) {
+        size_t bulletType = (size_t)std::stoi(match[1]);
+        const std::string owner = match[2];
         const vector2D position(request.position.x, request.position.y);
         const vector2D velocity(request.velocity.x, request.velocity.y);
 
