@@ -217,3 +217,11 @@ void EntityRegister::destroyEntity(Entity entity)
         throw NotFoundException("EntityRegister::destroyEntity entity not found");
     _bookedEntities[entity].destroy(); // launch destructor
 }
+
+void EntityRegister::applyNetworkId(Entity entity, NetworkId networkId)
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::applyNetworkId entity not found");
+    _bookedEntities[entity].setNetworkId(networkId);
+
+}

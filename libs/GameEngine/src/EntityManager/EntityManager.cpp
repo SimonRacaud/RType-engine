@@ -106,6 +106,11 @@ void EntityManager::setNetworkId(Entity entity)
     _entities.setNetworkId(entity);
 }
 
+void EntityManager::forceApplyId(Entity entity, NetworkId networkId)
+{
+    this->_entities.applyNetworkId(entity, networkId);
+}
+
 NetworkId EntityManager::getNetworkId()
 {
     return _entities.getNetworkId();

@@ -106,6 +106,12 @@ namespace Engine
          * @param networkId
          */
         void setNetworkId(Entity entity);
+
+        /**
+         * @brief Force apply a network id
+         * @param entity
+         */
+        void forceApplyId(Entity entity, NetworkId networkId);
         /**
          * @brief Generate a new network id
          * @return

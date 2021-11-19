@@ -48,7 +48,7 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
     _entity = entity;
 }
 
-void Equipment::setNetworkId(uint32_t)
+void Equipment::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }
