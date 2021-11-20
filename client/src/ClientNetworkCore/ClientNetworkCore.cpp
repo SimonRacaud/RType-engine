@@ -33,7 +33,11 @@ try :
     exit(84); // TODO TUEZ LEEEE !!! WHAHAHAHAH
 }
 
-ClientNetworkCore::~ClientNetworkCore() {}
+ClientNetworkCore::~ClientNetworkCore() {
+    try {
+        this->quitRoom();
+    } catch (...) {}
+}
 
 void ClientNetworkCore::connect()
 {

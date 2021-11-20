@@ -111,6 +111,7 @@ void GameScene::createWaitingScreen()
         System::ScrollSystem,
         System::NetworkReceiveSystem,
         System::SyncSendSystem,
+        System::ScoreSystem,
         System::OutofBoundsSystem
         >();
 }
