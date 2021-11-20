@@ -31,6 +31,7 @@ set(SRCS
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME_CLIENT} PRIVATE)
 else ()
     target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)

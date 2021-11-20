@@ -17,7 +17,7 @@ GameRoom::GameRoom(size_t id, long int start) :
 {
 }
 
-GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage), _start(src._start)
+GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage), _start(src._start), _timeStartRun(src._timeStartRun)
 {
 }
 

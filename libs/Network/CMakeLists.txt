@@ -43,6 +43,7 @@ add_library(${NAME} SHARED ${SRCS})
 
 ## COMPILATION FLAGS
 if (MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME} PRIVATE)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)

@@ -9,7 +9,7 @@
 */
 
 #include "Tram/ComponentSync.hpp"
-#include "unistd.h"
+
 using namespace Tram;
 
 ComponentSync::ComponentSync() : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync))

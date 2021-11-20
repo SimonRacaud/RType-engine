@@ -46,22 +46,18 @@ set(SRCS
         src/Engine/GameEngine.cpp
         src/Engine/EngineFactory.cpp
 
-        src/Systems/PhysicsSystem/PhysicsSystem.cpp
-        src/Systems/TimerSystem/TimerSystem.cpp
-        src/Systems/ColliderSystem/ColliderSystem.cpp
-
         src/Utils/display.cpp
         src/Utils/SignalManager.cpp
         src/Components/ScoreComponent.hpp
         src/Components/NumberComponent.hpp
         src/Components/EntityLinkComponent.hpp
         src/Components/SizeComponent.hpp)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME} PRIVATE)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -fPIC)

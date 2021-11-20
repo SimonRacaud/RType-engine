@@ -20,17 +20,19 @@
 
 namespace Tram
 {
+    #define ROOM_LIST_SIZE 10
     /**
      * @brief Get room list reply (server -> client)
      */
     class GetRoomList : public Tram::Serializable {
+
       public:
         GetRoomList();
         explicit GetRoomList(std::vector<size_t> const &roomIdList);
         ~GetRoomList() override;
 
         size_t nbItem{0};
-        size_t list[10];
+        size_t list[ROOM_LIST_SIZE];
 
         [[nodiscard]] uint8_t *serialize() const override;
         void deserialize(uint8_t *buffer) override;

@@ -17,9 +17,9 @@
 #include "Entities/Player/Player.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "System/RenderSystem/RenderSystem.hpp"
-#include "Systems/ColliderSystem/ColliderSystem.hpp"
+#include "System/ColliderSystem/ColliderSystem.hpp"
 #include "Components/Hitbox.hpp"
-#include "Systems/TimerSystem/TimerSystem.hpp"
+#include "System/TimerSystem/TimerSystem.hpp"
 using namespace Scene;
 
 DebugScene::DebugScene(std::string testParam)

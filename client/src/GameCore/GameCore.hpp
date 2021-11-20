@@ -14,6 +14,9 @@
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
 
+#include "System/ColliderSystem/ColliderSystem.hpp"
+#include "System/PhysicsSystem/PhysicsSystem.hpp"
+#include "System/TimerSystem/TimerSystem.hpp"
 #include "build.hpp"
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
