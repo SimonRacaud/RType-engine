@@ -46,4 +46,6 @@ int testUDPserverNetworkManagerDestroyEntity();
 int testUDPserverDisconnection();
 int testTCPserverDisconnection();
 
+int testTCPresponseCreateEntity();
+
 #endif // R_TYPE_SERVERTEST_HPP

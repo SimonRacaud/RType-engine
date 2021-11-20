@@ -5,7 +5,6 @@
 ** TODO: add description
 */
 
-#include <cstring>
 #include <functional>
 #include <stdexcept>
 #include <string>
@@ -59,6 +58,7 @@ static const std::unordered_map<int, std::function<int(void)>> testFunctions{
     {++testNb, testUDPserverNetworkManagerDestroyEntity},
     {++testNb, testUDPserverDisconnection},
     {++testNb, testTCPserverDisconnection},
+    {++testNb, testTCPresponseCreateEntity},
 };
 
 int main(int ac, char **av)
