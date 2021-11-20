@@ -39,7 +39,7 @@ Explosion::Explosion(ClusterName cluster, const vector2D &pos)
     _entity = entity;
 }
 
-void Explosion::setNetworkId(uint32_t entityId)
+void Explosion::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }

@@ -16,8 +16,10 @@
 #include <utility>
 #include <vector>
 
+#include "InfoConnection.hpp"
 #include "asio.hpp"
 #include "utils/Concepts/Pointerable.hpp"
+#include "utils/ThreadSafety/LockedDeque.hpp"
 
 namespace Network
 {
@@ -79,6 +81,8 @@ namespace Network
          * @return True if connected, false otherwise
          */
         [[nodiscard]] virtual bool isConnected(const std::string &ip, const std::size_t port) const = 0;
+
+        [[nodiscard]] virtual const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const = 0;
     };
 
 } // namespace Network

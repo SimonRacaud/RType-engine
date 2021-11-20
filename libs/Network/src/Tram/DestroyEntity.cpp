@@ -23,6 +23,7 @@ uint8_t *DestroyEntity::serialize() const
     size_t len = this->length();
     auto *buffer = new uint8_t[len];
 
+    std::memset(buffer, 0, len);
     std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
@@ -30,18 +31,20 @@ void DestroyEntity::deserialize(uint8_t *buffer)
 {
     auto *ptr = reinterpret_cast<DestroyEntity *>(buffer);
 
+    this->size = ptr->size;
+    this->type = ptr->type;
+    // body
     this->roomId = ptr->roomId;
     this->networkId = ptr->networkId;
 }
+
 size_t DestroyEntity::length() const
 {
     return sizeof(DestroyEntity);
 }
+
 DestroyEntity::DestroyEntity(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::DESTROY_ENTITY, sizeof(DestroyEntity))
 {
-    auto *ptr = reinterpret_cast<DestroyEntity *>(buffer);
-
-    this->roomId = ptr->roomId;
-    this->networkId = ptr->networkId;
+    DestroyEntity::deserialize(buffer);
 }

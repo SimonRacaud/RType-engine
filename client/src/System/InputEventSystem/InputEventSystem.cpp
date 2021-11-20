@@ -10,7 +10,8 @@
 #include "GameCore/GameCore.hpp"
 #include "Component/InputEvent.hpp"
 
-System::InputEventSystem::InputEventSystem() : Engine::AbstractSystem<InputEventSystem>()
+System::InputEventSystem::InputEventSystem() :
+      Engine::AbstractSystem<InputEventSystem>((Engine::Time)0, SystemPriority::HIGH)
 {
     this->setRequirements<Engine::InputEvent>();
 }

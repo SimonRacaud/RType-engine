@@ -43,7 +43,7 @@ void StartScene::open()
     // ENTITY CREATION
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1),
         this->getCluster());
-    ImageView titleImg(title, vector2D(90, 200), vector2f(0.7, 0.7),
+    ImageView titleImg(title, vector2D(90, 200), vector2f(0.7f, 0.7f),
         this->getCluster());
 
     Label mentionLabel(this->getCluster(), mention, vector2D(290, 780),

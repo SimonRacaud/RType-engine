@@ -93,7 +93,7 @@ bool EventManager::mouseIsOnClick(const surface &selected, const IEventManager::
 
 bool EventManager::isValideEnum(const IEventManager::keyEvent_e &key) const
 {
-    bool active = key != IEventManager::keyEvent_e::MAX_VALUE && key != IEventManager::keyEvent_e::MOUSE_EVENT && key != IEventManager::keyEvent_e::KEY_EVENT;
+    bool active = key != IEventManager::keyEvent_e::MAX_VALUE && key != IEventManager::keyEvent_e::MOUSE_EVENT_GAME && key != IEventManager::keyEvent_e::KEY_EVENT_GAME;
     bool invalid = key < static_cast<IEventManager::keyEvent_e>(0) || key >= IEventManager::keyEvent_e::MAX_VALUE;
 
     return active && !invalid;

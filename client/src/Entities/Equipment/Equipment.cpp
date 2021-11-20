@@ -11,6 +11,7 @@
 #include "Equipment.hpp"
 
 #include "Component/Render.hpp"
+#include "Component/SyncSend.hpp"
 
 #include "AnimationManager/AnimationManager.hpp"
 
@@ -40,14 +41,20 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
     anim->setSrcPath(GameCore::config->getVar<std::string>("SPRITESHEET2"));
     anim->setScale(vector2f(1, 1));
 
+    componentManager.add<Component::EntityMask>(entity, Component::MASK::EQUIPMENT);
     componentManager.add<Engine::Position>(entity, position.x, position.y);
     componentManager.add<Engine::Velocity>(entity, -1, 0);
     componentManager.add<Engine::Render>(entity, anim);
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, hit);
+
+    if (GameCore::networkCore.isMaster()) {
+        componentManager.add<Component::SyncSend>(entity,
+            Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY);
+    }
     _entity = entity;
 }
 
-void Equipment::setNetworkId(uint32_t entityId)
+void Equipment::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }

@@ -22,6 +22,7 @@ uint8_t *JoinRoom::serialize() const
     size_t len = sizeof(JoinRoom);
     auto *buffer = new uint8_t[len];
 
+    std::memset(buffer, 0, len);
     std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
@@ -40,7 +41,5 @@ size_t JoinRoom::length() const
 
 JoinRoom::JoinRoom(uint8_t *buffer) : Tram::Serializable(Tram::TramType::JOIN_ROOM, sizeof(JoinRoom))
 {
-    auto *ptr = reinterpret_cast<JoinRoom *>(buffer);
-
-    this->roomId = ptr->roomId;
+    JoinRoom::deserialize(buffer);
 }

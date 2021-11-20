@@ -13,7 +13,8 @@
 #include <memory>
 #if defined(WIN32) || defined(_WIN32) \
     || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <windows.h>
+    //Include asio.hpp because if we put Windows.h we get double include error for windows compilation
+    #include <asio.hpp> //for windows.h
     #define LIBTYPE          HINSTANCE
     #define OPENLIB(libname) LoadLibrary(libname)
     #define LIBFUNC(lib, fn) GetProcAddress((lib), (fn))
@@ -34,17 +35,13 @@ template <typename T> class DLLoader {
         LIBTYPE handle = NULL;
         T *(*instance)(void) = nullptr;
         T *ptr = NULL;
-        // const char *error = NULL;
 
         handle = OPENLIB(filePath.c_str());
-        // error = dlerror();
-        // if (!handle) {
-        //    std::cerr << "Could not retrieve handle from filepath : " <<
-        //    filePath << std::endl << "Error is : " << error << std::endl;
-        //    return nullptr;
-        //}
+        if (handle == NULL) {
+            std::cerr << "Could not retreive handle from lib" << std::endl;
+            return nullptr;
+        }
         *(void **) &instance = LIBFUNC(handle, entryName.c_str());
-        // error = dlerror();
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"
                       << std::endl;
@@ -53,6 +50,28 @@ template <typename T> class DLLoader {
         ptr = (instance) ();
         CLOSELIB(handle);
         return ptr;
+    }
+
+    static void getClosePoint(std::string filePath, std::string closePoint, T *ptr)
+    {
+        LIBTYPE handle = NULL;
+        void (*instance)(T *) = nullptr;
+
+        if (ptr == nullptr)
+            return;
+        handle = OPENLIB(filePath.c_str());
+        if (handle == NULL) {
+            std::cerr << "Could not open lib from path given" << std::endl;
+            return;
+        }
+        *(void **) &instance = LIBFUNC(handle, closePoint.c_str());
+        if (!instance) {
+            std::cerr << "Could not retrieve instance from handler"
+                      << std::endl;
+            return;
+        }
+        (instance)(ptr);
+        CLOSELIB(handle);
     }
 };
 

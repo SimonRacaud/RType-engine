@@ -21,13 +21,16 @@ namespace Network
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
+            if (AAsioConnection<Data>::isConnected(ip, port)) {
+                return true;
+            }
             tcp::endpoint serverEndpoint(asio::ip::make_address(ip), port);
             auto newConnection(std::make_shared<tcp::socket>(AAsioConnection<Data>::_ioContext));
 
             try {
                 newConnection->connect(serverEndpoint);
             } catch (const std::system_error &) {
-                std::cerr << "Failed to connect with server" << std::endl;
+                std::cerr << "TCP client Asio : Failed to connect with server" << std::endl;
                 _connectionTimer.setElapsedTime();
                 if (_ping.count() > _connectionTimer.getElapsedTime().count()) {
                     std::this_thread::sleep_for(_ping - _connectionTimer.getElapsedTime());
@@ -35,6 +38,7 @@ namespace Network
                 }
                 return false;
             }
+
             AsioConnectionTCP<Data>::addConnection(newConnection);
             return true;
         }

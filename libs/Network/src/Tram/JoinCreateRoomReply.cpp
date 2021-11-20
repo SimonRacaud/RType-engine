@@ -13,9 +13,9 @@ JoinCreateRoomReply::JoinCreateRoomReply()
 {
 }
 
-JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp)
+JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timestamp, int playerNumber)
     : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply)), accept(accept), roomId(roomId),
-      startTimestamp(timestamp)
+      startTimestamp(timestamp), playerNumber(playerNumber)
 {
 }
 
@@ -24,6 +24,7 @@ uint8_t *JoinCreateRoomReply::serialize() const
     size_t len = sizeof(JoinCreateRoomReply);
     auto *buffer = new uint8_t[len];
 
+    std::memset(buffer, 0, len);
     std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
@@ -35,6 +36,7 @@ void JoinCreateRoomReply::deserialize(uint8_t *buffer)
     this->roomId = ptr->roomId;
     this->accept = ptr->accept;
     this->startTimestamp = ptr->startTimestamp;
+    this->playerNumber = ptr->playerNumber;
 }
 size_t JoinCreateRoomReply::length() const
 {
@@ -43,9 +45,5 @@ size_t JoinCreateRoomReply::length() const
 JoinCreateRoomReply::JoinCreateRoomReply(uint8_t *buffer)
     : Tram::Serializable(Tram::TramType::JOIN_ROOM_REPLY, sizeof(JoinCreateRoomReply))
 {
-    auto *ptr = reinterpret_cast<JoinCreateRoomReply *>(buffer);
-
-    this->roomId = ptr->roomId;
-    this->accept = ptr->accept;
-    this->startTimestamp = ptr->startTimestamp;
+    JoinCreateRoomReply::deserialize(buffer);
 }

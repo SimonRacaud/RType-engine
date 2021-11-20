@@ -22,7 +22,7 @@ class ClientNetworkCore {
 
     # receiveLoop(): void
 
-    - _currentRoomId: size_t
+    - _roomId: size_t
     - _engine: GameEngine&
     - _tcpNetwork: NetworkManager
     - _udpNetwork: NetworkManager
@@ -33,15 +33,16 @@ class ServerNetworkCore {
     # receiveCreateRoom(client: InfoConnection&, req: CreateEntityRequest&): void
     # receiveJoinRoom(client: InfoConnection&, req: JoinRoom&): void
     # receiveQuitRoom(client: InfoConnection&): void
-    # receiveCreateEntity(client: InfoConnection&, req: CreateEntityRequest&): void
+    # receiveCreateEntityRequest(client: InfoConnection&, req: CreateEntityRequest&): void
+    # receiveCreateEntityReply(client: InfoConnection&, req: CreateEntityRequest&): void
     # receiveDestroyEntity(client: InfoConnection&, req: DestroyEntity&): void
     # receiveSyncComponent(client: InfoConnection&, req: ComponentSync&): void
 
     # receiveLoop(): void
 
-    + createEntity(entity: Entity, type: string): void
-    + destroyEntity(id: NetworkId): void
-    + syncComponent(id: NetworkId, componentType: size_t, componentSize: size_t, component: void *): void
+    + createEntity(roomId: size_t, entity: Entity, type: string): void
+    + destroyEntity(roomId: size_t, id: NetworkId): void
+    + syncComponent(roomId: size_t, id: NetworkId, componentType: size_t, componentSize: size_t, component: void *): void
 
     - _rooms: vector<NetworkRoom>
 }
@@ -57,8 +58,6 @@ InfoConnection "1" -- "0..*" ClientNetworkCore
 class NetworkRoom {
     + tcpServer: NetworkManager
     + udpServer: NetworkManager
-    + tcpClient: NetworkManager
-    + udpClient: NetworkManager
     + roomId: size_t
 }
 

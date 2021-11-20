@@ -26,9 +26,6 @@ static uint8_t *startServerGetData()
         if (std::get<0>(recvData)) {
             return std::get<0>(recvData);
         }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
     }
     exit(84);
 }
@@ -73,8 +70,8 @@ int testUDPserverNetworkManagerCreateEntityRequest()
 {
     Tram::CreateEntityRequest my_data{startServerGetData()};
 
-    if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
-        && my_data.timestamp == std::chrono::milliseconds(321)) {
+    if (my_data.roomId == 123 && my_data.id == 456 && std::string(my_data.entityType) == std::string("789")
+        && my_data.timestamp == 321) {
         return 0;
     }
     return 84;
@@ -85,7 +82,7 @@ int testUDPserverNetworkManagerJoinCreateRoomReply()
     Tram::JoinCreateRoomReply my_data{startServerGetData()};
 
     if (my_data.accept == true && my_data.roomId == 123456789
-        && my_data.startTimestamp == std::chrono::milliseconds(987)) {
+        && my_data.startTimestamp == 987) {
         return 0;
     }
     return 84;
@@ -120,5 +117,3 @@ int testUDPserverNetworkManagerDestroyEntity()
     }
     return 84;
 }
-
-// todo test all Trams

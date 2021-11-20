@@ -10,7 +10,11 @@
 #include <sstream>
 #include "GameStage.hpp"
 
-GameStage::GameStage(const std::string &path) : _content(this->readFile(path))
+GameStage::GameStage(const GameStage &src) : _content(src._content), _step(src._step), _header(src._header), _ended(src._ended), _pos(src._pos)
+{
+}
+
+GameStage::GameStage(const std::string &path) : _content(this->readFile(path)), _step({}), _header(), _ended(), _pos(0)
 {
     if (!this->_content.size())
         throw std::invalid_argument("Empty file content");
@@ -65,7 +69,7 @@ StageStep GameStage::getStageStep(bool move)
 std::queue<StageStep> GameStage::getStagePrevious(std::size_t nb) const
 {
     std::queue<StageStep> queue;
-    int value = this->_pos - nb;
+    int value = (int)(this->_pos - nb);
 
     if (value < 0)
         value = 0;
@@ -221,7 +225,7 @@ std::vector<std::string> GameStage::readFile(const std::string &filepath) const
         while (getline(myfile, line))
             fileContent.push_back(line);
     } else
-        throw std::invalid_argument("Fail to open file: " + filepath);
+        throw std::invalid_argument("Fail to open stage file: " + filepath);
     return fileContent;
 }
 
@@ -230,4 +234,14 @@ bool GameStage::matchWithRegex(const std::string &sample, const std::string &reg
     std::regex wrapper(regex);
 
     return std::regex_search(sample, wrapper);
+}
+
+GameStage &GameStage::operator=(const GameStage &src)
+{
+    this->_content = src._content;
+    this->_header = src._header;
+    this->_ended = src._ended;
+    this->_step = src._step;
+    this->_pos = src._pos;
+    return *this;
 }

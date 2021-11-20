@@ -52,12 +52,12 @@ set(SRCS
         src/Components/NumberComponent.hpp
         src/Components/EntityLinkComponent.hpp
         src/Components/SizeComponent.hpp)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME} PRIVATE)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -fPIC)

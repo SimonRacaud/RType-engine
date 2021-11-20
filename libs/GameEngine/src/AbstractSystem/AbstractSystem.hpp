@@ -14,6 +14,7 @@
 #include "env.hpp"
 #include "global.hpp"
 #include <unordered_map>
+#include <iostream>
 #include "IAbstractSystem.hpp"
 
 namespace Engine
@@ -180,7 +181,12 @@ namespace Engine
     {
         const vector<Entity> &entities = this->getManagedEntities();
 
-        this->run(entities);
+        try {
+            this->run(entities);
+        } catch (std::exception const &e) {
+            std::cerr << "AbstractSystem::runSystem " << AbstractSystem<SystemType>::type.name() << " " <<
+                e.what() << std::endl;
+        }
     }
 
 } // namespace Engine

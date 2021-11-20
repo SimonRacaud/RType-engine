@@ -28,7 +28,6 @@ namespace Scene
 
         virtual void close() override;
 
-      private:
         void reloadRoomList(std::vector<size_t> const &roomIdList);
 
       private:

@@ -107,8 +107,7 @@ bool EntityRegister::exist(EntityName name) const
         if (name == EntityName::EMPTY) {
             return false;
         }
-        this->getId(name);
-        return true;
+        return this->getId(name) ? true : true;
     } catch (NotFoundException const &) {}
     return false;
 }
@@ -144,7 +143,7 @@ size_t EntityRegister::getClusterSize(ClusterName cluster) const
     return this->getClusterEntityList(cluster).size();
 }
 
-void EntityRegister::setNetworkId(Entity entity, NetworkId id)
+void EntityRegister::setNetworkId(Entity entity)
 {
     if (this->exist(entity) == false) {
         throw InvalidParameterException("EntityRegister::setNetworkId the "
@@ -158,8 +157,13 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
     } catch (NotFoundException const &e) {
         (void) e;
     }
-    this->_networkIdRegister.reserveId(id);
+    NetworkId id = this->_networkIdRegister.reserveId();
     this->_bookedEntities[entity].setNetworkId(id);
+}
+
+NetworkId EntityRegister::getNetworkId()
+{
+    return _networkIdRegister.reserveId();
 }
 
 vector<Entity> EntityRegister::getClusterEntityList(ClusterName cluster) const
@@ -212,4 +216,12 @@ void EntityRegister::destroyEntity(Entity entity)
     if (!this->exist(entity))
         throw NotFoundException("EntityRegister::destroyEntity entity not found");
     _bookedEntities[entity].destroy(); // launch destructor
+}
+
+void EntityRegister::applyNetworkId(Entity entity, NetworkId networkId)
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::applyNetworkId entity not found");
+    _bookedEntities[entity].setNetworkId(networkId);
+
 }

@@ -30,10 +30,7 @@ ComponentSync::ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, 
 
 ComponentSync::~ComponentSync()
 {
-    if (component != nullptr) {
-        delete static_cast<uint8_t *>(component);
-        component = nullptr;
-    }
+
 }
 
 uint8_t *ComponentSync::serialize() const
@@ -41,36 +38,43 @@ uint8_t *ComponentSync::serialize() const
     if (this->component == nullptr) {
         throw std::logic_error("ComponentSync::serialize null component");
     }
-    auto *buffer = new uint8_t[this->length() + this->componentSize];
-    auto ptr = reinterpret_cast<ComponentSync *>(buffer);
+    
+    uint8_t *buffer = new uint8_t[this->length()];
+    
+    std::memset(buffer, 0, this->length());
+    auto component = reinterpret_cast<ComponentSync *>(buffer);
 
     std::memcpy(buffer, (uint8_t *) this, sizeof(ComponentSync));         // copy header
-    ptr->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header ptr
-    std::memcpy(ptr->component, this->component, this->componentSize);    // copy body
+    component->component = static_cast<void *>(buffer + sizeof(ComponentSync)); // update header component
+    std::memcpy(component->component, this->component, this->componentSize);    // copy body
     return buffer;
 }
 
 void ComponentSync::deserialize(uint8_t *buffer)
 {
-    auto ptr = reinterpret_cast<ComponentSync *>(buffer);
-
-    *this = *ptr;
+    std::memcpy((uint8_t *)this, buffer, sizeof(ComponentSync));
+    this->component = new uint8_t[this->componentSize];
+    std::memcpy(this->component, buffer + sizeof(ComponentSync), this->componentSize);
 }
 
 ComponentSync &ComponentSync::operator=(const ComponentSync &other)
 {
     // copy header
-    this->roomId = other.roomId;
     this->size = other.size;
+    this->type = other.type;
+    // copy body
+    this->roomId = other.roomId;
     this->networkId = other.networkId;
     this->timestamp = other.timestamp;
     this->componentType = other.componentType;
     this->componentSize = other.componentSize;
+
     if (other.component == nullptr) {
         this->component = nullptr;
     } else {
         this->component = new uint8_t[this->componentSize];                 // alloc body
-        std::memcpy(this->component, other.component, this->componentSize); // copy body
+        std::memset(this->component, 0, this->componentSize);
+        std::memcpy(this->component, &other.component, this->componentSize); // copy body
     }
     return *this;
 }

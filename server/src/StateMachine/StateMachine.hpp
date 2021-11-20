@@ -10,6 +10,7 @@
 
 #include "IEnemyApi.hpp"
 
+
 class StateMachine {
 	public:
 		StateMachine(IEnemyApi *enemyApi);
@@ -24,6 +25,8 @@ class StateMachine {
 
 		STATE _currentState;
 		IEnemyApi *_enemyApi;
+		uint32_t _networkId;
+
 };
 
 #endif /* !STATEMACHINE_HPP_ */

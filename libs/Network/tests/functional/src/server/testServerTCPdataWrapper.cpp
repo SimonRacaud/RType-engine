@@ -9,6 +9,7 @@
 #include "AsioServerTCP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
+#include "intWrapper.hpp"
 #include <unordered_map>
 
 using namespace Network;
@@ -19,15 +20,11 @@ static DataWrapper startServerGetData()
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
     AsioServerTCP<DataWrapper> server(portServer);
 
-
     while (true) {
         recvData = server.receiveAny();
         if (std::get<1>(recvData)) {
             return std::get<0>(recvData);
         }
-        // todo set clock to avoid infinite loop
-        //  in shell script ?
-        //  with Clock class ?
     }
     exit(84);
 }
@@ -76,8 +73,8 @@ int testTCPserverDataWrapperCreateEntityRequest()
     DataWrapper my_wrapper(startServerGetData());
     Tram::CreateEntityRequest my_data{my_wrapper.serialize()};
 
-    if (my_data.roomId == 123 && my_data.entityId == 456 && std::string(my_data.entityType) == std::string("789")
-        && my_data.timestamp == std::chrono::milliseconds(321)) {
+    if (my_data.roomId == 123 && my_data.id == 456 && std::string(my_data.entityType) == std::string("789")
+        && my_data.timestamp == 321) {
         return 0;
     }
     return 84;
@@ -88,8 +85,7 @@ int testTCPserverDataWrapperJoinCreateRoomReply()
     DataWrapper my_wrapper(startServerGetData());
     Tram::JoinCreateRoomReply my_data{my_wrapper.serialize()};
 
-    if (my_data.accept == true && my_data.roomId == 123456789
-        && my_data.startTimestamp == std::chrono::milliseconds(987)) {
+    if (my_data.accept == true && my_data.roomId == 123456789 && my_data.startTimestamp == 987) {
         return 0;
     }
     return 84;
@@ -97,22 +93,32 @@ int testTCPserverDataWrapperJoinCreateRoomReply()
 
 int testTCPserverDataWrapperComponentSync()
 {
-    // size_t roomId{0}
-    // size_t size{0}
-    // uint32_t networkId{0}
-    // Time timestamp{0}
-    // size_t componentType{0}
-    // size_t componentSize{0}
-    // void *component{nullptr}
-    //    DataWrapper my_wrapper(startServerGetData());
-    //    Tram::ComponentSync my_data{my_wrapper.serialize()};
+    DataWrapper my_wrapper(startServerGetData());
+    Tram::ComponentSync sync(my_wrapper.serialize());
+    Time time = (Time) 424242;
+    auto type = std::type_index(typeid(TestComponent));
+    const size_t compSize = sizeof(TestComponent);
+    auto component((TestComponent *) sync.component);
 
-    //    if (!my_wrapper.serialize())
-    //        return 0;
-    //    if (my_data.roomId == 123 && my_data.accept == true && my_data.entityId == 456 && my_data.networkId == 789) {
-    //        return 0;
-    //    }
-    return 84;
+    std::cout << " sync.roomId : " << sync.roomId << std::endl;
+    if (sync.roomId != 43)
+        return 84;
+    std::cout << " sync.networkId : " << sync.networkId << std::endl;
+    if (sync.networkId != 42)
+        return 84;
+    std::cout << " sync.timestamp : " << sync.timestamp << std::endl;
+    if (sync.timestamp != time)
+        return 84;
+    std::cout << " sync.componentType : " << sync.componentType << std::endl;
+    if (sync.componentType != type.hash_code())
+        return 84;
+    std::cout << " sync.componentSize : " << sync.componentSize << std::endl;
+    if (sync.componentSize != compSize)
+        return 84;
+    std::cout << " component->_number : " << component->_number << std::endl;
+    if (component->_number != 753951)
+        return 84;
+    return 0;
 }
 
 int testTCPserverDataWrapperDestroyEntity()
@@ -125,5 +131,3 @@ int testTCPserverDataWrapperDestroyEntity()
     }
     return 84;
 }
-
-// todo test all Trams

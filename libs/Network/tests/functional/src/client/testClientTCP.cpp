@@ -7,46 +7,10 @@
 
 #include <cstring>
 #include "AsioClientTCP.hpp"
-#include "DataWrapper.hpp"
+#include "clientTest.hpp"
+#include "intWrapper.hpp"
 
 using namespace Network;
-
-class intWrapper {
-  public:
-    intWrapper() = default;
-    explicit intWrapper(int val) : _val(val){};
-    ~intWrapper() = default;
-
-    [[nodiscard]] std::size_t length() const
-    {
-        return sizeof(intWrapper);
-    }
-
-    [[nodiscard]] int getVal() const
-    {
-        return _val + _otherVal;
-    }
-
-    [[nodiscard]] uint8_t *serialize() const
-    {
-        auto data(new uint8_t[sizeof(intWrapper)]);
-
-        memcpy(data, &_val, sizeof(int));
-        memcpy(data + sizeof(int), &_otherVal, sizeof(int));
-        return data;
-    }
-    intWrapper(uint8_t *data, const std::size_t len)
-    {
-        if (len != sizeof(intWrapper))
-            return;
-        memcpy(&_val, data, sizeof(int));
-        memcpy(&_otherVal, data + sizeof(int), sizeof(int));
-    }
-
-  private:
-    int _val{111};
-    int _otherVal{333};
-};
 
 /**
  * @brief Test
@@ -67,6 +31,8 @@ int testTCPclientConnectSendDisconnect()
     if (!connected)
         return 84;
     client.send(myData, ipServer, portServer);
+    usleep(300000); // wait for the server to receive
+
     client.disconnect(ipServer, portServer);
     return 0;
 }

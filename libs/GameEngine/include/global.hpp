@@ -8,6 +8,7 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
+#include <chrono>
 #include <bitset>
 #include <memory>
 #include <cstdint>
@@ -15,7 +16,6 @@
 #include <limits>
 #include <typeindex>
 #include <typeinfo>
-#include <chrono>
 
 #include "ClusterName.hpp"
 #include "EntityName.hpp"
@@ -41,7 +41,7 @@ namespace Engine
     using ComponentBrowseFunction = std::function<void(unique_ptr<ComponentType> &)>;
 
     using Time = std::chrono::milliseconds;
-    using DurationCast = std::chrono::duration<Time>;
+    #define DurationCast std::chrono::duration_cast<std::chrono::milliseconds>
     using Clock = std::chrono::steady_clock;
     using TimePoint = std::chrono::time_point<Clock>;
 
@@ -55,6 +55,7 @@ namespace Engine
         #define SHOW_DEBUG_COMPONENT(message) if (DEBUG_COMPONENT) SHOW_DEBUG(message)
     #else
         #define SHOW_DEBUG(message)
+        #define SHOW_DEBUG_COMPONENT(message)
     #endif
     #define TYPE_STR(type) std::to_string(type.hash_code())
 } // namespace Engine

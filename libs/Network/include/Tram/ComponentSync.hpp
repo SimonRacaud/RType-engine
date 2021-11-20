@@ -33,10 +33,6 @@ namespace Tram
 
         size_t roomId{0};
         /**
-         * @brief total size
-         */
-        size_t size{0};
-        /**
          * @brief network id of the entity
          */
         uint32_t networkId{0};

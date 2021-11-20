@@ -21,5 +21,5 @@ BulletServer::BulletServer(const vector2D &pos, const vector2D &velocity, const 
         ServerCore::engine.getEntityManager().remove(b);
         // ADD EXPLOSION ANIMATION
     });
-    // TODO ADD SyncSendComponent WHEN READY
+    // ADD SyncSendComponent WHEN READY
 }

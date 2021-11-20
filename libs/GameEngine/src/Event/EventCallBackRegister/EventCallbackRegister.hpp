@@ -30,7 +30,12 @@ namespace Engine {
 						e = _queue.front();
 						std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>>::iterator it = _registeredCallbacks.find(std::type_index(typeid(*e)));
 						if (it != _registeredCallbacks.end() && it->second != nullptr) {
-							it->second->call(e.get());
+                            try {
+                                it->second->call(e.get());
+                            } catch (std::exception const &excep) {
+                                std::cerr << "EventCallbackRegister::execQueue " << excep.what() << std::endl;
+                                exit(84); // TODO
+                            }
 						} else {
 							std::cerr << "Event with no registered callbacks, skipping" << std::endl;
 						}
@@ -47,7 +52,7 @@ namespace Engine {
 
 				template<class EventType>
 				void removeCallback(std::shared_ptr<IEventCallback> callback) {
-					//TODO implement operator == for callbacks
+					// implement operator == for callbacks
 					// std::shared_ptr<IEventCallback> func = _registeredCallbacks[std::type_index(typeid(EventType))];
 
 					// if (func == _registeredCallbacks.end()) {

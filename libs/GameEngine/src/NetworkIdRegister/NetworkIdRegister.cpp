@@ -9,7 +9,7 @@
 */
 
 #include "NetworkIdRegister.hpp"
-
+#include <iostream>
 using namespace Engine;
 
 NetworkId NetworkIdRegister::reserveId()
@@ -28,7 +28,8 @@ NetworkId NetworkIdRegister::reserveId()
 
 NetworkId NetworkIdRegister::reserveId(NetworkId id)
 {
-   if (_counter > id) {
+    std::cout << "counter == " << _counter << " ID --- " << id << std::endl;
+    if (_counter > id) {
        auto it = std::find(_freeIds.begin(), _freeIds.begin(), id);
 
        if (it == _freeIds.end()) {
@@ -37,12 +38,12 @@ NetworkId NetworkIdRegister::reserveId(NetworkId id)
        } else {
            _freeIds.erase(it);
        }
-   } else {
+    } else {
        for (NetworkId i = _counter; i < id; i++) {
            _freeIds.push_back(i);
        }
        _counter = id + 1;
-   }
+    }
     return id;
 }
 

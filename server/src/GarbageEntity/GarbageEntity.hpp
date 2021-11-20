@@ -10,23 +10,25 @@
 
 #include <tuple>
 #include <vector>
+#include "IServerNetworkCore.hpp"
 #include "Components/Position.hpp"
-#include "include/Tram/ComponentSync.hpp"
-#include "include/Tram/DestroyEntity.hpp"
+#include "Tram/ComponentSync.hpp"
+#include "Tram/DestroyEntity.hpp"
 
 class GarbageEntity
 {
     public:
-        GarbageEntity(const std::pair<size_t, size_t> &);
+        GarbageEntity(const std::pair<size_t, size_t> &windowSize, size_t xMarge = 0, size_t yMarge = 0);
         ~GarbageEntity();
 
-        std::vector<Tram::DestroyEntity> processing(const std::vector<Tram::ComponentSync> &);
+        void processing(const Tram::ComponentSync &tram, IServerNetworkCore &networkCore);
 
     private:
-        bool isOutOfRange(Engine::Position) const;
+        bool isOutOfRange(Engine::Position const&) const;
 
     private:
         std::pair<size_t, size_t> _win;
+        std::pair<size_t, size_t> _marge;
 };
 
 #endif

@@ -7,8 +7,11 @@
 
 #include "Enemy.hpp"
 #include "Component/Render.hpp"
-#include "Component/EntityMask.hpp"
+#include "Components/EntityMask.hpp"
+#include "Components/Health.hpp"
 #include "AnimationManager/AnimationManager.hpp"
+#include "Component/Damage.hpp"
+#include "Event/EntityRemove/EntityRemoveEvent.hpp"
 
 Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2D &velocity, const vector2f &scale, const std::string &path, size_t nbStep, const surface &focus)
 {
@@ -25,15 +28,32 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
 
     componentManager.add<Engine::Position>(entity, pos.x, pos.y);
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
-    componentManager.add<Engine::Hitbox>(entity, focus.size.x, focus.size.y, [](Engine::Entity, Engine::Entity) {
-        // TODO ADD CALLBACK
+    componentManager.add<Component::Health>(entity, 1);
+    componentManager.add<Engine::Hitbox>(entity, focus.size.x, focus.size.y, [](Engine::Entity self, Engine::Entity other) {
+        Component::EntityMask otherMask = GET_COMP_M.get<Component::EntityMask>(other);
+        auto &health = GET_COMP_M.get<Component::Health>(self);
+
+        if (otherMask._currentMask == Component::MASK::BULLET_PLAYER) {
+            auto dmg = GET_COMP_M.get<Component::Damage>(other);
+
+            health._health -= dmg._damage;
+            if (health._health <= 0) {
+                GET_EVENT_REG.registerEvent<EntityRemoveEvent>(self);
+            }
+            try {
+                /// Increase player score
+                Engine::Entity player = GET_ENTITY_M.getId(Engine::EntityName::LOCAL_PLAYER);
+                auto &score = GET_COMP_M.get<Engine::ScoreComponent>(player);
+                score.value += (size_t) GameCore::config->getVar<int>("SCORE_INC");
+            } catch (std::exception const &) {}
+        }
     });
     componentManager.add<Engine::Render>(entity, enemyRender);
     componentManager.add<Component::EntityMask>(entity, Component::MASK::ENEMY);
     _entity = entity;
 }
 
-void Enemy::setNetworkId(uint32_t entityId)
+void Enemy::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }

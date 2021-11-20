@@ -8,12 +8,14 @@
 #ifndef ENTITYMASK_HPP_
 #define ENTITYMASK_HPP_
 
-#include "EngineCore.hpp"
+#include "BaseComponent/BaseComponent.hpp"
 
 namespace Component {
-	enum MASK {
+	enum class MASK {
+		EQUIPMENT,
 		PLAYER,
-		BULLET,
+		BULLET_ENEMY,
+		BULLET_PLAYER,
 		ENEMY,
 	};
 

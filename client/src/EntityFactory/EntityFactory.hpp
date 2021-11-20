@@ -12,6 +12,13 @@
 #include <functional>
 #include <unordered_map>
 #include "CustomCluster.hpp"
+#include "Tram/CreateEntityRequest.hpp"
+#include "utils/netVector2f.hpp"
+#include "Item/vector2D.hpp"
+#include "Components/EntityMask.hpp"
+
+using Network::netVector2f;
+using Tram::CreateEntityRequest;
 
 class EntityFactory
 {
@@ -19,30 +26,25 @@ class EntityFactory
         EntityFactory(Engine::ClusterName clusterName);
         ~EntityFactory() = default;
 
-        void build(const std::string &, uint32_t entityId);
+        void build(CreateEntityRequest const& request);
+
+        void createPlayer(vector2D const& position, vector2D const& velocity, int playerNumber);
+        void createBullet(vector2D const& position, vector2D const& velocity, Component::MASK owner,
+            size_t charge);
 
     private:
-        static void makeEnemy(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makePlayer(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeBullet0(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeBullet1(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeBullet2(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeBullet3(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeBullet4(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeEquipment(Engine::ClusterName clusterName, uint32_t entityId);
-        static void makeExplosion(Engine::ClusterName clusterName, uint32_t entityId);
+        static void makePlayer(Engine::ClusterName clusterName, CreateEntityRequest const& request);
+        static void makeEnemy(Engine::ClusterName clusterName, CreateEntityRequest const& request);
+        static void makeBullet(Engine::ClusterName clusterName, CreateEntityRequest const& request);
+        static void makeEquipment(Engine::ClusterName clusterName, CreateEntityRequest const& request);
+        static void makeExplosion(Engine::ClusterName clusterName, CreateEntityRequest const& request);
 
     private:
-        // TODO UPDATE THE STRING WITH SIMON
         Engine::ClusterName _clusterName;
-        const std::unordered_map<std::string, std::function<void (Engine::ClusterName clusterName, uint32_t entityId)>> _factory = {
+        const std::unordered_map<std::string, std::function<void (Engine::ClusterName, CreateEntityRequest const&)>> _factory = {
             {"Enemy", EntityFactory::makeEnemy},
-            {"Player", EntityFactory::makePlayer},
-            {"Bullet0", EntityFactory::makeBullet0},
-            {"Bullet1", EntityFactory::makeBullet1},
-            {"Bullet2", EntityFactory::makeBullet2},
-            {"Bullet3", EntityFactory::makeBullet3},
-            {"Bullet4", EntityFactory::makeBullet4},
+            {"Player", EntityFactory::makePlayer}, // Format "^Player([0-4])$"
+            {"Bullet", EntityFactory::makeBullet}, // Format "^Bullet[0-4]?(Enemy|Player)$"
             {"Equipment", EntityFactory::makeEquipment},
             {"Explosion", EntityFactory::makeExplosion},
         };

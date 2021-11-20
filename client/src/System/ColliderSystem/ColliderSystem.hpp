@@ -16,6 +16,7 @@
 #include "Components/Velocity.hpp"
 #include "FactoryShortcuts.hpp"
 #include "EntityManager/EntityManager.hpp"
+#include "Components/EntityMask.hpp"
 
 namespace Engine {
 	class ColliderSystem : public AbstractSystem<ColliderSystem> {
