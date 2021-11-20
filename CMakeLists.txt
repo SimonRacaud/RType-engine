@@ -38,6 +38,9 @@ set(CLIENT_SRCS
         client/src/System/RenderSystem/RenderSystem.cpp
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
+        client/src/System/PhysicsSystem/PhysicsSystem.cpp
+        client/src/System/TimerSystem/TimerSystem.cpp
+        client/src/System/ColliderSystem/ColliderSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp

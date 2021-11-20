@@ -33,9 +33,9 @@ void ServerCore::run(void)
     componentManager.registerComponent<Engine::ScoreComponent>();
 
     Engine::SystemManager &systemManager = engine.getSystemManager();
-    systemManager.registerSystem<Engine::TimerSystem>();
-    systemManager.registerSystem<Engine::PhysicsSystem>();
-    systemManager.registerSystem<Engine::ColliderSystem>();
+    // systemManager.registerSystem<Engine::TimerSystem>();
+    // systemManager.registerSystem<Engine::PhysicsSystem>();
+    // systemManager.registerSystem<Engine::ColliderSystem>();
 
     Engine::SceneManager &sceneManager = engine.getSceneManager();
     //sceneManager.registerScene<Scene::Example>();

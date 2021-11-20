@@ -46,10 +46,6 @@ set(SRCS
         src/Engine/GameEngine.cpp
         src/Engine/EngineFactory.cpp
 
-        src/Systems/PhysicsSystem/PhysicsSystem.cpp
-        src/Systems/TimerSystem/TimerSystem.cpp
-        src/Systems/ColliderSystem/ColliderSystem.cpp
-
         src/Utils/display.cpp
         src/Utils/SignalManager.cpp
         src/Components/ScoreComponent.hpp
