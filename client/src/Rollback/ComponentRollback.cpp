@@ -12,11 +12,6 @@
 #include "Component/Render.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
-/**
- * @brief Refresh rate of the physic system in milliseconds
- */
-static const float PhysicSystemRefreshRate = 10;
-
 const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *, long int)>> ComponentRollback::hashcodeComponents{
         {Engine::Position::type.hash_code(), ComponentRollback::RollbackPosition},
         {Engine::Velocity::type.hash_code(), ComponentRollback::ApplyComponent<Engine::Velocity>},
@@ -68,9 +63,8 @@ void ComponentRollback::RollbackPosition(Engine::Entity id, void *component, lon
     auto &oldComponent = GET_COMP_M.get<Engine::Position>(id);
     const auto &velocity = GET_COMP_M.get<Engine::Velocity>(id);
     const Engine::Position *newComponent = reinterpret_cast<Engine::Position *>(component);
-    float deltaTime = (GET_NOW - timestamp);
-    float numberMissingCycle = (deltaTime / PhysicSystemRefreshRate);
+    float deltaTime = (GET_NOW - timestamp) / 1000;
 
-    oldComponent.x = newComponent->x + (velocity.x * numberMissingCycle);
-    oldComponent.y = newComponent->y + (velocity.y * numberMissingCycle);
+    oldComponent.x = newComponent->x + (velocity.x * deltaTime);
+    oldComponent.y = newComponent->y + (velocity.y * deltaTime);
 }
