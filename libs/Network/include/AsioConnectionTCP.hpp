@@ -198,10 +198,12 @@ namespace Network
         {
             if (!connection)
                 return false;
-            auto endpoint(connection->remote_endpoint());
+            try {
+                auto endpoint(connection->remote_endpoint());
 
-            if (endpoint.address().to_string() == otherIp && endpoint.port() == otherPort)
-                return true;
+                if (endpoint.address().to_string() == otherIp && endpoint.port() == otherPort)
+                    return true;
+            } catch (...) {}
             return false;
         }
 

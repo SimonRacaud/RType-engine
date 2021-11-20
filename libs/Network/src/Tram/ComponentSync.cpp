@@ -24,6 +24,14 @@ ComponentSync::ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, 
 {
 }
 
+ComponentSync::ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, size_t componentType,
+    size_t componentSize, void *component)
+    : Tram::Serializable(Tram::TramType::SYNC_COMPONENT, sizeof(ComponentSync) + componentSize), roomId(roomId),
+      networkId(networkId), timestamp(timestamp), componentType(componentType),
+      componentSize(componentSize), component(component)
+{
+}
+
 ComponentSync::~ComponentSync()
 {
 }
