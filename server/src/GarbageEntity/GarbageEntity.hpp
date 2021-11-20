@@ -24,7 +24,7 @@ class GarbageEntity
         void processing(const Tram::ComponentSync &tram, IServerNetworkCore &networkCore);
 
     private:
-        bool isOutOfRange(Engine::Position) const;
+        bool isOutOfRange(Engine::Position const&) const;
 
     private:
         std::pair<size_t, size_t> _win;
