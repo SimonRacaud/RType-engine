@@ -15,7 +15,14 @@
 #include "StateMachineManager/StateMachineManager.hpp"
 #include "utils/timeDef.hpp"
 
-struct EnemyRequest;
+struct EnemyRequest {
+    EnemyRequest(std::string const &path, size_t posX, size_t posY) : path(path), position((int) posX, (int) posY)
+    {
+    }
+
+    std::string path;
+    vector2D position;
+};
 
 class GameRoom
 {
@@ -53,13 +60,4 @@ class GameRoom
         TimePoint _enemyLastRefresh;
         bool _loop{true};
 };
-
-struct EnemyRequest {
-    EnemyRequest(std::string const &path, size_t posX, size_t posY)
-        : path(path), position((int)posX, (int)posY) {}
-
-    std::string path;
-    vector2D position;
-};
-
 #endif
