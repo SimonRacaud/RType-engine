@@ -6,6 +6,7 @@
 */
 
 #include "Enemy.hpp"
+#include "Event/ExplosionEvents/ExplosionEvents.hpp"
 #include "Component/Render.hpp"
 #include "Components/EntityMask.hpp"
 #include "Components/Health.hpp"
@@ -34,6 +35,7 @@ Enemy::Enemy(Engine::ClusterName clusterName, const vector2D &pos, const vector2
         auto &health = GET_COMP_M.get<Component::Health>(self);
 
         if (otherMask._currentMask == Component::MASK::BULLET_PLAYER) {
+            GET_EVENT_REG.registerEvent<BulletExplosion>(self);
             auto dmg = GET_COMP_M.get<Component::Damage>(other);
 
             health._health -= dmg._damage;

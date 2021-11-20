@@ -89,7 +89,10 @@ void GameScene::createWaitingScreen()
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-        i--;
+        if (i == 0)
+            i = (timeUntilStart / 1000);
+        else
+            i--;
     });
     // SYSTEM SELECT
     // GameCore::engine.getSystemManager().selectSystems<

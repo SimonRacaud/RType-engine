@@ -11,7 +11,7 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
-#include <stddef.h>
+#include <cstddef>
 
 #define CLIENT_UDP_PORT (size_t)8082
 
