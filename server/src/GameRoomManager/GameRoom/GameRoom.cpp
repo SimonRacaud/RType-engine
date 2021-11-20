@@ -121,9 +121,9 @@ void GameRoom::updateEnemy()
     if (listHealth.size() != listVel.size() || listHealth.size() != listPos.size() || listHealth.size() != listId.size())
         throw std::invalid_argument("Invalid state machine value, vector have various size");
     for (size_t it = 0; it < listId.size(); it++) {
-        ServerCore::network->syncComponent(_id, listId[it], typeid(Component::Health), sizeof(Component::Health), &(listHealth[it]));
-        ServerCore::network->syncComponent(_id, listId[it], typeid(Engine::Velocity), sizeof(Engine::Velocity), &(listVel[it]));
-        ServerCore::network->syncComponent(_id, listId[it], typeid(Engine::Position), sizeof(Engine::Position), &(listPos[it]));
+        ServerCore::network->syncComponent(_id, listId[it], Component::Health::type, sizeof(Component::Health), &(listHealth[it]));
+        ServerCore::network->syncComponent(_id, listId[it], Engine::Velocity::type, sizeof(Engine::Velocity), &(listVel[it]));
+        ServerCore::network->syncComponent(_id, listId[it], Engine::Position::type, sizeof(Engine::Position), &(listPos[it]));
     }
 }
 
