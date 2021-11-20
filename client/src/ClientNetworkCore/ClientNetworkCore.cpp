@@ -248,7 +248,6 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
     }
     PUT_DEBUG_SYNC("Receive [SyncComponent] networkdId="+to_string(data.networkId)+", componentType="+
         to_string(data.componentType)+", componentSize="+to_string(data.componentSize)+".");
-    data.component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
     ComponentRollback::Apply(data); // Apply component on local engine
 }
 

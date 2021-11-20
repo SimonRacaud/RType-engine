@@ -17,20 +17,16 @@
 namespace Component {
 	class AnimationInfo : public Engine::BaseComponent<AnimationInfo> {
 		public:
-			AnimationInfo(std::string path, int nbFrames, vector2D animPos, vector2D animSize)
+			AnimationInfo(std::string const &path, int nbFrames, vector2D animPos, vector2D animSize)
 				: _nbFrames(nbFrames), _animPos(animPos), _animSize(animSize) {
-					try {
-						std::memcpy(_path, path.c_str(), path.length());
-					} catch (...) {
-						throw std::runtime_error("Could not load Animation info path may be too long");
-					}
+                    std::strncpy(_path, path.c_str(), ANIM_INFO_PATH_SIZE - 1);
 				}
 			virtual ~AnimationInfo() = default;
 
-        char _path[ANIM_INFO_PATH_SIZE];
         int _nbFrames;
         vector2D _animPos;
         vector2D _animSize;
+        char _path[ANIM_INFO_PATH_SIZE]{0};
     };
 } // namespace Component
 

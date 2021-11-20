@@ -43,7 +43,8 @@ void GameRoom::run()
         this->runStage();
 
         TimePoint now = steadyClock::now();
-        if ((size_t)DURATION_CAST(now - _enemyLastRefresh).count() > _enemyRefreshFreq) {
+        if (0 == _enemyLastRefresh.time_since_epoch().count()
+            || (size_t)DURATION_CAST(now - _enemyLastRefresh).count() > _enemyRefreshFreq) {
             this->updateEnemy();
             _enemyLastRefresh = now;
         }
@@ -140,8 +141,8 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
     
     // SYNC BASIC
     auto basic = this->_stateMachine.retreiveBasicComponents(api);
-    ServerCore::network->syncComponent(_id, networkId, typeid(Component::AnimationInfo), sizeof(Component::AnimationInfo), &(basic.first));
-    ServerCore::network->syncComponent(_id, networkId, typeid(std::pair<float, float>), sizeof(std::pair<float, float>), &(basic.second));
+    ServerCore::network->syncComponent(_id, networkId, Component::AnimationInfo::type, sizeof(Component::AnimationInfo), &(basic.first));
+    //ServerCore::network->syncComponent(_id, networkId, typeid(std::pair<float, float>), sizeof(std::pair<float, float>), &(basic.second));
 }
 
 void GameRoom::destroyEntityEnemy(uint32_t networkId)

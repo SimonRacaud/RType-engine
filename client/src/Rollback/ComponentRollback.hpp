@@ -20,6 +20,8 @@ class ComponentRollback {
   private:
     static void RollbackPosition(Engine::Entity id, void *component, long int timestamp);
 
+    static void ApplyAnimationInfo(Engine::Entity id, void *component, long int timestamp);
+
     template <class ComponentType>
     static void ApplyComponent(Engine::Entity id, void *component, long);
 
