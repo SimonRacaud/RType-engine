@@ -149,6 +149,8 @@ void GameScene::initGame()
 
 void GameScene::setTimeStart(::Time timestamp)
 {
+    std::cout << GET_NOW << std::endl;
+    std::cout << timestamp << std::endl;
     this->_timestampStart = timestamp;
 }
 
