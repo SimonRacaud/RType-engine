@@ -10,6 +10,7 @@
 #include "Components/Health.hpp"
 #include "Components/AnimationInfo.hpp"
 #include "Component/Render.hpp"
+#include "AnimationManager/AnimationManager.hpp"
 
 /**
  * @brief Refresh rate of the physic system in milliseconds
@@ -35,9 +36,6 @@ void ComponentRollback::Apply(Tram::ComponentSync const &tram)
         std::cerr << "ComponentRollback::Apply component not found." << std::endl;
     }
 }
-
-#include "AnimationManager/AnimationManager.hpp"
-
 
 void ComponentRollback::ApplyAnimationInfo(Engine::Entity id, void *component, long)
 {

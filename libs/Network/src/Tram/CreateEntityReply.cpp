@@ -15,7 +15,8 @@ using namespace Tram;
 CreateEntityReply::CreateEntityReply()
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply))
 {
-    this->ip[0] = '\0';
+    std::memset(this->ip, 0, IP_LENGTH);
+    std::memset(this->entityType, 0, ENTITY_TYPE_LEN);
 }
 
 CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networkId, const std::string &ip,
@@ -31,6 +32,8 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networ
       velocity(velocity),
       port(port)
 {
+    std::memset(this->ip, 0, IP_LENGTH);
+    std::memset(this->entityType, 0, ENTITY_TYPE_LEN);
     std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
     std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }
@@ -48,6 +51,8 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entity
       velocity(velocity),
       port(port)
 {
+    std::memset(this->ip, 0, IP_LENGTH);
+    std::memset(this->entityType, 0, ENTITY_TYPE_LEN);
     std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
     std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }

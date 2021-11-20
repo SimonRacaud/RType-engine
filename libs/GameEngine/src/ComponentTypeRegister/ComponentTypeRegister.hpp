@@ -131,7 +131,9 @@ namespace Engine
         signature[ComponentType::getIndex()] = false;
         Index index = (Index)_entityToComponent[entity];
         // update _components slot
-        _components[index] = std::move(_components.back());
+        if (_components.size() > 1) {
+            _components[index] = std::move(_components.back());
+        }
         _components.pop_back();
         // update _entityToComponent
         _entityToComponent[_componentOwners.back()] = index;
