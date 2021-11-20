@@ -13,6 +13,7 @@
 #include <cstddef>
 #include "GameStage/GameStage.hpp"
 #include "StateMachineManager/StateMachineManager.hpp"
+#include "utils/timeDef.hpp"
 
 class GameRoom
 {
@@ -36,16 +37,18 @@ class GameRoom
         void newStage();
         void waitStart();
         void updateEnemy();
-        void factoryStage(const StageStep &) const;
+        void factoryStage(const StageStep &);
 
     private:
         size_t _id;
         GameStage _stage;
         long int _timeStartRun;
+        size_t _enemyRefreshFreq;
         std::chrono::system_clock::time_point _start;
         StateMachineManager _stateMachine;
         std::queue<std::string> _enemyRequest;
         std::thread _thread;
+        TimePoint _enemyLastRefresh;
         bool _loop{true};
 };
 

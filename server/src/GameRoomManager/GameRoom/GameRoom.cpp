@@ -8,7 +8,12 @@
 #include "GameRoom.hpp"
 #include "ServerCore/ServerCore.hpp"
 
-GameRoom::GameRoom(size_t id, long int start) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")), _timeStartRun(start), _start(std::chrono::system_clock::now())
+GameRoom::GameRoom(size_t id, long int start) :
+      _id(id),
+      _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")),
+      _timeStartRun(start),
+      _enemyRefreshFreq((size_t)ServerCore::config->getVar<int>("ENEMY_REFRESH_RATE")),
+      _start(std::chrono::system_clock::now())
 {
 }
 
@@ -26,16 +31,6 @@ size_t GameRoom::getId() const
     return _id;
 }
 
-// TODO IF create don't work try something like this
-// void run2(GameRoom *src) {
-//     src->run();
-// }
-//
-// void GameRoom::create()
-// {
-//     this->_thread = std::thread(run2, this);
-// }
-
 void GameRoom::create()
 {
     this->_thread = std::thread(&GameRoom::run, this);
@@ -46,8 +41,12 @@ void GameRoom::run()
     this->waitStart();
     while (this->_loop) {
         this->runStage();
-        this->updateEnemy();
-        // TODO SERVER SYNC
+
+        TimePoint now = steadyClock::now();
+        if ((size_t)DURATION_CAST(now - _enemyLastRefresh).count() > _enemyRefreshFreq) {
+            this->updateEnemy();
+            _enemyLastRefresh = now;
+        }
     }
 }
 
@@ -89,22 +88,20 @@ void GameRoom::newStage()
     this->_start = std::chrono::system_clock::now();
 }
 
-void GameRoom::factoryStage(const StageStep &step) const
+void GameRoom::factoryStage(const StageStep &step)
 {
-    switch (step._type)
-    {
-        case EntityType::ENEMY:
-        {
+    switch (step._type) {
+        case EntityType::ENEMY: {
             std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
             ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
-        }
+            this->_enemyRequest.push(step._aiPath);
             break;
-        case EntityType::EQUIPMENT:
-        {
+        }
+        case EntityType::EQUIPMENT: {
             std::pair<int, int> velocityEquipment = ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY");
             ServerCore::network->createEntity(_id, "Equipment", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEquipment.first, velocityEquipment.second));
-        }
             break;
+        }
         default:
             throw std::invalid_argument("Invalid EntityType -> None register");
             break;

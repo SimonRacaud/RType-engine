@@ -45,8 +45,8 @@ void StateMachineManager::closeEnemyApi(IEnemyApi *ptr)
 void StateMachineManager::setMachineNetworkId(const IEnemyApi *ptr, uint32_t networkId)
 {
 	try {
-		StateMachine enemy = *getMachineFromApi(ptr);
-		enemy._networkId = networkId;
+		StateMachine &enemy = *getMachineFromApi(ptr);
+		enemy.enable(networkId);
 	} catch (Engine::RuntimeException &e) {
 		std::cerr << "Could not set Network ID for enemy because ptr does not exists" << std::endl;
 	}
@@ -65,8 +65,10 @@ std::vector<StateMachine>::iterator StateMachineManager::getMachineFromApi(const
 
 void StateMachineManager::runAllMachines()
 {
-	for (auto machine : _loadedEnemies) {
-		machine.run();
+	for (StateMachine &machine : _loadedEnemies) {
+        if (machine.isEnable()) {
+            machine.run();
+        }
 	}
 }
 
@@ -74,8 +76,11 @@ std::vector<Engine::Position> StateMachineManager::retreivePosComponents()
 {
 	std::vector<Engine::Position> allPos;
 
-	for (auto machines : _loadedEnemies)
-		allPos.push_back(machines._enemyApi->getPosition());
+	for (StateMachine &machines : _loadedEnemies) {
+        if (machines.isEnable()) {
+            allPos.push_back(machines._enemyApi->getPosition());
+        }
+    }
 	return allPos;
 }
 
@@ -83,8 +88,11 @@ std::vector<Engine::Velocity> StateMachineManager::retreiveVelComponents()
 {
 	std::vector<Engine::Velocity> allVel;
 
-	for (auto machines : _loadedEnemies)
-		allVel.push_back(machines._enemyApi->getVelocity());
+	for (StateMachine &machines : _loadedEnemies) {
+        if (machines.isEnable()) {
+            allVel.push_back(machines._enemyApi->getVelocity());
+        }
+    }
 	return allVel;
 }
 
@@ -92,8 +100,11 @@ std::vector<Component::Health> StateMachineManager::retreiveHealthComponents()
 {
 	std::vector<Component::Health> allHealth;
 
-	for (auto machines : _loadedEnemies)
-		allHealth.push_back(machines._enemyApi->getHealth());
+	for (StateMachine &machines : _loadedEnemies) {
+        if (machines.isEnable()) {
+            allHealth.push_back(machines._enemyApi->getHealth());
+        }
+    }
 	return allHealth;
 }
 
@@ -101,8 +112,11 @@ std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> StateM
 {
 	std::vector<std::pair<Component::AnimationInfo, std::pair<float, float>>> allPairs;
 
-	for (auto machines : _loadedEnemies) {
-		allPairs.push_back(std::make_pair<Component::AnimationInfo, std::pair<float, float>>(machines._enemyApi->getAnimInfo(), machines._enemyApi->getHitboxSize()));
+	for (StateMachine &machines : _loadedEnemies) {
+        if (machines.isEnable()) {
+		    allPairs.push_back(std::make_pair<Component::AnimationInfo,
+                std::pair<float, float>>(machines._enemyApi->getAnimInfo(), machines._enemyApi->getHitboxSize()));
+        }
 	}
 	return allPairs;
 }
@@ -112,8 +126,11 @@ std::vector<uint32_t> StateMachineManager::retreiveNetworkId()
 {
 	std::vector<uint32_t> allId;
 
-	for (auto machines : _loadedEnemies)
-		allId.push_back(machines._networkId);
+	for (StateMachine &machines : _loadedEnemies) {
+        if (machines.isEnable()) {
+            allId.push_back(machines._networkId);
+        }
+    }
 	return allId;
 }
 
@@ -124,8 +141,9 @@ std::pair<Component::AnimationInfo, std::pair<float, float>> StateMachineManager
 
 IEnemyApi *StateMachineManager::getEnemyApi(uint32_t networkId)
 {
-	for (auto machines : _loadedEnemies)
-		if (machines._networkId == networkId)
-			return machines._enemyApi;
+	for (auto machines : _loadedEnemies) {
+        if (machines.isEnable() && machines._networkId == networkId)
+            return machines._enemyApi;
+    }
 	throw Engine::RuntimeException("Not machine with this network id");
 }

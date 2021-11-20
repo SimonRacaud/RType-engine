@@ -35,3 +35,14 @@ void StateMachine::run()
 			break;
 	}
 }
+
+void StateMachine::enable(uint32_t networkId)
+{
+    this->_networkId = networkId;
+    this->_enable = true;
+}
+
+bool StateMachine::isEnable() const
+{
+    return _enable;
+}
