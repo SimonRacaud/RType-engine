@@ -15,12 +15,12 @@ namespace Component
 {
     enum SyncComponentType : int
     {
-        VELOCITY = 0x1,
-        POSITION = 0x2,
-        SCORE = 0x4,
-        EQUIPMENT_COMP = 0x8,
-        HEALTH = 0x16,
-        ANIMATION_INFO = 0x32,
+        VELOCITY = 0b1,
+        POSITION = 0b10,
+        SCORE = 0b100,
+        EQUIPMENT_COMP = 0b1000,
+        HEALTH = 0b10000,
+        ANIMATION_INFO = 0b100000,
     };
     /**
      * @brief Entities which posses that component will be synchronized on the network

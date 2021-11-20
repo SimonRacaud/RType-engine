@@ -16,6 +16,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <string>
+#include <cstring>
 #include "ISerializable.hpp"
 #include <unordered_map>
 

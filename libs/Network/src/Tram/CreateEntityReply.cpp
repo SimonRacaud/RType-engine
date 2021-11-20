@@ -57,6 +57,7 @@ uint8_t *CreateEntityReply::serialize() const
     size_t len = sizeof(CreateEntityReply);
     auto *buffer = new uint8_t[len];
 
+    std::memset(buffer, 0, len);
     std::memcpy(buffer, (uint8_t *) this, len);
     return buffer;
 }

@@ -17,8 +17,14 @@
 
 static void hit(Engine::Entity self, Engine::Entity other)
 {
-    (void)self;
-    (void)other;
+    Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
+
+    if (componentManager.hasComponent<Engine::ScoreComponent>(other)) {
+        // other is a player
+        auto &equip = componentManager.get<Engine::EquipmentComponent>(other);
+        equip.counter++;
+        GameCore::engine.getEntityManager().remove(self);
+    }
 }
 
 Equipment::Equipment(ClusterName cluster, const vector2D &position)
@@ -48,7 +54,7 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
     _entity = entity;
 }
 
-void Equipment::setNetworkId(uint32_t entityId)
+void Equipment::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }

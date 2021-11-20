@@ -143,7 +143,7 @@ size_t EntityRegister::getClusterSize(ClusterName cluster) const
     return this->getClusterEntityList(cluster).size();
 }
 
-void EntityRegister::setNetworkId(Entity entity, NetworkId id)
+void EntityRegister::setNetworkId(Entity entity)
 {
     if (this->exist(entity) == false) {
         throw InvalidParameterException("EntityRegister::setNetworkId the "
@@ -157,7 +157,7 @@ void EntityRegister::setNetworkId(Entity entity, NetworkId id)
     } catch (NotFoundException const &e) {
         (void) e;
     }
-    this->_networkIdRegister.reserveId(id);
+    NetworkId id = this->_networkIdRegister.reserveId();
     this->_bookedEntities[entity].setNetworkId(id);
 }
 
@@ -216,4 +216,12 @@ void EntityRegister::destroyEntity(Entity entity)
     if (!this->exist(entity))
         throw NotFoundException("EntityRegister::destroyEntity entity not found");
     _bookedEntities[entity].destroy(); // launch destructor
+}
+
+void EntityRegister::applyNetworkId(Entity entity, NetworkId networkId)
+{
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::applyNetworkId entity not found");
+    _bookedEntities[entity].setNetworkId(networkId);
+
 }

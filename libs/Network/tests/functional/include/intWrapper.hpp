@@ -51,4 +51,14 @@ class intWrapper {
     int _val{111};
     int _otherVal{333};
 };
+
+class TestComponent {
+  public:
+    explicit TestComponent(size_t number) : _number(number)
+    {
+    }
+
+    size_t _number{424};
+};
+
 #endif // R_TYPE_INTWRAPPER_HPP

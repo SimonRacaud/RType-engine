@@ -10,6 +10,7 @@
 #include "DataWrapper.hpp"
 #include "NetworkManager.hpp"
 #include "Tram/JoinRoom.hpp"
+#include "intWrapper.hpp"
 
 using namespace Network;
 
@@ -79,10 +80,13 @@ int testUDPclientNetworkManagerJoinCreateRoomReply()
 
 int testUDPclientNetworkManagerComponentSync()
 {
-    //    Tram::DestroyEntity my_data{9876544321, 665544};
-    //
-    //    return startClientSendData(my_data);
-    return 84;
+    auto *ptr = new TestComponent(753951);
+    Time time = (Time) 424242;
+    auto type = std::type_index(typeid(TestComponent));
+    const size_t compSize = sizeof(TestComponent);
+    Tram::ComponentSync my_data(43, 42, time, type, compSize, (void *) ptr);
+
+    return startClientSendData(my_data);
 }
 
 int testUDPclientNetworkManagerDestroyEntity()

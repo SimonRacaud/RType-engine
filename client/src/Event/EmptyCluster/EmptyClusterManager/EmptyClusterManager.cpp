@@ -19,7 +19,11 @@ EmptyClusterManager::EmptyClusterManager()
 
 void EmptyClusterManager::doWork(const EmptyCluster *e)
 {
-    GameCore::engine.getEntityManager().remove(e->_cluster);
-    if (e->_func)
-        e->_func();
+    try {
+        GameCore::engine.getEntityManager().remove(e->_cluster);
+        if (e->_func)
+            e->_func();
+    } catch (std::exception const &e) {
+        std::cerr << "EmptyClusterManager::doWork " << e.what() << std::endl;
+    }
 }

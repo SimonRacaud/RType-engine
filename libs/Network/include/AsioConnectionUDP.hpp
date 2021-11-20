@@ -57,7 +57,7 @@ namespace Network
         void disconnectAll() override
         {
             for (const auto &item : AAsioConnection<Data>::_connections) {
-                disconnect(item.first, item.second);
+                disconnect(item.ip, item.port);
             }
         }
 
@@ -97,20 +97,22 @@ namespace Network
 
         void sendAll(const Data &buf) override
         {
+            if (AAsioConnection<Data>::_connections.empty()) {
+                throw std::runtime_error("AsioConnectionUDP::sendAll No connection available.");
+            }
             for (const auto &connection : AAsioConnection<Data>::_connections) {
-                send(buf, connection.first, connection.second);
+                send(buf, connection.ip, connection.port);
             }
         }
 
         void send(const Data &buf, const std::string &ip, const std::size_t port) override
         {
             udp::endpoint remoteEndpoint(asio::ip::make_address(ip), port);
-            asio::const_buffer buffer;
 
             if (buf.length()) {
-                buffer = asio::buffer(buf.serialize(), buf.length());
+                auto buffer = asio::buffer(buf.serialize(), buf.length());
+                _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
             }
-            _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
         }
 
       private:
@@ -139,11 +141,14 @@ namespace Network
             auto senderPort(_senderEndpoint.port());
 
             if (err) {
-                std::cerr << "Asio : " << err.message() << std::endl;
+                std::cerr << "UDP Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
+                    resetReceive();
+                    if (AAsioConnection<Data>::isConnected(senderIp, senderPort)) {
+                        AAsioConnection<Data>::disconnect(senderIp, senderPort);
+                    }
                     return;
                 }
-                resetReceive();
             }
 
             if (!receivedPacketSize && !senderIp.empty() && senderPort) {
@@ -153,18 +158,20 @@ namespace Network
                     AAsioConnection<Data>::connect(senderIp, senderPort);
                 }
                 resetReceive();
+                return;
             }
 
             AAsioConnection<Data>::_recvData.emplace(std::make_pair(senderIp, senderPort),
                 std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
+            resetReceive();
         }
 
         void resetReceive()
         {
-            //            _senderEndpoint.address();
-            //            _senderEndpoint.port(0);
-            memset(AAsioConnection<Data>::_recvBuf.first, 0, AAsioConnection<Data>::_recvBuf.second);
-            asyncReceiveAny();
+            if (AAsioConnection<Data>::_recvBuf.first != nullptr) {
+                memset(AAsioConnection<Data>::_recvBuf.first, 0, AAsioConnection<Data>::_recvBuf.second);
+                asyncReceiveAny();
+            }
         }
 
       private:

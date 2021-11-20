@@ -47,6 +47,7 @@ class NetworkManager {
     bool connect(const std::string &ip, std::size_t port);
 
     template <Pointerable Data> void send(Data &data, const std::string &ip, std::size_t port);
+    template <Pointerable Data> void send(Data &data, const std::string &ip);
     template <Pointerable Data> void sendAll(Data &data);
 
     /**
@@ -82,4 +83,17 @@ template <Pointerable Data> void NetworkManager::sendAll(Data &data)
     _dataWrapper.deserialize(data.serialize(), data.length());
     _connector->sendAll(_dataWrapper);
 }
+
+template <Pointerable Data> void NetworkManager::send(Data &data, const std::string &ip)
+{
+    const ThreadSafety::LockedDeque<Network::InfoConnection> &connections = _connector->getConnections();
+
+    for (const auto &connection : connections) {
+        if (connection.ip == ip) {
+            _dataWrapper.deserialize(data.serialize(), data.length());
+            _connector->send(_dataWrapper, connection.ip, connection.port);
+        }
+    }
+}
+
 #endif // R_TYPE_NETWORKMANAGER_HPP

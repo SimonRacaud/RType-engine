@@ -37,9 +37,11 @@ namespace Network
 
         void registerConnection(std::shared_ptr<tcp::socket> newConnection, const asio::error_code &error)
         {
-            if (error)
-                return; // todo check errors
-            AsioConnectionTCP<Data>::addConnection(newConnection);
+            if (error) {
+                std::cerr << "TCP server Asio : " << error.message() << std::endl;
+            } else {
+                AsioConnectionTCP<Data>::addConnection(newConnection);
+            }
 
             startAccept();
         }

@@ -23,6 +23,7 @@ uint8_t *DestroyEntity::serialize() const
     size_t len = this->length();
     auto *buffer = new uint8_t[len];
 
+    std::memset(buffer, 0, len);
     std::memcpy(buffer, (void *) this, len);
     return buffer;
 }

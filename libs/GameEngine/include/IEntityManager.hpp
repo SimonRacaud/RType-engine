@@ -39,8 +39,10 @@ namespace Engine {
         virtual std::size_t getClusterSize(ClusterName cluster) = 0;
 
         virtual Entity getId(NetworkId id) = 0;
-        virtual void setNetworkId(Entity entity, NetworkId networkId) = 0;
+        virtual void setNetworkId(Entity entity) = 0;
         virtual NetworkId getNetworkId() = 0;
+        virtual void forceApplyId(Entity entity, NetworkId networkId) = 0;
+
 
         /**
          * @brief The network id of an entity. NotfoundException if it doesn't have one

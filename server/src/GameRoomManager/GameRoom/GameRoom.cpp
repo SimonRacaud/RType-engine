@@ -8,7 +8,7 @@
 #include "GameRoom.hpp"
 #include "ServerCore/ServerCore.hpp"
 
-GameRoom::GameRoom(size_t id) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")), _start(std::chrono::system_clock::now())
+GameRoom::GameRoom(size_t id, long int start) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")), _timeStartRun(start), _start(std::chrono::system_clock::now())
 {
 }
 
@@ -43,9 +43,8 @@ void GameRoom::create()
 
 void GameRoom::run()
 {
-    bool loop = true;
-
-    while (loop) {
+    this->waitStart();
+    while (this->_loop) {
         this->runStage();
         this->updateEnemy();
         // TODO SERVER SYNC
@@ -54,8 +53,10 @@ void GameRoom::run()
 
 void GameRoom::destroy()
 {
-    if (this->_thread.joinable())
+    if (this->_thread.joinable()) {
+        this->_loop = false;
         this->_thread.join();
+    }
 }
 
 GameRoom &GameRoom::operator=(const GameRoom &src)
@@ -149,4 +150,10 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
 void GameRoom::destroyEntityEnemy(uint32_t networkId)
 {
     this->_stateMachine.closeEnemyApi(this->_stateMachine.getEnemyApi(networkId));
+}
+
+void GameRoom::waitStart()
+{
+    while (GET_NOW < _timeStartRun);
+    this->_start = std::chrono::system_clock::now();
 }

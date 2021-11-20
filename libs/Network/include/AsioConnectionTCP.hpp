@@ -64,10 +64,10 @@ namespace Network
             std::pair<Data, std::size_t> buf;
 
             for (const auto &connection : AAsioConnection<Data>::_connections) {
-                buf = receive(connection.first, connection.second);
+                buf = receive(connection.ip, connection.port);
 
                 if (buf.second != 0) {
-                    return std::make_tuple(buf.first, buf.second, connection.first, connection.second);
+                    return std::make_tuple(buf.first, buf.second, connection.ip, connection.port);
                 }
                 /**
                  * @brief Write the good amount of data :
@@ -111,6 +111,9 @@ namespace Network
 
         void sendAll(const Data &buf) override
         {
+            if (_socketConnections.empty()) {
+                throw std::runtime_error("AsioConnectionTCP::sendAll No connection available.");
+            }
             for (auto &connection : _socketConnections) {
                 send(buf, connection);
             }
@@ -170,7 +173,7 @@ namespace Network
             std::shared_ptr<tcp::socket> &connection)
         {
             if (err) {
-                std::cerr << "Asio : " << err.message() << std::endl;
+                std::cerr << "TCP Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
                     disconnect(connection);
                     return;

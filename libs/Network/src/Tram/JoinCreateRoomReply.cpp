@@ -24,6 +24,7 @@ uint8_t *JoinCreateRoomReply::serialize() const
     size_t len = sizeof(JoinCreateRoomReply);
     auto *buffer = new uint8_t[len];
 
+    std::memset(buffer, 0, len);
     std::memcpy(buffer, (void *) this, len);
     return buffer;
 }

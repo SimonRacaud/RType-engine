@@ -18,6 +18,6 @@
 /**
  * @brief Time between the creation of the room and the beginning of the game
  */
-#define TIME_ROOM_WAIT (long)10000
+#define TIME_ROOM_WAIT (long)5000
 
 #endif // NETWORK_HPP
