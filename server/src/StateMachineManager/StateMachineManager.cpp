@@ -47,7 +47,7 @@ void StateMachineManager::setMachineNetworkId(const IEnemyApi *ptr, uint32_t net
 	try {
 		StateMachine enemy = *getMachineFromApi(ptr);
 		enemy._networkId = networkId;
-	} catch (Engine::RuntimeException &e) {
+	} catch (Engine::RuntimeException) {
 		std::cerr << "Could not set Network ID for enemy because ptr does not exists" << std::endl;
 	}
 }

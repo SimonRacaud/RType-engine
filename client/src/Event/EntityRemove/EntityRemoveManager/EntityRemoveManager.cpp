@@ -20,5 +20,5 @@ void entityRemove(const EntityRemoveEvent *e)
             GameCore::networkCore.destroyEntity(GET_ENTITY_M.getNetworkId(e->_entity));
             GET_ENTITY_M.remove(e->_entity);
         }
-    } catch (std::exception const &e) {}
+    } catch (std::exception) {}
 }

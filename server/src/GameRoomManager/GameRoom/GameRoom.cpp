@@ -12,7 +12,7 @@ GameRoom::GameRoom(size_t id, long int start) : _id(id), _stage(ServerCore::conf
 {
 }
 
-GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage), _start(src._start)
+GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage), _start(src._start), _timeStartRun(src._timeStartRun)
 {
 }
 
@@ -96,7 +96,7 @@ void GameRoom::factoryStage(const StageStep &step) const
         case EntityType::ENEMY:
         {
             std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
-            ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
+            ServerCore::network->createEntity(_id, "Enemy", netVector2f((float)step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
         }
             break;
         case EntityType::EQUIPMENT:

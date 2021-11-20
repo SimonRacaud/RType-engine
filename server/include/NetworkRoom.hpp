@@ -27,7 +27,7 @@ struct NetworkRoom {
     {}
 
     NetworkRoom(size_t id, InfoConnection const &master)
-        : roomId(id), startTimestamp(GET_NOW + TIME_ROOM_WAIT), masterClient(master)
+        : roomId(id), startTimestamp(Time(GET_NOW + TIME_ROOM_WAIT)), masterClient(master)
     {}
 
     size_t roomId;
