@@ -22,7 +22,7 @@ extern "C" {
 }
 
 PataPata::PataPata()
-	: _position(0, 0), _velocity(10, 10), _health(1)
+	: _position(0, 0), _velocity(-2, 0), _health(1)
 {
 }
 
