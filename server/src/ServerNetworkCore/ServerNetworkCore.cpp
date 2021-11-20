@@ -73,8 +73,8 @@ void ServerNetworkCore::destroyEntity(size_t roomId, NetworkId id)
 void ServerNetworkCore::syncComponent(size_t roomId, NetworkId id,
     std::type_index const &componentType, size_t componentSize, void *component)
 {
-    PUT_DEBUG("[Send] Sync component : roomId=" + to_string(roomId) + ", networkId=" + to_string(id) + ", componentType="
-        + to_string(componentType.hash_code()) + ".");
+    PUT_DEBUG_SYNC("[Send] Sync component : roomId=" + to_string(roomId) + ", networkId=" + to_string(id)
+        + ", componentType=" + to_string(componentType.hash_code()) + ".");
     shared_ptr<NetworkRoom> room = this->_getRoom(roomId);
     long int timestamp = GET_NOW;
     Tram::ComponentSync tram(roomId, id, timestamp, componentType, componentSize, component);
@@ -122,7 +122,7 @@ void ServerNetworkCore::_receiveFromChannel(NetworkManager &net)
         throw std::runtime_error("ServerNetworkCore::_receiveFromChannel invalid magic number");
     }
     InfoConnection info(std::get<0>(client), std::get<1>(client));
-    PUT_DEBUG("Receive packet from IP=" + info.ip + ", PORT=" + to_string(info.port) + ".");
+    PUT_DEBUG_SYNC("Receive packet from IP=" + info.ip + ", PORT=" + to_string(info.port) + ".");
     this->_tramHandler(header, info, buffer);
 }
 
@@ -290,9 +290,9 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
         if (data.entityId == -1) {
             // The request came from the server
             if (data.accept == true ) {
-                if (string(data.entityType) == "Enemy") {
-                    this->_roomManager.createEntityEnemy(data.roomId, data.networkId);
+                if (string(data.entityType) == string("Enemy")) {
                     PUT_DEBUG("[CreateEntityReply] Create entity enemy.");
+                    this->_roomManager.createEntityEnemy(data.roomId, data.networkId);
                 }
                 // Broadcast entity creation to all slave clients
                 Tram::CreateEntityRequest tram(data.roomId, data.networkId, data.entityType, data.timestamp,
@@ -359,7 +359,7 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
 
 void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data)
 {
-    PUT_DEBUG("Receive [SyncComponent] roomId="+to_string(data.roomId)+", networkId="+to_string(data.networkId)
+    PUT_DEBUG_SYNC("Receive [SyncComponent] roomId="+to_string(data.roomId)+", networkId="+to_string(data.networkId)
         +", componentType="+to_string(data.componentType)+", componentSize="+to_string(data.componentSize)+".");
     shared_ptr<NetworkRoom> room = this->_getRoom(data.roomId);
 
