@@ -19,7 +19,11 @@
 #include "Debug.hpp"
 
 ClientNetworkCore::ClientNetworkCore(Engine::IGameEngine &engine)
-try : _engine(engine),
+try :
+    _serverIp(GameCore::config->getVar<std::string>("SERVER_IP")),
+    _serverPortTcp((size_t)GameCore::config->getVar<int>("SERVER_PORT_TCP")),
+    _serverPortUdp((size_t)GameCore::config->getVar<int>("SERVER_PORT_UDP")),
+    _engine(engine),
     _tcpClient(shared_ptr<IConnection>(make_shared<AsioClientTCP>())),
     _udpClient(shared_ptr<IConnection>(make_shared<AsioClientUDP>(CLIENT_UDP_PORT)))
 {
@@ -33,16 +37,13 @@ ClientNetworkCore::~ClientNetworkCore() {}
 
 void ClientNetworkCore::connect()
 {
-    size_t serverPortTcp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_TCP");
-    size_t serverPortUdp = (size_t)GameCore::config->getVar<int>("SERVER_PORT_UDP");
-    std::string serverIp = GameCore::config->getVar<std::string>("SERVER_IP");
     bool loop = false;
     size_t count;
 
     try {
         for (count = 0; !loop && count <= MAX_CONNECT_TRY; count++) {
-            loop = this->_tcpClient.connect(serverIp, serverPortTcp);
-            loop = loop && this->_udpClient.connect(serverIp, serverPortUdp);
+            loop = this->_tcpClient.connect(_serverIp, _serverPortTcp);
+            loop = loop && this->_udpClient.connect(_serverIp, _serverPortUdp);
         }
     } catch (std::exception const &e) {
         std::cerr << "ClientNetworkCore::connect " << e.what() << std::endl;
@@ -153,10 +154,7 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
     PUT_DEBUG("Send [SyncComponent] networkId="+to_string(id)+", componentType="+to_string(componentType.hash_code())
         +", componentName="+to_string(componentType.name()) + ", componentSize="+to_string(componentSize)+".");
     long int timestamp = GET_NOW;
-    if (componentType.hash_code() == Engine::Position::type.hash_code()) {
-        Engine::Position *pos = (Engine::Position *)component;
-        std::cerr << "Position " << pos->x << " " << pos->y << std::endl;
-    }
+
     try {
         Tram::ComponentSync tram(this->_roomId, id, timestamp, componentType, componentSize, component);
         this->_udpClient.sendAll(tram);
@@ -234,8 +232,9 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
         Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
         data.id = networkId;
         GameCore::entityFactory.build(data);
-        Tram::CreateEntityReply tram(data.roomId, true, data.id, networkId, data.ip, data.port,
+        Tram::CreateEntityReply tram(data.roomId, true, networkId, _serverIp, _serverPortTcp,
             data.timestamp, data.entityType, data.position, data.velocity);
+        this->_tcpClient.sendAll(tram);
     } else {
         /// Execute entity creation order
         GameCore::entityFactory.build(data);

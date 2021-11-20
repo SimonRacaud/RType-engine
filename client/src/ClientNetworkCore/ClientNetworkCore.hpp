@@ -88,6 +88,9 @@ class ClientNetworkCore {
     void _checkRoom();
 
   private:
+    std::string _serverIp;
+    size_t _serverPortTcp;
+    size_t _serverPortUdp;
     Engine::IGameEngine &_engine;
     NetworkManager _tcpClient;
     NetworkManager _udpClient;
