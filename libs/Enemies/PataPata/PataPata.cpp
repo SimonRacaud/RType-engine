@@ -28,19 +28,19 @@ PataPata::PataPata()
 
 void PataPata::idle(const IEnemyApi *ptr) 
 {
-	std::cout << "PataPata idle\n";
+	//std::cout << "PataPata idle\n";
 	(void)ptr;
 }
 
 void PataPata::move(const IEnemyApi *ptr) 
 {
-	std::cout << "PataPata move\n";
+	//std::cout << "PataPata move\n";
 	(void)ptr;
 }
 
 void PataPata::attack(const IEnemyApi *ptr) 
 {
-	std::cout << "PataPata attack\n";
+	//std::cout << "PataPata attack\n";
 	(void)ptr;
 }
 
@@ -66,7 +66,7 @@ Component::Health &PataPata::getHealth()
 
 Component::AnimationInfo PataPata::getAnimInfo() const
 {
-	return Component::AnimationInfo("asset/sprites/r-typesheet5.gif", 8, {4, 5}, {25, 27});
+	return Component::AnimationInfo("asset/sprites/r-typesheet5.gif", 8, {0, 0}, {33, 36});
 }
 
 std::pair<float, float> PataPata::getHitboxSize() const

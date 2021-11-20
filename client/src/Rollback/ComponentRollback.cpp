@@ -49,8 +49,9 @@ void ComponentRollback::ApplyAnimationInfo(Engine::Entity id, void *component, l
         if (render._src.empty() == false) {
             auto *enemyRender = reinterpret_cast<AnimationManager *>(render._src[0].get());
 
+            const surface surface(info->_animPos, info->_animSize);
+            enemyRender->setFocus(surface);
             enemyRender->setSrcPath(info->_path);
-            enemyRender->setPosition(info->_animPos);
             enemyRender->setNbMember(info->_nbFrames);
             enemyRender->refresh();
         }
