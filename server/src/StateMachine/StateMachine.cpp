@@ -6,6 +6,7 @@
 */
 
 #include "StateMachine.hpp"
+#include "PhysicController/PhysicController.hpp"
 
 StateMachine::StateMachine(IEnemyApi *enemyApi) 
 	: _currentState(IDLE), _enemyApi(enemyApi)
@@ -18,6 +19,11 @@ StateMachine::~StateMachine()
 
 void StateMachine::run()
 {
+    /// REFRESH POSITION
+    Engine::Position &position = this->_enemyApi->getPosition();
+    Engine::Velocity &velocity = this->_enemyApi->getVelocity();
+    PhysicController::Update(velocity, position, _lastPhysicRefresh);
+
 	switch (_currentState) {
 		case StateMachine::IDLE:
 			_enemyApi->idle(_enemyApi);

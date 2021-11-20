@@ -9,7 +9,7 @@
 #define STATEMACHINE_HPP_
 
 #include "IEnemyApi.hpp"
-
+#include "utils/timeDef.hpp"
 
 class StateMachine {
 	public:
@@ -30,6 +30,7 @@ class StateMachine {
 		IEnemyApi *_enemyApi;
 		uint32_t _networkId{0};
         bool _enable{false};
+        TimePoint _lastPhysicRefresh{};
 };
 
 #endif /* !STATEMACHINE_HPP_ */
