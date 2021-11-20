@@ -32,7 +32,7 @@ extern std::unique_ptr<IEventManager> event;
 StartScene::StartScene(): AbstractScene<StartScene>(ClusterName::START), _audio(GameCore::config->getVar<std::string>("MUSIC_START_SCENE"))
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void StartScene::open()

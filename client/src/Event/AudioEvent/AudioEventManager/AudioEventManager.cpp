@@ -85,16 +85,17 @@ void AudioEventManager::volumeAudio(const AudioEventVolume *e)
 
 void AudioEventManager::initEvent()
 {
+    int default_volume = GameCore::config->getVar<int>("DEFAULT_VOLUME");
     std::vector<std::string> sound(GameCore::config->getVectorOf<std::string>("SOUND_BULLET"));
 
     if (sound.size() != 2)
         throw std::invalid_argument("Need 2 sounds");
     for (auto &it : sound) {
         GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::SOUND, it);
-        GET_EVENT_REG.registerEvent<AudioEventVolume>(it, 100);
+        GET_EVENT_REG.registerEvent<AudioEventVolume>(it, default_volume);
     }
 
     std::string exp = GameCore::config->getVar<std::string>("SOUND_EXPLOSION");
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::SOUND, exp);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(exp, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(exp, default_volume);
 }
