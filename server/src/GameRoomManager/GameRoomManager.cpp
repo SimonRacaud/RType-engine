@@ -30,9 +30,9 @@ void GameRoomManager::deleteRoom(size_t roomId)
     throw std::invalid_argument("Invalid id, no room remove");
 }
 
-void GameRoomManager::createRoom(size_t roomId)
+void GameRoomManager::createRoom(size_t roomId, long int start)
 {
-    this->_rooms.push_back(make_unique<GameRoom>(roomId));
+    this->_rooms.push_back(make_unique<GameRoom>(roomId, start));
     this->_rooms.back()->create();
 }
 
