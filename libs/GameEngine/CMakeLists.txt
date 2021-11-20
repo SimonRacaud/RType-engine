@@ -62,7 +62,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
-    target_compile_options(${NAME} PRIVATE)
+    target_compile_options(${NAME} PRIVATE /W4 /WX)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -fPIC)
 endif ()

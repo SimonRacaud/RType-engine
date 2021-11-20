@@ -25,13 +25,11 @@ include_directories(
 set(SRCS
 		./PataPata.cpp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
-    target_compile_options(${NAME} PRIVATE)
+    target_compile_options(${NAME} PRIVATE /W4 /WX)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -fPIC)
 endif ()

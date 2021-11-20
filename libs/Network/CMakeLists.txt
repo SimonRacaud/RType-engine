@@ -43,7 +43,7 @@ add_library(${NAME} SHARED ${SRCS})
 
 ## COMPILATION FLAGS
 if (MSVC)
-    target_compile_options(${NAME} PRIVATE)
+    target_compile_options(${NAME} PRIVATE /W4 /WX)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()

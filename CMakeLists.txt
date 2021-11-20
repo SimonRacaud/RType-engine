@@ -120,7 +120,7 @@ if(MSVC)
 endif()
 
 if (WIN32)
-    target_compile_options(${NAME_SERVER} PRIVATE)
+    target_compile_options(${NAME_SERVER} PRIVATE /W4 /WX)
 else ()
     target_compile_options(${NAME_SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
 endif ()

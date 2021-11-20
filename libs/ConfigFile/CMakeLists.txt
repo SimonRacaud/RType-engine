@@ -31,7 +31,7 @@ set(SRCS
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
-    target_compile_options(${NAME_CLIENT} PRIVATE)
+    target_compile_options(${NAME_CLIENT} PRIVATE /W4 /WX)
 else ()
     target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
 endif ()

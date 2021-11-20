@@ -53,7 +53,13 @@ template <typename T> class DLLoader {
         LIBTYPE handle = NULL;
         void (*instance)(T *) = nullptr;
 
+        if (ptr == nullptr)
+            return;
         handle = OPENLIB(filePath.c_str());
+        if (handle == NULL) {
+            std::cerr << "Could not open lib from path given" << std::endl;
+            return;
+        }
         *(void **) &instance = LIBFUNC(handle, closePoint.c_str());
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"
