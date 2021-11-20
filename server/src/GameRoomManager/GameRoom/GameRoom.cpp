@@ -93,8 +93,7 @@ void GameRoom::factoryStage(const StageStep &step)
 {
     switch (step._type) {
         case EntityType::ENEMY: {
-            std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
-            ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
+            ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
             this->_enemyRequest.push(EnemyRequest(step._aiPath, step._pos.first, step._pos.second));
             break;
         }
