@@ -95,7 +95,7 @@ void GameRoom::factoryStage(const StageStep &step)
         case EntityType::ENEMY: {
             std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
             ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
-            this->_enemyRequest.push(step._aiPath);
+            this->_enemyRequest.push(EnemyRequest(step._aiPath, step._pos.first, step._pos.second));
             break;
         }
         case EntityType::EQUIPMENT: {
@@ -133,16 +133,16 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
         throw std::invalid_argument("Request enemy queue is empty, we can't create enemy");
 
     // CREATE MACHINE
-    std::string path = this->_enemyRequest.front();
-    IEnemyApi *api = this->_stateMachine.loadEnemyApi(path);
+    const EnemyRequest &request = this->_enemyRequest.front();
+    IEnemyApi *api = this->_stateMachine.loadEnemyApi(request.path, request.position);
 
     this->_enemyRequest.pop();
     this->_stateMachine.setMachineNetworkId(api, networkId);
     
     // SYNC BASIC
     auto basic = this->_stateMachine.retreiveBasicComponents(api);
-    ServerCore::network->syncComponent(_id, networkId, Component::AnimationInfo::type, sizeof(Component::AnimationInfo), &(basic.first));
-    //ServerCore::network->syncComponent(_id, networkId, typeid(std::pair<float, float>), sizeof(std::pair<float, float>), &(basic.second));
+    ServerCore::network->syncComponent(_id, networkId, Component::AnimationInfo::type, sizeof(Component::AnimationInfo),
+        &(basic.first));
 }
 
 void GameRoom::destroyEntityEnemy(uint32_t networkId)

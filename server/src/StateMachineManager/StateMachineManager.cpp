@@ -15,7 +15,7 @@ StateMachineManager::~StateMachineManager()
 {
 }
 
-IEnemyApi *StateMachineManager::loadEnemyApi(const std::string &path)
+IEnemyApi *StateMachineManager::loadEnemyApi(const std::string &path, const vector2D &position)
 {	
 	IEnemyApi *ptr = DLLoader<IEnemyApi>::getEntryPoint(path, "initApi");
 	
@@ -23,6 +23,7 @@ IEnemyApi *StateMachineManager::loadEnemyApi(const std::string &path)
 		throw Engine::RuntimeException("Could not load enemy lib. Make sure it has an entryPoint called initApi");
 	}
 	_loadedEnemies.push_back(StateMachine(ptr));
+    _loadedEnemies.back()._enemyApi->setPosition(position);
 	_apiPaths.push_back(path);
 	return ptr;
 }

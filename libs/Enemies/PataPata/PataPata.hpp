@@ -19,6 +19,7 @@ class PataPata : public IEnemyApi {
 		virtual void move(const IEnemyApi *ptr) override;
 		virtual void attack(const IEnemyApi *ptr) override;
 		virtual Engine::Position &getPosition();
+        virtual void setPosition(vector2D const &position);
 		virtual Engine::Velocity &getVelocity();
 		virtual float getShootingSpeed() const;
 		virtual Component::Health &getHealth();

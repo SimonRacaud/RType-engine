@@ -54,6 +54,12 @@ Engine::Position &PataPata::getPosition()
 	return _position;
 }
 
+void PataPata::setPosition(const vector2D &position)
+{
+    this->_position.x = position.x;
+    this->_position.y = position.y;
+}
+
 Engine::Velocity &PataPata::getVelocity()
 {
 	return _velocity;
