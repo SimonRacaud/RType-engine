@@ -127,9 +127,13 @@ void ClientNetworkCore::destroyEntity(Engine::NetworkId id)
     this->_checkRoom();
     if (this->isMaster()) {
         PUT_DEBUG("Send [DestroyEntity] networkId="+to_string(id)+".");
-        Engine::Entity entityId = this->_engine.getEntityManager().getId(id);
+        try {
+            Engine::Entity entityId = this->_engine.getEntityManager().getId(id);
 
-        this->_engine.getEntityManager().remove(entityId);
+            this->_engine.getEntityManager().remove(entityId);
+        } catch (std::exception const &e) {
+            std::cerr << "ClientNetworkCore::destroyEntity " << e.what() << std::endl;
+        }
         try {
             Tram::DestroyEntity tram(this->_roomId, id);
             this->_tcpClient.sendAll(tram);
