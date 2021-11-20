@@ -45,7 +45,7 @@ GameScene::GameScene()
         _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void GameScene::open()
@@ -89,7 +89,10 @@ void GameScene::createWaitingScreen()
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-        i--;
+        if (i == 0)
+            i = (timeUntilStart / 1000);
+        else
+            i--;
     });
     // SYSTEM SELECT
     // GameCore::engine.getSystemManager().selectSystems<
@@ -108,6 +111,7 @@ void GameScene::createWaitingScreen()
         System::ScrollSystem,
         System::NetworkReceiveSystem,
         System::SyncSendSystem,
+        System::ScoreSystem,
         System::OutofBoundsSystem
         >();
 }
@@ -141,10 +145,13 @@ void GameScene::initGame()
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void GameScene::setTimeStart(::Time timestamp)
 {
+    std::cout << GET_NOW << std::endl;
+    std::cout << timestamp << std::endl;
     this->_timestampStart = timestamp;
 }
 

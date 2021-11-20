@@ -33,7 +33,11 @@ try :
     exit(84); // TODO TUEZ LEEEE !!! WHAHAHAHAH
 }
 
-ClientNetworkCore::~ClientNetworkCore() {}
+ClientNetworkCore::~ClientNetworkCore() {
+    try {
+        this->quitRoom();
+    } catch (...) {}
+}
 
 void ClientNetworkCore::connect()
 {
@@ -151,7 +155,7 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
     size_t componentSize, void *component)
 {
     this->_checkRoom();
-    PUT_DEBUG("Send [SyncComponent] networkId="+to_string(id)+", componentType="+to_string(componentType.hash_code())
+    PUT_DEBUG_SYNC("Send [SyncComponent] networkId="+to_string(id)+", componentType="+to_string(componentType.hash_code())
         +", componentName="+to_string(componentType.name()) + ", componentSize="+to_string(componentSize)+".");
     long int timestamp = GET_NOW;
 
@@ -246,9 +250,8 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
     if ((int)data.roomId != this->_roomId) {
         return; // abort
     }
-    PUT_DEBUG("Receive [SyncComponent] networkdId="+to_string(data.networkId)+", componentType="+
+    PUT_DEBUG_SYNC("Receive [SyncComponent] networkdId="+to_string(data.networkId)+", componentType="+
         to_string(data.componentType)+", componentSize="+to_string(data.componentSize)+".");
-    data.component = reinterpret_cast<uint8_t *>(&data) + sizeof(Tram::ComponentSync);
     ComponentRollback::Apply(data); // Apply component on local engine
 }
 

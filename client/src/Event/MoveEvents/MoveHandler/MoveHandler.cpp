@@ -62,7 +62,7 @@ void notMovingY(const NotMovingY *e)
     try {
         Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
 
-        velocity.y = 0.3f;
+        velocity.y = 1.0f;
     } catch (std::exception const &e) {
         std::cerr << "MoveHandler::notMovingY " << e.what() << std::endl;
     }
@@ -73,7 +73,7 @@ void notMovingX(const NotMovingX *e)
     try {
         Engine::Velocity &velocity = GET_COMP_M.get<Engine::Velocity>(e->_entityId);
 
-        velocity.x = 0.3f;
+        velocity.x = 10.0f;
     } catch (std::exception const &e) {
         std::cerr << "MoveHandler::notMovingX " << e.what() << std::endl;
     }

@@ -8,7 +8,12 @@
 #include "GameRoom.hpp"
 #include "ServerCore/ServerCore.hpp"
 
-GameRoom::GameRoom(size_t id, long int start) : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")), _timeStartRun(start), _start(std::chrono::system_clock::now())
+GameRoom::GameRoom(size_t id, long int start) :
+      _id(id),
+      _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")),
+      _timeStartRun(start),
+      _enemyRefreshFreq((size_t)ServerCore::config->getVar<int>("ENEMY_REFRESH_RATE")),
+      _start(std::chrono::system_clock::now())
 {
 }
 
@@ -26,16 +31,6 @@ size_t GameRoom::getId() const
     return _id;
 }
 
-// TODO IF create don't work try something like this
-// void run2(GameRoom *src) {
-//     src->run();
-// }
-//
-// void GameRoom::create()
-// {
-//     this->_thread = std::thread(run2, this);
-// }
-
 void GameRoom::create()
 {
     this->_thread = std::thread(&GameRoom::run, this);
@@ -46,8 +41,13 @@ void GameRoom::run()
     this->waitStart();
     while (this->_loop) {
         this->runStage();
-        this->updateEnemy();
-        // TODO SERVER SYNC
+
+        TimePoint now = steadyClock::now();
+        if (0 == _enemyLastRefresh.time_since_epoch().count()
+            || (size_t)DURATION_CAST(now - _enemyLastRefresh).count() > _enemyRefreshFreq) {
+            this->updateEnemy();
+            _enemyLastRefresh = now;
+        }
     }
 }
 
@@ -89,22 +89,19 @@ void GameRoom::newStage()
     this->_start = std::chrono::system_clock::now();
 }
 
-void GameRoom::factoryStage(const StageStep &step) const
+void GameRoom::factoryStage(const StageStep &step)
 {
-    switch (step._type)
-    {
-        case EntityType::ENEMY:
-        {
-            std::pair<int, int> velocityEnemy = ServerCore::config->getVar<std::pair<int, int>>("ENEMY_DEFAULT_VELOCITY");
-            ServerCore::network->createEntity(_id, "Enemy", netVector2f((float)step._pos.first, step._pos.second), netVector2f(velocityEnemy.first, velocityEnemy.second));
-        }
+    switch (step._type) {
+        case EntityType::ENEMY: {
+            ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
+            this->_enemyRequest.push(EnemyRequest(step._aiPath, step._pos.first, step._pos.second));
             break;
-        case EntityType::EQUIPMENT:
-        {
+        }
+        case EntityType::EQUIPMENT: {
             std::pair<int, int> velocityEquipment = ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY");
             ServerCore::network->createEntity(_id, "Equipment", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEquipment.first, velocityEquipment.second));
-        }
             break;
+        }
         default:
             throw std::invalid_argument("Invalid EntityType -> None register");
             break;
@@ -123,9 +120,9 @@ void GameRoom::updateEnemy()
     if (listHealth.size() != listVel.size() || listHealth.size() != listPos.size() || listHealth.size() != listId.size())
         throw std::invalid_argument("Invalid state machine value, vector have various size");
     for (size_t it = 0; it < listId.size(); it++) {
-        ServerCore::network->syncComponent(_id, listId[it], typeid(Component::Health), sizeof(Component::Health), &(listHealth[it]));
-        ServerCore::network->syncComponent(_id, listId[it], typeid(Engine::Velocity), sizeof(Engine::Velocity), &(listVel[it]));
-        ServerCore::network->syncComponent(_id, listId[it], typeid(Engine::Position), sizeof(Engine::Position), &(listPos[it]));
+        ServerCore::network->syncComponent(_id, listId[it], Component::Health::type, sizeof(Component::Health), &(listHealth[it]));
+        ServerCore::network->syncComponent(_id, listId[it], Engine::Velocity::type, sizeof(Engine::Velocity), &(listVel[it]));
+        ServerCore::network->syncComponent(_id, listId[it], Engine::Position::type, sizeof(Engine::Position), &(listPos[it]));
     }
 }
 
@@ -135,16 +132,16 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
         throw std::invalid_argument("Request enemy queue is empty, we can't create enemy");
 
     // CREATE MACHINE
-    std::string path = this->_enemyRequest.front();
-    IEnemyApi *api = this->_stateMachine.loadEnemyApi(path);
+    const EnemyRequest &request = this->_enemyRequest.front();
+    IEnemyApi *api = this->_stateMachine.loadEnemyApi(request.path, request.position);
 
     this->_enemyRequest.pop();
     this->_stateMachine.setMachineNetworkId(api, networkId);
     
     // SYNC BASIC
     auto basic = this->_stateMachine.retreiveBasicComponents(api);
-    ServerCore::network->syncComponent(_id, networkId, typeid(Component::AnimationInfo), sizeof(Component::AnimationInfo), &(basic.first));
-    ServerCore::network->syncComponent(_id, networkId, typeid(std::pair<float, float>), sizeof(std::pair<float, float>), &(basic.second));
+    ServerCore::network->syncComponent(_id, networkId, Component::AnimationInfo::type, sizeof(Component::AnimationInfo),
+        &(basic.first));
 }
 
 void GameRoom::destroyEntityEnemy(uint32_t networkId)

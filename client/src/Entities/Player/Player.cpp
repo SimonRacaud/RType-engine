@@ -154,7 +154,7 @@ void Player::configAppearance(Entity entity, vector2D const &position, Engine::C
 
 void Player::configEvent(Entity entity, Engine::ComponentManager &componentManager)
 {
-    const float speed = 10;
+    const float speed = GameCore::config->getVar<float>("PLAYER_SPEED");
     componentManager.add<Engine::InputEvent>(entity, [speed](const Engine::Entity &local) {
         auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
         auto &render = GET_COMP_M.get<Engine::Render>(local);

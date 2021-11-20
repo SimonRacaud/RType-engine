@@ -113,6 +113,7 @@ set(SERVER_SRCS
         server/src/ServerNetworkCore/ServerNetworkCore.cpp
         server/src/GarbageEntity/GarbageEntity.cpp
         server/src/StateMachineManager/StateMachineManager.cpp
+        server/src/PhysicController/PhysicController.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})

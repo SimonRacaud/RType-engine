@@ -103,10 +103,10 @@ void EntityFactory::makeEnemy(Engine::ClusterName clusterName, CreateEntityReque
     const vector2D position(request.position.x, request.position.y);
     const vector2D velocity(request.velocity.x, request.velocity.y);
     const vector2f scale(1, 1);
-    const size_t nbStep = 3;
-    const surface surface(vector2D(33, 18), vector2D(33, 18));
+    const size_t nbStep = 8;
+    const surface surface(vector2D(0, 0), vector2D(33, 36));
 
-    Enemy(clusterName, position, velocity, scale, "asset/sprites/r-typesheet42.gif",
+    Enemy(clusterName, position, velocity, scale, "asset/sprites/r-typesheet5.gif",
         nbStep, surface).setNetworkId(request.id);
 }
 

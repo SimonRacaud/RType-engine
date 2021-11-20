@@ -22,25 +22,25 @@ extern "C" {
 }
 
 PataPata::PataPata()
-	: _position(0, 0), _velocity(10, 10), _health(1)
+	: _position(0, 0), _velocity(-50, 0), _health(1)
 {
 }
 
 void PataPata::idle(const IEnemyApi *ptr) 
 {
-	std::cout << "PataPata idle\n";
+	//std::cout << "PataPata idle\n";
 	(void)ptr;
 }
 
 void PataPata::move(const IEnemyApi *ptr) 
 {
-	std::cout << "PataPata move\n";
+	//std::cout << "PataPata move\n";
 	(void)ptr;
 }
 
 void PataPata::attack(const IEnemyApi *ptr) 
 {
-	std::cout << "PataPata attack\n";
+	//std::cout << "PataPata attack\n";
 	(void)ptr;
 }
 
@@ -52,6 +52,12 @@ float PataPata::getShootingSpeed() const
 Engine::Position &PataPata::getPosition()
 {
 	return _position;
+}
+
+void PataPata::setPosition(const vector2D &position)
+{
+    this->_position.x = position.x;
+    this->_position.y = position.y;
 }
 
 Engine::Velocity &PataPata::getVelocity()
@@ -66,7 +72,7 @@ Component::Health &PataPata::getHealth()
 
 Component::AnimationInfo PataPata::getAnimInfo() const
 {
-	return Component::AnimationInfo("asset/sprites/r-typesheet5.gif", 8, {4, 5}, {25, 27});
+	return Component::AnimationInfo("asset/sprites/r-typesheet5.gif", 8, {0, 0}, {33, 36});
 }
 
 std::pair<float, float> PataPata::getHitboxSize() const

@@ -11,8 +11,8 @@
 #ifndef NETWORKROOM_HPP
 #define NETWORKROOM_HPP
 
-#include <inttypes.h>
-#include <stddef.h>
+#include <cinttypes>
+#include <cstddef>
 #include <vector>
 #include "InfoConnection.hpp"
 #include "Network.hpp"
@@ -23,12 +23,18 @@ using Network::InfoConnection;
 
 struct NetworkRoom {
     NetworkRoom(NetworkRoom const &self)
-    : roomId(self.roomId), startTimestamp(self.startTimestamp), clients(self.clients)
-    {}
+        : roomId(self.roomId), startTimestamp(self.startTimestamp), clients(self.clients)
+    {
+    }
 
     NetworkRoom(size_t id, InfoConnection const &master)
-        : roomId(id), startTimestamp(Time(GET_NOW + TIME_ROOM_WAIT)), masterClient(master)
-    {}
+        : roomId(id), startTimestamp(GET_NOW + TIME_ROOM_WAIT), masterClient(master)
+    {
+    }
+    NetworkRoom(size_t id, InfoConnection const &master, Time startWaitTime)
+        : roomId(id), startTimestamp(GET_NOW + (startWaitTime * 1000)), masterClient(master)
+    {
+    }
 
     size_t roomId;
     Time startTimestamp;
