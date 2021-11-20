@@ -149,7 +149,7 @@ namespace Engine
       private:
         array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE>
             _componentRegisters;
-        size_t _componentTypeCount{0};
+        Index _componentTypeCount{0};
     };
 
     template <typename ComponentType>

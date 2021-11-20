@@ -69,7 +69,7 @@ StageStep GameStage::getStageStep(bool move)
 std::queue<StageStep> GameStage::getStagePrevious(std::size_t nb) const
 {
     std::queue<StageStep> queue;
-    int value = this->_pos - nb;
+    int value = (int)(this->_pos - nb);
 
     if (value < 0)
         value = 0;

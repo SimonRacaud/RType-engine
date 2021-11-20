@@ -39,6 +39,9 @@ set(CLIENT_SRCS
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/System/SyncSendSystem/SyncSendSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
+        client/src/System/PhysicsSystem/PhysicsSystem.cpp
+        client/src/System/TimerSystem/TimerSystem.cpp
+        client/src/System/ColliderSystem/ColliderSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp
@@ -123,6 +126,7 @@ if(MSVC)
 endif()
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME_SERVER} PRIVATE)
 else ()
     target_compile_options(${NAME_SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)
