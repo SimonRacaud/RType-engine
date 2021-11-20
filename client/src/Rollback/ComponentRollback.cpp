@@ -12,12 +12,45 @@
 #include "Component/Render.hpp"
 #include "AnimationManager/AnimationManager.hpp"
 
+static void applyVelocity(Engine::Entity id, void *component, long)
+{
+    auto *shared = reinterpret_cast<Engine::Velocity *>(component);
+    auto &local = GET_COMP_M.get<Engine::Velocity>(id);
+
+    local.x = shared->x;
+    local.y = shared->y;
+}
+
+static void applyScore(Engine::Entity id, void *component, long)
+{
+    auto *shared = reinterpret_cast<Engine::ScoreComponent *>(component);
+    auto &local = GET_COMP_M.get<Engine::ScoreComponent>(id);
+
+    local.value = shared->value;
+}
+
+static void applyEquipment(Engine::Entity id, void *component, long)
+{
+    auto *shared = reinterpret_cast<Engine::EquipmentComponent *>(component);
+    auto &local = GET_COMP_M.get<Engine::EquipmentComponent>(id);
+
+    local.counter = shared->counter;
+}
+
+static void applyHealth(Engine::Entity id, void *component, long)
+{
+    auto *shared = reinterpret_cast<Component::Health *>(component);
+    auto &local = GET_COMP_M.get<Component::Health>(id);
+
+    local._health = shared->_health;
+}
+
 const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *, long int)>> ComponentRollback::hashcodeComponents{
         {Engine::Position::type.hash_code(), ComponentRollback::RollbackPosition},
-        {Engine::Velocity::type.hash_code(), ComponentRollback::ApplyComponent<Engine::Velocity>},
-        {Engine::ScoreComponent::type.hash_code(), ComponentRollback::ApplyComponent<Engine::ScoreComponent>},
-        {Engine::EquipmentComponent::type.hash_code(), ComponentRollback::ApplyComponent<Engine::EquipmentComponent>},
-        {Component::Health::type.hash_code(), ComponentRollback::ApplyComponent<Component::Health>},
+        {Engine::Velocity::type.hash_code(), applyVelocity},
+        {Engine::ScoreComponent::type.hash_code(), applyScore},
+        {Engine::EquipmentComponent::type.hash_code(), applyEquipment},
+        {Component::Health::type.hash_code(), applyHealth},
         {Component::AnimationInfo::type.hash_code(), ComponentRollback::ApplyAnimationInfo}
     };
 

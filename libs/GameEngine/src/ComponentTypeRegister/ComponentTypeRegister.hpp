@@ -77,7 +77,7 @@ namespace Engine
         Signature &_getComponentSignature(Entity entity);
 
       private:
-        std::vector<unique_ptr<ComponentType>> _components;
+        std::vector<ComponentType *> _components;
         std::vector<Entity> _componentOwners;
         std::unordered_map<Entity, size_t> _entityToComponent;
         std::vector<Signature> &_entitySignatures;
@@ -102,7 +102,7 @@ namespace Engine
         try {
             size_t componentIdx = _entityToComponent.at(entity);
 
-            return *(_components[componentIdx].get());
+            return *_components[componentIdx];
         } catch (std::out_of_range const &) {
             throw NotFoundException("ComponentTypeRegister::get Entity not found");
         }
@@ -114,7 +114,7 @@ namespace Engine
     {
         size_t index = static_cast<size_t>(_components.size());
 
-        _components.push_back(std::make_unique<ComponentType>(std::forward<Args>(args)...));
+        _components.push_back(new ComponentType(std::forward<Args>(args)...));
         _componentOwners.push_back(entity);
         _entityToComponent[entity] = index;
         this->_getComponentSignature(entity)[ComponentType::getIndex()] = true;
@@ -131,9 +131,8 @@ namespace Engine
         signature[ComponentType::getIndex()] = false;
         Index index = (Index)_entityToComponent[entity];
         // update _components slot
-        if (_components.size() > 1) {
-            _components[index] = std::move(_components.back());
-        }
+        delete _components[index];
+        _components[index] = _components.back();
         _components.pop_back();
         // update _entityToComponent
         _entityToComponent[_componentOwners.back()] = index;
@@ -150,13 +149,13 @@ namespace Engine
     {
         /// Search instance
         auto it = std::find_if(_components.begin(), _components.end(),
-            [component](unique_ptr<ComponentType> &ptr) {return ptr.get() == &component;});
+            [component](ComponentType *ptr) {return ptr == &component;});
 
         if (it == _components.end()) {
             throw NotFoundException("Component instance not found");
         }
         /// Compute the diff between the beginning of the container and the ptr
-        auto beginPtr = _components.data();
+        ComponentType *beginPtr = _components;
         auto index = static_cast<std::size_t>((*it) - beginPtr);
 
         return _componentOwners[index];
