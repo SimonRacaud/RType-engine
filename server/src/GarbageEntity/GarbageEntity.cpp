@@ -18,8 +18,11 @@ GarbageEntity::~GarbageEntity()
 
 void GarbageEntity::processing(const Tram::ComponentSync &tram, IServerNetworkCore &networkCore)
 {
-    if (this->isOutOfRange(*(static_cast<Engine::Position *>(tram.component)))) {
-        PUT_DEBUG("GarbageEntity::processing Destroy entity roomId="+to_string(tram.roomId)+", networkId=" + to_string(tram.networkId));
+    Engine::Position *position = reinterpret_cast<Engine::Position *>(tram.component);
+
+    if (this->isOutOfRange(*position)) {
+        PUT_DEBUG("GarbageEntity::processing Destroy entity roomId="+to_string(tram.roomId)+", networkId="
+            + to_string(tram.networkId));
         networkCore.destroyEntity(tram.roomId, tram.networkId);
     }
 }

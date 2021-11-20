@@ -153,6 +153,10 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
     PUT_DEBUG("Send [SyncComponent] networkId="+to_string(id)+", componentType="+to_string(componentType.hash_code())
         +", componentName="+to_string(componentType.name()) + ", componentSize="+to_string(componentSize)+".");
     long int timestamp = GET_NOW;
+    if (componentType.hash_code() == Engine::Position::type.hash_code()) {
+        Engine::Position *pos = (Engine::Position *)component;
+        std::cerr << "Position " << pos->x << " " << pos->y << std::endl;
+    }
     try {
         Tram::ComponentSync tram(this->_roomId, id, timestamp, componentType, componentSize, component);
         this->_udpClient.sendAll(tram);

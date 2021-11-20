@@ -87,6 +87,10 @@ void ServerNetworkCore::syncComponent(size_t roomId, NetworkId id,
             this->_removeClient(roomId, client.ip);
         }
     }
+    // intercept Position component here (remove if out of bound)
+    if (componentType.hash_code() == Engine::Position::type.hash_code()) {
+        this->_garbageEntity.processing(tram, *this);
+    }
 }
 
 void ServerNetworkCore::receiveLoop()
