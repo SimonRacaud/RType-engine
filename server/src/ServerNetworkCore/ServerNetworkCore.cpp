@@ -199,7 +199,7 @@ void ServerNetworkCore::receiveCreateRoom(InfoConnection &info)
         this->_roomFreeIds.pop_back();
         this->_rooms.push_back(std::make_shared<NetworkRoom>(roomId, info));
         // CREATE ROOM
-        this->_roomManager.createRoom(roomId);
+        this->_roomManager.createRoom(roomId, this->_rooms.back()->startTimestamp);
         // END
         Tram::JoinRoom data(roomId);
         this->receiveJoinRoom(info, data);
