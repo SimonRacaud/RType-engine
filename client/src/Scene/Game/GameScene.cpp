@@ -41,7 +41,7 @@ using namespace std;
 GameScene::GameScene()
     : Engine::AbstractScene<GameScene>(ClusterName::GAME),
         _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE")),
-        _timestampStart(GameCore::config->getVar<std::string>("CLIENT_WAIT_LABEL")),
+        _timestampStart(0),
         _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
@@ -56,7 +56,7 @@ void GameScene::open()
 void GameScene::createWaitingScreen()
 {
     vector2D win = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
-    const std::string waitText = _timestampStart;
+    const std::string waitText = GameCore::config->getVar<std::string>("CLIENT_WAIT_LABEL");
     const std::string backgroundPath = GameCore::config->getVar<std::string>("CLIENT_WAIT_BACKGROUND");
 
     // ENTITY CREATE
