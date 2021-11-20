@@ -176,8 +176,8 @@ set(SH_LAUNCH_SEVERAL_BIN ${CMAKE_HOME_DIRECTORY}/infiniteCommands.sh)
 set(SH_ADD_CMD -c)
 
 ##### TEST THAT TESTS WORK
-add_test(TestTheTest bin/client 0)
-set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
+#add_test(TestTheTest bin/client 0)
+#set_tests_properties(TestTheTest PROPERTIES WILL_FAIL FALSE)
 
 
 ## REAL TESTS
