@@ -45,7 +45,7 @@ GameScene::GameScene()
         _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void GameScene::open()
@@ -144,6 +144,7 @@ void GameScene::initGame()
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void GameScene::setTimeStart(::Time timestamp)

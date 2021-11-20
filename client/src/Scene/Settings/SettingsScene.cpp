@@ -30,7 +30,7 @@ SettingsScene::SettingsScene()
     : Engine::AbstractScene<SettingsScene>(ClusterName::SETTINGS), _audio(GameCore::config->getVar<std::string>("MUSIC_SETTINGS_SCENE"))
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void SettingsScene::open()
