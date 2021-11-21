@@ -65,10 +65,11 @@ void EntityFactory::createBullet(const vector2D &position, const vector2D &veloc
 
 void EntityFactory::createPlayer(const vector2D &position, const vector2D &velocity, int playerNumber)
 {
-    Player player(_clusterName, playerNumber, position, velocity, true);
+    vector2D realPosition(position.x, position.y + (playerNumber * 80));
+    Player player(_clusterName, playerNumber, realPosition, velocity, true);
     Engine::Entity entity = player.getId();
     const std::string playerType = "Player" + std::to_string(playerNumber);
-    const netVector2f pos(position.x, position.y + (playerNumber * 80));
+    const netVector2f pos(realPosition.x, realPosition.y);
     const netVector2f veloc(velocity.x, velocity.y);
 
     if (GameCore::networkCore.isMaster()) {
