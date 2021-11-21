@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "DataWrapper.hpp"
 #include "NetworkManager.hpp"
 #include "Tram/JoinRoom.hpp"
@@ -50,7 +50,6 @@ int testTCPserverNetworkManagerJoinRoom()
 
 int testTCPserverNetworkManagerGetRoomList()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     Tram::GetRoomList my_data{startServerGetData()};
 
     if (my_data.nbItem == 2 && my_data.list[0] == 222 && my_data.list[1] == 444) {

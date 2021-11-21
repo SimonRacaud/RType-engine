@@ -1,8 +1,8 @@
 ##
 ## PERSONAL PROJECT, 2021
-## Babel Project
+## R-Type Project
 ## File description:
-## Babel CMake
+## R-Type CMake
 ##
 
 cmake_minimum_required(VERSION 3.17)

@@ -4,8 +4,8 @@
 ** File description:
 ** Network UDP implementation with Asio lib, according to IConnection interface
 */
-#ifndef BABEL_ASIOCONNECTIONUDP_HPP
-#define BABEL_ASIOCONNECTIONUDP_HPP
+#ifndef ASIOCONNECTIONUDP_HPP
+#define ASIOCONNECTIONUDP_HPP
 
 #include <algorithm>
 #include <iostream>
@@ -181,4 +181,4 @@ namespace Network
 
 } // namespace Network
 
-#endif // BABEL_ASIOCONNECTIONUDP_HPP
+#endif // ASIOCONNECTIONUDP_HPP

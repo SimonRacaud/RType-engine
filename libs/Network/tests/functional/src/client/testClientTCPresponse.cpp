@@ -5,7 +5,7 @@
 ** TODO: add description
 */
 
-#include "AsioClientTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "INetwork.hpp"
 #include "NetworkManager.hpp"
 
@@ -25,8 +25,6 @@ static NetworkManager startClient()
 
 int testTCPresponseCreateEntity()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-
     Tram::CreateEntityRequest my_data(123, 456, "type", 789, netVector2f(123, 456), netVector2f(78, 90));
     NetworkManager clientManager(startClient());
     bool connected(false);
@@ -43,7 +41,6 @@ int testTCPresponseCreateEntity()
     std::tuple<uint8_t *, std::pair<std::string, std::size_t>> serverData(nullptr, {"", 0});
     while (!std::get<0>(serverData)) {
         serverData = clientManager.receive();
-        //        std::cout << "hello in client loop" << std::endl;
     }
 
     Tram::CreateEntityReply serverTram(std::get<0>(serverData));

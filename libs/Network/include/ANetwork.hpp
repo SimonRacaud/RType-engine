@@ -4,8 +4,8 @@
 ** File description:
 ** Network Abstract class
 */
-#ifndef BABEL_ANETWORK_HPP
-#define BABEL_ANETWORK_HPP
+#ifndef ANETWORK_HPP
+#define ANETWORK_HPP
 
 #include <functional>
 #include <iostream>
@@ -192,4 +192,4 @@ namespace Network
     };
 } // namespace Network
 
-#endif // BABEL_ANETWORK_HPP
+#endif // ANETWORK_HPP

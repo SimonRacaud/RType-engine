@@ -11,8 +11,8 @@
 #ifndef SERVERNETWORKCORE_HPP
 #define SERVERNETWORKCORE_HPP
 
+#include "AsioConnectionTCP.hpp"
 #include "AsioConnectionUDP.hpp"
-#include "AsioServerTCP.hpp"
 #include "InfoConnection.hpp"
 #include "Network.hpp"
 #include "NetworkManager.hpp"

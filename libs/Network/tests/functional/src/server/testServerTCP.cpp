@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "intWrapper.hpp"
 #include "serverTest.hpp"
 #include <unordered_map>

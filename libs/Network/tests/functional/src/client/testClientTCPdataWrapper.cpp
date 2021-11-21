@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioClientTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
 #include "intWrapper.hpp"

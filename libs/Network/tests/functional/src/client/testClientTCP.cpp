@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioClientTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "clientTest.hpp"
 #include "intWrapper.hpp"
 
@@ -33,6 +33,7 @@ int testTCPclientConnectSendDisconnect()
     client.send(myData, ipServer, portServer);
     usleep(300000); // wait for the server to receive
 
-    client.disconnect(ipServer, portServer);
+    if (client.isConnected(ipServer, portServer))
+        client.disconnect(ipServer, portServer);
     return 0;
 }

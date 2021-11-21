@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
 
@@ -23,7 +23,6 @@ static std::shared_ptr<IConnection<DataWrapper>> startServer()
 
 int testTCPserverDisconnection()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     auto network(startServer());
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> dataReceived;
     std::string ipClient;

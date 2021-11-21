@@ -5,7 +5,7 @@
 ** TODO: add description
 */
 
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "INetwork.hpp"
 #include "NetworkManager.hpp"
 
@@ -39,7 +39,6 @@ static std::pair<uint8_t *, std::string> receiveData(NetworkManager &serverManag
 
 int testTCPresponseCreateEntity()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     auto serverManager(startServer());
     std::pair<uint8_t *, std::string> my_data(receiveData(serverManager));
     Tram::CreateEntityRequest clientRequest(my_data.first);

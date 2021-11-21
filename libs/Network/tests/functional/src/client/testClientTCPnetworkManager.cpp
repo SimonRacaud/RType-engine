@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioClientTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "NetworkManager.hpp"
 #include "Tram/JoinRoom.hpp"
 #include "intWrapper.hpp"
@@ -47,7 +47,6 @@ int testTCPclientNetworkManagerJoinRoom()
 
 int testTCPclientNetworkManagerGetRoomList()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     std::vector<std::size_t> listOfRooms;
     listOfRooms.emplace_back(222);
     listOfRooms.emplace_back(444);

@@ -5,8 +5,8 @@
 ** Network TCP implementation with Asio lib, according to IConnection interface
 */
 
-#ifndef BABEL_ASIOCONNECTIONTCP_HPP
-#define BABEL_ASIOCONNECTIONTCP_HPP
+#ifndef ASIOCONNECTIONTCP_HPP
+#define ASIOCONNECTIONTCP_HPP
 
 #include <functional>
 #include <iostream>
@@ -196,7 +196,6 @@ namespace Network
             if (!connection)
                 return;
 
-            std::cout << __PRETTY_FUNCTION__ << std::endl;
             connection->async_receive(
                 asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
                 std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
@@ -206,7 +205,6 @@ namespace Network
         void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize,
             std::shared_ptr<tcp::socket> &connection)
         {
-            std::cout << __PRETTY_FUNCTION__ << std::endl;
             if (err) {
                 std::cerr << "TCP Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
@@ -263,9 +261,6 @@ namespace Network
             if (!newConnection)
                 return;
 
-            std::cout << __PRETTY_FUNCTION__ << std::endl;
-            std::cout << newConnection->remote_endpoint().address().to_string() << " "
-                      << newConnection->remote_endpoint().port() << std::endl;
             AAsioConnection<Data>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
             _socketConnections.emplace_back(newConnection);
@@ -333,4 +328,4 @@ namespace Network
 
 } // namespace Network
 
-#endif // BABEL_ASIOCONNECTIONTCP_HPP
+#endif // ASIOCONNECTIONTCP_HPP
