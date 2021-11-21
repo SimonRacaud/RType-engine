@@ -21,6 +21,7 @@ NetworkEventManager::NetworkEventManager()
 
 void NetworkEventManager::refreshRoomList(const RoomListEventRefresh *)
 {
+    GameCore::engine.getEntityManager().remove(Engine::ClusterName::ROOM_LIST_ITEMS);
     GameCore::networkCore.getRoomList();
 }
 

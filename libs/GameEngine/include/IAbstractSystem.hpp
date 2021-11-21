@@ -14,13 +14,14 @@
 #include "SystemPriority.hpp"
 #include "global.hpp"
 
-namespace Engine {
+namespace Engine
+{
     class IAbstractSystem {
       public:
         virtual ~IAbstractSystem() = default;
 
-        virtual SystemPriority getPriority() const = 0;
-        virtual TypeIdx getType() const = 0;
+        [[nodiscard]] virtual SystemPriority getPriority() const = 0;
+        [[nodiscard]] virtual TypeIdx getType() const = 0;
 
         /**
          * \brief Execute the logic of the class
@@ -41,9 +42,9 @@ namespace Engine {
         virtual void onEntityRemoved(Entity entity) = 0;
 
       protected:
-        virtual const std::vector<Entity> &getManagedEntities() const = 0;
+        [[nodiscard]] virtual const std::vector<Entity> &getManagedEntities() const = 0;
     };
 
-}
+} // namespace Engine
 
 #endif // IABSTRACTSYSTEL_HPP

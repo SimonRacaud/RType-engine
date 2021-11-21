@@ -11,20 +11,23 @@
 #ifndef CLIENTNETWORKCORE_HPP
 #define CLIENTNETWORKCORE_HPP
 
+#include "CustomCluster.hpp"
+
+#include "AsioConnectionTCP.hpp"
+#include "AsioConnectionUDP.hpp"
+#include "EngineCore.hpp"
+#include "EntityFactory/EntityFactory.hpp"
 #include "InfoConnection.hpp"
 #include "NetworkManager.hpp"
-#include "AsioClientTCP.hpp"
-#include "AsioConnectionUDP.hpp"
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
 #include "Tram/CreateEntityRequest.hpp"
 #include "Tram/DestroyEntity.hpp"
 #include "Tram/GetRoomList.hpp"
 #include "Tram/JoinCreateRoomReply.hpp"
+#include "Tram/EndGame.hpp"
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
-#include "EntityFactory/EntityFactory.hpp"
-#include "EngineCore.hpp"
 #include "utils/netVector2f.hpp"
 
 #include "Network.hpp"
@@ -34,12 +37,12 @@
 using Network::InfoConnection;
 using Network::netVector2f;
 using IConnection = Network::IConnection<DataWrapper>;
-using AsioClientTCP = Network::AsioClientTCP<DataWrapper>;
+using AsioClientTCP = Network::AsioConnectionTCP<DataWrapper>;
 using AsioClientUDP = Network::AsioConnectionUDP<DataWrapper>;
 
-using std::to_string;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::to_string;
 
 #define MAX_CONNECT_TRY 5
 
@@ -54,12 +57,11 @@ class ClientNetworkCore {
     void createRoom();
     void joinRoom(size_t id);
     void quitRoom();
-    void createEntity(Engine::Entity entity, std::string type, netVector2f const &position,
-        netVector2f const& velocity);
+    void createEntity(
+        Engine::Entity entity, std::string type, netVector2f const &position, netVector2f const &velocity);
     void destroyEntity(Engine::NetworkId id);
     void syncComponent(Engine::NetworkId id, std::type_index const &componentType, size_t componentSize,
         void *component);
-
     /**
      * @brief Stop receive loop
      */
@@ -77,8 +79,8 @@ class ClientNetworkCore {
     void receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
+    void receiveEndGame(InfoConnection &, Tram::EndGame &data);
     void receiveQuitRoom(InfoConnection &);
-
   private:
     void _receiveTcp();
     void _receiveUdp();

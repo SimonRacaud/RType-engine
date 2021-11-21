@@ -16,10 +16,11 @@
 namespace Engine {
     struct ScoreComponent : public BaseComponent<ScoreComponent> {
       public:
-        ScoreComponent() = default;
+        ScoreComponent(const size_t &playerNum) : playerNumber(playerNum) {};
         virtual ~ScoreComponent() = default;
 
         size_t value{0};
+        size_t playerNumber{0};
     };
 }
 

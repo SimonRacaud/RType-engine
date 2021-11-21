@@ -15,8 +15,7 @@
 #include <memory>
 #include <functional>
 
-namespace Engine {
-	namespace Event {
+namespace Engine::Event {
 		class EventCallbackRegister {
 			public:
 				EventCallbackRegister() = default;
@@ -26,7 +25,7 @@ namespace Engine {
 				{
 					std::shared_ptr<IEvent> e;
 
-					while (_queue.size() > 0) {
+					while (!_queue.empty()) {
 						e = _queue.front();
 						std::unordered_map<std::type_index, std::shared_ptr<IEventCallback>>::iterator it = _registeredCallbacks.find(std::type_index(typeid(*e)));
 						if (it != _registeredCallbacks.end() && it->second != nullptr) {
@@ -51,7 +50,7 @@ namespace Engine {
 				}
 
 				template<class EventType>
-				void removeCallback(std::shared_ptr<IEventCallback> callback) {
+				void removeCallback(std::shared_ptr<IEventCallback> &) {
 					// implement operator == for callbacks
 					// std::shared_ptr<IEventCallback> func = _registeredCallbacks[std::type_index(typeid(EventType))];
 
@@ -86,6 +85,5 @@ namespace Engine {
 				std::queue<std::shared_ptr<IEvent>> _queue;
 		};
 	}
-}
 
 #endif /* !EVENTCALLBACKREGISTER_HPP_ */

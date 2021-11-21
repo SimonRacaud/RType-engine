@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "DataWrapper.hpp"
 #include "NetworkManager.hpp"
 #include "Tram/JoinRoom.hpp"
@@ -19,7 +19,7 @@ static uint8_t *startServerGetData()
 {
     const std::size_t portServer(8080);
     std::tuple<uint8_t *, std::pair<std::string, std::size_t>> recvData;
-    std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioServerTCP<DataWrapper>>(portServer));
+    std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer));
     NetworkManager serverManager(server);
 
     while (true) {
@@ -50,7 +50,6 @@ int testTCPserverNetworkManagerJoinRoom()
 
 int testTCPserverNetworkManagerGetRoomList()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     Tram::GetRoomList my_data{startServerGetData()};
 
     if (my_data.nbItem == 2 && my_data.list[0] == 222 && my_data.list[1] == 444) {

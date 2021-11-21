@@ -271,7 +271,7 @@ namespace Engine
         ComponentBrowseFunction<ComponentType> fn)
     {
         this->_checkType<ComponentType>();
-        vector<unique_ptr<ComponentType>> &components =
+        vector<ComponentType *> &components =
             this->getComponentContainer<ComponentType>()->getComponents();
 
         std::for_each(components.begin(), components.end(), fn);

@@ -43,7 +43,7 @@ Equipment::Equipment(ClusterName cluster, const vector2D &position)
 
     componentManager.add<Component::EntityMask>(entity, Component::MASK::EQUIPMENT);
     componentManager.add<Engine::Position>(entity, position.x, position.y);
-    componentManager.add<Engine::Velocity>(entity, -1, 0);
+    componentManager.add<Engine::Velocity>(entity, -50, 0);
     componentManager.add<Engine::Render>(entity, anim);
     componentManager.add<Engine::Hitbox>(entity, size.x, size.y, hit);
 

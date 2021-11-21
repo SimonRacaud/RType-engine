@@ -11,12 +11,12 @@
 
 using namespace Engine;
 
-SceneManager::~SceneManager()
+SceneManager::~SceneManager() noexcept
 {
     if (this->_currentScene != nullptr) {
         this->_currentScene->close();
     }
-    while (_previousScenes.empty() == false) {
+    while (!_previousScenes.empty()) {
         shared_ptr<IScene> &scene = _previousScenes.top();
         if (!scene->isClosed()) {
             scene->close();
@@ -78,7 +78,7 @@ shared_ptr<IScene> SceneManager::getCurrent()
 
 vector<shared_ptr<IScene>>::iterator SceneManager::getSceneItFromType(const TypeIdx &type)
 {
-    auto it = std::find_if(_scenes.begin(), _scenes.end(), [&](shared_ptr<IScene> scene) {
+    auto it = std::find_if(_scenes.begin(), _scenes.end(), [&](const shared_ptr<IScene> &scene) {
         return scene->getType().hash_code() == type.hash_code();
     });
     return it;

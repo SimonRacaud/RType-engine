@@ -30,7 +30,7 @@ namespace Engine
         friend class ComponentManager;
 
         explicit EntityManager();
-        virtual ~EntityManager();
+        virtual ~EntityManager() noexcept;
 
         /**
          * @brief Create a new entity
@@ -120,7 +120,7 @@ namespace Engine
 
         /**
          * @brief The network id of an entity. NotfoundException if it doesn't have one
-         * @param entity 
+         * @param entity
          * @return
          */
         NetworkId getNetworkId(Entity entity);

@@ -13,22 +13,20 @@
 #include "GameRoomManager/GameRoomManager.hpp"
 #include "ServerNetworkCore/ServerNetworkCore.hpp"
 
-class ServerCore
-{
-    public:
-        ServerCore();
-        ServerCore(const ServerCore &) = delete;
-        ~ServerCore();
+class ServerCore {
+  public:
+    ServerCore();
+    ServerCore(const ServerCore &) = delete;
+    ~ServerCore() = default;
 
-        void run(void);
+    void run();
 
-    private:
-        bool _loop;
-        GameRoomManager _rooms;
+  private:
+    GameRoomManager _rooms;
 
-    public:
-        static std::unique_ptr<ConfigFile> config;
-        static std::unique_ptr<IServerNetworkCore> network;
+  public:
+    static std::unique_ptr<ConfigFile> config;
+    static std::unique_ptr<IServerNetworkCore> network;
 };
 
 #endif

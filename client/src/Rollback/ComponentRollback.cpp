@@ -5,6 +5,7 @@
 ** Apply component received from the network to the local game engine
 */
 
+#include "GameCore/GameCore.hpp"
 #include "ComponentRollback.hpp"
 
 #include "Components/Health.hpp"
@@ -93,11 +94,17 @@ void ComponentRollback::ApplyAnimationInfo(Engine::Entity id, void *component, l
 
 void ComponentRollback::RollbackPosition(Engine::Entity id, void *component, long int timestamp)
 {
+    static vector2D winsize = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
     auto &oldComponent = GET_COMP_M.get<Engine::Position>(id);
     const auto &velocity = GET_COMP_M.get<Engine::Velocity>(id);
     const Engine::Position *newComponent = reinterpret_cast<Engine::Position *>(component);
     float deltaTime = (GET_NOW - timestamp) / 1000;
+    float x = newComponent->x + (velocity.x * deltaTime);
+    float y = newComponent->y + (velocity.y * deltaTime);
+    bool update = x < 0 || y < 0 || x > winsize.x || y > winsize.y;
 
-    oldComponent.x = newComponent->x + (velocity.x * deltaTime);
-    oldComponent.y = newComponent->y + (velocity.y * deltaTime);
+    if (!update) {
+        oldComponent.x = x;
+        oldComponent.y = y;
+    }
 }

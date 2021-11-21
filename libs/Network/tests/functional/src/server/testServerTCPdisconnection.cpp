@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioServerTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
 
@@ -16,14 +16,13 @@ static const std::size_t portServer(8080);
 
 static std::shared_ptr<IConnection<DataWrapper>> startServer()
 {
-    auto network(std::make_shared<AsioServerTCP<DataWrapper>>(portServer));
+    auto network(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer));
 
     return (network);
 }
 
 int testTCPserverDisconnection()
 {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     auto network(startServer());
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> dataReceived;
     std::string ipClient;

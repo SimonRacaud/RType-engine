@@ -25,9 +25,9 @@ namespace Engine
         virtual void close();
         virtual void open() = 0;
 
-        ClusterName getCluster() const;
-        TypeIdx getType() const;
-        bool isClosed() const;
+        [[nodiscard]] ClusterName getCluster() const;
+        [[nodiscard]] TypeIdx getType() const;
+        [[nodiscard]] bool isClosed() const;
 
         static const TypeIdx type;
 

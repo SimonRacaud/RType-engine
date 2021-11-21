@@ -1,8 +1,8 @@
 ##
 ## PERSONAL PROJECT, 2021
-## Babel Project
+## R-Type Project
 ## File description:
-## Babel CMake
+## R-Type CMake
 ##
 
 cmake_minimum_required(VERSION 3.17)
@@ -29,6 +29,7 @@ set(SRCS
     src/Tram/CreateEntityRequest.cpp
     src/Tram/DestroyEntity.cpp
     src/Tram/GetRoomList.cpp
+    src/Tram/EndGame.cpp
     src/Tram/Serializable.cpp
     src/Tram/JoinCreateRoomReply.cpp
     src/Tram/JoinRoom.cpp

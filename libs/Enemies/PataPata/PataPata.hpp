@@ -11,25 +11,25 @@
 #include "IEnemyApi.hpp"
 
 class PataPata : public IEnemyApi {
-	public:
-		PataPata();
-		virtual ~PataPata() = default;
+  public:
+    PataPata();
+    virtual ~PataPata() = default;
 
-		virtual void idle(const IEnemyApi *ptr) override;
-		virtual void move(const IEnemyApi *ptr) override;
-		virtual void attack(const IEnemyApi *ptr) override;
-		virtual Engine::Position &getPosition();
-        virtual void setPosition(vector2D const &position);
-		virtual Engine::Velocity &getVelocity();
-		virtual float getShootingSpeed() const;
-		virtual Component::Health &getHealth();
-		virtual Component::AnimationInfo getAnimInfo() const;
-		virtual std::pair<float, float> getHitboxSize() const;
+    void idle(const IEnemyApi *ptr) override;
+    void move(const IEnemyApi *ptr) override;
+    void attack(const IEnemyApi *ptr) override;
+    [[nodiscard]] Engine::Position &getPosition() override;
+    void setPosition(vector2D const &position) override;
+    Engine::Velocity &getVelocity() override;
+    [[nodiscard]] float getShootingSpeed() const override;
+    Component::Health &getHealth() override;
+    [[nodiscard]] Component::AnimationInfo getAnimInfo() const override;
+    [[nodiscard]] std::pair<float, float> getHitboxSize() const override;
 
-		private:
-			Engine::Position _position;
-			Engine::Velocity _velocity;
-			Component::Health _health;
+  private:
+    Engine::Position _position;
+    Engine::Velocity _velocity;
+    Component::Health _health;
 };
 
 #endif /* !PATAPATA_HPP_ */

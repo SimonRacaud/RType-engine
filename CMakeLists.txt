@@ -51,7 +51,7 @@ set(CLIENT_SRCS
         client/src/Event/ExplosionEvents/ExplosionEventsManager/ExplosionEventsManager.cpp
         client/src/Event/EntityRemove/EntityRemoveManager/EntityRemoveManager.cpp
         client/src/Event/EntityHit/EntityHitManager/EntityHitManager.cpp
-
+        client/src/Event/AddScore/AddScoreEventManager/AddScoreEventManager.cpp
         client/src/Scene/Debug/DebugScene.cpp
         client/src/GameCore/GameCore.cpp
         client/src/EntityFactory/EntityFactory.cpp
@@ -79,6 +79,7 @@ set(CLIENT_SRCS
         client/src/System/NetworkReceive/NetworkReceiveSystem.cpp
         client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp
         client/src/Rollback/ComponentRollback.cpp
+        client/src/Scene/EndGame/EndGameScene.cpp
         client/src/System/ScoreSystem/ScoreSystem.cpp
         )
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
@@ -176,3 +177,7 @@ set(EnemyDir ${PROJECT_SOURCE_DIR}/libs/Enemies)
 add_subdirectory(${EnemyDir}/PataPata)
 include_directories(${EnemyDir}/PataPata)
 target_link_libraries(${NAME_SERVER} PataPata)
+## Cancer Lib
+add_subdirectory(${EnemyDir}/Cancer)
+include_directories(${EnemyDir}/Cancer)
+target_link_libraries(${NAME_SERVER} Cancer)

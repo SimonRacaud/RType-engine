@@ -93,6 +93,22 @@ void ServerNetworkCore::syncComponent(
     }
 }
 
+void ServerNetworkCore::endGame(size_t roomId)
+{
+    PUT_DEBUG("[Send] EndGame : roomId=" + to_string(roomId));
+    shared_ptr<NetworkRoom> room = _getRoom(roomId);
+    Tram::EndGame tram(roomId, true);
+
+    for (Network::InfoConnection const &client : room->clients) {
+        try {
+            this->_udpServer.send(tram, client.ip, _portUdpClient);
+        } catch (Network::invalidConnection const &) {
+            std::cerr << "Unexpected client disconnection" << std::endl;
+            this->_removeClient(roomId, client.ip);
+        }
+    }
+}
+
 void ServerNetworkCore::receiveLoop()
 {
     while (_loop) {
@@ -294,18 +310,22 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
                     this->_roomManager.createEntityEnemy(data.roomId, data.networkId);
                 }
                 // Broadcast entity creation to all slave clients
+                PUT_DEBUG("[CreateEntityReply] Broadcast entity create to slave clients.");
                 Tram::CreateEntityRequest tram(
                     data.roomId, data.networkId, data.entityType, data.timestamp, data.position, data.velocity);
                 for (InfoConnection const &client : room->clients) {
                     if (!(client == info)) { // not master client
-                        this->_tcpServer.send(data, client.ip);
+                        PUT_DEBUG("[CreateEntityReply] send to " + client.ip);
+                        this->_tcpServer.send(tram, client.ip);
                     }
                 }
             }
         } else {
             // The request came from a slave client
             // redirect response to the source emitter
-            this->_tcpServer.send(data, data.ip);
+            Tram::CreateEntityReply tram(data.roomId, data.accept, data.entityId, data.networkId, data.ip, data.port,
+                data.timestamp, data.entityType, data.position, data.velocity);
+            this->_tcpServer.send(tram, data.ip);
         }
     } else {
         // impossible (the response come from a slave client)
@@ -322,9 +342,11 @@ void ServerNetworkCore::receiveCreateEntityRequest(InfoConnection &info, Tram::C
     if (room->masterClient == info) {
         /// Request from master client
         // => broadcast to others clients
+        Tram::CreateEntityRequest tram(data.roomId, data.id, data.entityType, data.timestamp, data.port, data.ip,
+            data.position, data.velocity);
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
-                this->_tcpServer.send(data, client.ip);
+                this->_tcpServer.send(tram, client.ip);
             }
         }
     } else {
@@ -344,11 +366,16 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
 
     if (room->masterClient == info) {
         /// Request from master client
-        this->_roomManager.destroyEntityEnemy(data.roomId, data.networkId);
+        try {
+            this->_roomManager.destroyEntityEnemy(data.roomId, data.networkId);
+        } catch (std::exception const &e) {
+            std::cerr << "ServerNetworkCore::receiveDestroyEntity " << e.what() << std::endl;
+        }
         // => broadcast to others clients
+        Tram::DestroyEntity tram(data.roomId, data.networkId);
         for (InfoConnection const &client : room->clients) {
             if (!(client == info)) { // not master client
-                this->_tcpServer.send(data, client.ip);
+                this->_tcpServer.send(tram, client.ip);
             }
         }
     } else {
@@ -366,10 +393,12 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
     // From Master client : must be a component from a player entity, a bullet, equipment.
     // From Slave client : must be a component from a player entity.
 
+    Tram::ComponentSync tram(data.roomId, data.networkId, data.timestamp,
+        data.componentType, data.componentSize, data.component);
     // => Broadcast to other clients
     for (InfoConnection const &client : room->clients) {
         if (!(client == info)) { // not emitter client
-            this->_udpServer.send(data, client.ip, _portUdpClient);
+            this->_udpServer.send(tram, client.ip, _portUdpClient);
         }
     }
     // intercept Position component here (remove if out of bound)
@@ -380,8 +409,8 @@ void ServerNetworkCore::receiveSyncComponent(InfoConnection &info, Tram::Compone
 
 shared_ptr<NetworkRoom> ServerNetworkCore::_getRoom(size_t roomId)
 {
-    auto it = std::find_if(_rooms.begin(), _rooms.end(), [roomId](shared_ptr<NetworkRoom> &room) {
-        return roomId == room->roomId;
+    auto it = std::find_if(_rooms.begin(), _rooms.end(), [roomId](shared_ptr<NetworkRoom> room) {
+        return room != nullptr && roomId == room->roomId;
     });
     if (it == _rooms.end()) {
         throw std::invalid_argument("ServerNetworkCore::_checkRoomId room id not found");

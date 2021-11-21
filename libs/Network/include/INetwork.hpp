@@ -5,8 +5,8 @@
 ** Network interface
 */
 
-#ifndef BABEL_NETWORK_HPP
-#define BABEL_NETWORK_HPP
+#ifndef _INETWORK_HPP
+#define _INETWORK_HPP
 
 #include <array>
 #include <cstddef>
@@ -87,4 +87,4 @@ namespace Network
 
 } // namespace Network
 
-#endif // BABEL_NETWORK_HPP
+#endif // _INETWORK_HPP

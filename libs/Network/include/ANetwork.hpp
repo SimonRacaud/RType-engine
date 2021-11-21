@@ -4,8 +4,8 @@
 ** File description:
 ** Network Abstract class
 */
-#ifndef BABEL_ANETWORK_HPP
-#define BABEL_ANETWORK_HPP
+#ifndef _ANETWORK_HPP
+#define _ANETWORK_HPP
 
 #include <functional>
 #include <iostream>
@@ -94,7 +94,7 @@ namespace Network
             return false;
         }
 
-        const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const
+        const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const override
         {
             return _connections;
         }
@@ -133,9 +133,6 @@ namespace Network
             _runningAsync = false;
             if (!_thread.joinable()) {
                 return;
-            }
-            if (!AAsioConnection<Data>::_ioContext.stopped()) {
-                AAsioConnection<Data>::_ioContext.stop();
             }
             if (_thread.joinable())
                 _thread.join();
@@ -192,4 +189,4 @@ namespace Network
     };
 } // namespace Network
 
-#endif // BABEL_ANETWORK_HPP
+#endif // _ANETWORK_HPP

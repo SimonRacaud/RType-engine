@@ -27,6 +27,8 @@ namespace Tram
         ComponentSync();
         ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, std::type_index const &componentType, size_t componentSize,
             void *component);
+        ComponentSync(size_t roomId, uint32_t networkId, Time timestamp, size_t componentType, size_t componentSize,
+            void *component);
         ComponentSync &operator=(const ComponentSync &other);
 
         ~ComponentSync() override;

@@ -8,16 +8,15 @@
 #include "GameRoom.hpp"
 #include "ServerCore/ServerCore.hpp"
 
-GameRoom::GameRoom(size_t id, long int start) :
-      _id(id),
-      _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")),
-      _timeStartRun(start),
-      _enemyRefreshFreq((size_t)ServerCore::config->getVar<int>("ENEMY_REFRESH_RATE")),
+GameRoom::GameRoom(size_t id, long int start)
+    : _id(id), _stage(ServerCore::config->getVar<std::string>("FIRST_STAGE")), _timeStartRun(start),
+      _enemyRefreshFreq((size_t) ServerCore::config->getVar<int>("ENEMY_REFRESH_RATE")),
       _start(std::chrono::system_clock::now())
 {
 }
 
-GameRoom::GameRoom(const GameRoom &src) : _id(src._id), _stage(src._stage), _start(src._start), _timeStartRun(src._timeStartRun)
+GameRoom::GameRoom(const GameRoom &src)
+    : _id(src._id), _stage(src._stage), _timeStartRun(src._timeStartRun), _start(src._start)
 {
 }
 
@@ -44,7 +43,7 @@ void GameRoom::run()
 
         TimePoint now = steadyClock::now();
         if (0 == _enemyLastRefresh.time_since_epoch().count()
-            || (size_t)DURATION_CAST(now - _enemyLastRefresh).count() > _enemyRefreshFreq) {
+            || (size_t) DURATION_CAST(now - _enemyLastRefresh).count() > _enemyRefreshFreq) {
             this->updateEnemy();
             _enemyLastRefresh = now;
         }
@@ -85,7 +84,11 @@ void GameRoom::newStage()
 {
     if (!this->_stage.isStageEnd())
         throw std::invalid_argument("Stage not ended");
-    this->_stage = GameStage(this->_stage.getStageNext());
+    try {
+        this->_stage = GameStage(this->_stage.getStageNext());
+    } catch (std::invalid_argument &) {
+        ServerCore::network->endGame(_id);
+    }
     this->_start = std::chrono::system_clock::now();
 }
 
@@ -93,18 +96,19 @@ void GameRoom::factoryStage(const StageStep &step)
 {
     switch (step._type) {
         case EntityType::ENEMY: {
-            ServerCore::network->createEntity(_id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
+            ServerCore::network->createEntity(
+                _id, "Enemy", netVector2f(step._pos.first, step._pos.second), netVector2f(0, 0));
             this->_enemyRequest.push(EnemyRequest(step._aiPath, step._pos.first, step._pos.second));
             break;
         }
         case EntityType::EQUIPMENT: {
-            std::pair<int, int> velocityEquipment = ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY");
-            ServerCore::network->createEntity(_id, "Equipment", netVector2f(step._pos.first, step._pos.second), netVector2f(velocityEquipment.first, velocityEquipment.second));
+            std::pair<int, int> velocityEquipment =
+                ServerCore::config->getVar<std::pair<int, int>>("EQUIPMENT_DEFAULT_VELOCITY");
+            ServerCore::network->createEntity(_id, "Equipment", netVector2f(step._pos.first, step._pos.second),
+                netVector2f(velocityEquipment.first, velocityEquipment.second));
             break;
         }
-        default:
-            throw std::invalid_argument("Invalid EntityType -> None register");
-            break;
+        default: throw std::invalid_argument("Invalid EntityType -> None register"); break;
     }
 }
 
@@ -117,12 +121,16 @@ void GameRoom::updateEnemy()
     auto listPos = this->_stateMachine.retreivePosComponents();
     auto listId = this->_stateMachine.retreiveNetworkId();
 
-    if (listHealth.size() != listVel.size() || listHealth.size() != listPos.size() || listHealth.size() != listId.size())
+    if (listHealth.size() != listVel.size() || listHealth.size() != listPos.size()
+        || listHealth.size() != listId.size())
         throw std::invalid_argument("Invalid state machine value, vector have various size");
     for (size_t it = 0; it < listId.size(); it++) {
-        ServerCore::network->syncComponent(_id, listId[it], Component::Health::type, sizeof(Component::Health), &(listHealth[it]));
-        ServerCore::network->syncComponent(_id, listId[it], Engine::Velocity::type, sizeof(Engine::Velocity), &(listVel[it]));
-        ServerCore::network->syncComponent(_id, listId[it], Engine::Position::type, sizeof(Engine::Position), &(listPos[it]));
+        ServerCore::network->syncComponent(
+            _id, listId[it], Component::Health::type, sizeof(Component::Health), &(listHealth[it]));
+        ServerCore::network->syncComponent(
+            _id, listId[it], Engine::Velocity::type, sizeof(Engine::Velocity), &(listVel[it]));
+        ServerCore::network->syncComponent(
+            _id, listId[it], Engine::Position::type, sizeof(Engine::Position), &(listPos[it]));
     }
 }
 
@@ -137,11 +145,11 @@ void GameRoom::createEntityEnemy(uint32_t networkId)
 
     this->_enemyRequest.pop();
     this->_stateMachine.setMachineNetworkId(api, networkId);
-    
+
     // SYNC BASIC
     auto basic = this->_stateMachine.retreiveBasicComponents(api);
-    ServerCore::network->syncComponent(_id, networkId, Component::AnimationInfo::type, sizeof(Component::AnimationInfo),
-        &(basic.first));
+    ServerCore::network->syncComponent(
+        _id, networkId, Component::AnimationInfo::type, sizeof(Component::AnimationInfo), &(basic.first));
 }
 
 void GameRoom::destroyEntityEnemy(uint32_t networkId)
@@ -151,6 +159,7 @@ void GameRoom::destroyEntityEnemy(uint32_t networkId)
 
 void GameRoom::waitStart()
 {
-    while (GET_NOW < _timeStartRun);
+    while (GET_NOW < _timeStartRun)
+        ;
     this->_start = std::chrono::system_clock::now();
 }

@@ -5,9 +5,9 @@
 ** ConfigFile.cpp
 */
 
+#include "ConfigFile.hpp"
 #include <fstream>
 #include <string>
-#include "ConfigFile.hpp"
 #include "ConfigFileTools/ConfigFileTools.hpp"
 
 ConfigFile::ConfigFile(const std::string &filepath, bool defaultInit)
@@ -94,7 +94,7 @@ void ConfigFile::objectInLine(char token_start, char token_end)
             do {
                 next = it + 1;
                 if (next == this->_fileContent.end())
-                    throw std::invalid_argument("The file incorrect: token not find " + token_end);
+                    throw std::invalid_argument(std::string("The file incorrect: token not find ") + token_end);
                 if (next->back() == token_start)
                     cnt++;
                 stat = next->back() == token_end;

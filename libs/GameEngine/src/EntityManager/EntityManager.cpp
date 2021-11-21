@@ -20,13 +20,12 @@ EntityManager::~EntityManager() noexcept
 
     SHOW_DEBUG("Will clean " + std::to_string(list.size()) + " entities:");
     for (Entity entity : list) {
-        this->remove(entity);
+        EntityManager::remove(entity);
     }
     SHOW_DEBUG("Entity: " + std::to_string(list.size()) + " entities removed.");
 }
 
-Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster,
-    EntityName name, bool setNetworkId)
+Entity EntityManager::create(EntityDestructor destructor, ClusterName cluster, EntityName name, bool setNetworkId)
 {
     if (this->exist(name)) {
         throw InvalidParameterException("EntityManager::create entity name already used.");
@@ -51,8 +50,7 @@ void EntityManager::remove(EntityName name)
 {
     while (true) {
         try {
-            Signature const &signature =
-                this->_entities.getSignature(this->_entities.getId(name));
+            Signature const &signature = this->_entities.getSignature(this->_entities.getId(name));
 
             // Hey Entity Register, remove [entity] from your register
             _entities.destroyEntity(this->getId(name)); // launch destructor callback
@@ -156,11 +154,9 @@ ClusterName EntityManager::getCluster(Entity entity)
     return _entities.getCluster(entity);
 }
 
-void EntityManager::_removeEntityComponents(Entity entity,
-    Signature const &signature)
+void EntityManager::_removeEntityComponents(Entity entity, Signature const &signature)
 {
-    std::array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE> &registers
-        = GET_COMP_M._componentRegisters;
+    std::array<shared_ptr<IComponentTypeRegister>, MAX_COMPONENT_TYPE> &registers = GET_COMP_M._componentRegisters;
 
     for (size_t idx = 0; idx < signature.size(); idx++) {
         if (signature[idx] && registers[idx] != nullptr) {

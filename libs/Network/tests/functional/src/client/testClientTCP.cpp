@@ -6,7 +6,7 @@
 */
 
 #include <cstring>
-#include "AsioClientTCP.hpp"
+#include "AsioConnectionTCP.hpp"
 #include "clientTest.hpp"
 #include "intWrapper.hpp"
 
@@ -24,7 +24,7 @@ int testTCPclientConnectSendDisconnect()
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
     intWrapper myData(888);
-    AsioClientTCP<intWrapper> client;
+    AsioConnectionTCP<intWrapper> client(portServer + 1);
     usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
 
@@ -33,6 +33,7 @@ int testTCPclientConnectSendDisconnect()
     client.send(myData, ipServer, portServer);
     usleep(300000); // wait for the server to receive
 
-    client.disconnect(ipServer, portServer);
+    if (client.isConnected(ipServer, portServer))
+        client.disconnect(ipServer, portServer);
     return 0;
 }

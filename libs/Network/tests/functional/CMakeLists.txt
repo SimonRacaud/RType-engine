@@ -1,8 +1,8 @@
 ##
 ## PERSONAL PROJECT, 2021
-## Babel Project
+## R-Type Project
 ## File description:
-## Babel CMake
+## R-Type CMake
 ##
 
 cmake_minimum_required(VERSION 3.17)
@@ -59,6 +59,7 @@ set(SRCS_SERVER
     ${SERVER_DIR}testServerUDPnetworkManager.cpp
     ${SERVER_DIR}testServerUDPdisconnection.cpp
     ${SERVER_DIR}testServerTCPdisconnection.cpp
+    ${SERVER_DIR}testServerTCPresponse.cpp
     )
 
 add_executable(${SERVER}
@@ -100,6 +101,7 @@ set(SRCS_CLIENT
     ${CLIENT_DIR}testClientUDPnetworkManager.cpp
     ${CLIENT_DIR}testClientUDPdisconnection.cpp
     ${CLIENT_DIR}testClientTCPdisconnection.cpp
+    ${CLIENT_DIR}testClientTCPresponse.cpp
     )
 
 ## TARGET
@@ -284,9 +286,22 @@ foreach (num IN ZIP_LISTS TEST_NBS)
                          TIMEOUT ${TEST_TIMEOUT})
 endforeach ()
 
+set(TEST_NBS 33)
+
+foreach (num IN ZIP_LISTS TEST_NBS)
+    set(TEST_NB ${num_0})
+    set(TEST test_TCP_response_${TEST_NB})
+    add_test(NAME ${TEST}
+             COMMAND ${SH_LAUNCH_SEVERAL_BIN} ${SH_ADD_CMD} ${SERVER_TEST_BIN} ${TEST_NB} ${SH_ADD_CMD}
+             ${CLIENT_TEST_BIN} ${TEST_NB})
+    set_tests_properties(${TEST}
+                         PROPERTIES WILL_FAIL FALSE
+                         TIMEOUT ${TEST_TIMEOUT})
+endforeach ()
+
 # TESTS TRAM BUFFER
 set(TEST_NBS 1;2;3;4)
-
+#
 foreach (num IN ZIP_LISTS TEST_NBS)
     set(TEST_NB ${num_0})
     set(TEST test_tram_buffer_${TEST_NB})

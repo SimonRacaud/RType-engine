@@ -15,25 +15,25 @@
 class WindowManager: public IWindowManager
 {
     public:
-        WindowManager();
+        WindowManager() = default;
         WindowManager(const WindowManager &);
         ~WindowManager();
 
-        void setFramerateLimiter(size_t);
-        void setSize(const vector2D &);
-        void setName(const std::string &);
-        bool isOpen() const;
-        void open();
-        void clear();
-        void refresh();
-        void close();
-    
+        void setFramerateLimiter(size_t) override;
+        void setSize(const vector2D &) override;
+        void setName(const std::string &) override;
+        [[nodiscard]] bool isOpen() const override;
+        void open() override;
+        void clear() override;
+        void refresh() override;
+        void close() override;
+
     public:
         static std::shared_ptr<sf::RenderWindow> _window;
 
     private:
-        size_t _fps;
-        vector2D _size;
+        size_t _fps{0};
+        vector2D _size{0, 0};
         std::string _name;
 };
 

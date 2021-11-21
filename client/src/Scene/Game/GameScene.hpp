@@ -28,11 +28,15 @@ namespace Scene
         virtual void open();
 
         void setTimeStart(Time timestamp);
+        Time getTimeStart() const;
         void setPlayerNumber(int playerNumber);
 
       private:
         void initGame();
         void createWaitingScreen();
+
+      private:
+        static size_t countown;
 
       private:
         std::string _audio;
