@@ -13,6 +13,7 @@
 #include "Event/AudioEvent/AudioEventStop.hpp"
 #include "Event/AudioEvent/AudioEventPause.hpp"
 #include "Event/AudioEvent/AudioEventVolume.hpp"
+#include "Event/AudioEvent/AudioEventStopAll.hpp"
 #include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 #include <unordered_map>
 
@@ -26,6 +27,7 @@ class AudioEventManager
         void playAudio(const AudioEventPlay *e);
         void stopAudio(const AudioEventStop *e);
         void pauseAudio(const AudioEventPause *e);
+        void stopAudio(const AudioEventStopAll *e);
         void volumeAudio(const AudioEventVolume *e);
 
     private:
