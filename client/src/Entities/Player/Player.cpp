@@ -27,6 +27,7 @@
 #include "Event/ShootEvents/ShootEventsManager/ShootEventsManager.hpp"
 #include "Event/EntityRemove/EntityRemoveEvent.hpp"
 #include "Event/EntityHit/EntityHitEvents.hpp"
+#include "Event/AddScore/AddScoreEvent.hpp"
 #include "Component/Damage.hpp"
 #include <stdexcept>
 
@@ -60,8 +61,9 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
     auto mask = GET_COMP_M.get<Component::EntityMask>(b);
 
     if (mask._currentMask == Component::MASK::ENEMY) {
-        GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
+        GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);        
         GET_EVENT_REG.registerEvent<EntityRemoveEvent>(b);
+        GET_EVENT_REG.registerEvent<AddScoreEvent>(a);
     }
     if (mask._currentMask == Component::MASK::BULLET_ENEMY) {
         GET_EVENT_REG.registerEvent<EntityHit>(a, GET_COMP_M.get<Component::Damage>(b)._damage);
@@ -91,7 +93,7 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
         [cluster](Engine::Entity a, Engine::Entity b) {
             Player::hit(cluster, a, b);
         });
-    componentManager.add<Engine::ScoreComponent>(entity);
+    componentManager.add<Engine::ScoreComponent>(entity, playerNumber);
     componentManager.add<Engine::EquipmentComponent>(entity);
     componentManager.add<Component::Shooting>(entity);
     if (isLocalPlayer) {

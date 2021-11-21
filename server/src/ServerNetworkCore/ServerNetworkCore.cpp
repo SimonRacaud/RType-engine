@@ -93,6 +93,22 @@ void ServerNetworkCore::syncComponent(
     }
 }
 
+void ServerNetworkCore::endGame(size_t roomId)
+{
+    PUT_DEBUG("[Send] EndGame : roomId=" + to_string(roomId));
+    shared_ptr<NetworkRoom> room = _getRoom(roomId);
+    Tram::EndGame tram(roomId, true);
+
+    for (Network::InfoConnection const &client : room->clients) {
+        try {
+            this->_udpServer.send(tram, client.ip, _portUdpClient);
+        } catch (Network::invalidConnection const &) {
+            std::cerr << "Unexpected client disconnection" << std::endl;
+            this->_removeClient(roomId, client.ip);
+        }
+    }
+}
+
 void ServerNetworkCore::receiveLoop()
 {
     while (_loop) {

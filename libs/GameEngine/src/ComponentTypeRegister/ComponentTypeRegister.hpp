@@ -71,7 +71,7 @@ namespace Engine
          * @brief Reference to the list of the instances
          * @return
          */
-        vector<unique_ptr<ComponentType>> &getComponents();
+        vector<ComponentType *> &getComponents();
 
       private:
         Signature &_getComponentSignature(Entity entity);
@@ -155,8 +155,7 @@ namespace Engine
             throw NotFoundException("Component instance not found");
         }
         /// Compute the diff between the beginning of the container and the ptr
-        ComponentType *beginPtr = _components;
-        auto index = static_cast<std::size_t>((*it) - beginPtr);
+        auto index = std::distance(_components.begin(), it);
 
         return _componentOwners[index];
     }
@@ -172,7 +171,7 @@ namespace Engine
     }
 
     template <typename ComponentType>
-    vector<unique_ptr<ComponentType>> &ComponentTypeRegister<ComponentType>::getComponents()
+    vector<ComponentType *> &ComponentTypeRegister<ComponentType>::getComponents()
     {
         return _components;
     }
