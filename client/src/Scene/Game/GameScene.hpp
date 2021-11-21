@@ -28,6 +28,7 @@ namespace Scene
         virtual void open();
 
         void setTimeStart(Time timestamp);
+        Time getTimeStart() const;
         void setPlayerNumber(int playerNumber);
 
       private:

@@ -159,3 +159,8 @@ void GameScene::setPlayerNumber(int playerNumber)
 {
     this->_playerNumber = playerNumber;
 }
+
+::Time GameScene::getTimeStart() const
+{
+    return _timestampStart;
+}

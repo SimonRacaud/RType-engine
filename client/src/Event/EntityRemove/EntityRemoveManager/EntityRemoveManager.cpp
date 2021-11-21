@@ -6,6 +6,7 @@
 */
 
 #include "EntityRemoveManager.hpp"
+#include "Scene/Game/GameScene.hpp"
 
 EntityRemoveManager::EntityRemoveManager()
 {
@@ -17,7 +18,13 @@ void entityRemove(const EntityRemoveEvent *e)
 {
     try {
         if (GameCore::networkCore.isMaster()) {
-            GameCore::networkCore.destroyEntity(GET_ENTITY_M.getNetworkId(e->_entity));
+            Scene::GameScene &scene = *reinterpret_cast<Scene::GameScene *>(
+                &GameCore::engine.getSceneManager().get<Scene::GameScene>());
+            Time startTime = scene.getTimeStart();
+            Time now = GET_NOW;
+            if (now - startTime > 5000) {
+                GameCore::networkCore.destroyEntity(GET_ENTITY_M.getNetworkId(e->_entity));
+            }
         }
     } catch (std::exception) {}
 }
