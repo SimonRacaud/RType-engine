@@ -68,7 +68,7 @@ void EntityFactory::createPlayer(const vector2D &position, const vector2D &veloc
     Player player(_clusterName, playerNumber, position, velocity, true);
     Engine::Entity entity = player.getId();
     const std::string playerType = "Player" + std::to_string(playerNumber);
-    const netVector2f pos(position.x, position.y);
+    const netVector2f pos(position.x, position.y + (playerNumber * 80));
     const netVector2f veloc(velocity.x, velocity.y);
 
     if (GameCore::networkCore.isMaster()) {
