@@ -88,12 +88,10 @@ template <Pointerable Data> void NetworkManager::send(Data &data, const std::str
 {
     const ThreadSafety::LockedDeque<Network::InfoConnection> &connections = _connector->getConnections();
 
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
     for (const auto &connection : connections) {
         if (connection.ip == ip) {
             _dataWrapper.deserialize(data.serialize(), data.length());
             _connector->send(_dataWrapper, connection.ip, connection.port);
-            std::cout << "sent to : ip :" << connection.ip << ", port: " << connection.port << std::endl;
         }
     }
 }
