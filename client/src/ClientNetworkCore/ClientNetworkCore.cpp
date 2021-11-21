@@ -215,7 +215,7 @@ void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &, Tram::CreateE
     PUT_DEBUG("Receive [CreateEntityReply] accept=" + to_string(data.accept) + ", entityId=" + to_string(data.entityId)
         + ", networkId=" + to_string(data.networkId) + ", entityType=" + to_string(data.entityType) + ".");
     if (data.accept) {
-        this->_engine.getEntityManager().setNetworkId(data.entityId); // apply network id
+        this->_engine.getEntityManager().forceApplyId(data.entityId, data.networkId); // apply network id
     } else {
         // rollback entity creation
         this->_engine.getEntityManager().remove(data.entityId);

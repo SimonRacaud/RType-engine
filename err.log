@@ -1,0 +1,1726 @@
+[DEBUG] INITIALIZED.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [GetRoomList].
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [GetRoomList].
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [CreateRoom] .
+[DEBUG] Receive [JoinRoom] roomId=9.
+[DEBUG] [JoinRoom] accepted.
+[DEBUG] [CreateRoom] RoomId=9 created.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [GetRoomList].
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [JoinRoom] roomId=9.
+[DEBUG] [JoinRoom] accepted.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityRequest] roomId=9, entity=Player1, id=1.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=56886.
+[DEBUG] Receive [CreateEntityRequest] roomId=9, entity=Player2, id=510.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Player2, accept=1, networkId=2, entityId=510.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=3, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=4, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=5, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=6, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=7, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=8, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=9, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=59796.
+[DEBUG] Receive [CreateEntityReply] roomId=9, entity=Enemy, accept=1, networkId=10, entityId=-1.
+[DEBUG] [CreateEntityReply] Create entity enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=16551747158603895945.
+[DEBUG] [CreateEntityReply] Broadcast entity create to slave clients.
+[DEBUG] [CreateEntityReply] send to 10.19.253.239
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [QuitRoom] IP=10.19.252.120, PORT=8082.
+[DEBUG] Remove player.
+ServerNetworkCore::_removePlayer Cannot remove client's player. player not found.
+[DEBUG] [QuitRoom] The client quit roomId=9.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.252.120, PORT=8082.
+[DEBUG] Receive [GetRoomList].
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] [DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] [DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Equipment.
+[DEBUG] [Send] Create entity : roomId=9, type=Equipment.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Create entity : roomId=9, type=Enemy.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=3, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=4, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=5, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=6, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=7, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=8, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=9, componentType=13677080590347850457.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=3946455901231626520.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=12192665891661096046.
+[DEBUG] [Send] Sync component : roomId=9, networkId=10, componentType=13677080590347850457.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=13677080590347850457, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=12192665891661096046, componentSize=16.
+[DEBUG] Receive packet from IP=10.19.253.239, PORT=8082.
+[DEBUG] Receive [SyncComponent] roomId=9, networkId=1, componentType=5187733742074954660, componentSize=16.
+UDP Asio : Operation aborted.
+TCP Asio : Operation aborted.
