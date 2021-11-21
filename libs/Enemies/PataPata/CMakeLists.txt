@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.17)
 
-set(CMAKE_BUILD_TYPE Debug) # TODO : update after
+set(CMAKE_BUILD_TYPE Release)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -18,12 +18,12 @@ project(${NAME} VERSION 0.1 LANGUAGES CXX)
 ## INCLUDES
 include_directories(
         ./
-		../../../server/include/
+        ../../../server/include/
 )
 
 ## SOURCES
 set(SRCS
-		./PataPata.cpp)
+    ./PataPata.cpp)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_library(${NAME} SHARED ${SRCS})
