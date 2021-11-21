@@ -11,13 +11,13 @@
 #ifndef SERVERNETWORKCORE_HPP
 #define SERVERNETWORKCORE_HPP
 
-#include "NetworkRoom.hpp"
-#include "globalServer.hpp"
-#include "InfoConnection.hpp"
-#include "NetworkManager.hpp"
 #include "AsioConnectionUDP.hpp"
 #include "AsioServerTCP.hpp"
+#include "InfoConnection.hpp"
 #include "Network.hpp"
+#include "NetworkManager.hpp"
+#include "NetworkRoom.hpp"
+#include "globalServer.hpp"
 
 #include "Tram/ComponentSync.hpp"
 #include "Tram/CreateEntityReply.hpp"
@@ -28,26 +28,26 @@
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
 
-#include "IServerNetworkCore.hpp"
-#include "GarbageEntity/GarbageEntity.hpp"
 #include "GameRoomManager/GameRoomManager.hpp"
+#include "GarbageEntity/GarbageEntity.hpp"
+#include "IServerNetworkCore.hpp"
 
-#include "utils/netVector2f.hpp"
 #include "Debug.hpp"
+#include "utils/netVector2f.hpp"
 
-#include <vector>
+#include <algorithm>
 #include <memory>
 #include <numeric>
-#include <algorithm>
+#include <vector>
 
-using std::vector;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::vector;
 
 using Network::InfoConnection;
 using Network::netVector2f;
 using IConnection = Network::IConnection<DataWrapper>;
-using AsioServerTCP = Network::AsioServerTCP<DataWrapper>;
+using AsioServerTCP = Network::AsioConnectionTCP<DataWrapper>;
 using AsioServerUDP = Network::AsioConnectionUDP<DataWrapper>;
 
 class ServerNetworkCore : public IServerNetworkCore {
@@ -60,8 +60,7 @@ class ServerNetworkCore : public IServerNetworkCore {
      * @param roomId
      * @param type Entity type name
      */
-    void createEntity(size_t roomId, std::string const &type, netVector2f const& position,
-        netVector2f const& velocity);
+    void createEntity(size_t roomId, std::string const &type, netVector2f const &position, netVector2f const &velocity);
     /**
      * @brief Broadcast entity destruction request
      * @param roomId
@@ -76,8 +75,8 @@ class ServerNetworkCore : public IServerNetworkCore {
      * @param componentSize
      * @param component
      */
-    void syncComponent(size_t roomId, NetworkId id, std::type_index const &componentType,
-        size_t componentSize, void *component);
+    void syncComponent(
+        size_t roomId, NetworkId id, std::type_index const &componentType, size_t componentSize, void *component);
 
     void receiveLoop();
 
@@ -96,8 +95,7 @@ class ServerNetworkCore : public IServerNetworkCore {
   private:
     static void sig_handler(int);
     void _receiveFromChannel(NetworkManager &net);
-    void _tramHandler(Tram::Serializable &header, InfoConnection &info,
-        uint8_t *buffer);
+    void _tramHandler(Tram::Serializable &header, InfoConnection &info, uint8_t *buffer);
     void _closeGameRoom(size_t roomId);
     void _removeClient(size_t roomId, std::string const &ip);
 

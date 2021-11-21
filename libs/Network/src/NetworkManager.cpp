@@ -35,6 +35,7 @@ std::tuple<uint8_t *, std::pair<std::string, std::size_t>> NetworkManager::recei
     if (!receivedData.second) {
         return std::make_tuple(nullptr, sender);
     }
+    std::cout << "received data" << std::endl;
     if (_tramBuffers.find(sender) == _tramBuffers.end()) {
         _tramBuffers.emplace(sender, Tram::TramBuffer());
     }

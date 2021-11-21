@@ -13,11 +13,12 @@
 
 #include <cstddef>
 
-#define CLIENT_UDP_PORT (size_t)8082
+#define CLIENT_UDP_PORT (size_t) 8082
+#define CLIENT_TCP_PORT (size_t) 8083
 
 /**
  * @brief Time between the creation of the room and the beginning of the game
  */
-#define TIME_ROOM_WAIT (long)5000
+#define TIME_ROOM_WAIT (long) 5000
 
 #endif // NETWORK_HPP
