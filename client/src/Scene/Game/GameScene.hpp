@@ -36,6 +36,9 @@ namespace Scene
         void createWaitingScreen();
 
       private:
+        static size_t countown;
+
+      private:
         std::string _audio;
         Time _timestampStart;
         int _playerNumber;
