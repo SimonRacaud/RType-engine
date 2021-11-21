@@ -108,7 +108,6 @@ void ClientNetworkCore::quitRoom()
         Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
         this->_udpClient.sendAll(tram);
         Engine::EngineFactory::getInstance().getSystemManager().getSystem<System::ScoreSystem>()._labelTextManager = nullptr;
-        GET_SCENE_M.select<Scene::RoomListScene>();
     } catch (std::runtime_error const &) {
         std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
         GameCore::engine.quit();

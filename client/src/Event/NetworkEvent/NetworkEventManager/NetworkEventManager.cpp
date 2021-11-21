@@ -6,6 +6,7 @@
 */
 
 #include "Event/GUI/SelectPreviousScene.hpp"
+#include "Scene/EndGame/EndGameScene.hpp"
 #include "NetworkEventManager.hpp"
 #include "GameCore/GameCore.hpp"
 #include "EngineCore.hpp"
@@ -38,4 +39,5 @@ void NetworkEventManager::JoinRoom(const JoinRoomEvent *e)
 void NetworkEventManager::Quit(const QuitEvent *)
 {
     GameCore::networkCore.quitRoom();
+    GET_SCENE_M.select<Scene::EndGameScene>();
 }

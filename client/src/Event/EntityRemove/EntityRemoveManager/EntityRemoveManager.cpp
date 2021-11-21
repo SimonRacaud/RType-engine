@@ -30,7 +30,6 @@ void entityRemove(const EntityRemoveEvent *e)
 				counter++;
 			});
 			if (counter == 1) {
-				GET_SCENE_M.select<Scene::EndGameScene>(true);
 				GET_EVENT_REG.registerEvent<QuitEvent>();
 			}
 		}

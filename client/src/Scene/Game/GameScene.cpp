@@ -49,6 +49,7 @@ GameScene::GameScene()
 
 void GameScene::open()
 {
+    GET_SYS_M.getSystem<System::ScoreSystem>()._labelTextManager = nullptr;
     this->createWaitingScreen();
 }
 
