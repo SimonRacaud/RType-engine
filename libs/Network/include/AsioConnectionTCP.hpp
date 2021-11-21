@@ -19,22 +19,53 @@
 
 #include <asio/error.hpp>
 #include "ANetwork.hpp"
+#include "utils/Clock.hpp"
 
 namespace Network
 {
     using asio::ip::tcp;
 
+    static const double ConnectionPingInterval(0);
+
     template <PointerableUnknownLen Data> class AsioConnectionTCP : public AAsioConnection<Data> {
       public:
-        explicit AsioConnectionTCP(const bool server = false) : AAsioConnection<Data>(server)
+        explicit AsioConnectionTCP(const std::size_t port, const bool server = false)
+            : AAsioConnection<Data>(server),
+              _acceptor(AAsioConnection<Data>::_ioContext, tcp::endpoint(tcp::v4(), port))
         {
+            startAccept();
         }
 
         ~AsioConnectionTCP()
         {
             this->disconnectAll();
         }
+        bool connect(const std::string &ip, const std::size_t port) override
+        {
+            if (AAsioConnection<Data>::isConnected(ip, port)) {
+                return true;
+            }
+            tcp::endpoint serverEndpoint(asio::ip::make_address(ip), port);
+            auto newConnection(std::make_shared<tcp::socket>(AAsioConnection<Data>::_ioContext));
 
+            try {
+                newConnection->connect(serverEndpoint);
+            } catch (const std::system_error &) {
+                std::cerr << "TCP client Asio : Failed to connect with server" << std::endl;
+                _connectionTimer.setElapsedTime();
+                if (_ping.count() > _connectionTimer.getElapsedTime().count()) {
+                    std::this_thread::sleep_for(_ping - _connectionTimer.getElapsedTime());
+                    _connectionTimer.resetStartingPoint();
+                }
+                return false;
+            }
+
+            std::cout << "connecting with : ip :" << newConnection->local_endpoint().address().to_string()
+                      << ", port : " << newConnection->local_endpoint().port() << std::endl;
+
+            AsioConnectionTCP<Data>::addConnection(newConnection);
+            return true;
+        }
         /**
          * @throw Network::invalidConnection if ip and port don't correspond to any connected machine
          */
@@ -139,6 +170,8 @@ namespace Network
         {
             if (!connection)
                 throw Network::invalidConnection();
+            std::cout << "sending from low level : " << connection->remote_endpoint().address().to_string() << "< ;"
+                      << connection->remote_endpoint().port() << std::endl;
             connection->send(asio::buffer(buf.serialize(), buf.length()));
         }
 
@@ -163,6 +196,7 @@ namespace Network
             if (!connection)
                 return;
 
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
             connection->async_receive(
                 asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
                 std::bind(&AsioConnectionTCP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
@@ -172,6 +206,7 @@ namespace Network
         void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize,
             std::shared_ptr<tcp::socket> &connection)
         {
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
             if (err) {
                 std::cerr << "TCP Asio : " << err.message() << std::endl;
                 if (err.value() == asio::error::operation_aborted) {
@@ -183,6 +218,7 @@ namespace Network
                     return;
                 }
             }
+            std::cout << "received from low level" << std::endl;
 
             if (!receivedPacketSize) {
                 return;
@@ -203,7 +239,8 @@ namespace Network
 
                 if (endpoint.address().to_string() == otherIp && endpoint.port() == otherPort)
                     return true;
-            } catch (...) {}
+            } catch (...) {
+            }
             return false;
         }
 
@@ -226,6 +263,9 @@ namespace Network
             if (!newConnection)
                 return;
 
+            std::cout << __PRETTY_FUNCTION__ << std::endl;
+            std::cout << newConnection->remote_endpoint().address().to_string() << " "
+                      << newConnection->remote_endpoint().port() << std::endl;
             AAsioConnection<Data>::connect(
                 newConnection->remote_endpoint().address().to_string(), newConnection->remote_endpoint().port());
             _socketConnections.emplace_back(newConnection);
@@ -233,6 +273,26 @@ namespace Network
         }
 
       private:
+        void startAccept()
+        {
+            std::shared_ptr<tcp::socket> newConnection(
+                std::make_shared<tcp::socket>(AAsioConnection<Data>::_ioContext));
+
+            _acceptor.async_accept(*newConnection,
+                std::bind(&AsioConnectionTCP::registerConnection, this, newConnection, std::placeholders::_1));
+        }
+
+        void registerConnection(std::shared_ptr<tcp::socket> newConnection, const asio::error_code &error)
+        {
+            if (error) {
+                std::cerr << "TCP server Asio : " << error.message() << std::endl;
+            } else {
+                AsioConnectionTCP<Data>::addConnection(newConnection);
+            }
+
+            startAccept();
+        }
+
         void disconnect(std::shared_ptr<tcp::socket> &connection)
         {
             asio::ip::tcp::endpoint connectionEndpoint;
@@ -264,7 +324,11 @@ namespace Network
          * @brief deque of connected sockets
          */
         ThreadSafety::LockedDeque<std::shared_ptr<tcp::socket>> _socketConnections;
-        std::mutex _mutex;
+
+        tcp::acceptor _acceptor;
+
+        Clock _connectionTimer;
+        const std::chrono::duration<double> _ping{ConnectionPingInterval};
     };
 
 } // namespace Network
