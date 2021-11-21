@@ -134,9 +134,6 @@ namespace Network
             if (!_thread.joinable()) {
                 return;
             }
-            if (!AAsioConnection<Data>::_ioContext.stopped()) {
-                AAsioConnection<Data>::_ioContext.stop();
-            }
             if (_thread.joinable())
                 _thread.join();
         }
