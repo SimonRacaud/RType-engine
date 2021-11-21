@@ -21,11 +21,10 @@ void bulletExplosion(const BulletExplosion *e)
 
         std::chrono::duration<double> tmp = std::chrono::system_clock::now() - last;
         size_t nb_sec = (size_t) tmp.count();
-        << std::chrono::duration<double>(1).count() << std::endl;
         if (nb_sec > std::chrono::duration<double>(1).count()) {
             Explosion(GET_ENTITY_M.getCluster(e->_entity), vector2D((float) pos.x, pos.y));
             last = std::chrono::system_clock::now();
         }
-    } catch (std::exception) {
+    } catch (const std::exception &) {
     }
 }
