@@ -21,7 +21,7 @@ void entityRemove(const EntityRemoveEvent *e)
 
     try {
 		if (GET_COMP_M.get<Component::EntityMask>(e->_entity)._currentMask == Component::MASK::PLAYER) {
-			componentManager.foreachComponent<Component::EntityMask>([&list, componentManager](std::unique_ptr<Component::EntityMask> &comp) {
+			componentManager.foreachComponent<Component::EntityMask>([&list, componentManager](Component::EntityMask *comp) {
 				Engine::Entity e = componentManager.getOwner(*comp);
 				list.push_back(e);
 			});

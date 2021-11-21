@@ -38,7 +38,7 @@ namespace Engine
     using std::unique_ptr;
 
     template <class ComponentType>
-    using ComponentBrowseFunction = std::function<void(unique_ptr<ComponentType> &)>;
+    using ComponentBrowseFunction = std::function<void(ComponentType *)>;
 
     using Time = std::chrono::milliseconds;
     #define DurationCast std::chrono::duration_cast<std::chrono::milliseconds>
