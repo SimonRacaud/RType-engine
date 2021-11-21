@@ -37,7 +37,7 @@ void releaseShot(const ReleaseChargedShot *e)
 		now.time_since_epoch() - shooting._chargeStart.time_since_epoch()).count();
 	if (nb_sec >= 1)
 		nb_sec += 1;
-    const vector2D position(pos.x + hit.x + velocity.x + 5, pos.y);
+    const vector2D position(pos.x + hit.x + GameCore::config->getVectorOf<vector2D>("BULLET_DEFAULT_ANIMATION_FOCUS_SIZE")[0].x, pos.y);
     std::vector<vector2D> velocityList = GameCore::config->getVectorOf<vector2D>("BULLET_DEFAULT_VELOCITY");
     if (velocityList.size() != 5)
         throw std::invalid_argument("Velocity must have 5 values");
