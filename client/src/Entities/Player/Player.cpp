@@ -56,7 +56,7 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
 {
 	std::cout << "PLAYER HITBOX HAS BEEN HIT" << std::endl;
 	Player::animationPlayer(cluster, a) || Player::animationPlayer(cluster, b);
-    
+
     auto mask = GET_COMP_M.get<Component::EntityMask>(b);
 
     if (mask._currentMask == Component::MASK::ENEMY) {
@@ -67,7 +67,7 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
         GET_EVENT_REG.registerEvent<EntityHit>(a, GET_COMP_M.get<Component::Damage>(b)._damage);
     }
     if (mask._currentMask == Component::MASK::EQUIPMENT) {
-        GET_EVENT_REG.registerEvent<PlayerEquipmentHit>(a, b);   
+        GET_EVENT_REG.registerEvent<PlayerEquipmentHit>(a, b);
     }
 }
 

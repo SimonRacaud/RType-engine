@@ -215,7 +215,7 @@ void ClientNetworkCore::receiveCreateEntityReply(InfoConnection &, Tram::CreateE
     PUT_DEBUG("Receive [CreateEntityReply] accept=" + to_string(data.accept) + ", entityId=" + to_string(data.entityId)
         + ", networkId=" + to_string(data.networkId) + ", entityType=" + to_string(data.entityType) + ".");
     if (data.accept) {
-        this->_engine.getEntityManager().setNetworkId(data.entityId); // apply network id
+        this->_engine.getEntityManager().forceApplyId(data.entityId, data.networkId); // apply network id
     } else {
         // rollback entity creation
         this->_engine.getEntityManager().remove(data.entityId);
@@ -258,6 +258,7 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
 void ClientNetworkCore::receiveDestroyEntity(InfoConnection &, Tram::DestroyEntity &data)
 {
     if ((int) data.roomId != this->_roomId) {
+        std::cerr << "ClientNetworkCore::receiveDestroyEntity invalid room id" << std::endl;
         return; // abort
     }
     PUT_DEBUG("Receive [DestroyEntity] networkId=" + to_string(data.networkId) + ".");
@@ -341,6 +342,39 @@ void ClientNetworkCore::_tramExtractor(uint8_t *buffer, std::pair<std::string, s
 
 void ClientNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection &info, uint8_t *buffer)
 {
+    if (GameCore::engine.getSceneManager().isCurrent<Scene::GameScene>()) {
+        switch (header.type) {
+            case Tram::TramType::CREATE_ENTITY_REQUEST: {
+                Tram::CreateEntityRequest data;
+                data.deserialize(buffer);
+                this->receiveCreateEntityRequest(info, data);
+                break;
+            }
+            case Tram::TramType::CREATE_ENTITY_REPLY: {
+                Tram::CreateEntityReply data;
+                data.deserialize(buffer);
+                this->receiveCreateEntityReply(info, data);
+                break;
+            }
+            case Tram::TramType::DESTROY_ENTITY: {
+                Tram::DestroyEntity data;
+                data.deserialize(buffer);
+                this->receiveDestroyEntity(info, data);
+                break;
+            }
+            case Tram::TramType::SYNC_COMPONENT: {
+                Tram::ComponentSync data;
+                data.deserialize(buffer);
+                this->receiveSyncComponent(info, data);
+                break;
+            }
+            case Tram::TramType::QUIT_ROOM: {
+                this->receiveQuitRoom(info);
+                break;
+            }
+            default:;
+        }
+    }
     switch (header.type) {
         case Tram::TramType::GET_ROOM_LIST: {
             Tram::GetRoomList data;
@@ -354,35 +388,7 @@ void ClientNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
             this->receiveJoinRoomReply(info, data);
             break;
         }
-        case Tram::TramType::CREATE_ENTITY_REQUEST: {
-            Tram::CreateEntityRequest data;
-            data.deserialize(buffer);
-            this->receiveCreateEntityRequest(info, data);
-            break;
-        }
-        case Tram::TramType::CREATE_ENTITY_REPLY: {
-            Tram::CreateEntityReply data;
-            data.deserialize(buffer);
-            this->receiveCreateEntityReply(info, data);
-            break;
-        }
-        case Tram::TramType::DESTROY_ENTITY: {
-            Tram::DestroyEntity data;
-            data.deserialize(buffer);
-            this->receiveDestroyEntity(info, data);
-            break;
-        }
-        case Tram::TramType::SYNC_COMPONENT: {
-            Tram::ComponentSync data;
-            data.deserialize(buffer);
-            this->receiveSyncComponent(info, data);
-            break;
-        }
-        case Tram::TramType::QUIT_ROOM: {
-            this->receiveQuitRoom(info);
-            break;
-        }
-        default: throw std::runtime_error("ClientNetworkCore::_tramHandler invalid tram type");
+        default:;
     }
 }
 

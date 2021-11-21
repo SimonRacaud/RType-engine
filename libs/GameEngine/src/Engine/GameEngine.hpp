@@ -11,14 +11,13 @@
 #ifndef ENGINE_HPP
 #define ENGINE_HPP
 
-#include "IEntityManager.hpp"
-#include "SystemManager/SystemManager.hpp"
-#include "ComponentManager/ComponentManager.hpp"
-#include "SceneManager/SceneManager.hpp"
-#include "IGameEngine.hpp"
-#include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
 #include <memory>
+#include "ComponentManager/ComponentManager.hpp"
 #include "Event/EventCallBackRegister/EventCallbackRegister.hpp"
+#include "IEntityManager.hpp"
+#include "IGameEngine.hpp"
+#include "SceneManager/SceneManager.hpp"
+#include "SystemManager/SystemManager.hpp"
 
 namespace Engine
 {
@@ -29,22 +28,22 @@ namespace Engine
     class GameEngine : public IGameEngine {
       public:
         GameEngine();
-        virtual ~GameEngine();
+        ~GameEngine() noexcept override;
 
         /**
          * @brief Stop the game engine
          */
-        void quit();
+        void quit() override;
         /**
          * @brief Start the game engine
          */
-        void exec();
+        void exec() override;
 
-        IEntityManager &getEntityManager();
-        SystemManager &getSystemManager();
-        ComponentManager &getComponentManager();
-        SceneManager &getSceneManager();
-        Event::EventCallbackRegister &getEventRegister();
+        IEntityManager &getEntityManager() override;
+        SystemManager &getSystemManager() override;
+        ComponentManager &getComponentManager() override;
+        SceneManager &getSceneManager() override;
+        Event::EventCallbackRegister &getEventRegister() override;
 
       private:
         EntityManager *_entityManager;
@@ -54,6 +53,6 @@ namespace Engine
         Event::EventCallbackRegister _eventRegister;
         bool _loop{true};
     };
-}
+} // namespace Engine
 
 #endif // ENGINE_HPP

@@ -21,7 +21,8 @@ EntityBlock::EntityBlock(Entity entity, ClusterName cluster, EntityName name,
 
 EntityBlock::EntityBlock(const EntityBlock &block)
     : _entity(block._entity), _name(block._name), _cluster(block._cluster),
-      _destructor(block._destructor), removed(block.removed)
+      _destructor(block._destructor), _networkId(block._networkId),
+      removed(block.removed)
 {
 }
 
@@ -83,5 +84,7 @@ EntityBlock &EntityBlock::operator=(EntityBlock const& block)
     _name = block.getName();
     _cluster = block.getCluster();
     _destructor = block._destructor;
+    _networkId = block._networkId;
+    this->removed = block.removed;
     return *this;
 }

@@ -24,7 +24,7 @@ namespace Tram
         #define IP_LENGTH 129
     #endif
     #ifndef ENTITY_TYPE_LEN
-        #define ENTITY_TYPE_LEN 10
+        #define ENTITY_TYPE_LEN 20
     #endif
     using Network::netVector2f;
 

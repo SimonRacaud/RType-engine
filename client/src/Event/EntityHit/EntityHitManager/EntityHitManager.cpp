@@ -13,6 +13,7 @@
 EntityHitManager::EntityHitManager()
 {
 	GET_EVENT_REG.registerCallback(std::function<void(const EntityHit *)>(entityHit));
+	GET_EVENT_REG.registerCallback(std::function<void(const PlayerEquipmentHit *)>(playerHitEquipment));
 }
 
 void entityHit(const EntityHit *e)

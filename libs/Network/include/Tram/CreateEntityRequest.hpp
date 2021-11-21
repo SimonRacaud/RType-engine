@@ -25,7 +25,7 @@ namespace Tram
     using std::string;
 
     #ifndef ENTITY_TYPE_LEN
-        #define ENTITY_TYPE_LEN 10
+        #define ENTITY_TYPE_LEN 20
     #endif
     #ifndef IP_LENGTH
         #define IP_LENGTH 129

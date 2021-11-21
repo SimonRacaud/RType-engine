@@ -8,6 +8,7 @@
 #ifndef NETWORKEVENTMANAGER_HPP
 #define NETWORKEVENTMANAGER_HPP
 
+#include "CustomCluster.hpp"
 #include "Event/NetworkEvent/QuitEvent.hpp"
 #include "Event/NetworkEvent/NewGameEvent.hpp"
 #include "Event/NetworkEvent/JoinRoomEvent.hpp"
