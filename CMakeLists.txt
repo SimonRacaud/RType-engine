@@ -175,3 +175,7 @@ set(EnemyDir ${PROJECT_SOURCE_DIR}/libs/Enemies)
 add_subdirectory(${EnemyDir}/PataPata)
 include_directories(${EnemyDir}/PataPata)
 target_link_libraries(${NAME_SERVER} PataPata)
+## Cancer Lib
+add_subdirectory(${EnemyDir}/Cancer)
+include_directories(${EnemyDir}/Cancer)
+target_link_libraries(${NAME_SERVER} Cancer)
