@@ -16,7 +16,7 @@ static const std::size_t portServer(8080);
 
 static std::shared_ptr<IConnection<DataWrapper>> startServer()
 {
-    auto network(std::make_shared<AsioServerTCP<DataWrapper>>(portServer));
+    auto network(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer));
 
     return (network);
 }

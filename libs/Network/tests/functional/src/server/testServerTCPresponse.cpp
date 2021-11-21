@@ -16,8 +16,10 @@ static const std::string ipServer("127.0.0.1");
 
 static NetworkManager startServer()
 {
-    std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioServerTCP<DataWrapper>>(portServer));
+    std::shared_ptr<IConnection<DataWrapper>> server(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer));
     NetworkManager serverManager(server);
+    while (!serverManager.connect(ipServer, portServer + 1))
+        ;
 
     return serverManager;
 }
@@ -41,8 +43,10 @@ int testTCPresponseCreateEntity()
     auto serverManager(startServer());
     std::pair<uint8_t *, std::string> my_data(receiveData(serverManager));
     Tram::CreateEntityRequest clientRequest(my_data.first);
-    auto clientIp(my_data.second);
+    auto clientIp(ipServer /*my_data.second*/);
 
+    //    sleep(5);
+    std::cout << "finished" << std::endl;
     std::cout << "server (received from client):" << std::endl;
     std::cout << " clientRequest.roomId : " << clientRequest.roomId << std::endl;
     std::cout << " clientRequest.id : " << clientRequest.id << std::endl;
@@ -67,6 +71,6 @@ int testTCPresponseCreateEntity()
         std::cerr << e.what() << std::endl;
         return 84;
     }
-    sleep(2);
+    //    sleep(2);
     return 0;
 }

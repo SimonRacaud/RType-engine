@@ -18,7 +18,7 @@ static DataWrapper startServerGetData()
 {
     const std::size_t portServer(8080);
     std::tuple<DataWrapper, std::size_t, std::string, std::size_t> recvData;
-    AsioServerTCP<DataWrapper> server(portServer);
+    AsioConnectionTCP<DataWrapper> server(portServer);
 
     while (true) {
         recvData = server.receiveAny();

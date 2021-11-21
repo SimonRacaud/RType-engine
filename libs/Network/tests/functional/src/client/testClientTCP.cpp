@@ -24,7 +24,7 @@ int testTCPclientConnectSendDisconnect()
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
     intWrapper myData(888);
-    AsioClientTCP<intWrapper> client;
+    AsioConnectionTCP<intWrapper> client(portServer + 1);
     usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
 

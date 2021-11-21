@@ -17,7 +17,7 @@ template <Pointerable Data> static int startClientSendData(Data &dataToSend)
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioClientTCP<DataWrapper>>());
+    std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer + 1));
     NetworkManager clientManager(client);
     usleep(300000); // wait for the server to setup
     bool connected = clientManager.connect(ipServer, portServer);

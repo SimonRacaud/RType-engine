@@ -17,7 +17,7 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
 {
     const std::string ipServer("127.0.0.1");
     const std::size_t portServer(8080);
-    AsioClientTCP<DataWrapper> client;
+    AsioConnectionTCP<DataWrapper> client(portServer + 1);
     usleep(300000); // wait for the server to setup
     bool connected = client.connect(ipServer, portServer);
     DataWrapper wrapper(data, length);

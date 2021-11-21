@@ -11,11 +11,14 @@
 
 using namespace Network;
 
+static const std::string ipServer("127.0.0.1");
+static const std::size_t portServer(8080);
+
 static NetworkManager startClient()
 {
-    std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioClientTCP<DataWrapper>>());
+    std::shared_ptr<IConnection<DataWrapper>> client(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer + 1));
     NetworkManager clientManager(client);
-    usleep(300000); // wait for the server to setup
+    //    usleep(300000); // wait for the server to setup
 
     return clientManager;
 }
@@ -24,11 +27,13 @@ int testTCPresponseCreateEntity()
 {
     std::cout << __PRETTY_FUNCTION__ << std::endl;
 
-    const std::string ipServer("127.0.0.1");
-    const std::size_t portServer(8080);
     Tram::CreateEntityRequest my_data(123, 456, "type", 789, netVector2f(123, 456), netVector2f(78, 90));
     NetworkManager clientManager(startClient());
-    bool connected = clientManager.connect(ipServer, portServer);
+    bool connected(false);
+
+    while (!connected) {
+        connected = clientManager.connect(ipServer, portServer);
+    }
 
     if (!connected) {
         return 84;

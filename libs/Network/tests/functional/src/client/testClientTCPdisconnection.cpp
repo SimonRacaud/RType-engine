@@ -18,7 +18,7 @@ static const std::size_t portServer(8080);
 
 static std::shared_ptr<IConnection<DataWrapper>> startClient()
 {
-    auto network(std::make_shared<AsioClientTCP<DataWrapper>>());
+    auto network(std::make_shared<AsioConnectionTCP<DataWrapper>>(portServer + 1));
     NetworkManager manager(network);
     usleep(300000); // wait for the server to setup
     Tram::JoinRoom data(123);
