@@ -94,6 +94,7 @@ void GameRoom::newStage()
 
 void GameRoom::factoryStage(const StageStep &step)
 {
+    std::scoped_lock lock(_mutex);
     switch (step._type) {
         case EntityType::ENEMY: {
             ServerCore::network->createEntity(
@@ -114,6 +115,7 @@ void GameRoom::factoryStage(const StageStep &step)
 
 void GameRoom::updateEnemy()
 {
+    std::scoped_lock lock(_mutex);
     this->_stateMachine.runAllMachines();
 
     auto listHealth = this->_stateMachine.retreiveHealthComponents();
@@ -159,7 +161,6 @@ void GameRoom::destroyEntityEnemy(uint32_t networkId)
 
 void GameRoom::waitStart()
 {
-    while (GET_NOW < _timeStartRun)
-        ;
+    while (GET_NOW < _timeStartRun);
     this->_start = std::chrono::system_clock::now();
 }

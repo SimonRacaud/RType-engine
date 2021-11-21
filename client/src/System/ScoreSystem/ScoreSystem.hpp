@@ -32,10 +32,10 @@ namespace System
         virtual void onManagedEntityRemoved(Engine::Entity);
         virtual void onManagedEntityAdded(Engine::Entity);
 
+        ITextManager *_labelTextManager{nullptr};
       private:
         bool _playerFound{false};
         Engine::Entity _player{0};
-        ITextManager *_labelTextManager{nullptr};
     };
 }
 

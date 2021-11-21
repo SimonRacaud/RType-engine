@@ -17,7 +17,7 @@ using std::to_string;
     /**
      * @brief Comment that line to disable the debug mode
      */
-//    #define ENABLE_DEBUG
+    #define ENABLE_DEBUG true
     #define SHOW_COMP_SYNC false
 
     #ifdef ENABLE_DEBUG

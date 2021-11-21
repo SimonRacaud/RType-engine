@@ -98,6 +98,8 @@ namespace ThreadSafety
 
         std::pair<Key, T> extract(const_iterator position)
         {
+            std::scoped_lock lock(_mutex);
+            
             auto nodeHandle(std::unordered_multimap<Key, T, Hash>::extract(position));
             auto extracted(std::make_pair(std::move(nodeHandle.key()), std::move(nodeHandle.mapped())));
 

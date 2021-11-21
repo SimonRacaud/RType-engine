@@ -8,6 +8,7 @@
 #include "EntityRemoveManager.hpp"
 #include "Scene/EndGame/EndGameScene.hpp"
 #include "Event/AddScore/AddScoreEvent.hpp"
+#include "Event/NetworkEvent/QuitEvent.hpp"
 
 EntityRemoveManager::EntityRemoveManager()
 {
@@ -30,6 +31,7 @@ void entityRemove(const EntityRemoveEvent *e)
 			});
 			if (counter == 1) {
 				GET_SCENE_M.select<Scene::EndGameScene>(true);
+				GET_EVENT_REG.registerEvent<QuitEvent>();
 			}
 		}
         if (GameCore::networkCore.isMaster()) {

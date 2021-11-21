@@ -18,6 +18,7 @@
 #include "Scene/Game/GameScene.hpp"
 #include "Scene/RoomList/RoomListScene.hpp"
 #include "Scene/EndGame/EndGameScene.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
 #include "Rollback/ComponentRollback.hpp"
 #include "Debug.hpp"
 
@@ -106,6 +107,8 @@ void ClientNetworkCore::quitRoom()
     try {
         Tram::Serializable tram(Tram::TramType::QUIT_ROOM);
         this->_udpClient.sendAll(tram);
+        Engine::EngineFactory::getInstance().getSystemManager().getSystem<System::ScoreSystem>()._labelTextManager = nullptr;
+        GET_SCENE_M.select<Scene::RoomListScene>();
     } catch (std::runtime_error const &) {
         std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
         GameCore::engine.quit();

@@ -38,5 +38,4 @@ void NetworkEventManager::JoinRoom(const JoinRoomEvent *e)
 void NetworkEventManager::Quit(const QuitEvent *)
 {
     GameCore::networkCore.quitRoom();
-    GET_EVENT_REG.registerEvent<SelectPreviousScene>();
 }

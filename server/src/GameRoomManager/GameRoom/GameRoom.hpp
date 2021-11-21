@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <thread>
 #include <utility>
+#include <mutex>
 #include <vector>
 #include "GameStage/GameStage.hpp"
 #include "StateMachineManager/StateMachineManager.hpp"
@@ -59,6 +60,7 @@ class GameRoom {
     std::thread _thread;
     TimePoint _enemyLastRefresh;
     bool _loop{true};
+    mutable std::mutex _mutex{};
 };
 
 #endif
