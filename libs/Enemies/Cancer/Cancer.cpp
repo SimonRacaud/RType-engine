@@ -5,7 +5,21 @@
 ** Cancer
 */
 
+#include "exported.h"
 #include "Cancer.hpp"
+
+extern "C" {
+    EXPORTED Cancer *initApi();
+    Cancer *initApi() {
+        return new Cancer();
+    }
+
+    EXPORTED void closeApi(Cancer *ptr);
+    void closeApi(Cancer *ptr) {
+        if (ptr)
+            delete ptr;
+    }
+}
 
 Cancer::Cancer()
 	: _position(0, 0), _velocity(-30, 0), _health(5)
