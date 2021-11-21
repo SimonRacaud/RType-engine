@@ -218,8 +218,6 @@ namespace Network
                     return;
                 }
             }
-            std::cout << "received from low level" << std::endl;
-
             if (!receivedPacketSize) {
                 return;
             }
