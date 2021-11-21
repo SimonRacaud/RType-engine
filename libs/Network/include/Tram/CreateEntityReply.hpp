@@ -36,7 +36,7 @@ namespace Tram
             size_t port, Time timestamp, std::string const &entityType, netVector2f const& position,
             netVector2f const& velocity);
         // client master -> server -> client slave
-        CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId, std::string const &ip,
+        CreateEntityReply(size_t roomId, bool accept, int64_t entityId, uint32_t networkId, std::string const &ip,
             size_t port, Time timestamp, std::string const &entityType, netVector2f const& position,
             netVector2f const& velocity);
 

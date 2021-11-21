@@ -38,7 +38,7 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networ
     std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }
 
-CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId,
+CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, int64_t entityId, uint32_t networkId,
     const std::string &ip, size_t port, Time timestamp, const std::string &entityType, netVector2f const& position,
     netVector2f const& velocity)
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply)),
