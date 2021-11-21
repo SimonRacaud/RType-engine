@@ -94,7 +94,7 @@ namespace Network
             return false;
         }
 
-        const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const
+        const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const override
         {
             return _connections;
         }

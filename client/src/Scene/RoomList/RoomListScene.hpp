@@ -22,11 +22,11 @@ namespace Scene
     class RoomListScene : public Engine::AbstractScene<RoomListScene> {
       public:
         RoomListScene();
-        virtual ~RoomListScene() = default;
+        ~RoomListScene() override = default;
 
-        virtual void open();
+        void open() override;
 
-        virtual void close() override;
+        void close() override;
 
         void reloadRoomList(std::vector<size_t> const &roomIdList);
 
