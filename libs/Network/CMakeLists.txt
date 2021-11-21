@@ -29,6 +29,7 @@ set(SRCS
     src/Tram/CreateEntityRequest.cpp
     src/Tram/DestroyEntity.cpp
     src/Tram/GetRoomList.cpp
+    src/Tram/EndGame.cpp
     src/Tram/Serializable.cpp
     src/Tram/JoinCreateRoomReply.cpp
     src/Tram/JoinRoom.cpp

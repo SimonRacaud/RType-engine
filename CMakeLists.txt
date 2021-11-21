@@ -79,12 +79,9 @@ set(CLIENT_SRCS
         client/src/System/NetworkReceive/NetworkReceiveSystem.cpp
         client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp
         client/src/Rollback/ComponentRollback.cpp
-<<<<<<< HEAD
-        client/src/Scene/EndGame/EndGameScene.cpp)
-=======
+        client/src/Scene/EndGame/EndGameScene.cpp
         client/src/System/ScoreSystem/ScoreSystem.cpp
         )
->>>>>>> dev
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)

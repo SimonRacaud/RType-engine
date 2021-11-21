@@ -15,6 +15,7 @@
 #include "GameCore/GameCore.hpp"
 #include "Scene/Game/GameScene.hpp"
 #include "Scene/RoomList/RoomListScene.hpp"
+#include "Scene/EndGame/EndGameScene.hpp"
 #include "Rollback/ComponentRollback.hpp"
 #include "Debug.hpp"
 
@@ -165,6 +166,19 @@ void ClientNetworkCore::syncComponent(Engine::NetworkId id, std::type_index cons
     } catch (std::runtime_error const &) {
         std::cerr << "[Info] Server unexpected disconnection. Exit." << std::endl;
         GameCore::engine.quit();
+    }
+}
+
+void ClientNetworkCore::receiveEndGame(InfoConnection &, Tram::EndGame &data)
+{
+    PUT_DEBUG("Received [END GAME]");
+    if (this->_engine.getSceneManager().isCurrent<Scene::GameScene>()) {
+        this->_roomId = data.roomId;
+        Scene::EndGameScene *ptr = reinterpret_cast<Scene::EndGameScene *>(&_engine.getSceneManager().get<Scene::EndGameScene>());
+        ptr->setFail(data.win);
+        Engine::EngineFactory::getInstance().getEventRegister().registerEvent<SelectScene>(Engine::ClusterName::GAME_END);
+    } else {
+        std::cerr << "Not in gameScene" << std::endl;
     }
 }
 
@@ -382,6 +396,12 @@ void ClientNetworkCore::_tramHandler(Tram::Serializable &header, InfoConnection 
         }
         case Tram::TramType::QUIT_ROOM: {
             this->receiveQuitRoom(info);
+            break;
+        }
+        case Tram::TramType::END_GAME: {
+            Tram::EndGame data;
+            data.deserialize(buffer);
+            this->receiveEndGame(info, data);
             break;
         }
         default:

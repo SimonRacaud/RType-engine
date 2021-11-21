@@ -21,6 +21,7 @@
 #include "Tram/DestroyEntity.hpp"
 #include "Tram/GetRoomList.hpp"
 #include "Tram/JoinCreateRoomReply.hpp"
+#include "Tram/EndGame.hpp"
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
 #include "EntityFactory/EntityFactory.hpp"
@@ -59,7 +60,6 @@ class ClientNetworkCore {
     void destroyEntity(Engine::NetworkId id);
     void syncComponent(Engine::NetworkId id, std::type_index const &componentType, size_t componentSize,
         void *component);
-
     /**
      * @brief Stop receive loop
      */
@@ -77,8 +77,8 @@ class ClientNetworkCore {
     void receiveCreateEntityRequest(InfoConnection &info, Tram::CreateEntityRequest &data);
     void receiveSyncComponent(InfoConnection &info, Tram::ComponentSync &data);
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
+    void receiveEndGame(InfoConnection &, Tram::EndGame &data);
     void receiveQuitRoom(InfoConnection &);
-
   private:
     void _receiveTcp();
     void _receiveUdp();
