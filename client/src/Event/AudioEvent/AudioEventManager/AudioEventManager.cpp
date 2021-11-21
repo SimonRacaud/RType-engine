@@ -23,6 +23,9 @@ AudioEventManager::AudioEventManager()
     reg.registerCallback<AudioEventStop>([this] (const Engine::Event::IEvent *e) {
         this->stopAudio(static_cast<const AudioEventStop *>(e));
     });
+    reg.registerCallback<AudioEventStopAll>([this] (const Engine::Event::IEvent *e) {
+        this->stopAudio(static_cast<const AudioEventStopAll *>(e));
+    });
     reg.registerCallback<AudioEventPause>([this] (const Engine::Event::IEvent *e) {
         this->pauseAudio(static_cast<const AudioEventPause *>(e));
     });
@@ -62,6 +65,16 @@ void AudioEventManager::stopAudio(const AudioEventStop *e)
         this->_list.at(e->_path)->stop();
     } catch (...) {
         throw std::invalid_argument("Invalid sound to stop");
+    }
+}
+
+void AudioEventManager::stopAudio(const AudioEventStopAll *e)
+{
+    for (auto &it : this->_list) {
+        try {
+            it.second->stop();
+        } catch (...) {
+        }
     }
 }
 

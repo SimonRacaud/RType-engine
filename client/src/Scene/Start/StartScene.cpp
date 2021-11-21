@@ -52,6 +52,7 @@ void StartScene::open()
     Button startButton(this->getCluster(), "Start", vector2D(280, 500),
         vector2f(3, 3), std::make_shared<SelectScene>(ClusterName::HOME));
     // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventStopAll>();
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();

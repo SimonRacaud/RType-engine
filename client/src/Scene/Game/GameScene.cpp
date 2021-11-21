@@ -38,6 +38,8 @@ using namespace Scene;
 using namespace Engine;
 using namespace std;
 
+size_t GameScene::countown = 0;
+
 GameScene::GameScene()
     : Engine::AbstractScene<GameScene>(ClusterName::GAME),
         _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE")),
@@ -81,18 +83,18 @@ void GameScene::createWaitingScreen()
         });
     });
     // Animated text : countdown
+    GameScene::countown = (timeUntilStart / 1000);
     componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win, timeUntilStart](Engine::Entity a) {
-        static size_t i = (timeUntilStart / 1000);
         Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
         Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
-        std::string str(waitText + std::to_string(i));
+        std::string str(waitText + std::to_string(GameScene::countown));
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-        if (i == 0)
-            i = (timeUntilStart / 1000);
+        if (GameScene::countown == 0)
+            GameScene::countown = (timeUntilStart / 1000);
         else
-            i--;
+            GameScene::countown--;
     });
     // SYSTEM SELECT
      GameCore::engine.getSystemManager().selectSystems<
@@ -133,6 +135,7 @@ void GameScene::initGame()
     ProgressBar beamPower(this->getCluster(), EntityName::BEAM_PROGRESS,
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventStopAll>();
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
     // SYSTEM SELECT
