@@ -235,8 +235,8 @@ void ClientNetworkCore::receiveCreateEntityRequest(InfoConnection &, Tram::Creat
         Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
         data.id = networkId;
         GameCore::entityFactory.build(data);
-        Tram::CreateEntityReply tram(data.roomId, true, networkId, _serverIp, _serverPortTcp, data.timestamp,
-            data.entityType, data.position, data.velocity);
+        Tram::CreateEntityReply tram(data.roomId, true, data.id, networkId, data.ip,
+            data.port, data.timestamp, data.entityType, data.position, data.velocity);
         this->_tcpClient.sendAll(tram);
     } else {
         /// Execute entity creation order
