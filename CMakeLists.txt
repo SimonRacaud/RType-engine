@@ -86,6 +86,7 @@ add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME_CLIENT} PRIVATE)
 else ()
     target_compile_options(${NAME_CLIENT} PRIVATE -g -Wall -Wextra -Wno-missing-field-initializers)
