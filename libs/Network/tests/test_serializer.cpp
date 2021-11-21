@@ -8,14 +8,14 @@
 #include <iostream>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
-#include "Tram/ComponentSync.hpp"
-#include "Tram/CreateEntityReply.hpp"
-#include "Tram/CreateEntityRequest.hpp"
-#include "Tram/DestroyEntity.hpp"
-#include "Tram/GetRoomList.hpp"
-#include "Tram/JoinCreateRoomReply.hpp"
-#include "Tram/JoinRoom.hpp"
-#include "Tram/Serializable.hpp"
+#include "Network/Serializable.hpp"
+#include "Network/Tram/ComponentSync.hpp"
+#include "Network/Tram/CreateEntityReply.hpp"
+#include "Network/Tram/CreateEntityRequest.hpp"
+#include "Network/Tram/DestroyEntity.hpp"
+#include "Network/Tram/GetRoomList.hpp"
+#include "Network/Tram/JoinCreateRoomReply.hpp"
+#include "Network/Tram/JoinRoom.hpp"
 
 using namespace Tram;
 

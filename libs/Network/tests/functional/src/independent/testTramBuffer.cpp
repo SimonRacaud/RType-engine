@@ -2,12 +2,11 @@
 ** EPITECH PROJECT, 2021
 ** testTramBuffer.cpp
 ** File description:
-** Test Tram buffer
+** Test Serialization buffer
 */
 
-#include <Tram/JoinCreateRoomReply.hpp>
-#include <Tram/Serializable.hpp>
-#include "Tram/TramBuffer.hpp"
+#include "Network/Tram/TramBuffer.hpp"
+#include "Test.hpp"
 #include "independentTest.hpp"
 
 int testTramBufferComplete()

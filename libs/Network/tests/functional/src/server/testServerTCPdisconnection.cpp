@@ -6,9 +6,9 @@
 */
 
 #include <cstring>
-#include "AsioConnectionTCP.hpp"
-#include "DataWrapper.hpp"
-#include "Tram/JoinRoom.hpp"
+#include "Asio/AsioConnectionTCP.hpp"
+#include "Data/DataWrapping/DataWrapper.hpp"
+#include "Network/Tram/JoinRoom.hpp"
 
 using namespace Network;
 

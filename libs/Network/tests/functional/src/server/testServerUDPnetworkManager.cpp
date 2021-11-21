@@ -6,11 +6,11 @@
 */
 
 #include <cstring>
-#include "AsioConnectionUDP.hpp"
-#include "DataWrapper.hpp"
-#include "NetworkManager.hpp"
-#include "Tram/JoinRoom.hpp"
-#include "intWrapper.hpp"
+#include "../../../../../../common/include/Network/NetworkManager.hpp"
+#include "Asio/AsioConnectionUDP.hpp"
+#include "Data/DataWrapping/DataWrapper.hpp"
+#include "Network/Tram/JoinRoom.hpp"
+#include "Test.hpp"
 #include <unordered_map>
 
 using namespace Network;

@@ -6,10 +6,10 @@
 */
 
 #include <cstring>
-#include "AsioConnectionUDP.hpp"
-#include "DataWrapper.hpp"
+#include "Asio/AsioConnectionUDP.hpp"
+#include "Data/DataWrapping/DataWrapper.hpp"
+#include "Test.hpp"
 #include "clientTest.hpp"
-#include "intWrapper.hpp"
 
 using namespace Network;
 

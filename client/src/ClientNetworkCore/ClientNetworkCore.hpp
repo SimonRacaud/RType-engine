@@ -13,21 +13,21 @@
 
 #include "CustomCluster.hpp"
 
-#include "AsioConnectionTCP.hpp"
-#include "AsioConnectionUDP.hpp"
+#include "../../../common/include/Network/NetworkManager.hpp"
+#include "Asio/AsioConnectionTCP.hpp"
+#include "Asio/AsioConnectionUDP.hpp"
 #include "EngineCore.hpp"
 #include "EntityFactory/EntityFactory.hpp"
 #include "InfoConnection.hpp"
-#include "NetworkManager.hpp"
-#include "Tram/ComponentSync.hpp"
-#include "Tram/CreateEntityReply.hpp"
-#include "Tram/CreateEntityRequest.hpp"
-#include "Tram/DestroyEntity.hpp"
-#include "Tram/GetRoomList.hpp"
-#include "Tram/JoinCreateRoomReply.hpp"
-#include "Tram/EndGame.hpp"
-#include "Tram/JoinRoom.hpp"
-#include "Tram/Serializable.hpp"
+#include "Network/Serializable.hpp"
+#include "Network/Tram/ComponentSync.hpp"
+#include "Network/Tram/CreateEntityReply.hpp"
+#include "Network/Tram/CreateEntityRequest.hpp"
+#include "Network/Tram/DestroyEntity.hpp"
+#include "Network/Tram/EndGame.hpp"
+#include "Network/Tram/GetRoomList.hpp"
+#include "Network/Tram/JoinCreateRoomReply.hpp"
+#include "Network/Tram/JoinRoom.hpp"
 #include "utils/netVector2f.hpp"
 
 #include "Network.hpp"
@@ -60,8 +60,8 @@ class ClientNetworkCore {
     void createEntity(
         Engine::Entity entity, std::string type, netVector2f const &position, netVector2f const &velocity);
     void destroyEntity(Engine::NetworkId id);
-    void syncComponent(Engine::NetworkId id, std::type_index const &componentType, size_t componentSize,
-        void *component);
+    void syncComponent(
+        Engine::NetworkId id, std::type_index const &componentType, size_t componentSize, void *component);
     /**
      * @brief Stop receive loop
      */
@@ -81,6 +81,7 @@ class ClientNetworkCore {
     void receiveDestroyEntity(InfoConnection &info, Tram::DestroyEntity &data);
     void receiveEndGame(InfoConnection &, Tram::EndGame &data);
     void receiveQuitRoom(InfoConnection &);
+
   private:
     void _receiveTcp();
     void _receiveUdp();

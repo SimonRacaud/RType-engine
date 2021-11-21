@@ -6,9 +6,9 @@
 */
 
 #include <cstring>
-#include "AsioConnectionTCP.hpp"
+#include "Asio/AsioConnectionTCP.hpp"
+#include "Test.hpp"
 #include "clientTest.hpp"
-#include "intWrapper.hpp"
 
 using namespace Network;
 

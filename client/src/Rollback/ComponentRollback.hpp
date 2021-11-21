@@ -11,7 +11,7 @@
 #include <functional>
 #include "EngineCore.hpp"
 #include <unordered_map>
-#include "Tram/ComponentSync.hpp"
+#include "Network/Tram/ComponentSync.hpp"
 
 class ComponentRollback {
   public:

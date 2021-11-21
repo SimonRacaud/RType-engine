@@ -6,8 +6,8 @@
 */
 
 #include <cstring>
-#include "AsioConnectionTCP.hpp"
-#include "intWrapper.hpp"
+#include "Asio/AsioConnectionTCP.hpp"
+#include "Test.hpp"
 #include "serverTest.hpp"
 #include <unordered_map>
 

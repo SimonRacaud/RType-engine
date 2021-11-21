@@ -6,10 +6,10 @@
 */
 
 #include <cstring>
-#include "AsioConnectionTCP.hpp"
-#include "NetworkManager.hpp"
-#include "Tram/JoinRoom.hpp"
-#include "intWrapper.hpp"
+#include "../../../../../../common/include/Network/NetworkManager.hpp"
+#include "Asio/AsioConnectionTCP.hpp"
+#include "Network/Tram/JoinRoom.hpp"
+#include "Test.hpp"
 
 using namespace Network;
 

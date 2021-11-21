@@ -5,9 +5,10 @@
 ** TODO: add description
 */
 
-#include "AsioConnectionTCP.hpp"
+#include "../../../../../../common/include/Network/NetworkManager.hpp"
+#include "Asio/AsioConnectionTCP.hpp"
 #include "INetwork.hpp"
-#include "NetworkManager.hpp"
+#include "Test.hpp"
 
 using namespace Network;
 

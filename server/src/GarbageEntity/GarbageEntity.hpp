@@ -12,8 +12,8 @@
 #include <vector>
 #include "IServerNetworkCore.hpp"
 #include "Components/Position.hpp"
-#include "Tram/ComponentSync.hpp"
-#include "Tram/DestroyEntity.hpp"
+#include "Network/Tram/ComponentSync.hpp"
+#include "Network/Tram/DestroyEntity.hpp"
 
 class GarbageEntity
 {

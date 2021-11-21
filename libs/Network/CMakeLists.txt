@@ -18,23 +18,23 @@ project(R-Type VERSION 0.0.0 LANGUAGES CXX)
 include_directories(
         ${CMAKE_INCLUDE_PATH}
         ./include/
-        ./include/Tram
+        ../../common/include/Network/Tram
 )
 
 ## SOURCES
 set(SRCS
     src/Exceptions/NetworkException.cpp
-    src/Tram/ComponentSync.cpp
-    src/Tram/CreateEntityReply.cpp
-    src/Tram/CreateEntityRequest.cpp
-    src/Tram/DestroyEntity.cpp
-    src/Tram/GetRoomList.cpp
-    src/Tram/EndGame.cpp
-    src/Tram/Serializable.cpp
-    src/Tram/JoinCreateRoomReply.cpp
-    src/Tram/JoinRoom.cpp
-    src/Tram/TramBuffer.cpp
-    src/NetworkManager.cpp
+    ../../common/src/Network/Tram/ComponentSync.cpp
+    ../../common/src/Network/Tram/CreateEntityReply.cpp
+    ../../common/src/Network/Tram/CreateEntityRequest.cpp
+    ../../common/src/Network/Tram/DestroyEntity.cpp
+    ../../common/src/Network/Tram/GetRoomList.cpp
+    ../../common/src/Network/Tram/EndGame.cpp
+    ../../common/src/Network/Serializable.cpp
+    ../../common/src/Network/Tram/JoinCreateRoomReply.cpp
+    ../../common/src/Network/Tram/JoinRoom.cpp
+    ../../common/src/Network/Tram/TramBuffer.cpp
+    ../../common/src/Network/NetworkManager.cpp
     src/DataWrapper.cpp
     )
 

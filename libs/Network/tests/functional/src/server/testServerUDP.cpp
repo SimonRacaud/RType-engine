@@ -6,9 +6,9 @@
 */
 
 #include <cstring>
-#include "AsioConnectionUDP.hpp"
-#include "DataWrapper.hpp"
-#include "intWrapper.hpp"
+#include "Asio/AsioConnectionUDP.hpp"
+#include "Data/DataWrapping/DataWrapper.hpp"
+#include "Test.hpp"
 #include "serverTest.hpp"
 #include <unordered_map>
 

@@ -22,26 +22,30 @@ project(R-Type
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+
+set(SRC_DIR src/)
+set(COMMON_DIR ../../../../common/)
+
 include_directories(
         ${CMAKE_INCLUDE_PATH}
+        ${COMMON_DIR}include/
         include
 )
 
-set(SRC_DIR src/)
 set(COMMON_PROJECT_SRC
     ../../src/Exceptions/NetworkException.cpp
-    ../../src/NetworkManager.cpp
     ../../src/DataWrapper.cpp
-    ../../src/Tram/ComponentSync.cpp
-    ../../src/Tram/CreateEntityReply.cpp
-    ../../src/Tram/CreateEntityRequest.cpp
-    ../../src/Tram/DestroyEntity.cpp
-    ../../src/Tram/GetRoomList.cpp
-    ../../src/Tram/Serializable.cpp
-    ../../src/Tram/JoinCreateRoomReply.cpp
-    ../../src/Tram/JoinRoom.cpp
-    ../../src/Tram/TramBuffer.cpp
-    ../../src/Tram/Serializable.cpp
+    ${COMMON_DIR}src/Network/NetworkManager.cpp
+    ${COMMON_DIR}src/Network/Tram/ComponentSync.cpp
+    ${COMMON_DIR}src/Network/Tram/CreateEntityReply.cpp
+    ${COMMON_DIR}src/Network/Tram/CreateEntityRequest.cpp
+    ${COMMON_DIR}src/Network/Tram/DestroyEntity.cpp
+    ${COMMON_DIR}src/Network/Tram/GetRoomList.cpp
+    ${COMMON_DIR}src/Network/Serializable.cpp
+    ${COMMON_DIR}src/Network/Tram/JoinCreateRoomReply.cpp
+    ${COMMON_DIR}src/Network/Tram/JoinRoom.cpp
+    ${COMMON_DIR}src/Network/Tram/TramBuffer.cpp
+    ${COMMON_DIR}src/Network/Serializable.cpp
     )
 
 ############## EXECUTABLES

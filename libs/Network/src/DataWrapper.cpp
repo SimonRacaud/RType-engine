@@ -6,7 +6,8 @@
 
 */
 
-#include "DataWrapper.hpp"
+#include "Data/DataWrapping/DataWrapper.hpp"
+#include <cstring>
 
 std::size_t DataWrapper::length() const
 {
