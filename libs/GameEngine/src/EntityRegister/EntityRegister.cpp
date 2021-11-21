@@ -149,13 +149,11 @@ void EntityRegister::setNetworkId(Entity entity)
         throw InvalidParameterException("EntityRegister::setNetworkId the "
                                         "entity doesn't exist");
     }
-    try {
-        NetworkId entityId = this->getNetworkId(entity); // that method will throw if not found
-
-        throw InvalidParameterException("EntityRegister::setNetworkId "
-            "network id " + std::to_string(entityId) + " already assigned.");
-    } catch (NotFoundException const &e) {
-        (void) e;
+    if (!this->exist(entity))
+        throw NotFoundException("EntityRegister::setNetworkId entity not found");
+    NetworkId net = this->_bookedEntities[entity].getNetworkId();
+    if (net != NO_NET_ID) {
+        throw NotFoundException("EntityRegister::setNetworkId the entity already has a network id " + std::to_string(net));
     }
     NetworkId id = this->_networkIdRegister.reserveId();
     this->_bookedEntities[entity].setNetworkId(id);
