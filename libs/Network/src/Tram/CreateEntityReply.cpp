@@ -15,7 +15,8 @@ using namespace Tram;
 CreateEntityReply::CreateEntityReply()
     : Tram::Serializable(Tram::TramType::CREATE_ENTITY_REPLY, sizeof(CreateEntityReply))
 {
-    this->ip[0] = '\0';
+    std::memset(this->ip, 0, IP_LENGTH);
+    std::memset(this->entityType, 0, ENTITY_TYPE_LEN);
 }
 
 CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networkId, const std::string &ip,
@@ -31,8 +32,10 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t networ
       velocity(velocity),
       port(port)
 {
-    std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
-    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN);
+    std::memset(this->ip, 0, IP_LENGTH);
+    std::memset(this->entityType, 0, ENTITY_TYPE_LEN);
+    std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
+    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }
 
 CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entityId, uint32_t networkId,
@@ -48,16 +51,19 @@ CreateEntityReply::CreateEntityReply(size_t roomId, bool accept, uint32_t entity
       velocity(velocity),
       port(port)
 {
-    std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
-    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN);
+    std::memset(this->ip, 0, IP_LENGTH);
+    std::memset(this->entityType, 0, ENTITY_TYPE_LEN);
+    std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
+    std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
 }
 
 uint8_t *CreateEntityReply::serialize() const
 {
-    size_t size = sizeof(CreateEntityReply);
-    auto *buffer = new uint8_t[size];
+    size_t len = sizeof(CreateEntityReply);
+    auto *buffer = new uint8_t[len];
 
-    std::memcpy(buffer, (uint8_t *) this, size);
+    std::memset(buffer, 0, len);
+    std::memcpy(buffer, (uint8_t *) this, len);
     return buffer;
 }
 

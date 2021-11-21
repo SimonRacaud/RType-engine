@@ -25,6 +25,7 @@ namespace Engine
         void run(const std::vector<Engine::Entity> &entities);
 
       private:
+        TimePoint _lastExecTime;
     };
 }
 

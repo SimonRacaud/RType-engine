@@ -31,7 +31,7 @@ void ColliderSystem::run(const vector<Entity> &entities)
 				position1.y < position2.y + hitbox2.y &&
 				position1.y + hitbox1.y > position2.y) {
 				hitbox1._eventFactory(e, other);
-				hitbox2._eventFactory(e, other);
+				hitbox2._eventFactory(other, e);
 			}
 		}	
 	}

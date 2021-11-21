@@ -9,8 +9,8 @@ cmake_minimum_required(VERSION 3.17)
 
 set(CONAN_DISABLE_CHECK_COMPILER True)
 
-#set(CMAKE_BUILD_TYPE Debug)
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(NAME_CLIENT r-type_client)
@@ -39,6 +39,9 @@ set(CLIENT_SRCS
         client/src/System/LogPosition/LogPositionSystem.cpp
         client/src/System/SyncSendSystem/SyncSendSystem.cpp
         client/src/System/InputEventSystem/InputEventSystem.cpp
+        client/src/System/PhysicsSystem/PhysicsSystem.cpp
+        client/src/System/TimerSystem/TimerSystem.cpp
+        client/src/System/ColliderSystem/ColliderSystem.cpp
 
         client/src/Event/AudioEvent/AudioEventManager/AudioEventManager.cpp
         client/src/Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.cpp
@@ -76,7 +79,12 @@ set(CLIENT_SRCS
         client/src/System/NetworkReceive/NetworkReceiveSystem.cpp
         client/src/System/OutofBoundsSystem/OutofBoundsSystem.cpp
         client/src/Rollback/ComponentRollback.cpp
+<<<<<<< HEAD
         client/src/Scene/EndGame/EndGameScene.cpp)
+=======
+        client/src/System/ScoreSystem/ScoreSystem.cpp
+        )
+>>>>>>> dev
 add_executable(${NAME_CLIENT} ${CLIENT_SRCS})
 
 target_include_directories(${NAME_CLIENT} PUBLIC client/src client/include)
@@ -109,6 +117,7 @@ set(SERVER_SRCS
         server/src/ServerNetworkCore/ServerNetworkCore.cpp
         server/src/GarbageEntity/GarbageEntity.cpp
         server/src/StateMachineManager/StateMachineManager.cpp
+        server/src/PhysicController/PhysicController.cpp
         )
 
 add_executable(${NAME_SERVER} ${SERVER_SRCS})
@@ -121,6 +130,7 @@ if(MSVC)
 endif()
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME_SERVER} PRIVATE)
 else ()
     target_compile_options(${NAME_SERVER} PRIVATE -Wall -Wextra -Wno-missing-field-initializers)

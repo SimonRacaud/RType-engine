@@ -21,10 +21,11 @@ JoinCreateRoomReply::JoinCreateRoomReply(bool accept, size_t roomId, Time timest
 
 uint8_t *JoinCreateRoomReply::serialize() const
 {
-    size_t size = sizeof(JoinCreateRoomReply);
-    auto *buffer = new uint8_t[size];
+    size_t len = sizeof(JoinCreateRoomReply);
+    auto *buffer = new uint8_t[len];
 
-    std::memcpy(buffer, (void *) this, size);
+    std::memset(buffer, 0, len);
+    std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
 

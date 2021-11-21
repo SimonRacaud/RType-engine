@@ -32,6 +32,7 @@
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
 #include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
+#include "System/ScoreSystem/ScoreSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -44,16 +45,11 @@ GameScene::GameScene()
         _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
-    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, 100);
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
-
-#include "utils/timeDef.hpp" // TODO [remove] when the server is finished
 
 void GameScene::open()
 {
-    this->setTimeStart(GET_NOW + 5000); // TODO [remove] that line when the server is working
-    this->setPlayerNumber(0); // TODO [remove] when the server is finished.
-
     this->createWaitingScreen();
 }
 
@@ -65,7 +61,7 @@ void GameScene::createWaitingScreen()
 
     // ENTITY CREATE
     ImageView background(backgroundPath, vector2D(0, 0), vector2f(1, 1), this->getCluster());
-    Button back(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3), std::make_shared<SelectPreviousScene>());
+    Button back(this->getCluster(), "Quit", vector2D(280, 600), vector2f(3, 3), std::make_unique<QuitEvent>());
     // MANUAL COMPONENT BUILD
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
@@ -93,14 +89,30 @@ void GameScene::createWaitingScreen()
 
         pos.x = (win.x - str.length() * 15) / 2;
         dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-        i--;
+        if (i == 0)
+            i = (timeUntilStart / 1000);
+        else
+            i--;
     });
+    // SYSTEM SELECT
+    // GameCore::engine.getSystemManager().selectSystems<
+    //     System::RenderSystem,
+    //     System::InputEventSystem,
+    //     Engine::TimerSystem,
+    //     System::NetworkReceiveSystem
+    //     >();
     // SYSTEM SELECT
     GameCore::engine.getSystemManager().selectSystems<
         System::RenderSystem,
         System::InputEventSystem,
         Engine::TimerSystem,
-        System::NetworkReceiveSystem
+        Engine::ColliderSystem,
+        Engine::PhysicsSystem,
+        System::ScrollSystem,
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem,
+        System::ScoreSystem,
+        System::OutofBoundsSystem
         >();
 }
 
@@ -115,13 +127,13 @@ void GameScene::initGame()
             GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
         } catch (std::exception const &e) {
             std::cerr << "GameScene::initGame : Fail to create player. " << e.what() << std::endl;
-            GET_EVENT_REG.registerEvent<SelectScene>(Engine::ClusterName::ROOM_LIST);
+            GET_EVENT_REG.registerEvent<QuitEvent>();
         }
     } else {
         std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
     }
     Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), std::make_unique<QuitEvent>());
-    Label numberPlayer(this->getCluster(), "0 P -", vector2D(10, 770),
+    Label numberPlayer(this->getCluster(), std::to_string(_playerNumber) + " P -", vector2D(10, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::NB_PLAYER);
     Label playerScore(this->getCluster(), "000", vector2D(200, 770),
         vector2D(1, 1), color_e::GREEN, EntityName::SCORE);
@@ -133,22 +145,13 @@ void GameScene::initGame()
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        Engine::ColliderSystem,
-        Engine::PhysicsSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem,
-        System::OutofBoundsSystem
-        >();
+    GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
 }
 
 void GameScene::setTimeStart(::Time timestamp)
 {
+    std::cout << GET_NOW << std::endl;
+    std::cout << timestamp << std::endl;
     this->_timestampStart = timestamp;
 }
 

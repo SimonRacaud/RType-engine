@@ -10,7 +10,9 @@
 #include <algorithm>
 #include <iostream>
 #include "ANetwork.hpp"
+#include "asio/placeholders.hpp"
 
+#include "asio/error_code.hpp"
 namespace Network
 {
     using asio::ip::udp;
@@ -22,20 +24,41 @@ namespace Network
          * @param port The port to open on this machine
          */
         explicit AsioConnectionUDP(const std::size_t port)
-            : AAsioConnection<Data>(true),
-              _endpoint(udp::v4(), port), _socket{AAsioConnection<Data>::_ioContext, _endpoint}
+            : AAsioConnection<Data>(true), _socket{AAsioConnection<Data>::_ioContext, udp::endpoint(udp::v4(), port)}
         {
             asyncReceiveAny();
         }
 
-        ~AsioConnectionUDP() = default;
+        ~AsioConnectionUDP()
+        {
+            disconnectAll();
+        };
 
         bool connect(const std::string &ip, const std::size_t port) override
         {
-            AAsioConnection<Data>::connect(ip, port);
+            if (AAsioConnection<Data>::isConnected(ip, port)) {
+                return true;
+            } else {
+                sendPing(ip, port);
+                return AAsioConnection<Data>::connect(ip, port);
+            }
+        }
 
-            asyncReceive(ip, port);
-            return true;
+        void disconnect(const std::string &ip, const std::size_t port) override
+        {
+            if (!AAsioConnection<Data>::isConnected(ip, port)) {
+                return;
+            }
+
+            sendPing(ip, port);
+            AAsioConnection<Data>::disconnect(ip, port);
+        }
+
+        void disconnectAll() override
+        {
+            for (const auto &item : AAsioConnection<Data>::_connections) {
+                disconnect(item.ip, item.port);
+            }
         }
 
         std::tuple<Data, std::size_t, std::string, std::size_t> receiveAny() override
@@ -74,8 +97,11 @@ namespace Network
 
         void sendAll(const Data &buf) override
         {
+            if (AAsioConnection<Data>::_connections.empty()) {
+                throw std::runtime_error("AsioConnectionUDP::sendAll No connection available.");
+            }
             for (const auto &connection : AAsioConnection<Data>::_connections) {
-                send(buf, connection.first, connection.second);
+                send(buf, connection.ip, connection.port);
             }
         }
 
@@ -83,59 +109,73 @@ namespace Network
         {
             udp::endpoint remoteEndpoint(asio::ip::make_address(ip), port);
 
-            _socket.send_to(
-                asio::buffer(buf.serialize(), buf.length()), remoteEndpoint, 0, AAsioConnection<Data>::_error);
+            if (buf.length()) {
+                auto buffer = asio::buffer(buf.serialize(), buf.length());
+                _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
+            }
         }
 
       private:
+        void sendPing(const std::string &ip, const std::size_t port)
+        {
+            udp::endpoint remoteEndpoint(asio::ip::make_address(ip), port);
+            asio::const_buffer buffer(nullptr, 0);
+
+            _socket.send_to(buffer, remoteEndpoint, 0, AAsioConnection<Data>::_error);
+        }
         /**
          * @brief Initialize asynchronous data acceptance from every connection
          */
         void asyncReceiveAny()
         {
-            _socket.async_receive(
-                asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
-                std::bind(&AsioConnectionUDP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
-                    "",
-                    0)); // todo find a way to get the address of the sender
-                         //     in order to put it into ret val of receiveAny and to connec()
-        }
-
-        /**
-         * @brief Initialize asynchronous data acceptance from this connection
-         * @param connection The socket, where the data can come from
-         */
-        void asyncReceive(const std::string &ip, const std::size_t port)
-        {
-            asio::ip::udp::endpoint senderEndpoint(asio::ip::make_address(ip), port);
-
             _socket.async_receive_from(
                 asio::buffer(AAsioConnection<Data>::_recvBuf.first, AAsioConnection<Data>::_recvBuf.second),
-                senderEndpoint,
-                std::bind(&AsioConnectionUDP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2,
-                    ip, port));
+                _senderEndpoint,
+                std::bind(
+                    &AsioConnectionUDP<Data>::asyncReceiving, this, std::placeholders::_1, std::placeholders::_2));
         }
 
-        void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize, const std::string &ip,
-            const std::size_t port)
+        void asyncReceiving(const asio::error_code &err, const std::size_t &receivedPacketSize)
         {
+            auto senderIp(_senderEndpoint.address().to_string());
+            auto senderPort(_senderEndpoint.port());
+
             if (err) {
-                if (err.value() == asio::error::misc_errors::eof) {
+                std::cerr << "UDP Asio : " << err.message() << std::endl;
+                if (err.value() == asio::error::operation_aborted) {
+                    resetReceive();
+                    if (AAsioConnection<Data>::isConnected(senderIp, senderPort)) {
+                        AAsioConnection<Data>::disconnect(senderIp, senderPort);
+                    }
                     return;
                 }
             }
-            if (!receivedPacketSize) {
+
+            if (!receivedPacketSize && !senderIp.empty() && senderPort) {
+                if (AAsioConnection<Data>::isConnected(senderIp, senderPort)) {
+                    AAsioConnection<Data>::disconnect(senderIp, senderPort);
+                } else {
+                    AAsioConnection<Data>::connect(senderIp, senderPort);
+                }
+                resetReceive();
                 return;
             }
 
-            AAsioConnection<Data>::_recvData.emplace(std::make_pair(ip, port),
+            AAsioConnection<Data>::_recvData.emplace(std::make_pair(senderIp, senderPort),
                 std::make_pair(Data(AAsioConnection<Data>::_recvBuf.first, receivedPacketSize), receivedPacketSize));
-            if (!ip.empty() && port)
-                asyncReceive(ip, port);
+            resetReceive();
+        }
+
+        void resetReceive()
+        {
+            if (AAsioConnection<Data>::_recvBuf.first != nullptr) {
+                memset(AAsioConnection<Data>::_recvBuf.first, 0, AAsioConnection<Data>::_recvBuf.second);
+                asyncReceiveAny();
+            }
         }
 
       private:
-        udp::endpoint _endpoint;
+        udp::endpoint _senderEndpoint;
         udp::socket _socket;
     };
 

@@ -15,30 +15,31 @@ std::size_t DataWrapper::length() const
 
 DataWrapper::DataWrapper(const uint8_t *data, const std::size_t length)
 {
-    delete _data;
-    _data = nullptr;
-    if (data) {
-        _data = new uint8_t[length];
-        memcpy(_data, data, length);
-        _dataLength = length;
-    }
+    DataWrapper::deserialize(data, length);
 }
 
 void DataWrapper::deserialize(const uint8_t *data, const std::size_t length)
 {
-    delete _data;
+    if (_data)
+        delete[] _data;
     _data = nullptr;
-    if (data) {
+    _dataLength = 0;
+    if (data && length) {
         _data = new uint8_t[length];
-        memcpy(_data, data, length);
+        std::memset(_data, 0, length);
+        std::memcpy(_data, data, length);
         _dataLength = length;
     }
 }
 
 uint8_t *DataWrapper::serialize() const
 {
-    auto tmp = new uint8_t[_dataLength];
+    if (!_dataLength) {
+        return nullptr;
+    }
+    uint8_t *tmp = new uint8_t[_dataLength];
 
-    memcpy(tmp, _data, _dataLength);
+    std::memset(tmp, 0, _dataLength);
+    std::memcpy(tmp, _data, _dataLength);
     return tmp;
 }

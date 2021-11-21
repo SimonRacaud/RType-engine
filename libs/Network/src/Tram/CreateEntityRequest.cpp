@@ -49,7 +49,7 @@ CreateEntityRequest::CreateEntityRequest(size_t roomId, uint32_t id, string enti
     } else {
         std::strncpy(this->entityType, entityType.c_str(), ENTITY_TYPE_LEN - 1);
     }
-    std::strncpy(this->ip, ip.c_str(), IP_LENGTH);
+    std::strncpy(this->ip, ip.c_str(), IP_LENGTH - 1);
 }
 
 CreateEntityRequest::CreateEntityRequest(size_t roomId, string entityType, Time timestamp, netVector2f const& position,
@@ -72,10 +72,11 @@ CreateEntityRequest::CreateEntityRequest(size_t roomId, string entityType, Time 
 
 uint8_t *CreateEntityRequest::serialize() const
 {
-    size_t size = this->length();
-    auto *buffer = new uint8_t[size];
+    size_t len = this->length();
+    auto *buffer = new uint8_t[len];
 
-    std::memcpy(buffer, (void *) this, size);
+    std::memset(buffer, 0, len);
+    std::memcpy(buffer, (void *) this, len);
     return buffer;
 }
 

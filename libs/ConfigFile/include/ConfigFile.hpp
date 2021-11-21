@@ -30,7 +30,8 @@ class ConfigFile {
         try {
           return std::any_cast<varType>(this->_loadLink.at(key)(this->getDataFrom(name)));
         } catch (const std::bad_any_cast &e) {
-          throw std::invalid_argument("Invalide function to load: " + std::string(typeid(varType).name()));
+            (void) e;
+            throw std::invalid_argument("Invalide function to load: " + std::string(typeid(varType).name()));
         }
       } else
         throw std::invalid_argument("No getter for: " + std::string(typeid(varType).name()));
@@ -49,7 +50,7 @@ class ConfigFile {
           for (auto &str : extractedList)
             list.push_back(std::any_cast<varType>(this->_loadLink.at(key)(str)));
           return list;
-        } catch (const std::bad_any_cast &e) {
+        } catch (const std::bad_any_cast) {
           throw std::invalid_argument("Invalide function to load: " + std::string(typeid(varType).name()));
         }
       } else

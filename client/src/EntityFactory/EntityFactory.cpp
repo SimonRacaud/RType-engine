@@ -54,10 +54,10 @@ void EntityFactory::createBullet(const vector2D &position, const vector2D &veloc
     const netVector2f pos(position.x, position.y);
     const netVector2f veloc(velocity.x, velocity.y);
     if (GameCore::networkCore.isMaster()) {
-        Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
+        //Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
 
-        GameCore::engine.getEntityManager().setNetworkId(entity, networkId); // apply network id
-        GameCore::networkCore.createEntity(networkId, bulletType, pos, veloc); // send notification
+        GameCore::engine.getEntityManager().setNetworkId(entity); // apply network id
+        GameCore::networkCore.createEntity(GameCore::engine.getEntityManager().getNetworkId(entity), bulletType, pos, veloc); // send notification
     } else {
         GameCore::networkCore.createEntity(entity, bulletType, pos, veloc); // send request
     }
@@ -72,10 +72,9 @@ void EntityFactory::createPlayer(const vector2D &position, const vector2D &veloc
     const netVector2f veloc(velocity.x, velocity.y);
 
     if (GameCore::networkCore.isMaster()) {
-        Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
-
-        GameCore::engine.getEntityManager().setNetworkId(entity, networkId); // apply network id
-        GameCore::networkCore.createEntity(networkId, playerType, pos, veloc); // send notification
+        //Engine::NetworkId networkId = GameCore::engine.getEntityManager().getNetworkId();
+        GameCore::engine.getEntityManager().setNetworkId(entity); // apply network id
+        GameCore::networkCore.createEntity(GameCore::engine.getEntityManager().getNetworkId(entity), playerType, pos, veloc); // send notification
     } else {
         GameCore::networkCore.createEntity(entity, playerType, pos, veloc); // send request
     }
@@ -87,8 +86,8 @@ void EntityFactory::makePlayer(Engine::ClusterName clusterName, const CreateEnti
     std::regex regex("^Player([0-4])$");
     std::smatch match;
 
-    if (std::regex_search(type, match, regex)) {
-        int playerId = std::stoi(match[0]);
+    if (std::regex_search(type, match, regex) && match.size() >= 2) {
+        int playerId = std::stoi(match[1]);
         vector2D position(request.position.x, request.position.y);
         vector2D velocity(request.velocity.x, request.velocity.y);
 
@@ -104,10 +103,10 @@ void EntityFactory::makeEnemy(Engine::ClusterName clusterName, CreateEntityReque
     const vector2D position(request.position.x, request.position.y);
     const vector2D velocity(request.velocity.x, request.velocity.y);
     const vector2f scale(1, 1);
-    const size_t nbStep = 3;
-    const surface surface(vector2D(33, 18), vector2D(33, 18));
+    const size_t nbStep = 8;
+    const surface surface(vector2D(0, 0), vector2D(33, 36));
 
-    Enemy(clusterName, position, velocity, scale, "asset/sprites/r-typesheet42.gif",
+    Enemy(clusterName, position, velocity, scale, "asset/sprites/r-typesheet5.gif",
         nbStep, surface).setNetworkId(request.id);
 }
 
@@ -117,9 +116,9 @@ void EntityFactory::makeBullet(Engine::ClusterName clusterName, CreateEntityRequ
     std::regex regex("^Bullet([0-4])?(Enemy|Player)$");
     std::smatch match;
 
-    if (std::regex_search(type, match, regex)) {
-        size_t bulletType = (size_t)std::stoi(match[0]);
-        const std::string owner = match[1];
+    if (std::regex_search(type, match, regex) && match.size() == 3) {
+        size_t bulletType = (size_t)std::stoi(match[1]);
+        const std::string owner = match[2];
         const vector2D position(request.position.x, request.position.y);
         const vector2D velocity(request.velocity.x, request.velocity.y);
 

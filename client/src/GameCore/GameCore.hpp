@@ -14,6 +14,9 @@
 #include "CustomEntityName.hpp"
 #include "EngineCore.hpp"
 
+#include "System/ColliderSystem/ColliderSystem.hpp"
+#include "System/PhysicsSystem/PhysicsSystem.hpp"
+#include "System/TimerSystem/TimerSystem.hpp"
 #include "build.hpp"
 #include "EventManager/EventManager.hpp"
 #include "WindowManager/WindowManager.hpp"
@@ -21,7 +24,6 @@
 #include "Event/EmptyCluster/EmptyClusterManager/EmptyClusterManager.hpp"
 #include "Event/NetworkEvent/NetworkEventManager/NetworkEventManager.hpp"
 #include "Event/GUI/GuiEventManager.hpp"
-#include "DLLoader.hpp"
 #include "ClientNetworkCore/ClientNetworkCore.hpp"
 #include "EntityFactory/EntityFactory.hpp"
 

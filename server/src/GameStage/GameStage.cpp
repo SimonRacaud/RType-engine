@@ -14,7 +14,7 @@ GameStage::GameStage(const GameStage &src) : _content(src._content), _step(src._
 {
 }
 
-GameStage::GameStage(const std::string &path) : _content(this->readFile(path))
+GameStage::GameStage(const std::string &path) : _content(this->readFile(path)), _step({}), _header(), _ended(), _pos(0)
 {
     if (!this->_content.size())
         throw std::invalid_argument("Empty file content");
@@ -69,7 +69,7 @@ StageStep GameStage::getStageStep(bool move)
 std::queue<StageStep> GameStage::getStagePrevious(std::size_t nb) const
 {
     std::queue<StageStep> queue;
-    int value = this->_pos - nb;
+    int value = (int)(this->_pos - nb);
 
     if (value < 0)
         value = 0;
@@ -121,10 +121,14 @@ void GameStage::extractStep()
 
     for (size_t y = 1; y < this->_content.size() - 1; y++) {
         split = this->splitToken(this->_content[y], ' ');
-        if (split.size() != 5)
+        if (split.size() != 6)
             throw std::invalid_argument("Invalid split length");
         type = this->extractEntityType(split[1]);
-        aiPath = split[4].substr(1, split[4].size() - 2);
+        #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+            aiPath = split[5].substr(1, split[5].size() - 2);
+        #else
+            aiPath = split[4].substr(1, split[4].size() - 2);
+        #endif
         try {
             time = std::stoi(split[0]);
             pos.first = std::stoi(split[2].substr(1, split[2].size() - 2));
@@ -194,7 +198,7 @@ void GameStage::checkFormat() const
         throw std::invalid_argument("Invalid line header (l. 0)");
     for (size_t y = 1; y < this->_content.size() - 1; y++) {
         // Original regex -> ^[0-9]{4} [0-9a-zA-Z_]* {[0-9]*, [0-9]*} "[0-9a-zA-Z\/_\-\.]*"$
-        if (!GameStage::matchWithRegex(this->_content[y], "^[0-9]{4} [0-9a-zA-Z_]* \\{[0-9]*, [0-9]*\\} \"[0-9a-zA-Z\\/_\\-\\.]*\"$")) {
+        if (!GameStage::matchWithRegex(this->_content[y], "^[0-9]{4} [0-9a-zA-Z_]* \\{[0-9]*, [0-9]*\\} \"[0-9a-zA-Z\\/_\\-\\.]*\" \"[0-9a-zA-Z\\/_\\-\\.]*\"$")) {
             throw std::invalid_argument("Invalid line " + std::to_string(y));
         }
     }
@@ -225,7 +229,7 @@ std::vector<std::string> GameStage::readFile(const std::string &filepath) const
         while (getline(myfile, line))
             fileContent.push_back(line);
     } else
-        throw std::invalid_argument("Fail to open file: " + filepath);
+        throw std::invalid_argument("Fail to open stage file: " + filepath);
     return fileContent;
 }
 

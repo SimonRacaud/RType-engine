@@ -80,7 +80,8 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
 
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-    Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
+    Engine::EntityName name = isLocalPlayer ? Engine::EntityName::LOCAL_PLAYER : Engine::EntityName::EMPTY;
+    Engine::Entity entity = entityManager.create(nullptr, cluster, name);
 
     this->configAppearance(entity, position, componentManager, playerNumber);
 
@@ -155,7 +156,7 @@ void Player::configAppearance(Entity entity, vector2D const &position, Engine::C
 
 void Player::configEvent(Entity entity, Engine::ComponentManager &componentManager)
 {
-    const float speed = 10;
+    const float speed = GameCore::config->getVar<float>("PLAYER_SPEED");
     componentManager.add<Engine::InputEvent>(entity, [speed](const Engine::Entity &local) {
         auto &shooting = GET_COMP_M.get<Component::Shooting>(local);
         auto &render = GET_COMP_M.get<Engine::Render>(local);
@@ -215,9 +216,9 @@ void Player::configEvent(Entity entity, Engine::ComponentManager &componentManag
     });
 }
 
-void Player::setNetworkId(uint32_t entityId)
+void Player::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }
 
 Engine::Entity Player::getId() const

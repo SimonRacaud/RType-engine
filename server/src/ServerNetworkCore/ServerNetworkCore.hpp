@@ -33,6 +33,7 @@
 #include "GameRoomManager/GameRoomManager.hpp"
 
 #include "utils/netVector2f.hpp"
+#include "Debug.hpp"
 
 #include <vector>
 #include <memory>
@@ -82,7 +83,7 @@ class ServerNetworkCore : public IServerNetworkCore {
 
     static bool _loop;
 
-  protected:
+  private:
     void receiveGetRoomList(InfoConnection &info);
     void receiveCreateRoom(InfoConnection &info);
     void receiveQuitRoom(InfoConnection &info);
@@ -97,12 +98,17 @@ class ServerNetworkCore : public IServerNetworkCore {
     void _receiveFromChannel(NetworkManager &net);
     void _tramHandler(Tram::Serializable &header, InfoConnection &info,
         uint8_t *buffer);
+    void _closeGameRoom(size_t roomId);
+    void _removeClient(size_t roomId, std::string const &ip);
 
     shared_ptr<NetworkRoom> _getRoom(size_t roomId);
 
     void _removePlayer(shared_ptr<NetworkRoom> &room, size_t clientIndex);
 
   private:
+    size_t _portUdp;
+    size_t _portTcp;
+    size_t _portUdpClient;
     NetworkManager _tcpServer;
     NetworkManager _udpServer;
     GarbageEntity _garbageEntity;

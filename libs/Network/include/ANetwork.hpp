@@ -12,7 +12,6 @@
 #include <thread>
 #include "Exceptions/NetworkException.hpp"
 #include "INetwork.hpp"
-#include "utils/ThreadSafety/LockedDeque.hpp"
 #include "utils/ThreadSafety/LockedUnorderedMultimap.hpp"
 
 #ifndef MY_MAP
@@ -39,7 +38,8 @@ namespace Network
 
         virtual ~AAsioConnection()
         {
-            delete _recvBuf.first;
+            delete[] _recvBuf.first;
+            _recvBuf.first = nullptr;
             stopRunAsync();
             disconnectAll();
         }
@@ -60,14 +60,12 @@ namespace Network
         {
             auto first(_connections.begin());
             auto last(_connections.end());
-            std::pair<const std::string, const std::size_t> value(ip, port);
+            Network::InfoConnection value(ip, port);
 
             first = std::find(first, last, value);
             if (first == last)
                 throw Network::invalidConnection(Network::invalidConnection::_baseMessageFormat, ip, port);
-            for (auto i = first; ++i != last;)
-                if (!(*i == value))
-                    (void) std::move(*i);
+            _connections.erase(first);
         }
 
         void disconnectAll() override
@@ -88,11 +86,17 @@ namespace Network
             if (!AAsioConnection<Data>::_connections.empty()
                 && std::find_if(_connections.begin(), _connections.end(),
                        [=](const auto &connection) {
-                           return ip == connection.first && port == connection.second;
+                           return ip == connection.ip && port == connection.port;
                        })
-                    != AAsioConnection<Data>::_connections.end())
+                    != AAsioConnection<Data>::_connections.end()) {
                 return true;
+            }
             return false;
+        }
+
+        const ThreadSafety::LockedDeque<Network::InfoConnection> &getConnections() const
+        {
+            return _connections;
         }
 
       private:
@@ -114,16 +118,19 @@ namespace Network
          */
         void realRunAsync()
         {
-            while (_thread.joinable() && !AAsioConnection<Data>::_ioContext.stopped()) {
-                std::cout << "thread running" << std::endl;
-                //                _ioContext.run_one_for(std::chrono::seconds(1)); // todo might not work for big
-                //                packets
-                _ioContext.run_one();
+            _runningAsync = true;
+            const std::chrono::duration<double> waitAsyncSetup(0.01);
+
+            std::this_thread::sleep_for(waitAsyncSetup);
+            while (_thread.joinable() && _runningAsync) {
+                _ioContext.run_one_for(std::chrono::seconds(1));
+                // todo might not work for big packets
             }
         }
 
         void stopRunAsync()
         {
+            _runningAsync = false;
             if (!_thread.joinable()) {
                 return;
             }
@@ -161,9 +168,10 @@ namespace Network
         std::size_t _receivePacketSize{500};
         // todo change
 
-        ThreadSafety::LockedDeque<std::pair<const std::string, const std::size_t>> _connections;
+        ThreadSafety::LockedDeque<Network::InfoConnection> _connections;
 
         // Asynchronous operations
+        bool _runningAsync{false};
         /**
          * @property Contain data received from connections through
          *  asynchronous operations

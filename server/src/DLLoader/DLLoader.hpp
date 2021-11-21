@@ -13,7 +13,8 @@
 #include <memory>
 #if defined(WIN32) || defined(_WIN32) \
     || defined(__WIN32) && !defined(__CYGWIN__)
-    #include <windows.h>
+    //Include asio.hpp because if we put Windows.h we get double include error for windows compilation
+    #include <asio.hpp> //for windows.h
     #define LIBTYPE          HINSTANCE
     #define OPENLIB(libname) LoadLibrary(libname)
     #define LIBFUNC(lib, fn) GetProcAddress((lib), (fn))
@@ -36,6 +37,10 @@ template <typename T> class DLLoader {
         T *ptr = NULL;
 
         handle = OPENLIB(filePath.c_str());
+        if (handle == NULL) {
+            std::cerr << "Could not retreive handle from lib" << std::endl;
+            return nullptr;
+        }
         *(void **) &instance = LIBFUNC(handle, entryName.c_str());
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"
@@ -52,11 +57,18 @@ template <typename T> class DLLoader {
         LIBTYPE handle = NULL;
         void (*instance)(T *) = nullptr;
 
+        if (ptr == nullptr)
+            return;
         handle = OPENLIB(filePath.c_str());
+        if (handle == NULL) {
+            std::cerr << "Could not open lib from path given" << std::endl;
+            return;
+        }
         *(void **) &instance = LIBFUNC(handle, closePoint.c_str());
         if (!instance) {
             std::cerr << "Could not retrieve instance from handler"
-                      << std::endl;    
+                      << std::endl;
+            return;
         }
         (instance)(ptr);
         CLOSELIB(handle);

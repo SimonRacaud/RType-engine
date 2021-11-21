@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 3.17)
 
-set(CMAKE_BUILD_TYPE Release) # TODO : update after
+set(CMAKE_BUILD_TYPE Debug) # TODO : update after
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -25,12 +25,11 @@ include_directories(
 set(SRCS
 		./PataPata.cpp)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
 add_library(${NAME} SHARED ${SRCS})
 
 if (WIN32)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
     target_compile_options(${NAME} PRIVATE)
 else ()
     target_compile_options(${NAME} PRIVATE -Wall -Wextra -fPIC)

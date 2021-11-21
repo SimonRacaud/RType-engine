@@ -79,7 +79,8 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
             (mask._currentMask == Component::MASK::BULLET_PLAYER && otherMask._currentMask == Component::MASK::ENEMY)) {
             GET_EVENT_REG.registerEvent<EntityRemoveEvent>(a);
         }
-        GET_EVENT_REG.registerEvent<BulletExplosion>(b);
+        if (Bullet::displayExplosion(mask._currentMask, otherMask._currentMask))
+            GET_EVENT_REG.registerEvent<BulletExplosion>(b);
 
     });
     /// NETWORK
@@ -90,12 +91,25 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     _entity = entity;
 }
 
-void Bullet::setNetworkId(uint32_t entityId)
+void Bullet::setNetworkId(uint32_t networkId)
 {
-    GameCore::engine.getEntityManager().setNetworkId(_entity, entityId);
+    GameCore::engine.getEntityManager().forceApplyId(_entity, networkId);
 }
 
 Engine::Entity Bullet::getId() const
 {
     return _entity;
+}
+
+bool Bullet::displayExplosion(Component::MASK a, Component::MASK b)
+{
+    using Component::MASK;
+    bool bulletA = a == Component::MASK::BULLET_ENEMY || a == Component::MASK::BULLET_PLAYER;
+    bool bulletB = b == Component::MASK::BULLET_ENEMY || b == Component::MASK::BULLET_PLAYER;
+    bool playerA = a == Component::MASK::PLAYER && b == Component::MASK::BULLET_PLAYER;
+    bool playerB = b == Component::MASK::PLAYER && a == Component::MASK::BULLET_PLAYER;
+    bool aIsCharacter = a == MASK::PLAYER || a == MASK::ENEMY;
+    bool bIsCharacter = b == MASK::PLAYER || b == MASK::ENEMY;
+
+    return !(bulletA && bulletB) && !(playerA || playerB) && (aIsCharacter || bIsCharacter);
 }

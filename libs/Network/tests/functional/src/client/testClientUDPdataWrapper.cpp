@@ -9,6 +9,7 @@
 #include "AsioConnectionUDP.hpp"
 #include "DataWrapper.hpp"
 #include "Tram/JoinRoom.hpp"
+#include "intWrapper.hpp"
 
 using namespace Network;
 
@@ -25,6 +26,8 @@ static int startClientSendData(uint8_t *data, const std::size_t length)
     if (!connected)
         return 84;
     client.send(wrapper, ipServer, portServer);
+    usleep(300000); // wait for the server to receive
+
     client.disconnect(ipServer, portServer);
     return 0;
 }
@@ -46,7 +49,10 @@ int testUDPclientDataWrapperJoinRoom()
 
 int testUDPclientDataWrapperGetRoomList()
 {
-    std::vector<std::size_t> listOfRooms{222, 444};
+    std::vector<std::size_t> listOfRooms;
+    listOfRooms.emplace_back(222);
+    listOfRooms.emplace_back(444);
+
     Tram::GetRoomList my_data{listOfRooms};
 
     return startClientSendData(my_data.serialize(), my_data.length());
@@ -54,42 +60,38 @@ int testUDPclientDataWrapperGetRoomList()
 
 int testUDPclientDataWrapperCreateEntityReply()
 {
-    Tram::CreateEntityReply my_data{123, true, 456, 789};
+    Tram::CreateEntityReply my_data(123, true, 456, 789, "ip", 8080, 321, "type", netVector2f(0, 0), netVector2f(0, 0));
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testUDPclientDataWrapperCreateEntityRequest()
 {
-    Tram::CreateEntityRequest my_data{123, 456, "789", std::chrono::milliseconds(321)};
+    Tram::CreateEntityRequest my_data(123, 456, "789", 321, netVector2f(0, 0), netVector2f(0, 0));
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 int testUDPclientDataWrapperJoinCreateRoomReply()
 {
-    Tram::JoinCreateRoomReply my_data{true, 123456789, std::chrono::milliseconds(987)};
+    Tram::JoinCreateRoomReply my_data(true, 123456789, 987);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
+
 int testUDPclientDataWrapperComponentSync()
 {
-    // size_t roomId{0}
-    // size_t size{0}
-    // uint32_t networkId{0}
-    // Time timestamp{0}
-    // size_t componentType{0}
-    // size_t componentSize{0}
-    // void *component{nullptr}
-    //    Tram::ComponentSync my_data{963, 852, 456, 789};
+    auto *ptr = new TestComponent(753951);
+    Time time = (Time) 424242;
+    auto type = std::type_index(typeid(TestComponent));
+    const size_t compSize = sizeof(TestComponent);
 
-    //    return startClientSendData(my_data.serialize(), my_data.length());
-    //    return startClientSendData(nullptr, 0);
-    return 84;
-}
-int testUDPclientDataWrapperDestroyEntity()
-{
-    Tram::DestroyEntity my_data{987654321, 665544};
+    Tram::ComponentSync my_data(43, 42, time, type, compSize, (void *) ptr);
 
     return startClientSendData(my_data.serialize(), my_data.length());
 }
 
-// todo test all Trams
+int testUDPclientDataWrapperDestroyEntity()
+{
+    Tram::DestroyEntity my_data(987654321, 665544);
+
+    return startClientSendData(my_data.serialize(), my_data.length());
+}
