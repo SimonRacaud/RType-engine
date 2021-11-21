@@ -4,8 +4,8 @@
 ** File description:
 ** Network Abstract class
 */
-#ifndef ANETWORK_HPP
-#define ANETWORK_HPP
+#ifndef _ANETWORK_HPP
+#define _ANETWORK_HPP
 
 #include <functional>
 #include <iostream>
@@ -192,4 +192,4 @@ namespace Network
     };
 } // namespace Network
 
-#endif // ANETWORK_HPP
+#endif // _ANETWORK_HPP

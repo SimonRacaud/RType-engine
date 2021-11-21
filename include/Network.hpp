@@ -8,8 +8,8 @@
 ** \date 16/11/2021
 */
 
-#ifndef NETWORK_HPP
-#define NETWORK_HPP
+#ifndef R_TYPE_NETWORK_HPP
+#define R_TYPE_NETWORK_HPP
 
 #include <cstddef>
 
@@ -21,4 +21,4 @@
  */
 #define TIME_ROOM_WAIT (long) 5000
 
-#endif // NETWORK_HPP
+#endif // R_TYPE_NETWORK_HPP

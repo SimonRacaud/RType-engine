@@ -5,8 +5,8 @@
 ** Network interface
 */
 
-#ifndef NETWORK_HPP
-#define NETWORK_HPP
+#ifndef _INETWORK_HPP
+#define _INETWORK_HPP
 
 #include <array>
 #include <cstddef>
@@ -87,4 +87,4 @@ namespace Network
 
 } // namespace Network
 
-#endif // NETWORK_HPP
+#endif // _INETWORK_HPP
