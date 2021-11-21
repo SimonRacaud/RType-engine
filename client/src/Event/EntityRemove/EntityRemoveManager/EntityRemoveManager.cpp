@@ -17,21 +17,22 @@ EntityRemoveManager::EntityRemoveManager()
 void entityRemove(const EntityRemoveEvent *e)
 {
 	Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
-	std::vector<Engine::Entity> list;
 
     try {
-		if (GET_COMP_M.get<Component::EntityMask>(e->_entity)._currentMask == Component::MASK::PLAYER) {
-			componentManager.foreachComponent<Component::EntityMask>([&list, componentManager](Component::EntityMask *comp) {
-				Engine::Entity e = componentManager.getOwner(*comp);
-				list.push_back(e);
-			});
-			if (list.size() == 1) {
-				GET_SCENE_M.select<Scene::EndGameScene>(true);
-			}
-		}
         if (GameCore::networkCore.isMaster()) {
             GameCore::networkCore.destroyEntity(GET_ENTITY_M.getNetworkId(e->_entity));
             GET_ENTITY_M.remove(e->_entity);
+        }
+		if (GET_COMP_M.get<Component::EntityMask>(e->_entity)._currentMask == Component::MASK::PLAYER) {
+            size_t counter = 0;
+			componentManager.foreachComponent<Engine::ScoreComponent>([&counter](Engine::ScoreComponent *) {
+				counter++;
+			});
+			if (counter == 0) {
+				GET_SCENE_M.select<Scene::EndGameScene>(true);
+			}
 		}
-    } catch (std::exception) {}
+    } catch (std::exception const &e) {
+        std::cerr << "entityRemove " << e.what() << std::endl;
+    }
 }
