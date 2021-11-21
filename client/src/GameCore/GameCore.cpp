@@ -20,6 +20,7 @@
 #include "Scene/Home/HomeScene.hpp"
 #include "Scene/RoomList/RoomListScene.hpp"
 #include "Scene/Settings/SettingsScene.hpp"
+#include "Scene/EndGame/EndGameScene.hpp"
 
 #include "System/LogPosition/LogPositionSystem.hpp"
 
@@ -127,7 +128,8 @@ void GameCore::run()
     sceneManager.registerScene<Scene::SettingsScene>();
     sceneManager.registerScene<Scene::RoomListScene>();
     sceneManager.registerScene<Scene::GameScene>();
-    sceneManager.registerScene<Scene::DebugScene>("Test");
+    //sceneManager.registerScene<Scene::DebugScene>("Test");
+    sceneManager.registerScene<Scene::EndGameScene>();
 
     sceneManager.select<Scene::RoomListScene>();
 

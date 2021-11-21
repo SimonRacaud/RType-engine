@@ -15,7 +15,7 @@
 namespace Engine {
     #define GET_SYS_M    Engine::EngineFactory::getInstance().getSystemManager()
     #define GET_EVENT_REG Engine::EngineFactory::getInstance().getEventRegister()
-
+    #define GET_SCENE_M Engine::EngineFactory::getInstance().getSceneManager()
 }
 
 #endif // FACTORYSHORTCUTS_HPP

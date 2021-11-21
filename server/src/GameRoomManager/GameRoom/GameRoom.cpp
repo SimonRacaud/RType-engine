@@ -84,7 +84,11 @@ void GameRoom::newStage()
 {
     if (!this->_stage.isStageEnd())
         throw std::invalid_argument("Stage not ended");
-    this->_stage = GameStage(this->_stage.getStageNext());
+    try {
+        this->_stage = GameStage(this->_stage.getStageNext());
+    } catch (std::invalid_argument &) {
+        ServerCore::network->endGame(_id);
+    }
     this->_start = std::chrono::system_clock::now();
 }
 

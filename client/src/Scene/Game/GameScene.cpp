@@ -95,36 +95,25 @@ void GameScene::createWaitingScreen()
             i--;
     });
     // SYSTEM SELECT
-    // GameCore::engine.getSystemManager().selectSystems<
-    //     System::RenderSystem,
-    //     System::InputEventSystem,
-    //     Engine::TimerSystem,
-    //     System::NetworkReceiveSystem
-    //     >();
-    // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        Engine::ColliderSystem,
-        Engine::PhysicsSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem,
-        System::ScoreSystem,
-        System::OutofBoundsSystem
-        >();
+     GameCore::engine.getSystemManager().selectSystems<
+         System::RenderSystem,
+         System::InputEventSystem,
+         Engine::TimerSystem
+         >();
 }
 
 void GameScene::initGame()
 {
-    const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
-
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
     if (this->_playerNumber != -1) {
         try {
-            GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+            Engine::Entity createPlayerTimer = GameCore::engine.getEntityManager().create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+            GameCore::engine.getComponentManager().add<Engine::Timer>(createPlayerTimer, std::chrono::milliseconds(1000), [this, createPlayerTimer](Engine::Entity) {
+                const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
+                GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+                GameCore::engine.getEntityManager().remove(createPlayerTimer);
+            });
         } catch (std::exception const &e) {
             std::cerr << "GameScene::initGame : Fail to create player. " << e.what() << std::endl;
             GET_EVENT_REG.registerEvent<QuitEvent>();
@@ -146,6 +135,19 @@ void GameScene::initGame()
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
+    // SYSTEM SELECT
+    GameCore::engine.getSystemManager().selectSystems<
+        System::RenderSystem,
+        System::InputEventSystem,
+        Engine::TimerSystem,
+        Engine::ColliderSystem,
+        Engine::PhysicsSystem,
+        System::ScrollSystem,
+        System::NetworkReceiveSystem,
+        System::SyncSendSystem,
+        System::ScoreSystem,
+        System::OutofBoundsSystem
+        >();
 }
 
 void GameScene::setTimeStart(::Time timestamp)

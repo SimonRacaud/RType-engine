@@ -44,6 +44,11 @@ class IServerNetworkCore {
     virtual void syncComponent(size_t roomId, NetworkId id, std::type_index const &componentType,
         size_t componentSize, void *component) = 0;
 
+    /**
+     * @brief Broadcast end of game
+     * @param roomId
+     */
+    virtual void endGame(size_t roomId) = 0;
     virtual void receiveLoop() = 0;
 };
 

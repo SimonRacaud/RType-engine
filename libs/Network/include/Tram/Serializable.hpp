@@ -35,7 +35,8 @@ namespace Tram
         CREATE_ENTITY_REQUEST,  // client, server
         CREATE_ENTITY_REPLY, // client, server
         DESTROY_ENTITY, // client, server
-        SYNC_COMPONENT  // client, server
+        SYNC_COMPONENT,  // client, server
+        END_GAME,
     };
 
     const std::unordered_map<TramType, std::string> TramTypeString{{TramType::NONE, "NONE"},
@@ -43,7 +44,7 @@ namespace Tram
         {TramType::CREATE_ROOM, "CREATE_ROOM"}, {TramType::JOIN_ROOM, "JOIN_ROOM"},
         {TramType::JOIN_ROOM_REPLY, "JOIN_ROOM_REPLY"}, {TramType::QUIT_ROOM, "QUIT_ROOM"},
         {TramType::CREATE_ENTITY_REQUEST, "CREATE_ENTITY"}, {TramType::CREATE_ENTITY_REPLY, "CREATE_ENTITY_REPLY"},
-        {TramType::DESTROY_ENTITY, "DESTROY_ENTITY"}, {TramType::SYNC_COMPONENT, "SYNC_COMPONENT"}};
+        {TramType::DESTROY_ENTITY, "DESTROY_ENTITY"}, {TramType::SYNC_COMPONENT, "SYNC_COMPONENT"}, {TramType::END_GAME, "END_GAME"}};
     std::ostream &operator<<(std::ostream &stream, const Tram::TramType tram);
 
     // todo passer à travers tout les types pour init le header

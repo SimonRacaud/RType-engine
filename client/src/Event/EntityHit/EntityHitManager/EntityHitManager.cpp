@@ -6,9 +6,10 @@
 */
 
 #include "EntityHitManager.hpp"
-
+#include "Scene/EndGame/EndGameScene.hpp"
 #include "Components/Health.hpp"
 #include "Event/EntityRemove/EntityRemoveEvent.hpp"
+#include "Event/AddScore/AddScoreEvent.hpp"
 
 EntityHitManager::EntityHitManager()
 {
@@ -23,10 +24,13 @@ void entityHit(const EntityHit *e)
             throw Engine::InvalidTypeException("Trying to hit an entity without a health component");
         auto &health = GET_COMP_M.get<Component::Health>(e->_entity);
 
-        health._health -= e->_damage;
-        if (health._health <= 0) {
-            GET_EVENT_REG.registerEvent<EntityRemoveEvent>(e->_entity);
-        }
+		health._health -= e->_damage;
+		if (health._health <= 0) {
+			if (GET_COMP_M.get<Component::EntityMask>(e->_entity)._currentMask == Component::MASK::PLAYER) {
+				GET_EVENT_REG.registerEvent<AddScoreEvent>(e->_entity);
+			}
+			GET_EVENT_REG.registerEvent<EntityRemoveEvent>(e->_entity);
+		}
     } catch (std::exception const &e) {
         std::cerr << "EntityHitManager::entityhit " << e.what() << std::endl;
     }

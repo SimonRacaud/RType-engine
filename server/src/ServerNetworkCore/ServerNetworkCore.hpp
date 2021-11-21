@@ -27,6 +27,7 @@
 #include "Tram/JoinCreateRoomReply.hpp"
 #include "Tram/JoinRoom.hpp"
 #include "Tram/Serializable.hpp"
+#include "Tram/EndGame.hpp"
 
 #include "GameRoomManager/GameRoomManager.hpp"
 #include "GarbageEntity/GarbageEntity.hpp"
@@ -78,6 +79,7 @@ class ServerNetworkCore : public IServerNetworkCore {
     void syncComponent(
         size_t roomId, NetworkId id, std::type_index const &componentType, size_t componentSize, void *component);
 
+    void endGame(size_t roomId);
     void receiveLoop();
 
     static bool _loop;
