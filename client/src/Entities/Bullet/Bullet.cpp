@@ -71,7 +71,7 @@ Bullet::Bullet(ClusterName cluster, size_t charge, const vector2D &pos, const ve
     componentManager.add<Engine::Velocity>(entity, velocity.x, velocity.y);
     vector2D size = focusSize[charge];
     /// HITBOX
-    componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [cluster](Engine::Entity a, Engine::Entity b) {        
+    componentManager.add<Engine::Hitbox>(entity, size.x, size.y, [](Engine::Entity a, Engine::Entity b) {
         auto mask = GET_COMP_M.get<Component::EntityMask>(a);
         auto otherMask = GET_COMP_M.get<Component::EntityMask>(b);
 

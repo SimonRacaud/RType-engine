@@ -20,7 +20,7 @@ class IWindowManager
         virtual void setSize(const vector2D &) = 0;
         virtual void setName(const std::string &) = 0;
 
-        virtual bool isOpen() const = 0;
+        [[nodiscard]] virtual bool isOpen() const = 0;
 
         virtual void open() = 0;
         virtual void clear() = 0;

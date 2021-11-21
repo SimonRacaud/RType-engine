@@ -12,21 +12,20 @@
 
 namespace System
 {
-    class SyncSendSystem : public Engine::AbstractSystem<SyncSendSystem>
-    {
-        public:
-            SyncSendSystem();
+    class SyncSendSystem : public Engine::AbstractSystem<SyncSendSystem> {
+      public:
+        SyncSendSystem();
 
-            void run(const std::vector<Engine::Entity> &entities);
+        void run(const std::vector<Engine::Entity> &entities) override;
 
-            virtual void onManagedEntityAdded(Engine::Entity) override;
+        void onManagedEntityAdded(Engine::Entity) override;
 
-          private:
-            void syncEntity(Engine::Entity entity);
+      private:
+        void syncEntity(Engine::Entity entity);
 
-          private:
-            bool _isMaster{false};
+      private:
+        bool _isMaster{false};
     };
-}
+} // namespace System
 
 #endif

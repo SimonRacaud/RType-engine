@@ -11,20 +11,14 @@
 std::unique_ptr<ConfigFile> ServerCore::config = std::make_unique<ConfigFile>("server.config");
 std::unique_ptr<IServerNetworkCore> ServerCore::network = nullptr;
 
-ServerCore::ServerCore() :
-_loop(true),
-_rooms()
+ServerCore::ServerCore() : _rooms()
 {
     config->setVarGetter<std::pair<int, int>>(ConfigFileExternal::getPairIntInt);
     if (!network)
         network = std::make_unique<ServerNetworkCore>();
 }
 
-ServerCore::~ServerCore()
-{
-}
-
-void ServerCore::run(void)
+void ServerCore::run()
 {
     network->receiveLoop();
 }
