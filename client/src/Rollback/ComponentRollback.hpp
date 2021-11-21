@@ -25,7 +25,6 @@ class ComponentRollback {
   private:
     static const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *, long int)>>
         hashcodeComponents;
-    static const vector2D winsize;
 };
 
 #endif // R_TYPE_SERVER_COMPONENTROLLBACK_HPP

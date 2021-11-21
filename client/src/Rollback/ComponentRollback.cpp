@@ -55,8 +55,6 @@ const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *,
         {Component::AnimationInfo::type.hash_code(), ComponentRollback::ApplyAnimationInfo}
     };
 
-const vector2D ComponentRollback::winsize = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
-
 void ComponentRollback::Apply(Tram::ComponentSync const &tram)
 {
     const Engine::Entity entity = GET_ENTITY_M.getId(tram.networkId);
@@ -96,13 +94,14 @@ void ComponentRollback::ApplyAnimationInfo(Engine::Entity id, void *component, l
 
 void ComponentRollback::RollbackPosition(Engine::Entity id, void *component, long int timestamp)
 {
+    static vector2D winsize = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
     auto &oldComponent = GET_COMP_M.get<Engine::Position>(id);
     const auto &velocity = GET_COMP_M.get<Engine::Velocity>(id);
     const Engine::Position *newComponent = reinterpret_cast<Engine::Position *>(component);
     float deltaTime = (GET_NOW - timestamp) / 1000;
     float x = newComponent->x + (velocity.x * deltaTime);
     float y = newComponent->y + (velocity.y * deltaTime);
-    bool update = x < 0 || y < 0 || x > ComponentRollback::winsize.x || y > ComponentRollback::winsize.y;
+    bool update = x < 0 || y < 0 || x > winsize.x || y > winsize.y;
 
     if (!update) {
         oldComponent.x = x;
