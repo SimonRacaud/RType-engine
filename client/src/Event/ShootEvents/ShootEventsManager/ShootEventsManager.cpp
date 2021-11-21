@@ -22,7 +22,6 @@ void chargeShot(const ChargeShot *e)
     auto &shooting = GET_COMP_M.get<Component::Shooting>(e->_entity);
 
     shooting._chargeStart = std::chrono::steady_clock::now();
-    std::cout << "Charging shot\n";
 }
 
 void releaseShot(const ReleaseChargedShot *e)

@@ -9,7 +9,7 @@
 */
 
 #include "SignalManager.hpp"
-#include <signal.h>
+#include <csignal>
 #include "Engine/EngineFactory.hpp"
 
 using namespace Engine;

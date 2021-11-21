@@ -15,7 +15,7 @@ Explosion::Explosion(ClusterName cluster, const vector2D &pos)
     std::string sound = GameCore::config->getVar<std::string>("SOUND_EXPLOSION");
 
     GET_EVENT_REG.registerEvent<AudioEventPlay>(sound);
-    
+
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
     Engine::Entity entity = entityManager.create(nullptr, cluster, Engine::EntityName::EMPTY);
@@ -33,7 +33,6 @@ Explosion::Explosion(ClusterName cluster, const vector2D &pos)
     componentManager.add<Engine::Render>(entity, anim);
     componentManager.add<Engine::Position>(entity, pos.x - sizeAnim.x / 2, pos.y - sizeAnim.y / 2);
     componentManager.add<Engine::Timer>(entity, std::chrono::milliseconds(animDuration), [](Engine::Entity a) {
-        std::cout << "DESTROY -> EXPLOSION" << std::endl;
         GameCore::engine.getEntityManager().remove(a);
     });
     _entity = entity;

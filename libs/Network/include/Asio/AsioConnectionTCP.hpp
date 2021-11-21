@@ -60,9 +60,6 @@ namespace Network
                 return false;
             }
 
-            std::cout << "connecting with : ip :" << newConnection->local_endpoint().address().to_string()
-                      << ", port : " << newConnection->local_endpoint().port() << std::endl;
-
             AsioConnectionTCP<Data>::addConnection(newConnection);
             return true;
         }
@@ -170,8 +167,6 @@ namespace Network
         {
             if (!connection)
                 throw Network::invalidConnection();
-            std::cout << "sending from low level : " << connection->remote_endpoint().address().to_string() << "< ;"
-                      << connection->remote_endpoint().port() << std::endl;
             connection->send(asio::buffer(buf.serialize(), buf.length()));
         }
 
@@ -216,7 +211,6 @@ namespace Network
                     return;
                 }
             }
-            std::cout << "received from low level" << std::endl;
 
             if (!receivedPacketSize) {
                 return;

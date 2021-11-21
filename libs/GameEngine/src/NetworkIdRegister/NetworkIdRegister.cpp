@@ -28,7 +28,6 @@ NetworkId NetworkIdRegister::reserveId()
 
 NetworkId NetworkIdRegister::reserveId(NetworkId id)
 {
-    std::cout << "counter == " << _counter << " ID --- " << id << std::endl;
     if (_counter > id) {
        auto it = std::find(_freeIds.begin(), _freeIds.begin(), id);
 

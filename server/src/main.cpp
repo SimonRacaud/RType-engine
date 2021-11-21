@@ -7,14 +7,15 @@
 
 #include "ServerCore/ServerCore.hpp"
 
-int main(void) {
+int main(void)
+{
     try {
         ServerCore core;
 
         core.run();
-    } catch(const std::exception &e) {
-        std::cout << "ERROR: Invalid exit status -> " << e.what() << std::endl;
-    } catch(...) {
-        std::cout << "ERROR: Invalid exit status" << std::endl;
+    } catch (const std::exception &e) {
+        std::cerr << "ERROR: Invalid exit status -> " << e.what() << std::endl;
+    } catch (...) {
+        std::cerr << "ERROR: Invalid exit status" << std::endl;
     }
 }

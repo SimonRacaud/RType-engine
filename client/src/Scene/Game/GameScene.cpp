@@ -13,26 +13,25 @@
 #include "GameCore/GameCore.hpp"
 #include "Item/vector2D.hpp"
 
-#include "Entities/Label/Label.hpp"
-#include "Entities/ImageView/ImageView.hpp"
-#include "Entities/Player/Player.hpp"
 #include "Entities/Button/Button.hpp"
+#include "Entities/ImageView/ImageView.hpp"
 #include "Entities/Label/Label.hpp"
-#include "Entities/ScrollingBackground/ScrollingBackground.hpp"
+#include "Entities/Player/Player.hpp"
 #include "Entities/Progress/ProgressBar.hpp"
+#include "Entities/ScrollingBackground/ScrollingBackground.hpp"
 
 #include "Component/Render.hpp"
-#include "TextManager/TextManager.hpp"
-#include "Event/GUI/SelectPreviousScene.hpp"
 #include "Event/EmptyCluster/EmptyCluster.hpp"
+#include "Event/GUI/SelectPreviousScene.hpp"
+#include "TextManager/TextManager.hpp"
 
-#include "System/RenderSystem/RenderSystem.hpp"
-#include "System/ScrollSystem/ScrollSystem.hpp"
 #include "System/InputEventSystem/InputEventSystem.hpp"
 #include "System/NetworkReceive/NetworkReceiveSystem.hpp"
-#include "System/SyncSendSystem/SyncSendSystem.hpp"
 #include "System/OutofBoundsSystem/OutofBoundsSystem.hpp"
+#include "System/RenderSystem/RenderSystem.hpp"
 #include "System/ScoreSystem/ScoreSystem.hpp"
+#include "System/ScrollSystem/ScrollSystem.hpp"
+#include "System/SyncSendSystem/SyncSendSystem.hpp"
 
 using namespace Scene;
 using namespace Engine;
@@ -42,9 +41,7 @@ size_t GameScene::countown = 0;
 
 GameScene::GameScene()
     : Engine::AbstractScene<GameScene>(ClusterName::GAME),
-        _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE")),
-        _timestampStart(0),
-        _playerNumber(-1)
+      _audio(GameCore::config->getVar<std::string>("MUSIC_GAME_SCENE")), _timestampStart(0), _playerNumber(-1)
 {
     GET_EVENT_REG.registerEvent<AudioEventLoad>(AudioEventLoad::audioType_e::MUSIC, _audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
@@ -71,37 +68,37 @@ void GameScene::createWaitingScreen()
     std::string font = GameCore::config->getVar<string>("FONT");
     vector2D position((win.x - waitText.length() * 15) / 2, win.y / 2);
 
-    componentManager.add<Engine::Render>(dynamicText, std::make_shared<TextManager>(position, vector2D(), color_e::WHITE, waitText, font));
-    componentManager.add<Engine::Position>(dynamicText, (float)position.x, (float)position.y);
+    componentManager.add<Engine::Render>(
+        dynamicText, std::make_shared<TextManager>(position, vector2D(), color_e::WHITE, waitText, font));
+    componentManager.add<Engine::Position>(dynamicText, (float) position.x, (float) position.y);
 
-    ::Time timeUntilStart = (!this->_timestampStart || this->_timestampStart < GET_NOW) ? 0
-                                                                                        : (this->_timestampStart - GET_NOW);
+    ::Time timeUntilStart =
+        (!this->_timestampStart || this->_timestampStart < GET_NOW) ? 0 : (this->_timestampStart - GET_NOW);
     Engine::Entity startGame = entityManager.create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
-    componentManager.add<Engine::Timer>(startGame, std::chrono::milliseconds(timeUntilStart), [this, timeUntilStart](Engine::Entity) {
-        GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
-            this->initGame(); // launch the game !
+    componentManager.add<Engine::Timer>(
+        startGame, std::chrono::milliseconds(timeUntilStart), [this, timeUntilStart](Engine::Entity) {
+            GET_EVENT_REG.registerEvent<EmptyCluster>(this->getCluster(), [this]() {
+                this->initGame(); // launch the game !
+            });
         });
-    });
     // Animated text : countdown
     GameScene::countown = (timeUntilStart / 1000);
-    componentManager.add<Engine::Timer>(dynamicText, std::chrono::milliseconds(1000), [this, waitText, win, timeUntilStart](Engine::Entity a) {
-        Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
-        Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
-        std::string str(waitText + std::to_string(GameScene::countown));
+    componentManager.add<Engine::Timer>(
+        dynamicText, std::chrono::milliseconds(1000), [this, waitText, win, timeUntilStart](Engine::Entity a) {
+            Engine::Position &pos = GET_COMP_M.get<Engine::Position>(a);
+            Engine::Render &render = GET_COMP_M.get<Engine::Render>(a);
+            std::string str(waitText + std::to_string(GameScene::countown));
 
-        pos.x = (win.x - str.length() * 15) / 2;
-        dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
-        if (GameScene::countown == 0)
-            GameScene::countown = (timeUntilStart / 1000);
-        else
-            GameScene::countown--;
-    });
+            pos.x = (win.x - str.length() * 15) / 2;
+            dynamic_cast<TextManager *>(render._src[0].get())->setContent(str);
+            if (GameScene::countown == 0)
+                GameScene::countown = (timeUntilStart / 1000);
+            else
+                GameScene::countown--;
+        });
     // SYSTEM SELECT
-     GameCore::engine.getSystemManager().selectSystems<
-         System::RenderSystem,
-         System::InputEventSystem,
-         Engine::TimerSystem
-         >();
+    GameCore::engine.getSystemManager()
+        .selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem>();
 }
 
 void GameScene::initGame()
@@ -110,12 +107,14 @@ void GameScene::initGame()
     ScrollingBackground background(this->getCluster());
     if (this->_playerNumber != -1) {
         try {
-            Engine::Entity createPlayerTimer = GameCore::engine.getEntityManager().create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
-            GameCore::engine.getComponentManager().add<Engine::Timer>(createPlayerTimer, std::chrono::milliseconds(1000), [this, createPlayerTimer](Engine::Entity) {
-                const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
-                GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
-                GameCore::engine.getEntityManager().remove(createPlayerTimer);
-            });
+            Engine::Entity createPlayerTimer =
+                GameCore::engine.getEntityManager().create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+            GameCore::engine.getComponentManager().add<Engine::Timer>(
+                createPlayerTimer, std::chrono::milliseconds(1000), [this, createPlayerTimer](Engine::Entity) {
+                    const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
+                    GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+                    GameCore::engine.getEntityManager().remove(createPlayerTimer);
+                });
         } catch (std::exception const &e) {
             std::cerr << "GameScene::initGame : Fail to create player. " << e.what() << std::endl;
             GET_EVENT_REG.registerEvent<QuitEvent>();
@@ -124,39 +123,27 @@ void GameScene::initGame()
         std::cerr << "GameScene::initGame() : error no player id number !!!" << std::endl;
     }
     Button back(this->getCluster(), "Quit", vector2D(5, 5), vector2f(2, 2), std::make_unique<QuitEvent>());
-    Label numberPlayer(this->getCluster(), std::to_string(_playerNumber) + " P -", vector2D(10, 770),
-        vector2D(1, 1), color_e::GREEN, EntityName::NB_PLAYER);
-    Label playerScore(this->getCluster(), "000", vector2D(200, 770),
-        vector2D(1, 1), color_e::GREEN, EntityName::SCORE);
-    Label playerHighScore(this->getCluster(), "HI - 000", vector2D(350, 770),
-        vector2D(1, 1), color_e::GREEN, EntityName::H_SCORE);
-    Label beam(this->getCluster(), "BEAM", vector2D(195, 740),
-        vector2D(1, 1), color_e::GREEN);
-    ProgressBar beamPower(this->getCluster(), EntityName::BEAM_PROGRESS,
-        vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
+    Label numberPlayer(this->getCluster(), std::to_string(_playerNumber) + " P -", vector2D(10, 770), vector2D(1, 1),
+        color_e::GREEN, EntityName::NB_PLAYER);
+    Label playerScore(this->getCluster(), "000", vector2D(200, 770), vector2D(1, 1), color_e::GREEN, EntityName::SCORE);
+    Label playerHighScore(
+        this->getCluster(), "HI - 000", vector2D(350, 770), vector2D(1, 1), color_e::GREEN, EntityName::H_SCORE);
+    Label beam(this->getCluster(), "BEAM", vector2D(195, 740), vector2D(1, 1), color_e::GREEN);
+    ProgressBar beamPower(this->getCluster(), EntityName::BEAM_PROGRESS, vector2D(250, 742), vector2D(300, 15),
+        color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
     GET_EVENT_REG.registerEvent<AudioEventStopAll>();
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
     // SYSTEM SELECT
-    GameCore::engine.getSystemManager().selectSystems<
-        System::RenderSystem,
-        System::InputEventSystem,
-        Engine::TimerSystem,
-        Engine::ColliderSystem,
-        Engine::PhysicsSystem,
-        System::ScrollSystem,
-        System::NetworkReceiveSystem,
-        System::SyncSendSystem,
-        System::ScoreSystem,
-        System::OutofBoundsSystem
-        >();
+    GameCore::engine.getSystemManager()
+        .selectSystems<System::RenderSystem, System::InputEventSystem, Engine::TimerSystem, Engine::ColliderSystem,
+            Engine::PhysicsSystem, System::ScrollSystem, System::NetworkReceiveSystem, System::SyncSendSystem,
+            System::ScoreSystem, System::OutofBoundsSystem>();
 }
 
 void GameScene::setTimeStart(::Time timestamp)
 {
-    std::cout << GET_NOW << std::endl;
-    std::cout << timestamp << std::endl;
     this->_timestampStart = timestamp;
 }
 

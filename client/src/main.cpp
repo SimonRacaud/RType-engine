@@ -5,8 +5,8 @@
 ** simon
 */
 
-#include "GameCore/GameCore.hpp"
 #include <stdexcept>
+#include "GameCore/GameCore.hpp"
 
 int main(void)
 {
@@ -15,9 +15,9 @@ int main(void)
 
         core.run();
     } catch (const std::exception &e) {
-        std::cout << "ERROR: Invalid exit status : " << e.what() << std::endl;
+        std::cerr << "ERROR: Invalid exit status : " << e.what() << std::endl;
     } catch (...) {
-        std::cout << "ERROR: Invalid exit status" << std::endl;
+        std::cerr << "ERROR: Invalid exit status" << std::endl;
     }
     return EXIT_SUCCESS;
 }

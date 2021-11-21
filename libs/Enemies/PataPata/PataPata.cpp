@@ -26,25 +26,22 @@ PataPata::PataPata()
 {
 }
 
-void PataPata::idle(const IEnemyApi *ptr) 
+void PataPata::idle(const IEnemyApi *ptr)
 {
-	//std::cout << "PataPata idle\n";
 	(void)ptr;
 }
 
-void PataPata::move(const IEnemyApi *ptr) 
+void PataPata::move(const IEnemyApi *ptr)
 {
-	//std::cout << "PataPata move\n";
 	(void)ptr;
 }
 
-void PataPata::attack(const IEnemyApi *ptr) 
+void PataPata::attack(const IEnemyApi *ptr)
 {
-	//std::cout << "PataPata attack\n";
 	(void)ptr;
 }
 
-float PataPata::getShootingSpeed() const 
+float PataPata::getShootingSpeed() const
 {
 	return 1;
 }
