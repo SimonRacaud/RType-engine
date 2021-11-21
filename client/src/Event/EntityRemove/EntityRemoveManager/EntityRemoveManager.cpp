@@ -18,7 +18,6 @@ void entityRemove(const EntityRemoveEvent *e)
     try {
         if (GameCore::networkCore.isMaster()) {
             GameCore::networkCore.destroyEntity(GET_ENTITY_M.getNetworkId(e->_entity));
-            GET_ENTITY_M.remove(e->_entity);
         }
     } catch (std::exception) {}
 }
