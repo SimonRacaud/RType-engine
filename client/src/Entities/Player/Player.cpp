@@ -74,7 +74,7 @@ void Player::hit(Engine::ClusterName cluster, Engine::Entity a, Engine::Entity b
 Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
     const vector2D &velocity, bool isLocalPlayer)
 {
-    const vector2D hitboxSize(40, 40);
+    const vector2D hitboxSize = GameCore::config->getVar<vector2D>("PLAYER_SPRITE_SIZE");
 
     Engine::IEntityManager &entityManager = GameCore::engine.getEntityManager();
     Engine::ComponentManager &componentManager = GameCore::engine.getComponentManager();
