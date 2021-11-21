@@ -49,6 +49,7 @@ void SettingsScene::open()
     Button startButton(this->getCluster(), "Back", vector2D(20, 710),
         vector2f(2, 2), std::make_shared<SelectPreviousScene>());
     // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventStopAll>();
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     // SYSTEM SELECTION
     Engine::SystemManager &systemManager = GameCore::engine.getSystemManager();

@@ -135,6 +135,7 @@ void GameScene::initGame()
     ProgressBar beamPower(this->getCluster(), EntityName::BEAM_PROGRESS,
         vector2D(250, 742), vector2D(300, 15), color_e::BLUE, color_e::WHITE);
     // EVENT SECTION
+    GET_EVENT_REG.registerEvent<AudioEventStopAll>();
     GET_EVENT_REG.registerEvent<AudioEventPlay>(_audio);
     GET_EVENT_REG.registerEvent<AudioEventVolume>(_audio, GameCore::config->getVar<int>("DEFAULT_VOLUME"));
     // SYSTEM SELECT
