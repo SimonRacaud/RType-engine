@@ -26,7 +26,8 @@ namespace Scene
         virtual void open();
 
         void setInput(std::vector<size_t> const& scores, size_t myScoreIndex, bool isFail);
-
+        void setPlayerScore(size_t const &score, const size_t &pos);
+        void setFail(bool isFail);
       private:
         std::vector<size_t> _scores;
         size_t _myScoreIndex{0};
