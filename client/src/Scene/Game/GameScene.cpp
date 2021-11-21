@@ -104,13 +104,15 @@ void GameScene::createWaitingScreen()
 
 void GameScene::initGame()
 {
-    const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
-
     // ENTITY CREATE
     ScrollingBackground background(this->getCluster());
     if (this->_playerNumber != -1) {
         try {
-            GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+            Engine::Entity startGame = GameCore::engine.getEntityManager().create(nullptr, this->getCluster(), Engine::EntityName::EMPTY);
+            GameCore::engine.getComponentManager().add<Engine::Timer>(startGame, std::chrono::milliseconds(1000), [this](Engine::Entity) {
+                const vector2D playerPosition = GameCore::config->getVar<vector2D>("PLAYER_INIT_POS");
+                GameCore::entityFactory.createPlayer(playerPosition, vector2D({0, 0}), this->_playerNumber);
+            });
         } catch (std::exception const &e) {
             std::cerr << "GameScene::initGame : Fail to create player. " << e.what() << std::endl;
             GET_EVENT_REG.registerEvent<QuitEvent>();
