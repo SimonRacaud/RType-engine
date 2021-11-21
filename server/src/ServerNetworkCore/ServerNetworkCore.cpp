@@ -294,10 +294,12 @@ void ServerNetworkCore::receiveCreateEntityReply(InfoConnection &info, Tram::Cre
                     this->_roomManager.createEntityEnemy(data.roomId, data.networkId);
                 }
                 // Broadcast entity creation to all slave clients
+                PUT_DEBUG("[CreateEntityReply] Broadcast entity create to slave clients.");
                 Tram::CreateEntityRequest tram(
                     data.roomId, data.networkId, data.entityType, data.timestamp, data.position, data.velocity);
                 for (InfoConnection const &client : room->clients) {
                     if (!(client == info)) { // not master client
+                        PUT_DEBUG("[CreateEntityReply] send to " + client.ip);
                         this->_tcpServer.send(tram, client.ip);
                     }
                 }
@@ -348,7 +350,11 @@ void ServerNetworkCore::receiveDestroyEntity(InfoConnection &info, Tram::Destroy
 
     if (room->masterClient == info) {
         /// Request from master client
-        this->_roomManager.destroyEntityEnemy(data.roomId, data.networkId);
+        try {
+            this->_roomManager.destroyEntityEnemy(data.roomId, data.networkId);
+        } catch (std::exception const &e) {
+            std::cerr << "ServerNetworkCore::receiveDestroyEntity " << e.what() << std::endl;
+        }
         // => broadcast to others clients
         Tram::DestroyEntity tram(data.roomId, data.networkId);
         for (InfoConnection const &client : room->clients) {

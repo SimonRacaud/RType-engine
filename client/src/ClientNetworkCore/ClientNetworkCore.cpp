@@ -258,6 +258,7 @@ void ClientNetworkCore::receiveSyncComponent(InfoConnection &, Tram::ComponentSy
 void ClientNetworkCore::receiveDestroyEntity(InfoConnection &, Tram::DestroyEntity &data)
 {
     if ((int) data.roomId != this->_roomId) {
+        std::cerr << "ClientNetworkCore::receiveDestroyEntity invalid room id" << std::endl;
         return; // abort
     }
     PUT_DEBUG("Receive [DestroyEntity] networkId=" + to_string(data.networkId) + ".");
