@@ -37,6 +37,7 @@ EndGameScene::EndGameScene() :
 
 void EndGameScene::open()
 {
+    this->_isFail = true;
     Label title(this->getCluster(), "GAME OVER", vector2D(230, 20),
         vector2D(4, 4), color_e::GREEN);
 
@@ -53,7 +54,7 @@ void EndGameScene::open()
     size_t positionY = 250;
     for (size_t i = 0; i < _scores.size(); i++) {
         std::stringstream stream;
-        stream << "Player " << i + 1 << " score: " << std::setw(4) << std::setfill('0') << _scores[i];
+        stream << "Player " << i + 1 << " score: " << std::setw(8) << std::setfill('0') << _scores[i];
 
         Label subTitle(this->getCluster(), stream.str(), vector2D(310, positionY + (i * 80)),
             vector2D(1, 1), color_e::GREEN);
