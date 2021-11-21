@@ -99,8 +99,8 @@ Player::Player(ClusterName cluster, int playerNumber, const vector2D &position,
             Component::SyncComponentType::POSITION | Component::SyncComponentType::VELOCITY
                 | Component::SyncComponentType::SCORE);
         // + Component::SyncComponentType::EQUIPMENT_COMP ?
+        this->configEvent(entity, componentManager);
     }
-    this->configEvent(entity, componentManager);
     _entity = entity;
 }
 
