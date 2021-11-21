@@ -5,6 +5,7 @@
 ** Apply component received from the network to the local game engine
 */
 
+#include "GameCore/GameCore.hpp"
 #include "ComponentRollback.hpp"
 
 #include "Components/Health.hpp"
@@ -54,6 +55,8 @@ const std::unordered_map<std::size_t, std::function<void(Engine::Entity, void *,
         {Component::AnimationInfo::type.hash_code(), ComponentRollback::ApplyAnimationInfo}
     };
 
+const vector2D ComponentRollback::winsize = GameCore::config->getVar<vector2D>("WINDOW_SIZE");
+
 void ComponentRollback::Apply(Tram::ComponentSync const &tram)
 {
     const Engine::Entity entity = GET_ENTITY_M.getId(tram.networkId);
@@ -97,7 +100,12 @@ void ComponentRollback::RollbackPosition(Engine::Entity id, void *component, lon
     const auto &velocity = GET_COMP_M.get<Engine::Velocity>(id);
     const Engine::Position *newComponent = reinterpret_cast<Engine::Position *>(component);
     float deltaTime = (GET_NOW - timestamp) / 1000;
+    float x = newComponent->x + (velocity.x * deltaTime);
+    float y = newComponent->y + (velocity.y * deltaTime);
+    bool update = x < 0 || y < 0 || x > ComponentRollback::winsize.x || y > ComponentRollback::winsize.y;
 
-    oldComponent.x = newComponent->x + (velocity.x * deltaTime);
-    oldComponent.y = newComponent->y + (velocity.y * deltaTime);
+    if (!update) {
+        oldComponent.x = x;
+        oldComponent.y = y;
+    }
 }
