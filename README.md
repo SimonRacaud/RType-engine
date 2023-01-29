@@ -1,5 +1,24 @@
 This project aims to recreate the R-Type game and add a multiplayer mode to it. we had to implement a multi-threaded server using Boost::asio and a graphical client in SFML.
 
+Compatible Windows and GNU/Linux.
+
+# Project components
+
+- Game client. Managing clients' connections. (/client)
+- Game server (/server)
+- Generic Game Engine using an Entity-Component-System (ECS) (/libs/GameEngine)
+- A library to manage custom configuration files (/libs/ConfigFile) [Example](https://github.com/SimonRacaud/RType_Game-Engine/blob/4ca4eda1debe330835ba68a0b5d68fd879de1250/libs/ConfigFile/example/example.config)
+- A library to define the game's enemies geenrically. Compiled as shared libraries and loaded dynamically. (/libs/Enemies)
+- A generic interface for networking (/libs/Network)
+- A generic interface for the GUI. Allows to easily change of graphical library without much code modifications. (/libs/Sfml)
+
+# Preview
+
+![Menu1](/github/menu1.png)
+![Menu2](/github/menu2.png)
+![Game](/github/game1.png)
+![GameOver](/github/gameover.png)
+
 # Usage
 
 ```
